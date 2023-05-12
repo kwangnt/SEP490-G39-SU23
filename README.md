@@ -1,0 +1,2 @@
+# SEP490-G39-SU23
+Group 39 capstone, SU23, FTPU HN
