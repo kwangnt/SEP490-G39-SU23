@@ -1,4 +1,4 @@
-package com.teachsync.TeachSync;
+package com.teachSync.teachSync;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
