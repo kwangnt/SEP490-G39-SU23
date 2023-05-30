@@ -4,6 +4,7 @@ package com.teachSync.teachSync;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,21 +17,25 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan
 public class WebConfig implements WebMvcConfigurer {
-        @Override
-        public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer){
-            configurer.enable();
-        }
-        @Override
-        public void addViewControllers (ViewControllerRegistry registry){
-            registry.addViewController("/").setViewName("forward:/index.jsp");
-        }
-        @Bean
-        public ViewResolver viewResolver () {
-            InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-            viewResolver.setViewClass(JstlView.class);
-            viewResolver.setPrefix("/webapp/");
-            viewResolver.setSuffix(".jsp");
-            return viewResolver;
-        }
+    @Override
+    public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer){
+        configurer.enable();
+    }
+    @Override
+    public void addViewControllers (ViewControllerRegistry registry){
+        registry.addViewController("/").setViewName("forward:/index.jsp");
+    }
+    @Bean
+    public ViewResolver viewResolver () {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/webapp/views");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
+    }
+
+    @Bean
+    public View index(){
+        return new JstlView("/WEB-INF/views/index.jsp");
     }
 }
