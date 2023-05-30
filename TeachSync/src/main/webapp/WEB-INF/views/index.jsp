@@ -37,13 +37,13 @@
                             </a>
                         </div>
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="course.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="course.jsp" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-book"></i>
                                 &nbsp; Course
                             </a>
                         </div>
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="promotion.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="promotion.jsp" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-graph-up"></i>
                                 &nbsp; Promotion
                             </a>
@@ -55,19 +55,19 @@
                 <div class="col">
                     <div class="row row-cols-3">
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="material.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="material.jsp" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-box-seam"></i>
                                 &nbsp; Material
                             </a>
                         </div>
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="news.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="news.jsp" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-file-text"></i>
                                 &nbsp; News
                             </a>
                         </div>
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="login.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="login.jsp" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-person"></i>
                                 &nbsp; Login
                             </a>
