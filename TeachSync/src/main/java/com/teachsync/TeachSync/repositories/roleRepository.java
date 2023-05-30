@@ -1,4 +1,4 @@
-package com.teachSync.teachSync.reposirories;
+package com.teachSync.teachSync.repositories;
 
 import com.teachSync.teachSync.entities.Role;
 import org.springframework.data.domain.Page;
