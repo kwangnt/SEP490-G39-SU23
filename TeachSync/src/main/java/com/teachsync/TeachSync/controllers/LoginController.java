@@ -4,33 +4,40 @@ import com.teachSync.teachSync.entities.User;
 import com.teachSync.teachSync.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping()
-public class UserController {
+public class LoginController {
     @Autowired
     private UserService userService;
 
     @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/login")
     public String login(
             @RequestParam String username,
-            @RequestParam String password) {
-        String s = "login fail";
+            @RequestParam String password,
+            Model model) {
+//        ModelAndView mAV = new ModelAndView("redirect:/login");
         try {
             User user = userService.login(username, password);
 
-            if (user != null) {
-                s = "Login success";
+            if (user == null) {
+                model.addAttribute("msg", "Not found");
             }
+
+            model.addAttribute("user", user);
 
         } catch (Exception e)  {
             e.printStackTrace();
+            model.addAttribute("msg", "error");
         }
 
-        return s;
+        return "login";
     }
 
 

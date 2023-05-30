@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Home</title>
 
-    <link rel="stylesheet" href="css/bootstrap-5.3.0/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-5.3.0/bootstrap.css}" href="../static/css/bootstrap-5.3.0/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="../static/css/style.css">
 
-    <script src="js/jquery/jquery-3.6.3.js"></script>
-    <script src="js/bootstrap-5.3.0/bootstrap.js"></script>
+    <script th:src="@{/js/jquery/jquery-3.6.3.js}" src="../static/js/jquery/jquery-3.6.3.js"></script>
+    <script th:src="@{/js/bootstrap-5.3.0/bootstrap.js}" src="../static/js/bootstrap-5.3.0/bootstrap.js"></script>
 </head>
 <body class="container-fluid bg-white-sub">
     <!-- ================================================== Header ===================================================== -->
@@ -18,7 +18,7 @@
         <!-- Logo -->
         <div class="col-1 d-flex align-items-center p-0"> 
             <a href="index.html" class="text-center w-100">
-                <img src="./img/p_logo.jpg" alt="logo" class="w-50 h-auto rounded-circle border border-primary mx-auto">
+                <img th:src="@{/images/logo.png}" src="../static/images/logo.png" alt="logo" class="w-50 h-auto rounded-circle border border-primary mx-auto">
             </a>
         </div>
 
@@ -65,7 +65,7 @@
                             </a>
                         </div>
                         <div class="col border-start border-primary border-end border-primary">
-                            <a href="login.html" class="text-decoration-none txt-black txt-hover-blue">
+                            <a href="login.html" th:href="@{/login}" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-person"></i>
                                 &nbsp; Login
                             </a>
@@ -117,12 +117,6 @@
             <br>
             <br>
             <br>
-
-            <form action="https://localhost:8080/login">
-                <input type="text" name="username">
-                <input type="password" name="password" id="">
-            </form>
-
             <br>
         </div>
     </div>
