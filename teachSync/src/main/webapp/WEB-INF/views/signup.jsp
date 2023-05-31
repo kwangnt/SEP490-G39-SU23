@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <html>
@@ -31,7 +33,7 @@
       <div class="login-page">
 <%--        TODO: signup--%>
         <div class="form">
-          <form>
+          <form class="login-form" action="signup" method="post">
             <lottie-player
               src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
               background="transparent"
@@ -40,19 +42,23 @@
               loop
               autoplay
             ></lottie-player>
-            <input type="text" placeholder="full name" />
-            <input type="text" placeholder="email address" />
-            <input type="text" placeholder="pick a username" />
-            <input type="password" id="password" placeholder="set a password" />
+            <input type="text" name="fullName" placeholder="full name" />
+            <input type="email" name="email" placeholder="email address" />
+            <input type="text" name="username" placeholder="pick a username" />
+            <input type="password" name="password" id="password" placeholder="set a password" />
             <i class="fas fa-eye" onclick="show()"></i>
             <br>
             <br>
-          </form>
 
-          <form class="login-form" action="login" method="get">
             <button type="submit">
-              LOGIN
+              SIGN UP
             </button>
+            <c:if test="${errorIllegalMsg ne null}">
+              <p><c:out value="${errorIllegalMsg}"/></p>
+            </c:if>
+            <c:if test="${errorMsg ne null}">
+              <p><c:out value="${errorMsg}"/></p>
+            </c:if>
           </form>
         </div>
       </div>
