@@ -33,7 +33,7 @@
       <div class="login-page">
 <%--        TODO: signup--%>
         <div class="form">
-          <form>
+          <form class="login-form" action="signup" method="post">
             <lottie-player
               src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
               background="transparent"
@@ -49,17 +49,15 @@
             <i class="fas fa-eye" onclick="show()"></i>
             <br>
             <br>
-          </form>
 
-          <form class="login-form" action="signup" method="get">
             <button type="submit">
               SIGN UP
             </button>
             <c:if test="${errorIllegalMsg ne null}">
-              <c:out value="${errorIllegalMsg}"/>
+              <p><c:out value="${errorIllegalMsg}"/></p>
             </c:if>
             <c:if test="${errorMsg ne null}">
-              <c:out value="${errorMsg}"/>
+              <p><c:out value="${errorMsg}"/></p>
             </c:if>
           </form>
         </div>

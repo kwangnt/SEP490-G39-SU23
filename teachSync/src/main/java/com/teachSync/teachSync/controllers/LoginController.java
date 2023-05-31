@@ -49,8 +49,10 @@ public class LoginController {
             User user = new User(username, password, email, fullName);
 
             user = userService.signup(user);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             model.addAttribute("errorIllegalMsg", e.getMessage());
+            return "signup";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");

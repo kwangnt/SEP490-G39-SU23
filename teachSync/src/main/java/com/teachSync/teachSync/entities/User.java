@@ -75,5 +75,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.roleId = 1L;
+        this.status = "CREATED";
     }
 }
