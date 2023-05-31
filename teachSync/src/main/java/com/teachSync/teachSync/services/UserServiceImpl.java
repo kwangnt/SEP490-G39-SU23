@@ -13,6 +13,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User signup(User user) throws Exception {
+        boolean isExists = userRepository.existsByUsernameAndStatusNot(user.getUsername(), "DELETED");
+        if (isExists) {
+            throw new IllegalArgumentException("Already exists account with username: " + user.getUsername());
+        }
+
+        user = userRepository.saveAndFlush(user);
+        return user;
+    }
+
+    @Override
     public User login(String username, String password) throws Exception {
         Optional<User> user =
                 userRepository.findByUsernameAndPasswordAndStatusNot(username, password, "DELETED");
