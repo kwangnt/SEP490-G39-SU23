@@ -1,0 +1,82 @@
+<header class="row bg-white sticky-top border-bottom ts-border-teal mb-3">
+	<!-- Logo -->
+	<div class="col-1 d-flex align-items-center p-0">
+		<a href="/" class="text-center w-100">
+			<img src="../../resources/img/Logo.png" alt="logo" class="w-50 h-auto rounded-circle border ts-border-teal mx-auto">
+		</a>
+	</div>
+
+	<!-- Menu -->
+	<div class="col-11 txt-normal">
+		<div class="row row-cols-md-2 row-cols-sm-1 d-flex align-items-center h-100">
+			<!-- Home, Course, Promotion/Class -->
+			<div class="col">
+				<div class="row row-cols-3">
+					<div class="col border-start ts-border-teal border-end ts-border-teal ">
+						<a href="/" class="text-decoration-none txt-black txt-hover-blue">
+							<i class="bi-house-door"></i>
+							&nbsp; Home
+						</a>
+					</div>
+					<div class="col border-start ts-border-teal border-end ts-border-teal">
+						<a href="course" class="text-decoration-none txt-black txt-hover-blue">
+							<i class="bi-book"></i>
+							&nbsp; Course
+						</a>
+					</div>
+					<div class="col border-start ts-border-teal border-end ts-border-teal">
+						<c:choose>
+							<c:when test="${user ne null}">
+								<a href="class" class="text-decoration-none txt-black txt-hover-blue">
+									<i class="bi-calendar-week"></i>
+									&nbsp; Class
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href="promotion" class="text-decoration-none txt-black txt-hover-blue">
+									<i class="bi-tags"></i>
+									&nbsp; Promotion
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</div>
+
+			<!-- Material, News, Login/Account -->
+			<div class="col">
+				<div class="row row-cols-3">
+					<div class="col border-start ts-border-teal border-end ts-border-teal">
+						<a href="material" class="text-decoration-none txt-black txt-hover-blue">
+							<i class="bi-box-seam"></i>
+							&nbsp; Material
+						</a>
+					</div>
+					<div class="col border-start ts-border-teal border-end ts-border-teal">
+						<a href="news" class="text-decoration-none txt-black txt-hover-blue">
+							<i class="bi-file-text"></i>
+							&nbsp; News
+						</a>
+					</div>
+					<div class="col border-start ts-border-teal border-end ts-border-teal">
+						<c:choose>
+							<c:when test="${user ne null}">
+								<a href="account" class="text-decoration-none txt-black txt-hover-blue">
+									<i class="bi-person"></i>
+										<%--TODO: Replace with avatar, dropdown option--%>
+									&nbsp; <c:out value="${user.username}"/>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href="login" class="text-decoration-none txt-black txt-hover-blue">
+									<i class="bi-person"></i>
+									&nbsp; Login
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
