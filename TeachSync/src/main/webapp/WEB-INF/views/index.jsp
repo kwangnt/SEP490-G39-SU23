@@ -29,22 +29,19 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ts-txt-sm ts-txt-bold my-2">
                     <li class="breadcrumb-item">
-                        <a href="/">
+                        <a href="#">
                             <i class="bi-house-door"></i>&nbsp; Home
                         </a>
                     </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Library</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Data</li>
+<%--                    <li class="breadcrumb-item">--%>
+<%--                        <a href="#">Second page</a>--%>
+<%--                    </li>--%>
+<%--                    <li class="breadcrumb-item active" aria-current="page">--%>
+<%--                        Current Page--%>
+<%--                    </li>--%>
                 </ol>
             </nav>
 
-            <p class="ts-txt-black ts-txt-bold ts-txt-sm">
-                <a href="/" class="text-decoration-none ts-txt-black ts-txt-hover-blue">
-                    <i class="bi-house-door"></i>&nbsp; Home
-                </a>
-            </p>
         </div>
     </div>
     <!-- ================================================== Breadcrumb ================================================= -->
