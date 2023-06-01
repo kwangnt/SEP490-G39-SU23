@@ -13,7 +13,7 @@ function copyToClipboard(id) {
 
     $("body").prepend(
         '<div class="fixed-top d-flex justify-content-center" id="alert">' +
-        '   <p class="bg-grey-sub rounded-5 py-2 px-5" style="width: fit-content;">' +
+        '   <p class="bg-grey-sub rounded-pill py-2 px-5" style="width: fit-content;">' +
         '       Copied to clipboard' +
         '   </p>' +
         '</div>');

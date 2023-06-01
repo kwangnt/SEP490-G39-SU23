@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home</title>
+    <title>Course List</title>
 
     <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
     <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
@@ -30,16 +30,13 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ts-txt-sm ts-txt-bold my-2">
                     <li class="breadcrumb-item">
-                        <a href="#">
+                        <a href="/">
                             <i class="bi-house-door"></i>&nbsp;Trang chủ
                         </a>
                     </li>
-<%--                    <li class="breadcrumb-item">--%>
-<%--                        <a href="#">Second page</a>--%>
-<%--                    </li>--%>
-<%--                    <li class="breadcrumb-item active" aria-current="page">--%>
-<%--                        Current Page--%>
-<%--                    </li>--%>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Khóa học
+                    </li>
                 </ol>
             </nav>
 

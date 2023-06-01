@@ -34,4 +34,10 @@ public class HomeController {
 
         return "signup";
     }
+
+    @GetMapping("/course")
+    public String course(Model model) {
+
+        return "list-course";
+    }
 }
