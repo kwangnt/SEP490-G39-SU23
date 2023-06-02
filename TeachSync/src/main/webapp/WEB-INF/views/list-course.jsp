@@ -10,6 +10,7 @@
     <title>Course List</title>
 
     <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+
     <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
     <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
@@ -39,7 +40,6 @@
                     </li>
                 </ol>
             </nav>
-
         </div>
     </div>
     <!-- ================================================== Breadcrumb ================================================= -->
@@ -47,30 +47,17 @@
 
 
     <!-- ================================================== Main Body ================================================== -->
-    <div class="row ts-bg-white border ts-border-teal rounded-3 mx-2 mb-3">
-        <div class="col">
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+    <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
+        <%@ include file="/WEB-INF/fragments/hot-course.jspf"%>
+<%--        <div class="col-12">--%>
+<%--            <div class="row flex-row flex-nowrap overflow-scroll gx-3">--%>
+<%--                <div class="col-3">--%>
+<%--                    <p class="border ts-border-orange">a</p>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+        <div class="col-12">
+
         </div>
     </div>
     <!-- ================================================== Main Body ================================================== -->

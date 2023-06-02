@@ -10,6 +10,7 @@
     <title>Home</title>
 
     <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+
     <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
     <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
@@ -42,7 +43,6 @@
 <%--                    </li>--%>
                 </ol>
             </nav>
-
         </div>
     </div>
     <!-- ================================================== Breadcrumb ================================================= -->
@@ -50,7 +50,7 @@
 
 
     <!-- ================================================== Main Body ================================================== -->
-    <div class="row ts-bg-white border ts-border-teal rounded-3 mx-2 mb-3">
+    <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
         <div class="col">
             <br>
             <br>

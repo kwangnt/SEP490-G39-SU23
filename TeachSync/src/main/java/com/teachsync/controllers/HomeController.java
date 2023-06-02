@@ -15,29 +15,4 @@ public class HomeController {
 
         return "index";
     }
-
-    @GetMapping("/login")
-    public String login(Model model) {
-        Object objUser = model.getAttribute("user");
-
-        /* TODO: use DTO instead */
-        if (objUser instanceof User) {
-            /* Already login */
-            return "redirect:/index";
-        }
-
-        return "login";
-    }
-
-    @GetMapping("/signup")
-    public String signup(Model model) {
-
-        return "signup";
-    }
-
-    @GetMapping("/course")
-    public String course(Model model) {
-
-        return "list-course";
-    }
 }

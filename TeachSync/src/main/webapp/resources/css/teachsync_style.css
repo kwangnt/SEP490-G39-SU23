@@ -37,7 +37,7 @@
     --ts-yellow-secondary: #ffbf00; /*dark 5%*/
     --ts-yellow-secondary-rgb: 255, 191, 0;
 
-    --ts-teal: #17D0BC;
+    --ts-teal: #17d0bc;
     --ts-teal-rgb: 23, 208, 188;
     --ts-teal-secondary: #14b8a7; /*dark 5%*/
     --ts-teal-secondary-rgb: 20, 184, 167;
@@ -153,6 +153,21 @@
 .ts-txt-hover-shadow:hover, .ts-txt-shadow {
     text-ts-shadow: 1px 1px 0px var(--ts-shadow);
 }
+
+.ts-txt-hover-clip {}
+.ts-txt-hover-clip:hover, .ts-txt-clip {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+.ts-txt-hover-ellipsis {}
+.ts-txt-hover-ellipsis:hover, .ts-txt-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 /* ========== style ========== */
 
 /* ========== color ========== */
@@ -305,6 +320,12 @@ a:hover {
     border-color: rgba(var(--ts-blue-rgb), var(--bs-border-opacity)) !important;
 }
 /* ==================== BORDER ====================================================================================== */
+
+
+
+/* ==================== CUSTOM ====================================================================================== */
+
+/* ==================== CUSTOM ====================================================================================== */
 
 
 

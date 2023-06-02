@@ -2,14 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="row bg-white sticky-top border-bottom ts-border-teal mb-3">
 	<!-- Logo -->
-	<div class="col-1 d-flex align-items-center border-end ts-border-teal p-0">
+	<div class="col-sm-2 col-md-1 d-flex align-items-center rounded-end-1 border-end ts-border-teal ts-bg-teal overflow-hidden p-0">
 		<a href="/" class="text-center w-100">
-			<img src="../../resources/img/Logo.png" alt="logo" class="w-50 h-auto rounded-circle border ts-border-teal mx-auto">
+			<img src="../../resources/img/logo-wide.png" alt="logo"
+				 class="w-100 h-auto mx-auto">
 		</a>
 	</div>
 
 	<!-- Menu -->
-	<div class="col-11 txt-normal border-startts-border-teal">
+	<div class="col-sm-10 col-md-11 txt-normal">
 		<div class="row row-cols-md-2 row-cols-sm-1 d-flex align-items-center h-100">
 			<!-- Home, Course, Promotion/Class -->
 			<div class="col">

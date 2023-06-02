@@ -1,0 +1,26 @@
+<c:if test="${hotCourseList ne null}">
+	<div class="col-12">
+		<h5>Thịnh hành</h5>
+
+		<div class="row flex-row flex-nowrap overflow-auto gx-3 mb-3">
+			<c:forEach var="hotCourse" items="${hotCourseList}">
+				<div class="col-sm-4 col-md-2">
+					<div class="rounded-2 border ts-border-orange h-100 p-2">
+						<c:url var="courseLink" value="course-detail">
+							<c:param name="id" value="${hotCourse.id}"/>
+						</c:url>
+						<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">
+
+						<a href="${courseLink}" class="ts-txt-bold ts-txt-clip mb-2">
+							<c:out value="${hotCourse.courseName}"/>
+						</a>
+
+						<p class="ts-txt-sm ts-txt-ellipsis mb-0">
+							<c:out value="${hotCourse.courseDesc}"/>
+						</p>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+</c:if>
