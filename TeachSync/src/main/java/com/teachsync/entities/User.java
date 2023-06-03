@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,7 +57,7 @@ public class User {
 
     @Basic
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<News> newsList;
@@ -75,6 +76,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.roleId = 1L;
-        this.status = "CREATED";
+        this.status = Status.CREATED;
     }
 }

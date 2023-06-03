@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,5 +36,5 @@ public class Test {
 
     @Basic
     @Column(name = "status")
-    private String status;
+    private Status status;
 }
