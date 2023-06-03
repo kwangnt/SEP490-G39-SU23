@@ -1,6 +1,6 @@
 package com.teachsync.repositories;
 
-import com.teachsync.entities.Role;
+import com.teachsync.entities.Course;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>  {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    Page<Role> findAllByStatusNot(Status status, Pageable pageable);
+
+    Page<Course> findAllByStatusNot(Status status, Pageable pageable);
 
     /* id */
-    Optional<Role> findByIdAndStatusNot(Long id, Status status);
-    List<Role> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
+    Optional<Course> findByIdAndStatusNot(Long id, Status status);
+    List<Course> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
     /* Check duplicate */
-
 }

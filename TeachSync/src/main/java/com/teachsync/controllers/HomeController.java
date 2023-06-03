@@ -12,26 +12,19 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         /* TODO: add news, promotion,... to model */
-
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        Object objUser = model.getAttribute("user");
-
-        /* TODO: use DTO instead */
-        if (objUser instanceof User) {
-            /* Already login */
-            return "redirect:/index";
-        }
-
-        return "login";
+    @GetMapping("/home")
+    public String home1() {
+        return "redirect:/";
     }
-
-    @GetMapping("/signup")
-    public String signup(Model model) {
-
-        return "signup";
+    @GetMapping("/index")
+    public String home2() {
+        return "redirect:/";
+    }
+    @GetMapping("/trang-chu")
+    public String home3() {
+        return "redirect:/";
     }
 }

@@ -5,6 +5,7 @@ import com.teachsync.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,6 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
     @Autowired
     private UserService userService;
+
+
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        Object objUser = model.getAttribute("user");
+
+        /* TODO: use DTO instead */
+        if (objUser instanceof User) {
+            /* Already login */
+            return "redirect:/index";
+        }
+
+        return "login";
+    }
+
 
     @PostMapping("/login")
     public String login(
@@ -34,6 +51,12 @@ public class LoginController {
         }
 
         return "index";
+    }
+
+    @GetMapping("/signup")
+    public String signup(Model model) {
+
+        return "signup";
     }
 
     @PostMapping("/signup")

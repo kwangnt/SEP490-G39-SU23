@@ -7,13 +7,13 @@ function hideById(id) {
 }
 
 function copyToClipboard(id) {
-    const fadeTime = 1000;
+    const fadeTime = 1500;
 
     navigator.clipboard.writeText($("#" + id).text());
 
     $("body").prepend(
         '<div class="fixed-top d-flex justify-content-center" id="alert">' +
-        '   <p class="bg-grey-sub rounded-5 py-2 px-5" style="width: fit-content;">' +
+        '   <p class="ts-bg-grey-subtle rounded-pill py-2 px-5" style="width: fit-content;">' +
         '       Copied to clipboard' +
         '   </p>' +
         '</div>');
