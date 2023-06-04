@@ -2,6 +2,7 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,46 +17,55 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "roleId", referencedColumnName = "id", nullable = false)
     private Role role;
-    @Basic
+    @Positive
     @Column(name = "roleId", insertable = false, updatable = false)
     private Long roleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentId", referencedColumnName = "id")
     private User parent;
-    @Basic
+    @Positive
     @Column(name = "parentId", insertable = false, updatable = false)
     private Long parentId;
 
-    @Basic
-    @Column(name = "username")
+    @NotBlank
+    @Size(min = 4, max = 45)
+    @Column(name = "username", nullable = false, length = 45)
     private String username;
 
-    @Basic
-    @Column(name = "password")
+    @NotBlank
+    @Size(min = 1, max = 255)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Basic
+    @NotBlank
+    @Size(min = 1, max = 255)
+    @Column(name = "fullName")
+    private String fullName;
+
+    @Email
+    @Size(min = 5, max = 255)
     @Column(name = "email")
     private String email;
 
-    @Basic
-    @Column(name = "phone")
+    @Pattern(regexp = "^\\\\d{10}$")
+    @Size(min = 10, max = 10)
+    @Column(name = "phone", length = 10)
     private String phone;
 
-    @Basic
+    @Size(min = 5, max = 255)
     @Column(name = "address")
     private String address;
 
-    @Basic
     @Column(name = "status")
     private Status status;
 

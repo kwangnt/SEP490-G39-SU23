@@ -2,6 +2,9 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +17,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "homework")
 public class Homework {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -22,19 +26,19 @@ public class Homework {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
     private Classroom classroom;
-    @Basic
+    @Positive
     @Column(name = "classId", insertable = false, updatable = false)
     private Long classId;
 
-    @Basic
-    @Column(name = "homeworkName")
+    @NotBlank
+    @Size(min = 1, max = 45)
+    @Column(name = "homeworkName", nullable = false, length = 45)
     private String homeworkName;
 
-    @Basic
+    @Lob
     @Column(name = "homeworkDesc")
     private String homeworkDesc;
 
-    @Basic
     @Column(name = "status")
     private Status status;
 }
