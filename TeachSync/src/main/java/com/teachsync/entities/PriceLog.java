@@ -2,12 +2,15 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,51 +19,48 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "price_log")
 public class PriceLog {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseId", referencedColumnName = "id", nullable = false)
     private Course course;
-    @Basic
+    @Positive
     @Column(name = "courseId", insertable = false, updatable = false)
     private Long courseId;
 
-    @Basic
-    @Column(name = "price")
+    @NotNull
+    @Min(1)
+    @Positive
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Basic
     @Column(name = "isCurrent")
-    private Boolean isCurrent;
+    private Boolean isCurrent = true;
 
-    @Basic
     @Column(name = "isPromotion")
-    private Boolean isPromotion;
+    private Boolean isPromotion = false;
 
-    @Basic
-    @Column(name = "promotionType")
+    @Column(name = "promotionType", length = 45)
     private String promotionType;
 
-    @Basic
+    @Positive
     @Column(name = "promotionAmount")
-    private String promotionAmount;
+    private Double promotionAmount;
 
-    @Basic
+    @Lob
     @Column(name = "promotionDesc")
     private String promotionDesc;
 
-    @Basic
     @Column(name = "validFrom")
-    private Timestamp validFrom;
+    private LocalDateTime validFrom;
 
-    @Basic
     @Column(name = "validTo")
-    private Timestamp validTo;
+    private LocalDateTime validTo;
 
-    @Basic
     @Column(name = "status")
     private Status status;
 }

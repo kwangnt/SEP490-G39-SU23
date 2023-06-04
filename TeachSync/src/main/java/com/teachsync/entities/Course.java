@@ -2,6 +2,9 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,20 +19,21 @@ import java.util.List;
 @Entity
 @Table(name = "course")
 public class Course {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Long id;
 
-    @Basic
-    @Column(name = "courseName")
+    @NotBlank
+    @Size(min = 1, max = 45)
+    @Column(name = "courseName", nullable = false, length = 45)
     private String courseName;
 
-    @Basic
+    @Lob
     @Column(name = "courseDesc")
     private String courseDesc;
 
-    @Basic
     @Column(name = "status")
     private Status status;
 

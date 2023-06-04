@@ -2,12 +2,16 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,31 +20,33 @@ import java.sql.Date;
 @Entity
 @Table(name = "schedule")
 public class Schedule {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
     private Classroom classroom;
-    @Basic
+    @Positive
     @Column(name = "classId", insertable = false, updatable = false)
     private Long classId;
 
-    @Basic
-    @Column(name = "date")
-    private Date date;
+    @NotNull
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
-    @Basic
-    @Column(name = "slot")
+    @NotNull
+    @Range(min = 0, max = 12)
+    @PositiveOrZero
+    @Column(name = "slot", nullable = false)
     private Integer slot;
 
-    @Basic
+    @Lob
     @Column(name = "scheduleDesc")
     private String scheduleDesc;
 
-    @Basic
     @Column(name = "status")
     private Status status;
 }

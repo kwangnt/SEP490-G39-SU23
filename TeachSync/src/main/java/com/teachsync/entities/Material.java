@@ -2,10 +2,13 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +17,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "material")
 public class Material {
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -22,14 +26,16 @@ public class Material {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course course;
-    @Basic
+    @Positive
     @Column(name = "courseId", insertable = false, updatable = false)
     private Long courseId;
 
-    @Basic
-    @Column(name = "materialLink")
+    @Lob
+    @URL
+    @NotBlank
+    @Column(name = "materialLink", nullable = false)
     private String materialLink;
-    @Basic
+
     @Column(name = "status")
     private Status status;
 }
