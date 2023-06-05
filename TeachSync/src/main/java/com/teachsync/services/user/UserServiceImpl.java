@@ -8,6 +8,7 @@ import com.teachsync.utils.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +47,11 @@ public class UserServiceImpl implements UserService {
                 userRepository.findByUsernameAndPasswordAndStatusNot(username, password, Status.DELETED);
 
         return user.orElse(null);
+    }
+
+
+    public List<User> getListUserByType(int type) {
+        List<User> lst = userRepository.findUsersByRoleIdOrderByIdDesc(type);
+        return lst;
     }
 }
