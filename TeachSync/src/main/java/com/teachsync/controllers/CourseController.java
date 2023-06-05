@@ -1,7 +1,9 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.entities.Course;
 import com.teachsync.services.course.CourseService;
+import com.teachsync.services.priceLog.PriceLogService;
 import com.teachsync.utils.MiscUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,18 +25,19 @@ public class CourseController {
         /* TODO: get course list, hot course list */
 
         try {
-            Page<Course> coursePage = courseService.getPageAll(null);
+            model.addAttribute(
+                    "searchableFieldList",
+                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
 
-            if (coursePage != null) {
-                model.addAttribute("courseList", coursePage.getContent());
-                model.addAttribute("pageNo", coursePage.getPageable().getPageNumber());
-                model.addAttribute("pageTotal", coursePage.getTotalPages());
+
+            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAll(null);
+
+            if (dtoPage != null) {
+                model.addAttribute("courseList", dtoPage.getContent());
+                model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
+                model.addAttribute("pageTotal", dtoPage.getTotalPages());
 
             }
-
-            model.addAttribute(
-                    "sortableFieldList",
-                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,13 +52,15 @@ public class CourseController {
             @RequestParam Long id,
             Model model) {
         try {
-            Course course = courseService.getById(id);
+            CourseReadDTO course = courseService.getDTOById(id);
 
             if (course == null) {
+                /* Not found by Id */
                 return "redirect:/course";
             }
 
             model.addAttribute("course", course);
+
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");

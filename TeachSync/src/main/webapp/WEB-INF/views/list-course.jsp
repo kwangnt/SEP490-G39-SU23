@@ -82,9 +82,9 @@
         </c:if>
 
         <!-- Course List paging -->
-        <div class="col-12">
+        <div class="col-12 mb-3">
 <%--            <select name="" id="">--%>
-<%--                <c:forEach var="field" items="${sortableFieldList}">--%>
+<%--                <c:forEach var="field" items="${searchableFieldList}">--%>
 <%--                    <option value="${field}"><c:out value="${field}"/></option>--%>
 <%--                </c:forEach>--%>
 <%--            </select>--%>

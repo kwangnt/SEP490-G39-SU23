@@ -1,6 +1,10 @@
 package com.teachsync;
 
+import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.entities.Course;
 import com.teachsync.utils.MiscUtil;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -22,5 +26,19 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
     @Bean
     public MiscUtil miscUtil() {
         return new MiscUtil();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        modelMapper.typeMap(Course.class, CourseReadDTO.class)
+                .addMappings(mapper -> {
+                    mapper.skip(CourseReadDTO::setCurrentPrice);
+                    mapper.skip(CourseReadDTO::setMaterialList);
+                    mapper.skip(CourseReadDTO::setClassroomList); });
+
+        return modelMapper;
     }
 }
