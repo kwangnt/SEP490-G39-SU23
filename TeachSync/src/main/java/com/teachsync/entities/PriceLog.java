@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.PromotionType;
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -45,7 +46,7 @@ public class PriceLog {
     private Boolean isPromotion = false;
 
     @Column(name = "promotionType", length = 45)
-    private String promotionType;
+    private PromotionType promotionType;
 
     @Positive
     @Column(name = "promotionAmount")

@@ -8,11 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CourseCreateDTO {
+public class CourseCreateDTO implements Serializable {
     @NotBlank
     @Size(min = 1, max = 45)
     private String courseName;
