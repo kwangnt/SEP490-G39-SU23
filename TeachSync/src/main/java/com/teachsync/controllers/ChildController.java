@@ -17,9 +17,14 @@ public class ChildController {
     @GetMapping("/listchild")
     public String lstChild(Model model) {
         try {
+            System.out.println("skdfn");
             List<User> lst = us.getListUserByType(2);
             model.addAttribute("lstUser", lst);
-            System.out.println(lst);
+            if (lst.isEmpty()) {
+                System.out.println("khong tim thay du lieu");
+            } else {
+                System.out.println(lst);
+            }
             return "list-user";
 
         } catch (Exception e) {
