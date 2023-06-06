@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 public class UserCreateDTO implements Serializable {
     @Positive
-    private Long roleId = 1L;
+    private Long roleId;
 
     @Positive
     private Long parentId;
@@ -46,6 +46,17 @@ public class UserCreateDTO implements Serializable {
 
     private Status status = Status.CREATED;
 
-    @Size(min = 1)
-    private List<Long> childList;
+    @Email
+    @Size(min = 5, max = 255)
+    private String parentEmail;
+
+
+    /** For Student signup */
+    public UserCreateDTO(String username, String password, String email, String fullName) {
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
+        this.roleId = 1L;
+    }
 }

@@ -1,7 +1,9 @@
 package com.teachsync;
 
 import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Course;
+import com.teachsync.entities.User;
 import com.teachsync.utils.MiscUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -38,6 +40,11 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
                     mapper.skip(CourseReadDTO::setCurrentPrice);
                     mapper.skip(CourseReadDTO::setMaterialList);
                     mapper.skip(CourseReadDTO::setClassroomList); });
+
+        modelMapper.typeMap(User.class, UserReadDTO.class)
+                .addMappings(mapper -> {
+                    mapper.skip(UserReadDTO::setRequestMadeList);
+                    mapper.skip(UserReadDTO::setChildList); });
 
         return modelMapper;
     }

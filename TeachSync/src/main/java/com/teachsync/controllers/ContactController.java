@@ -5,11 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/contact")
 public class ContactController {
-    @GetMapping("")
+    @GetMapping("/contact")
     public String contact() {
-        /* TODO: add news, promotion,... to model */
         return "contact";
     }
 }
