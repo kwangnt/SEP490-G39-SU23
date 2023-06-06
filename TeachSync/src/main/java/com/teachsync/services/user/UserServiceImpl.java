@@ -1,5 +1,7 @@
 package com.teachsync.services.user;
 
+import com.teachsync.dtos.user.UserCreateDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.UserRepository;
