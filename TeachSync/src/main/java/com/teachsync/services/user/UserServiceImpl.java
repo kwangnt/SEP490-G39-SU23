@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) throws Exception {
         /* Check duplicate */
-        boolean isExists = 
+        boolean isExists =
                 userRepository.existsByUsernameAndStatusNot(user.getUsername(), Status.DELETED);
         if (isExists) {
             throw new IllegalArgumentException("Already exists account with username: " + user.getUsername());
@@ -55,13 +56,13 @@ public class UserServiceImpl implements UserService {
         dto.setRoleId(1L);
 
         User user = mapper.map(dto, User.class);
-        
+
         if (dto.getParentEmail() != null) {
-//            TODO: Create parent account 
+//            TODO: Create parent account
 //            User parent = createUser(new User());
 //            user.setParent(parent);
         }
-        
+
         user = createUser(user);
 
         return wrapDTO(user);
@@ -77,6 +78,15 @@ public class UserServiceImpl implements UserService {
 
         return user.orElse(null);
     }
+
+    @Override
+    public List<User> getListUserByType(Long type) {
+        System.out.println("type = "+type);
+        List<User> x = userRepository.findAllByRoleId(type);
+        System.out.println(x);
+        return x;
+    }
+
     @Override
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
