@@ -62,6 +62,7 @@
 						</a>
 					</div>
 					<div class="col">
+						<c:set var="user" value="${sessionScope.loginUser}"/>
 						<c:choose>
 							<c:when test="${user ne null}">
 								<a href="account" class="text-decoration-none txt-black txt-hover-blue">

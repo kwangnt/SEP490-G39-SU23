@@ -3,6 +3,9 @@ package com.teachsync.dtos.user;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +27,9 @@ public class UserReadDTO implements Serializable {
 
     private String username;
 
-//    private String password;
+    /* NEVER SHOW PASSWORD */
+
+    private String fullName;
 
     private String email;
 
