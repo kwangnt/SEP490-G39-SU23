@@ -33,16 +33,16 @@
                         <tbody>
                         <tr>
                             <td class="left bold">Website:</td>
-                            <td class="right"><a href="https://www.totolink.vn">www.totolink.vn</a></td>
+                            <td class="right"><a href="https://www.TeachSync.vn">www.TeachSync.vn</a></td>
                         </tr>
                         <tr>
                             <td class="left bold">Cộng đồng hỗ trợ:</td>
-                            <td class="right"><a href="https://www.facebook.com/groups/totolink">Cộng đồng TOTOLINK</a></td>
+                            <td class="right"><a href="TeachSync">Cộng đồng TeachSync</a></td>
                         </tr>
                         <tr><th>Phòng Kinh Doanh</th></tr>
                         <tr>
                             <td class="left">Điện thoại:</td>
-                            <td class="right"><a href="cal:028 7309 1010">028 7309 1010</a></td>
+                            <td class="right"><a href="cal:0968457623">0968457623</a></td>
                         </tr>
                         <tr>
                             <td class="left">Email:</td>
@@ -51,7 +51,7 @@
                         <tr><th>Phòng Kỹ Thuật</th></tr>
                         <tr>
                             <td class="left">Điện thoại:</td>
-                            <td class="right"><a href="cal:1800 60 78">1800 60 78</a></td>
+                            <td class="right"><a href="cal:0968457623">0968457623</a></td>
                         </tr>
                         <tr>
                             <td class="left">Email:</td>
@@ -61,7 +61,7 @@
                         <tr><th>Văn Phòng Nhà Máy</th></tr>
                         <tr>
                             <td class="left">Điện thoại:</td>
-                            <td class="right"><a href="cal:0274 2222 050">0274 2222 050</a></td>
+                            <td class="right"><a href="cal:0968457623">0968457623</a></td>
                         </tr>
                         <tr>
                         </tr>
@@ -70,23 +70,17 @@
                             <td class="left bold">Thời gian làm việc:</td>
                             <td class="right"><p>Thứ 2 – 6:&nbsp; 8:00 – 12:00, 13:00 – 17:00</p> <p>Thứ 7:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8:00 – 12:00</p></td>
                         </tr>
-                        <tr>
-                            <td class="left bold">VP Hồ Chí Minh:</td>
-                            <td class="right">Tầng 10, Toà nhà Mitalab, số 379-383B-385 Cộng Hòa, Phường 13, Quận Tân Bình, TP.Hồ Chí Minh.</td>
-                        </tr>
+
                         <tr>
                             <td class="left bold">VP Hà Nội:</td>
-                            <td class="right">T6 số 100 ngõ 126 Khuất Duy Tiến, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội.</td>
+                            <td class="right">Số nhà 39, Ngõ 262A, Đường Nguyễn Trãi, Quận Thanh Xuân, Hà Nội.</td>
                         </tr>
-                        <tr>
-                            <td class="left bold">Nhà máy:</td>
-                            <td class="right">2A VSIP II-A Đường số 22, KCN Việt Nam – Singapore II-A, Phường Vĩnh Tân, Thị xã Tân Uyên, Tỉnh Bình Dương, Việt Nam.</td>
-                        </tr>
+
                         </tbody>
                     </table>
                 </div>
                 <div class="col">
-                    <img src="../../resources/img/contact.jpg" width="100%" height="100%">
+                    <img src="https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/vuthihuyen/062019/11/08/in_article/bai-1-trung-tam-anh-ngu-phu-song-tu-doi-thuc-den-coi-face.jpg" width="100%" height="100%">
                 </div>
             </div>
         </div>

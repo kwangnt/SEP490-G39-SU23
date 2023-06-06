@@ -1,6 +1,5 @@
 package com.teachsync.repositories;
 
-import com.teachsync.entities.Course;
 import com.teachsync.entities.PriceLog;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.domain.Page;

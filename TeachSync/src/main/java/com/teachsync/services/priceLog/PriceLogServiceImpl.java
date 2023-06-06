@@ -2,7 +2,6 @@ package com.teachsync.services.priceLog;
 
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.PriceLog;
-import com.teachsync.entities.PriceLog;
 import com.teachsync.repositories.PriceLogRepository;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
