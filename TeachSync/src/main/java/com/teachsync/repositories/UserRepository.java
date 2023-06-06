@@ -1,7 +1,6 @@
-package com.teachsync.repositories;
+package com.teachSync.teachSync.reposirories;
 
-import com.teachsync.entities.User;
-import com.teachsync.utils.enums.Status;
+import com.teachSync.teachSync.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +9,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsernameAndPasswordAndStatusNot(String username, String pass, Status status);
+    Optional<User> findByUsernameAndPassword(String username, String pass);
 
-    /* Check duplicate */
-    boolean existsByUsernameAndStatusNot(String username, Status status);
 
 }
