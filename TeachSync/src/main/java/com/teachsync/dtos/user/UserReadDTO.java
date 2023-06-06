@@ -24,7 +24,9 @@ public class UserReadDTO implements Serializable {
 
     private String username;
 
-//    private String password;
+    /* NEVER SHOW PASSWORD */
+
+    private String fullName;
 
     private String email;
 

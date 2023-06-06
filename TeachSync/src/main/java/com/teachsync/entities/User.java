@@ -80,12 +80,4 @@ public class User {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<User> childList;
-
-    public User(String username, String password, String email, String fullName) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roleId = 1L;
-        this.status = Status.CREATED;
-    }
 }

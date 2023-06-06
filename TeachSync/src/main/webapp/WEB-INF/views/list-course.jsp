@@ -82,9 +82,9 @@
         </c:if>
 
         <!-- Course List paging -->
-        <div class="col-12">
+        <div class="col-12 mb-3">
 <%--            <select name="" id="">--%>
-<%--                <c:forEach var="field" items="${sortableFieldList}">--%>
+<%--                <c:forEach var="field" items="${searchableFieldList}">--%>
 <%--                    <option value="${field}"><c:out value="${field}"/></option>--%>
 <%--                </c:forEach>--%>
 <%--            </select>--%>
@@ -97,7 +97,7 @@
                         <div class="row px-3">
                             <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">
                                     <%--<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">--%>
-                                <img src="../../resources/img/logo-wide.png" class="w-100 h-auto">
+                                <img src="../../resources/img/engbook.jpg" class="w-100 h-auto">
                             </div>
 
                             <div class="col-10 px-0">

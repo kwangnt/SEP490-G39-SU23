@@ -11,11 +11,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RoleUpdateDTO {
+public class RoleUpdateDTO implements Serializable {
     @NotNull
     @Positive
     private Long id;
