@@ -10,6 +10,6 @@ public interface UserService {
 
     User login(String username, String password) throws Exception;
 
-    List<User> getListUserByType(int type);
+    List<User> getListUserByType(Long type);
 
 }

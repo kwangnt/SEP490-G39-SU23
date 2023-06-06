@@ -1,7 +1,9 @@
 package com.teachsync.controllers;
 
 import com.teachsync.entities.User;
+import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.user.UserService;
+import com.teachsync.services.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,14 +13,14 @@ import java.util.List;
 
 @Controller
 public class ChildController {
+
     @Autowired
-    private UserService us;
+    UserService userService;
 
     @GetMapping("/listchild")
     public String lstChild(Model model) {
-        try {
             System.out.println("skdfn");
-            List<User> lst = us.getListUserByType(2);
+            List<User> lst = userService.getListUserByType(2L);
             model.addAttribute("lstUser", lst);
             if (lst.isEmpty()) {
                 System.out.println("khong tim thay du lieu");
@@ -26,10 +28,6 @@ public class ChildController {
                 System.out.println(lst);
             }
             return "list-user";
-
-        } catch (Exception e) {
-            return "redirect:/index";
-        }
     }
 
 }

@@ -49,9 +49,12 @@ public class UserServiceImpl implements UserService {
         return user.orElse(null);
     }
 
-
-    public List<User> getListUserByType(int type) {
-        List<User> lst = userRepository.findUsersByRoleIdOrderByIdDesc(type);
-        return lst;
+    @Override
+    public List<User> getListUserByType(Long type) {
+        System.out.println("type = "+type);
+        List<User> x = userRepository.findAllByRoleId(type);
+        System.out.println(x);
+        return x;
     }
+
 }

@@ -24,70 +24,94 @@
 <!-- ================================================== Header ===================================================== -->
 
 
-
 <!-- ================================================== Main Body ================================================== -->
-<div>
-    <h1>ssahdfbjskdf</h1>
-    <!-- Hot Course -->
-    <c:if test="${lstUser ne null}">
-        <div class="col-12 border-bottom ts-border-blue mb-3">
-            <div class="row flex-row flex-nowrap overflow-auto gx-3 mb-3">
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên</th>
-                        <th>User Name</th>
-                        <th>Email</th>
-                    </tr>
-                    <c:forEach var="lstUser" items="${lstUser}">
-                        <tr>
-                            <td>lstUser.id</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                            <td>Germany</td>
-                        </tr>
-                    </c:forEach>
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
 
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                    </tr>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
-                </table>
-<%--                <c:forEach var="lstUser" items="${lstUser}">--%>
-<%--                    <div class="col-sm-4 col-md-2">--%>
-<%--                        <div class="card ts-border-orange h-100">--%>
-<%--                                &lt;%&ndash;<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">&ndash;%&gt;--%>
-<%--                            <img src="../../resources/img/logo-wide.png" class="card-img-top">--%>
+            <div class="page-header">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="page-title">Danh sách học sinh</h3>
+                    </div>
+                    <div class="top-nav-search">
+                        <form id="login-form" name="myform" action="SearchBlogByNameController" method="post" onsubmit="return validateform()">
 
-<%--                            <div class="card-body">--%>
-<%--                                <h6 class="card-title">--%>
-<%--                                    <c:url var="courseLink" value="course-detail">--%>
-<%--                                        <c:param name="id" value="${hotCourse.id}"/>--%>
-<%--                                    </c:url>--%>
-<%--                                    <a href="${courseLink}">--%>
-<%--                                        <c:out value="${hotCourse.courseName}"/>--%>
-<%--                                    </a>--%>
-<%--                                </h6>--%>
+                            <input type="text" class="form-control" placeholder="Search here" name="searchTxt">
+                            <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-<%--                                <p class="card-text ts-txt-sm">--%>
-<%--                                    <c:out value="${hotCourse.courseDesc}"/>--%>
-<%--                                </p>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </c:forEach>--%>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="datatable table table-stripped">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Họ tên</th>
+                                        <th>Tên tài khoản</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Chỉnh sửa</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${lstUser}" var="data">
+                                        <tr>
+                                            <td>
+                                                    ${data.id}
+                                            </td>
+                                            <td>
+                                                            <span class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md ">
+                                                                <a href="BlogDetailController?id=${data.id}"> ${data.fullName}</a>
+                                                            </span>
+                                            </td>
+                                            <td>
+                                                    ${data.username}
+                                            </td>
+                                            <td>
+                                                <c:if test="${data.status == 'CREATED'}">
+                                                                <span
+                                                                        class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
+                                                                ><a> Đã tạo</a></span>
+                                                </c:if>
+                                                <c:if test="${data.status == 'UPDATED'}">
+                                                                <span
+                                                                        class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
+                                                                ><a> Đã chỉnh sửa</a></span>
+                                                </c:if>
+                                                <c:if test="${data.status == 'DELETED'}">
+                                                                <span
+                                                                        class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
+                                                                ><a> Đã xóa</a></span>
+                                                </c:if>
+
+                                            </td
+                                        </tr>
+                                    </c:forEach>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <a href="addnewblog.jsp" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i> Create One</a>
+
+
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </c:if>
+    </div>
 </div>
 
-    <!-- Course List paging -->
+
+<!-- Course List paging -->
 
 <!-- ================================================== Main Body ================================================== -->
 

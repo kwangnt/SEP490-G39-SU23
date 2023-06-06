@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /* Check duplicate */
     boolean existsByUsernameAndStatusNot(String username, Status status);
 
-    List<User> findUsersByRoleIdOrderByIdDesc(int roleId);
+    List<User> findAllByRoleId(Long roleId);
 }
