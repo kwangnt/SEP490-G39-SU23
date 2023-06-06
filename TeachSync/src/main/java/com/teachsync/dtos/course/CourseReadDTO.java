@@ -3,7 +3,6 @@ package com.teachsync.dtos.course;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.Classroom;
 import com.teachsync.entities.Material;
-import com.teachsync.entities.PriceLog;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

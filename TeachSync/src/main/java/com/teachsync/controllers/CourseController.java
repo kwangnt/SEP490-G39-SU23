@@ -3,7 +3,6 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.entities.Course;
 import com.teachsync.services.course.CourseService;
-import com.teachsync.services.priceLog.PriceLogService;
 import com.teachsync.utils.MiscUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
