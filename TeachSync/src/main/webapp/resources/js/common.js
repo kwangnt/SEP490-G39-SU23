@@ -22,3 +22,7 @@ function copyToClipboard(id) {
 
     setTimeout(function() { $("#alert").remove(); }, fadeTime);
 }
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );

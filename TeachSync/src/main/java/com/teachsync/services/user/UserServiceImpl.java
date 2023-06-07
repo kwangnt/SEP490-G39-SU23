@@ -1,4 +1,4 @@
-package com.teachsync.services.user;
+    package com.teachsync.services.user;
 
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
@@ -11,8 +11,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) throws Exception {
         /* Check duplicate */
-        boolean isExists = 
+        boolean isExists =
                 userRepository.existsByUsernameAndStatusNot(user.getUsername(), Status.DELETED);
         if (isExists) {
             throw new IllegalArgumentException("Already exists account with username: " + user.getUsername());
@@ -55,13 +58,13 @@ public class UserServiceImpl implements UserService {
         dto.setRoleId(1L);
 
         User user = mapper.map(dto, User.class);
-        
+
         if (dto.getParentEmail() != null) {
-//            TODO: Create parent account 
+//            TODO: Create parent account
 //            User parent = createUser(new User());
 //            user.setParent(parent);
         }
-        
+
         user = createUser(user);
 
         return wrapDTO(user);
@@ -77,6 +80,20 @@ public class UserServiceImpl implements UserService {
 
         return user.orElse(null);
     }
+
+    @Override
+    public List<User> getListUserByType(Long type) {
+        System.out.println("type = "+type);
+        List<User> x = userRepository.findAllByRoleId(type);
+        System.out.println(x);
+        return x;
+    }
+
+    @Override
+    public List<User> getListUserByUserName(String username) {
+        return userRepository.findAllByUsernameContaining(username);
+    }
+
     @Override
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
@@ -118,3 +135,26 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 }
+    /* =================================================== Forgot Password ================================================== */
+    @Override
+    public void updateResetPasswordToken(String token, String email) {
+        User customer = userRepository.findByEmail(email);
+        if (customer != null) {
+            customer.setResetPasswordToken(token);
+            userRepository.save(customer);
+        }
+    }
+
+    @Override
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }

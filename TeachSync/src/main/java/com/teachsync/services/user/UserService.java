@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import java.util.Collection;
 import java.util.List;
 
+import java.util.List;
+
 public interface UserService {
     /* =================================================== CREATE =================================================== */
     User createUser(User user) throws Exception;
@@ -27,6 +29,9 @@ public interface UserService {
 
     /* =================================================== DELETE =================================================== */
 
+    List<User> getListUserByType(Long type);
+    List<User> getListUserByUserName(String username);
+
 
 
     /* =================================================== WRAPPER ================================================== */
@@ -35,4 +40,8 @@ public interface UserService {
     List<UserReadDTO> wrapListDTO(Collection<User> userCollection) throws Exception;
 
     Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception;
+    /* =================================================== Forgot Password ================================================== */
+    User getByResetPasswordToken(String token) throws Exception;
+    void updatePassword(User user, String password) throws Exception;
+    void updateResetPasswordToken(String token, String email) throws Exception;
 }
