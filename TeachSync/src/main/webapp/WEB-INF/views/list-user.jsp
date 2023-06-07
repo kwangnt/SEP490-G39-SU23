@@ -35,9 +35,9 @@
                         <h3 class="page-title">Danh sách học sinh</h3>
                     </div>
                     <div class="top-nav-search">
-                        <form id="login-form" name="myform" action="SearchBlogByNameController" method="post" onsubmit="return validateform()">
+                        <form id="login-form" name="myform" action="searchuserbyusername" method="get" onsubmit="return validateform()">
 
-                            <input type="text" class="form-control" placeholder="Search here" name="searchTxt">
+                            <input type="text" class="form-control" placeholder="Search here" name="searchText">
                             <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
@@ -98,7 +98,7 @@
                                 </table>
                             </div>
 
-                            <a href="addnewblog.jsp" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i> Create One</a>
+                            <a href="addnewblog.jsp" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i> Tạp mới</a>
 
 
                         </div>
