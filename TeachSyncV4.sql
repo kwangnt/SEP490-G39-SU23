@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`user` (
   CONSTRAINT `fk_user_user_parent_child`
     FOREIGN KEY (`parentId`)
     REFERENCES `teachsync`.`user` (`id`)),
-  CONSTRAINT `fk_user_address_1`
+  CONSTRAINT `fk_user_address`
     FOREIGN KEY (`addressId`)
     REFERENCES `teachsync`.`address` (`id`))
 ENGINE = InnoDB
@@ -125,16 +125,149 @@ DROP TABLE IF EXISTS `teachsync`.`address` ;
 
 CREATE TABLE IF NOT EXISTS `teachsync`.`address` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `country` VARCHAR(255) NOT NULL,
-  `province` VARCHAR(255) NOT NULL,
-  `city` VARCHAR(255) NOT NULL,
-  `district` VARCHAR(255) NOT NULL,
-  `ward` VARCHAR(255) NOT NULL,
-  `area` VARCHAR(255) NOT NULL,
+  `countryId` BIGINT NOT NULL,
+  `provinceId` BIGINT NOT NULL,
+  `cityId` BIGINT NOT NULL,
+  `districtId` BIGINT NOT NULL,
+  `wardId` BIGINT NOT NULL,
+  `areaId` BIGINT NULL DEFAULT NULL,
   `street` VARCHAR(255) NOT NULL,
   `addressNo` VARCHAR(255) NULL DEFAULT NULL,
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_address_country_idx` (`countryId` ASC) VISIBLE,
+  INDEX `fk_address_province_idx` (`provinceId` ASC) VISIBLE,
+  INDEX `fk_address_city_idx` (`cityId` ASC) VISIBLE,
+  INDEX `fk_address_district_idx` (`districtId` ASC) VISIBLE,
+  INDEX `fk_address_ward_idx` (`wardId` ASC) VISIBLE,
+  INDEX `fk_address_area_idx` (`areaId` ASC) VISIBLE,
+  CONSTRAINT `fk_address_country`
+    FOREIGN KEY (`countryId`)
+    REFERENCES `teachsync`.`country` (`id`),
+  CONSTRAINT `fk_address_province`
+    FOREIGN KEY (`provinceId`)
+    REFERENCES `teachsync`.`province` (`id`),
+  CONSTRAINT `fk_address_city`
+    FOREIGN KEY (`cityId`)
+    REFERENCES `teachsync`.`city` (`id`),
+  CONSTRAINT `fk_address_district`
+    FOREIGN KEY (`districtId`)
+    REFERENCES `teachsync`.`district` (`id`),
+  CONSTRAINT `fk_address_ward`
+    FOREIGN KEY (`wardId`)
+    REFERENCES `teachsync`.`ward` (`id`),
+  CONSTRAINT `fk_address_area`
+    FOREIGN KEY (`areaId`)
+    REFERENCES `teachsync`.`area` (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`country`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`country` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`country` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `countryName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`province`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`province` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`province` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `countryId` BIGINT NOT NULL,
+  `provinceName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_province_country_idx` (`countryId` ASC) VISIBLE,
+  CONSTRAINT `fk_province_country`
+    FOREIGN KEY (`countryId`)
+    REFERENCES `teachsync`.`country` (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`city`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`city` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`city` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `provinceId` BIGINT NOT NULL,
+  `cityName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_city_province_idx` (`provinceId` ASC) VISIBLE,
+  CONSTRAINT `fk_city_province`
+    FOREIGN KEY (`provinceId`)
+    REFERENCES `teachsync`.`province` (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`district`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`district` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`district` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `cityId` BIGINT NOT NULL,
+  `districtName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_district_city_idx` (`cityId` ASC) VISIBLE,
+  CONSTRAINT `fk_district_city`
+    FOREIGN KEY (`cityId`)
+    REFERENCES `teachsync`.`city` (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`ward`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`ward` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`ward` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `districtId` BIGINT NOT NULL,
+  `wardName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_ward_district_idx` (`districtId` ASC) VISIBLE,
+  CONSTRAINT `fk_ward_district`
+    FOREIGN KEY (`districtId`)
+    REFERENCES `teachsync`.`district` (`id`),
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;  
+  
+  
+-- -----------------------------------------------------
+-- Table `teachsync`.`area`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`area` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`area` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `wardId` BIGINT NOT NULL,
+  `areaName` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_area_ward_idx` (`wardId` ASC) VISIBLE,
+  CONSTRAINT `fk_area_ward`
+    FOREIGN KEY (`wardId`)
+    REFERENCES `teachsync`.`ward` (`id`),
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
