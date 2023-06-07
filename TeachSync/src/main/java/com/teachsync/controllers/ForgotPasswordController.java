@@ -1,8 +1,8 @@
-package com.teachsync.TeachSync.controllers;
+package com.teachsync.controllers;
 
-import com.teachsync.TeachSync.entities.User;
-import com.teachsync.TeachSync.entities.Utility;
-import com.teachsync.TeachSync.services.UserService;
+import com.teachsync.entities.User;
+import com.teachsync.entities.Utility;
+import com.teachsync.services.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;

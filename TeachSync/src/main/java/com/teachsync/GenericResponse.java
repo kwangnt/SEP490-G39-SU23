@@ -1,4 +1,4 @@
-package com.teachsync.TeachSync;
+package com.teachsync;
 
 public class GenericResponse {
     private String message;
