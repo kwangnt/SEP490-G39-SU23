@@ -88,6 +88,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getListUserByUserName(String username) {
+        return userRepository.findAllByUsernameContaining(username);
+    }
+
+    @Override
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
 

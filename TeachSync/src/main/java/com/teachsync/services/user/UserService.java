@@ -30,6 +30,7 @@ public interface UserService {
     /* =================================================== DELETE =================================================== */
 
     List<User> getListUserByType(Long type);
+    List<User> getListUserByUserName(String username);
 
 
 
