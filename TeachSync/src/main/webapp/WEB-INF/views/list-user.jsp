@@ -90,7 +90,8 @@
                                                                 ><a> Đã xóa</a></span>
                                                 </c:if>
 
-                                            </td
+                                            </td>
+                                            <td></td>
                                         </tr>
                                     </c:forEach>
 
