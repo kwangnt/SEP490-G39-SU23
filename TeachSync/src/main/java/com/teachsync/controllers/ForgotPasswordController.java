@@ -29,7 +29,7 @@ public class ForgotPasswordController {
 
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm() {
-        return "forgot_password_form";
+        return "forgot-password";
     }
 
     @PostMapping("/forgot_password")
@@ -88,7 +88,7 @@ public class ForgotPasswordController {
             return "message";
         }
 
-        return "reset_password_form";
+        return "reset-password";
     }
 
     @PostMapping("/reset_password")
