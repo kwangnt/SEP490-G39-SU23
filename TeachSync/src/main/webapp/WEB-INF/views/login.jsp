@@ -42,7 +42,7 @@
     <form class="login-form" action="signup" method="get">
       <button type="submit">SIGN UP</button>
     </form>
-
+    <a href="forgot_password" > Forgot your password?</a>
   </div>
 </div>
 
