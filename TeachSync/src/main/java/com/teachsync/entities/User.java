@@ -69,6 +69,9 @@ public class User {
     @Column(name = "status")
     private Status status;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<News> newsList;
 

@@ -1,4 +1,4 @@
-package com.teachsync.services.user;
+    package com.teachsync.services.user;
 
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.Collection;
 import java.util.List;
@@ -182,3 +184,26 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 }
+    /* =================================================== Forgot Password ================================================== */
+    @Override
+    public void updateResetPasswordToken(String token, String email) {
+        User customer = userRepository.findByEmail(email);
+        if (customer != null) {
+            customer.setResetPasswordToken(token);
+            userRepository.save(customer);
+        }
+    }
+
+    @Override
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
