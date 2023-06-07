@@ -1,4 +1,4 @@
-package com.teachsync.TeachSync.entities;
+package com.teachsync.entities;
 
 import jakarta.servlet.http.HttpServletRequest;
 

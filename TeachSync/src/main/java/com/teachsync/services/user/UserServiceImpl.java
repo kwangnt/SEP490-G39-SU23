@@ -1,4 +1,4 @@
-    package com.teachsync.services.user;
+package com.teachsync.services.user;
 
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
     private ModelMapper mapper;
 
 
-
     /* =================================================== CREATE =================================================== */
     @Override
     public User createUser(User user) throws Exception {
@@ -54,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
     @Override
     public UserReadDTO signupDTO(UserCreateDTO dto) throws Exception {
         dto.setRoleId(1L);
@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     /* =================================================== READ ===================================================== */
     @Override
     public User login(String username, String password) throws Exception {
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getListUserByType(Long type) {
-        System.out.println("type = "+type);
+        System.out.println("type = " + type);
         List<User> x = userRepository.findAllByRoleId(type);
         System.out.println(x);
         return x;
@@ -112,7 +111,9 @@ public class UserServiceImpl implements UserService {
     public UserReadDTO getDTOById(Long id) throws Exception {
         User user = getById(id);
 
-        if (user == null) { return null; }
+        if (user == null) {
+            return null;
+        }
 
         return wrapDTO(user);
     }
@@ -159,7 +160,6 @@ public class UserServiceImpl implements UserService {
     /* =================================================== DELETE =================================================== */
 
 
-
     /* =================================================== WRAPPER ================================================== */
     @Override
     public UserReadDTO wrapDTO(User user) throws Exception {
@@ -183,22 +183,15 @@ public class UserServiceImpl implements UserService {
     public Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception {
         return null;
     }
-}
-    /* =================================================== Forgot Password ================================================== */
-    @Override
-    public void updateResetPasswordToken(String token, String email) {
-        User customer = userRepository.findByEmail(email);
-        if (customer != null) {
-            customer.setResetPasswordToken(token);
-            userRepository.save(customer);
-        }
-    }
 
+
+
+    /* =================================================== Forgot Password ========================================== */
     @Override
     public User getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
-
+    @Override
     public void updatePassword(User user, String newPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
@@ -207,3 +200,14 @@ public class UserServiceImpl implements UserService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
+    @Override
+    public void updateResetPasswordToken(String token, String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+
+            /* Check data */
+            userRepository.save(user);
+        }
+    }
+}

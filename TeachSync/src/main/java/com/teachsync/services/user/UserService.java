@@ -43,7 +43,10 @@ public interface UserService {
     List<UserReadDTO> wrapListDTO(Collection<User> userCollection) throws Exception;
 
     Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception;
-    /* =================================================== Forgot Password ================================================== */
+
+
+
+    /* =================================================== Forgot Password ========================================== */
     User getByResetPasswordToken(String token) throws Exception;
     void updatePassword(User user, String password) throws Exception;
     void updateResetPasswordToken(String token, String email) throws Exception;
