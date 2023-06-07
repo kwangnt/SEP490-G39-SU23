@@ -2,6 +2,7 @@
 
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.dtos.user.UserUpdateDTO;
 import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.UserRepository;
@@ -75,8 +76,7 @@ public class UserServiceImpl implements UserService {
     /* =================================================== READ ===================================================== */
     @Override
     public User login(String username, String password) throws Exception {
-        Optional<User> user =
-                userRepository.findByUsernameAndPasswordAndStatusNot(username, password, Status.DELETED);
+        Optional<User> user = userRepository.findByUsernameAndPasswordAndStatusNot(username, password, Status.DELETED);
 
         return user.orElse(null);
     }
@@ -97,6 +97,55 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
+
+        return wrapDTO(user);
+    }
+
+    @Override
+    public User getById(Long id) throws Exception {
+        Optional<User> user = userRepository.findByIdAndStatusNot(id, Status.DELETED);
+
+        return user.orElse(null);
+    }
+
+    @Override
+    public UserReadDTO getDTOById(Long id) throws Exception {
+        User user = getById(id);
+
+        if (user == null) { return null; }
+
+        return wrapDTO(user);
+    }
+
+    @Override
+    public User updateUser(User user) throws Exception {
+        User oldUser = getById(user.getId());
+
+        if (oldUser == null) {
+            throw new IllegalArgumentException("No User found with Id: " + user.getId());
+        }
+
+        //Check valid input (Vd: email, phone)
+
+        //Check FK
+        Role role = roleService.getById(user.getRoleId());
+        if (role == null) {
+            throw new IllegalArgumentException("No role found with roleId: " + user.getRoleId());
+        }
+
+        user.setRole(role);
+
+        user.setUsername(oldUser.getUsername());
+        user.setPassword(oldUser.getPassword());
+
+        return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public UserReadDTO updateDTOUser(UserUpdateDTO dto) throws Exception {
+        User user = mapper.map(dto, User.class);
+
+        user = updateUser(user);
 
         return wrapDTO(user);
     }

@@ -19,9 +19,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByRoleId(Long roleId);
 
     List<User> findAllByUsernameContaining(String username);
-
     @Query ("SELECT u FROM User u WHERE u.email = ?1")
     public User findByEmail(String email);
 
     public User findByResetPasswordToken(String token);
-}
+
+    Optional<User> findByIdAndStatusNot(Long id, Status status);
+

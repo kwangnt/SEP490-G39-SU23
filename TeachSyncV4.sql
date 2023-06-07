@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`course` (
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -83,7 +82,6 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`role` (
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -101,19 +99,43 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`user` (
   `fullName` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NULL DEFAULT NULL,
   `phone` VARCHAR(10) NULL DEFAULT NULL,
-  `address` VARCHAR(255) NULL DEFAULT NULL,
+  `addressId` BIGINT NULL DEFAULT NULL,
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_role_idx` (`roleId` ASC) VISIBLE,
   INDEX `fk_user_user1_idx` (`parentId` ASC) VISIBLE,
+  INDEX `fk_user_address_idx` (`addressId` ASC) VISIBLE,
   CONSTRAINT `fk_user_role`
     FOREIGN KEY (`roleId`)
     REFERENCES `teachsync`.`role` (`id`),
   CONSTRAINT `fk_user_user_parent_child`
     FOREIGN KEY (`parentId`)
-    REFERENCES `teachsync`.`user` (`id`))
+    REFERENCES `teachsync`.`user` (`id`)),
+  CONSTRAINT `fk_user_address_1`
+    FOREIGN KEY (`addressId`)
+    REFERENCES `teachsync`.`address` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `teachsync`.`address`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`address` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`address` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `country` VARCHAR(255) NOT NULL,
+  `province` VARCHAR(255) NOT NULL,
+  `city` VARCHAR(255) NOT NULL,
+  `district` VARCHAR(255) NOT NULL,
+  `ward` VARCHAR(255) NOT NULL,
+  `area` VARCHAR(255) NOT NULL,
+  `street` VARCHAR(255) NOT NULL,
+  `addressNo` VARCHAR(255) NULL DEFAULT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 

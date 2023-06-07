@@ -57,7 +57,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Pattern(regexp = "^\\\\d{10}$")
+//    @Pattern(regexp = "^\\\\d{10}$")
     @Size(min = 10, max = 10)
     @Column(name = "phone", length = 10)
     private String phone;
