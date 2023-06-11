@@ -57,7 +57,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Pattern(regexp = "^\\\\d{10}$")
+//    @Pattern(regexp = "^\\\\d{10}$")
     @Size(min = 10, max = 10)
     @Column(name = "phone", length = 10)
     private String phone;
@@ -68,6 +68,9 @@ public class User {
 
     @Column(name = "status")
     private Status status;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<News> newsList;

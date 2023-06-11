@@ -2,6 +2,7 @@ package com.teachsync.services.user;
 
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.dtos.user.UserUpdateDTO;
 import com.teachsync.entities.User;
 import org.springframework.data.domain.Page;
 
@@ -21,11 +22,13 @@ public interface UserService {
     User login(String username, String password) throws Exception;
     UserReadDTO loginDTO(String username, String password) throws Exception;
 
-
+    User getById(Long id) throws Exception;
+    UserReadDTO getDTOById(Long id) throws Exception;
 
     /* =================================================== UPDATE =================================================== */
 
-
+    User updateUser(User user) throws Exception;
+    UserReadDTO updateDTOUser(UserUpdateDTO dto) throws Exception;
 
     /* =================================================== DELETE =================================================== */
 
@@ -40,4 +43,11 @@ public interface UserService {
     List<UserReadDTO> wrapListDTO(Collection<User> userCollection) throws Exception;
 
     Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception;
+
+
+
+    /* =================================================== Forgot Password ========================================== */
+    User getByResetPasswordToken(String token) throws Exception;
+    void updatePassword(User user, String password) throws Exception;
+    void updateResetPasswordToken(String token, String email) throws Exception;
 }
