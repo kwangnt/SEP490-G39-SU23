@@ -1,9 +1,12 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.User;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.user.UserService;
 import com.teachsync.services.user.UserServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +22,11 @@ public class ChildController {
     UserService userService;
 
     @GetMapping("/listchild")
-    public String lstChild(Model model) {
-        System.out.println("skdfn");
+    public String lstChild(Model model, HttpSession session) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
         List<User> lst = userService.getListUserByType(2L);
         model.addAttribute("lstUser", lst);
         if (lst.isEmpty()) {

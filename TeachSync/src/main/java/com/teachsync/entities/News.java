@@ -48,4 +48,13 @@ public class News {
 
     @Column(name = "status")
     private Status status;
+
+
+    public News(String newsTitle, String newsDesc, String newsLink, Long authorId, Status status) {
+        this.newsTitle = newsTitle;
+        this.newsDesc = newsDesc;
+        this.newsLink = newsLink;
+        this.authorId = authorId;
+        this.status = status;
+    }
 }
