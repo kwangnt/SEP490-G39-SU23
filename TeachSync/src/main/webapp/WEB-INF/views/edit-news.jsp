@@ -72,20 +72,21 @@
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
 <div class="container">
     <h2>Chỉnh sửa bài báo</h2>
-    <form action="submitcreatenews" method="post">
+    <form action="submiteditnews" method="post">
+        <input type="hidden" id="idNews" name="idNews" value="${news.id}" required>
         <div class="form-group">
             <label for="title">Tiêu đề:</label>
-            <input type="text" id="title" name="title" value="${news.id}" required>
+            <input type="text" id="title" name="title" value="${news.newsTitle}" required>
         </div>
 
         <div class="form-group">
             <label for="description">Tóm tắt:</label>
-            <textarea id="description" name="description" required></textarea>
+            <textarea id="description" name="description" required>${news.newsDesc}</textarea>
         </div>
 
         <div class="form-group">
             <label for="content">Nội dung:</label>
-            <textarea id="content" name="content" required></textarea>
+            <textarea id="content" name="content" required>${news.newsLink}</textarea>
         </div>
 
         <button type="submit">Lưu</button>

@@ -45,9 +45,9 @@ public class NewsController {
         }
         System.out.println("user id = " + user.getId());
 
-        User user1 = userRepository.findById(user.getId()).orElse(null) ;
+        User user1 = userRepository.findById(user.getId()).orElse(null);
 
-        News news = new News(title,description,content, user1, user1.getId(), Status.CREATED);
+        News news = new News(title, description, content, user1, user1.getId(), Status.CREATED);
 
         newsRepository.save(news);
         return "redirect:/";
@@ -72,7 +72,7 @@ public class NewsController {
 
     @PostMapping("/submiteditnews")
     public String submitEditNews(Model model, HttpSession session,
-                                 @RequestParam String id,
+                                 @RequestParam String idNews,
                                  @RequestParam String title,
                                  @RequestParam String description,
                                  @RequestParam String content) {
@@ -83,7 +83,9 @@ public class NewsController {
         }
         System.out.println("user id = " + user.getId());
 
-        News news = new News(Long.parseLong(id), title, description, content, user.getId(), Status.UPDATED);
+        User user1 = userRepository.findById(user.getId()).orElse(null);
+
+        News news = new News(Long.parseLong(idNews), title, description, content, user1, user1.getId(), Status.UPDATED);
 
         newsRepository.save(news);
         return "redirect:/";
