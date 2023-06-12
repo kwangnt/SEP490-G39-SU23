@@ -71,7 +71,7 @@
 <body>
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
 <div class="container">
-    <h2>Insert Bài báo</h2>
+    <h2>Thêm bài báo mới</h2>
     <form action="submitcreatenews" method="post">
         <div class="form-group">
             <label for="title">Tiêu đề:</label>

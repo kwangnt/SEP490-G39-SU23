@@ -18,30 +18,48 @@ public class NewsController {
     NewsRepository newsRepository;
 
     @GetMapping("/createnews")
-    public String createNews(Model model, HttpSession session){
+    public String createNews(Model model, HttpSession session) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
-        }
-        else return "create-news";
+        } else return "create-news";
     }
 
     @PostMapping("/submitcreatenews")
     public String submitCreateNews(Model model, HttpSession session,
-                             @RequestParam String title,
-                             @RequestParam String description,
-                             @RequestParam String content) {
+                                   @RequestParam String title,
+                                   @RequestParam String description,
+                                   @RequestParam String content) {
 
         UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
+        System.out.println("user id = " + user.getId());
 
-        News news = new News(title,description,content, user.getId(), Status.CREATED);
+        News news = new News(title, description, content, user.getId(), Status.CREATED);
 
         newsRepository.save(news);
         return "redirect:/";
     }
+
+
+    @PostMapping("/editnews")
+    public String editNews(Model model, HttpSession session,
+                           @RequestParam String id) {
+
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
+        System.out.println("user id = " + user.getId());
+
+
+        News news = newsRepository.findAllById(Long.parseLong(id));
+        model.addAttribute("news", news);
+        return "";
+    }
+
 
     @GetMapping("/news")
     public String news() {
