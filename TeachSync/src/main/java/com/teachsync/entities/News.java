@@ -57,4 +57,13 @@ public class News {
         this.authorId = authorId;
         this.status = status;
     }
+
+    public News(Long id, String newsTitle, String newsDesc, String newsLink, Long authorId, Status status) {
+        this.id = id;
+        this.newsTitle = newsTitle;
+        this.newsDesc = newsDesc;
+        this.newsLink = newsLink;
+        this.authorId = authorId;
+        this.status = status;
+    }
 }

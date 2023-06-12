@@ -40,7 +40,7 @@ public class NewsController {
         News news = new News(title, description, content, user.getId(), Status.CREATED);
 
         newsRepository.save(news);
-        return "redirect:/";
+        return "news";
     }
 
 
@@ -57,7 +57,26 @@ public class NewsController {
 
         News news = newsRepository.findAllById(Long.parseLong(id));
         model.addAttribute("news", news);
-        return "";
+        return "edit-news";
+    }
+
+    @PostMapping("/submiteditnews")
+    public String submitEditNews(Model model, HttpSession session,
+                                 @RequestParam String id,
+                                 @RequestParam String title,
+                                 @RequestParam String description,
+                                 @RequestParam String content) {
+
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
+        System.out.println("user id = " + user.getId());
+
+        News news = new News(Long.parseLong(id), title, description, content, user.getId(), Status.UPDATED);
+
+        newsRepository.save(news);
+        return "news";
     }
 
 
