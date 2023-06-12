@@ -2,7 +2,9 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.News;
+import com.teachsync.entities.User;
 import com.teachsync.repositories.NewsRepository;
+import com.teachsync.repositories.UserRepository;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 public class NewsController {
     @Autowired
     NewsRepository newsRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/createnews")
     public String createNews(Model model, HttpSession session) {
@@ -37,14 +45,16 @@ public class NewsController {
         }
         System.out.println("user id = " + user.getId());
 
-        News news = new News(title, description, content, user.getId(), Status.CREATED);
+        User user1 = userRepository.findById(user.getId()).orElse(null) ;
+
+        News news = new News(title,description,content, user1, user1.getId(), Status.CREATED);
 
         newsRepository.save(news);
-        return "news";
+        return "redirect:/";
     }
 
 
-    @PostMapping("/editnews")
+    @GetMapping("/editnews")
     public String editNews(Model model, HttpSession session,
                            @RequestParam String id) {
 
@@ -76,7 +86,7 @@ public class NewsController {
         News news = new News(Long.parseLong(id), title, description, content, user.getId(), Status.UPDATED);
 
         newsRepository.save(news);
-        return "news";
+        return "redirect:/";
     }
 
 
