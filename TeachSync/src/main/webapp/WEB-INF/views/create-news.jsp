@@ -22,30 +22,76 @@
     <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
 
     <script src="../../resources/js/common.js"></script>
+    <style>
+        /* Áp dụng CSS để tùy chỉnh giao diện form */
+        .container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
-<div>
+<div class="container">
+    <h2>Insert Bài báo</h2>
     <form action="submitcreatenews" method="post">
-        <table>
-            <tr>
-                <td><form:label>Tiêu đề</form:label></td>
-                <td><input type="text" id="title" name="title"></td>
-            </tr>
-            <tr>
-                <td><form:label>Tóm tắt</form:label></td>
-                <td><input type="text" id="description" name="description"></td>
-            </tr>
-            <tr>
-                <td><form:label>Nội dung</form:label></td>
-                <td><input type="text" id="content" name="content"></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Submit"/></td>
-            </tr>
-        </table>
+        <div class="form-group">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Tóm tắt:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Nội dung:</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+
+        <button type="submit">Lưu</button>
     </form>
 </div>
+
 <%@ include file="/WEB-INF/fragments/footer.jspf" %>
 
 
