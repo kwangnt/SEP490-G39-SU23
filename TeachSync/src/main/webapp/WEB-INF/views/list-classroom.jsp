@@ -38,14 +38,14 @@
         <c:forEach var="classroom" items="${classroomList}">
             <tr>
                 <th scope="row">${classroom.id}</th>
-                <td>${classroom.className}</td>
+                <td><a style="font-weight: bold;" href="add-classroom?Id=${classroom.id}&option=detail">${classroom.className}</a> </td>
                 <td>${classroom.course.courseName}</td>
                 <td>${classroom.classDesc}</td>
                 <td>
-                    <a href="">
+                    <a href="add-classroom?Id=${classroom.id}&option=edit">
                         <button type="button" class="btn btn-success">Sửa</button>
                     </a>
-                    <a href="" >
+                    <a href="delete-classroom?Id=${classroom.id}" >
                         <button type="button" class="btn btn-danger">Xóa</button>
                     </a>
                 </td>

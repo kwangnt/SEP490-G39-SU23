@@ -43,6 +43,7 @@ public class ClassRoomController {
         model.addAttribute("listCourse", courseService.getListCourseReadDTO());
         if (!ObjectUtils.isEmpty(request.getParameter("Id"))) {
             model.addAttribute("classroom", classroomService.findById(Long.parseLong(request.getParameter("Id"))));
+            model.addAttribute("option", request.getParameter("option"));
         }
 
         return "add-classroom";
@@ -54,15 +55,37 @@ public class ClassRoomController {
         classroomDto.setClassName(request.getParameter("name"));
         classroomDto.setClassDesc(request.getParameter("desc"));
         classroomDto.setCourseId(Long.parseLong(request.getParameter("courseId")));
+        String result = "";
+        String optional = "";
+        if (ObjectUtils.isEmpty(request.getParameter("classroomId"))) {
+            result = classroomService.addClassroom(classroomDto);
+            optional = "Thêm mới";
+        } else {
+            classroomDto.setId(Long.parseLong(request.getParameter("classroomId")));
+            result = classroomService.editClassroom(classroomDto);
+            optional = "Sửa";
+        }
 
-        String result = classroomService.addClassroom(classroomDto);
+
         if (result.equals("success")) {
-            redirect.addAttribute("mess", "Thêm mới class room thành công");
+            redirect.addAttribute("mess", optional + " class room thành công");
             return "redirect:/classroom";
         } else {
-            model.addAttribute("mess", "Thêm mới class room thất bại");
+            model.addAttribute("mess", optional + " class room thất bại");
             return "add-classroom";
         }
     }
 
+    @GetMapping("/delete-classroom")
+    public String deleteClassroom(HttpServletRequest request, Model model, RedirectAttributes redirect) {
+        Long Id = Long.parseLong(request.getParameter("Id"));
+        String result = classroomService.deleteClassroom(Id);
+        if (result.equals("success")) {
+            redirect.addAttribute("mess", "Xóa class room thành công");
+            return "redirect:/classroom";
+        } else {
+            model.addAttribute("mess", "Xóa class room thất bại");
+            return "add-classroom";
+        }
+    }
 }

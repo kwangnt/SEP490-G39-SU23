@@ -10,5 +10,9 @@ public interface ClassroomService {
 
     String addClassroom(ClassroomDto classroom);
 
+    String editClassroom(ClassroomDto classroom);
+
+    String deleteClassroom(Long Id);
+
     ClassroomDto findById(Long Id) throws Exception;
 }

@@ -24,21 +24,44 @@
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
     <form action="add-classroom" method="post">
+        <input type="hidden" name="classroomId" value="${classroom.id}">
         <div class="form-group">
-            <label x>Tên lớp</label>
-            <input type="text" name="name" class="form-control" placeholder="Nhập tên lớp">
+            <label>Tên lớp</label>
+            <c:if test="${option == 'detail'}">
+                <input type="text" name="name"
+                       value="${classroom.className}"
+                       disabled
+                       class="form-control" placeholder="Nhập tên lớp">
+            </c:if>
+            <c:if test="${option == 'edit'}">
+                <input type="text" name="name"
+                       value="${classroom.className}"
+                       class="form-control" placeholder="Nhập tên lớp">
+            </c:if>
+
         </div>
         <div class="row">
             <div class="col-md-4 pt-4">
                 <div class="d-flex align-items-center">
                     <p class="mr-2">Tên khóa học</p>
                     <div class="dropdown ms-3">
-                        <select name="courseId"
-                                class="btn btn-secondary dropdown-toggle">
-                            <c:forEach items="${listCourse}" var="course">
-                                <option value="${course.id}"> ${course.courseName}</option>
-                            </c:forEach>
-                        </select>
+                        <c:if test="${option == 'detail'}">
+                            <select name="courseId"
+                                    disabled
+                                    class="btn btn-secondary dropdown-toggle">
+                                <c:forEach items="${listCourse}" var="course">
+                                    <option value="${course.id}"> ${course.courseName}</option>
+                                </c:forEach>
+                            </select>
+                        </c:if>
+                        <c:if test="${option == 'edit'}">
+                            <select name="courseId"
+                                    class="btn btn-secondary dropdown-toggle">
+                                <c:forEach items="${listCourse}" var="course">
+                                    <option value="${course.id}"> ${course.courseName}</option>
+                                </c:forEach>
+                            </select>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -46,11 +69,17 @@
 
         <div class="form-group">
             <label>Miêu tả</label>
-            <input type="text" name="desc" class="form-control" placeholder="Nhập miêu tả">
+            <c:if test="${option == 'detail'}">
+                <input type="text" disabled value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+            </c:if>
+            <c:if test="${option == 'edit'}">
+                <input type="text" value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+            </c:if>
         </div>
         <br>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <c:if test="${option == 'edit'}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </c:if>
         <br><br>
     </form>
 
