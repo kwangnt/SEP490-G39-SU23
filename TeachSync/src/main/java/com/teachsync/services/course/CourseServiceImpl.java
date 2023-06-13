@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -79,7 +80,11 @@ public class CourseServiceImpl implements CourseService {
         return wrapDTO(course);
     }
 
-
+    @Override
+    public List<CourseReadDTO> getListCourseReadDTO() {
+        List<Course> listCourse = courseRepository.findAll();
+        return listCourse.stream().map(CourseReadDTO::toCourseReadDTO).collect(Collectors.toList());
+    }
 
     /* =================================================== UPDATE =================================================== */
 

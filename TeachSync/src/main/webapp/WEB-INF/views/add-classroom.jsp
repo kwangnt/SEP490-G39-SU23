@@ -23,36 +23,37 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-   <a href="add-classroom" > <button type="button" class="btn btn-primary">Thêm mới class</button></a>
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tên lớp</th>
-            <th scope="col">Tên khóa học</th>
-            <th scope="col">Miêu tả</th>
-            <th scope="col">Chức năng</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="classroom" items="${classroomList}">
-            <tr>
-                <th scope="row">${classroom.id}</th>
-                <td>${classroom.className}</td>
-                <td>${classroom.course.courseName}</td>
-                <td>${classroom.classDesc}</td>
-                <td>
-                    <a href="">
-                        <button type="button" class="btn btn-success">Sửa</button>
-                    </a>
-                    <a href="" >
-                        <button type="button" class="btn btn-danger">Xóa</button>
-                    </a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    <form action="add-classroom" method="post">
+        <div class="form-group">
+            <label x>Tên lớp</label>
+            <input type="text" name="name" class="form-control" placeholder="Nhập tên lớp">
+        </div>
+        <div class="row">
+            <div class="col-md-4 pt-4">
+                <div class="d-flex align-items-center">
+                    <p class="mr-2">Tên khóa học</p>
+                    <div class="dropdown ms-3">
+                        <select name="courseId"
+                                class="btn btn-secondary dropdown-toggle">
+                            <c:forEach items="${listCourse}" var="course">
+                                <option value="${course.id}"> ${course.courseName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Miêu tả</label>
+            <input type="text" name="desc" class="form-control" placeholder="Nhập miêu tả">
+        </div>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br><br>
+    </form>
+
 
 </div>
 <!-- ================================================== Main Body ================================================== -->

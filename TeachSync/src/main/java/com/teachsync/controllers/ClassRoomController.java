@@ -2,11 +2,18 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.classroom.ClassroomDto;
 import com.teachsync.services.classroom.ClassroomService;
+import com.teachsync.services.course.CourseService;
+import com.teachsync.utils.enums.Status;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ClassRoomController {
@@ -14,8 +21,11 @@ public class ClassRoomController {
     @Autowired
     ClassroomService classroomService;
 
+    @Autowired
+    CourseService courseService;
+
     @GetMapping("/classroom")
-    public String home(Model model) throws Exception {
+    public String getListClassroom(Model model, @ModelAttribute("mess") String mess) throws Exception {
         Page<ClassroomDto> dtoPage = classroomService.getPageAll(null);
 
         if (dtoPage != null) {
@@ -24,7 +34,35 @@ public class ClassRoomController {
             model.addAttribute("pageTotal", dtoPage.getTotalPages());
 
         }
+        model.addAttribute("mess", mess);
         return "list-classroom";
+    }
+
+    @GetMapping("/add-classroom")
+    public String addClassroom(Model model, HttpServletRequest request) throws Exception {
+        model.addAttribute("listCourse", courseService.getListCourseReadDTO());
+        if (!ObjectUtils.isEmpty(request.getParameter("Id"))) {
+            model.addAttribute("classroom", classroomService.findById(Long.parseLong(request.getParameter("Id"))));
+        }
+
+        return "add-classroom";
+    }
+
+    @PostMapping("/add-classroom")
+    public String addClassroom(HttpServletRequest request, Model model, RedirectAttributes redirect) throws Exception {
+        ClassroomDto classroomDto = new ClassroomDto();
+        classroomDto.setClassName(request.getParameter("name"));
+        classroomDto.setClassDesc(request.getParameter("desc"));
+        classroomDto.setCourseId(Long.parseLong(request.getParameter("courseId")));
+
+        String result = classroomService.addClassroom(classroomDto);
+        if (result.equals("success")) {
+            redirect.addAttribute("mess", "Thêm mới class room thành công");
+            return "redirect:/classroom";
+        } else {
+            model.addAttribute("mess", "Thêm mới class room thất bại");
+            return "add-classroom";
+        }
     }
 
 }
