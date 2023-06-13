@@ -34,7 +34,6 @@ public class News {
     private String newsDesc;
 
     @Lob
-    @URL
     @NotBlank
     @Column(name = "newsLink")
     private String newsLink;
@@ -48,4 +47,23 @@ public class News {
 
     @Column(name = "status")
     private Status status;
+
+
+    public News(String newsTitle, String newsDesc, String newsLink, User author, Long authorId, Status status) {
+        this.newsTitle = newsTitle;
+        this.newsDesc = newsDesc;
+        this.newsLink = newsLink;
+        this.author = author;
+        this.authorId = authorId;
+        this.status = status;
+    }
+
+    public News(Long id, String newsTitle, String newsDesc, String newsLink, Long authorId, Status status) {
+        this.id = id;
+        this.newsTitle = newsTitle;
+        this.newsDesc = newsDesc;
+        this.newsLink = newsLink;
+        this.authorId = authorId;
+        this.status = status;
+    }
 }

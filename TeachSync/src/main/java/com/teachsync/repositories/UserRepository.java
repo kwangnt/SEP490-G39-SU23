@@ -27,5 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     public User findByResetPasswordToken(String token);
 
     Optional<User> findByIdAndStatusNot(Long id, Status status);
+
+    User findUsersById(Long id);
 }
 
