@@ -23,7 +23,7 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-   <a href="add-classroom" > <button type="button" class="btn btn-primary">Thêm mới class</button></a>
+   <a href="add-classroom?option=add" > <button type="button" class="btn btn-primary">Thêm mới class</button></a>
     <table class="table">
         <thead class="thead-dark">
         <tr>

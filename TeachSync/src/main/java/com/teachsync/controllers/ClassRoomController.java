@@ -43,8 +43,8 @@ public class ClassRoomController {
         model.addAttribute("listCourse", courseService.getListCourseReadDTO());
         if (!ObjectUtils.isEmpty(request.getParameter("Id"))) {
             model.addAttribute("classroom", classroomService.findById(Long.parseLong(request.getParameter("Id"))));
-            model.addAttribute("option", request.getParameter("option"));
         }
+        model.addAttribute("option", request.getParameter("option"));
 
         return "add-classroom";
     }

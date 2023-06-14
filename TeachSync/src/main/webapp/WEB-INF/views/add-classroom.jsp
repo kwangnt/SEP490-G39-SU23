@@ -33,7 +33,7 @@
                        disabled
                        class="form-control" placeholder="Nhập tên lớp">
             </c:if>
-            <c:if test="${option == 'edit'}">
+            <c:if test="${option == 'edit' || option == 'add'}">
                 <input type="text" name="name"
                        value="${classroom.className}"
                        class="form-control" placeholder="Nhập tên lớp">
@@ -54,7 +54,7 @@
                                 </c:forEach>
                             </select>
                         </c:if>
-                        <c:if test="${option == 'edit'}">
+                        <c:if test="${option == 'edit' || option == 'add'}">
                             <select name="courseId"
                                     class="btn btn-secondary dropdown-toggle">
                                 <c:forEach items="${listCourse}" var="course">
@@ -72,12 +72,12 @@
             <c:if test="${option == 'detail'}">
                 <input type="text" disabled value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
             </c:if>
-            <c:if test="${option == 'edit'}">
+            <c:if test="${option == 'edit' || option == 'add'}">
                 <input type="text" value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
             </c:if>
         </div>
         <br>
-        <c:if test="${option == 'edit'}">
+        <c:if test="${option == 'edit' || option == 'add'}">
             <button type="submit" class="btn btn-primary">Submit</button>
         </c:if>
         <br><br>
