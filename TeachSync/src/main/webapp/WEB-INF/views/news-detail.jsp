@@ -57,8 +57,6 @@
     <div class="col-12 mb-3">
         <div class="row gy-3">
             <div class="col-sm-12 col-md-5 px-sm-3 pe-md-0">
-                <%--<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">--%>
-                <img src="../../resources/img/engbook.jpg"
                      class="rounded-2 border ts-border-blue w-100 h-auto">
             </div>
 
