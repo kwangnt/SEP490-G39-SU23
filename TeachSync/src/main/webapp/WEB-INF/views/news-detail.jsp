@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item" aria-current="page">
-                    <a href="/course">
+                    <a href="/news">
                         Tin Tức
                     </a>
                 </li>
@@ -57,7 +57,6 @@
     <div class="col-12 mb-3">
         <div class="row gy-3">
             <div class="col-sm-12 col-md-5 px-sm-3 pe-md-0">
-                <%--<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">--%>
                 <img src="../../resources/img/engbook.jpg"
                      class="rounded-2 border ts-border-blue w-100 h-auto">
             </div>
@@ -72,8 +71,8 @@
                     </div>
 
                     <div class="card-body">
-                        <c:out value="${news.author}"/>
-                        <c:out value="${dateConvert}"/>
+<%--                        <c:out value="${news.author}"/>--%>
+                        <%=(new java.util.Date()).toLocaleString()%>
                         <p class="card-text">
                             <c:out value="${news.newsDesc}"/>
                         </p>
