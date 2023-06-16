@@ -1,5 +1,6 @@
 package com.teachsync.controllers;
 
+
 import com.teachsync.dtos.news.NewsReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.News;
@@ -30,7 +31,7 @@ public class NewsController {
     UserRepository userRepository;
 
     @Autowired
-    private NewsService newsService;
+    NewsService newsService;
 
     @Autowired
     private MiscUtil miscUtil;
@@ -104,6 +105,7 @@ public class NewsController {
 
     @GetMapping("/news")
     public String news(Model model) {
+
         try {
             Page<NewsReadDTO> dtoPage = newsService.getPageDTOAll(null);
 
@@ -113,11 +115,11 @@ public class NewsController {
                 model.addAttribute("pageTotal", dtoPage.getTotalPages());
 
             }
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
-
         return "list-news";
     }
 
@@ -130,7 +132,7 @@ public class NewsController {
 
             if (news == null) {
                 /* Not found by Id */
-                return "redirect:/course";
+                return "redirect:/news";
             }
 
             model.addAttribute("news", news);
@@ -142,6 +144,5 @@ public class NewsController {
 
         return "news-detail";
     }
-
 
 }

@@ -17,19 +17,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class NewsServiceImpl implements NewsService{
+
     @Autowired
     private NewsRepository newsRepository;
+
 
     @Autowired
     private MiscUtil miscUtil;
     @Autowired
     private ModelMapper mapper;
-
-    /* =================================================== READ ===================================================== */
-
     @Override
     public Page<News> getPageAll(Pageable paging) throws Exception {
         if (paging == null) {
@@ -72,12 +70,9 @@ public class NewsServiceImpl implements NewsService{
         return wrapDTO(news);
     }
 
-
-    /* =================================================== WRAPPER ================================================== */
     @Override
     public NewsReadDTO wrapDTO(News news) throws Exception {
         NewsReadDTO dto = mapper.map(news, NewsReadDTO.class);
-
 
         return dto;
     }
@@ -90,6 +85,7 @@ public class NewsServiceImpl implements NewsService{
 
         for (News news : newsCollection) {
             dto = mapper.map(news, NewsReadDTO.class);
+
 
             dtoList.add(dto);
         }
