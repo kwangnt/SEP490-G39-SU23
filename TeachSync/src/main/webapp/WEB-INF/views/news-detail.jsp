@@ -56,9 +56,10 @@
     <!-- News List paging -->
     <div class="col-12 mb-3">
         <div class="row gy-3">
-            <div class="col-sm-12 col-md-5 px-sm-3 pe-md-0">
-                     class="rounded-2 border ts-border-blue w-100 h-auto">
-            </div>
+<%--            <div class="col-sm-12 col-md-5 px-sm-3 pe-md-0">--%>
+<%--                <img src="../../resources/img/engbook.jpg"--%>
+<%--                     class="rounded-2 border ts-border-blue w-100 h-auto">--%>
+<%--            </div>--%>
 
             <div class="col-sm-12 col-md-7 px-3">
                 <div class="card ts-border-yellow h-100">
@@ -67,11 +68,16 @@
                         <h4 class="card-title">
                             <c:out value="${news.newsTitle}"/>
                         </h4>
+                        <br/>
+                        <h6>
+<%--                            <c:out value="${news.author}"/>--%>
+                            <%= (new java.util.Date()).toLocaleString()%>
+                        </h6>
+
                     </div>
 
                     <div class="card-body">
-                        <c:out value="${news.author}"/>
-                        <c:out value="${dateConvert}"/>
+
                         <p class="card-text">
                             <c:out value="${news.newsDesc}"/>
                         </p>
