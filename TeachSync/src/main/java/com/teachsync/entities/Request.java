@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class Request {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "requesterId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "requesterId", referencedColumnName = "id", nullable = true)
     private User requester;
     @Positive
     @Column(name = "requesterId", insertable = false, updatable = false)
@@ -37,6 +38,15 @@ public class Request {
 
     @Column(name = "requestType", length = 45)
     private String requestType;
+
+    @Lob
+    @Column(name = "requestContent")
+    private String requestContent;
+
+    @Lob
+    @URL
+    @Column(name = "contentLink")
+    private String contentLink;
 
     @Lob
     @Column(name = "requestDesc")
