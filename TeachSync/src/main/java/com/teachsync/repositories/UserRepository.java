@@ -14,6 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsernameAndPasswordAndStatusNot(String username, String pass, Status status);
 
+    /** For finding unactivated teacher */
+    Optional<User> findByIdAndStatus(Long id, Status status);
+
     /* Check duplicate */
     boolean existsByUsernameAndStatusNot(String username, Status status);
 
