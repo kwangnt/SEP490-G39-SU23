@@ -62,9 +62,9 @@ public class User {
     @Column(name = "phone", length = 10)
     private String phone;
 
-    @Size(min = 5, max = 255)
-    @Column(name = "address")
-    private String address;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressId", columnDefinition = "long")
+    private Address address;
 
     @Column(name = "status")
     private Status status;
