@@ -65,6 +65,7 @@ public class User extends BaseEntity {
     @Column(name = "addressId", insertable = false, updatable = false)
     private Long addressId;
 
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "resetPasswordToken")
     private String resetPasswordToken;
 }

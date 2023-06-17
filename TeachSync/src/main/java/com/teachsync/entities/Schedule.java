@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.ScheduleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,24 +21,39 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "schedule")
 public class Schedule extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "clazzId", referencedColumnName = "id", nullable = false)
     private Clazz clazz;
     @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
+    @Column(name = "clazzId", insertable = false, updatable = false)
+    private Long clazzId;
+
+    /** Default room used, will be copied to Session */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "roomId", referencedColumnName = "id", nullable = false)
+    private Room room;
+    @Column(name = "roomId", insertable = false, updatable = false)
+    private Long roomId;
 
     @NotNull
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
-
+    @Column(name = "startDate", nullable = false)
+    private LocalDate startDate;
     @NotNull
-    @Range(min = 0, max = 12)
+    @Column(name = "endDate", nullable = false)
+    private LocalDate endDate;
+
     @PositiveOrZero
+    @Range(min = 0, max = 12)
     @Column(name = "slot", nullable = false)
     private Integer slot;
 
+    @Column(name = "sessionStart", nullable = false)
+    private LocalDateTime sessionStart;
+
+    @Column(name = "sessionEnd", nullable = false)
+    private LocalDateTime sessionEnd;
+
     @Lob
-    @Column(name = "scheduleDesc")
-    private String scheduleDesc;
+    @Column(name = "scheduleType")
+    private ScheduleType scheduleType;
 }

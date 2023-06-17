@@ -2,18 +2,20 @@ package com.teachsync.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "test_user_pair")
-public class TestUserPair extends BaseEntity {
+@Table(name = "member_test_record")
+public class MemberTestRecord extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "testId", referencedColumnName = "id", nullable = false)
     private Test test;
@@ -22,14 +24,14 @@ public class TestUserPair extends BaseEntity {
     private Long testId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
-    private User user;
+    @JoinColumn(name = "memberId", referencedColumnName = "id", nullable = false)
+    private ClazzMember clazzMember;
     @Positive
-    @Column(name = "userId", insertable = false, updatable = false)
-    private Long userId;
+    @Column(name = "memberId", insertable = false, updatable = false)
+    private Long memberId;
 
-//    @PositiveOrZero
-//    @Range(min = 0, max = 10)
+    @PositiveOrZero
+    @Range(min = 0, max = 10)
 //    @Digits(integer = 2, fraction = 2)
     @Column(name = "score")
     private Double score;

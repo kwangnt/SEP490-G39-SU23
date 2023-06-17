@@ -35,8 +35,8 @@ public class ClassroomDto {
                 .id(clazz.getId())
                 .course(clazz.getCourse())
                 .courseId(clazz.getCourseId())
-                .className(clazz.getClassName())
-                .classDesc(clazz.getClassDesc())
+                .className(clazz.getClazzName())
+                .classDesc(clazz.getClazzDesc())
                 .status(clazz.getStatus())
                 .build();
     }

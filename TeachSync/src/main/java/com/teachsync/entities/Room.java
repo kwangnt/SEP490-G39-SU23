@@ -39,6 +39,7 @@ public class Room extends BaseEntity {
     @Column(name = "roomType", length = 45)
     private String roomType;
 
+    /** Max number of people, not m2 */
     @NotNull
     @Positive
     @Column(name = "roomSize")

@@ -24,7 +24,7 @@ public abstract class BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "status", nullable = false, length = 45)
+    @Column(name = "status", nullable = false)
     private Status status;
 
     @Positive

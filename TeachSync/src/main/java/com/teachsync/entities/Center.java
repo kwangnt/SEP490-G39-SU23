@@ -34,10 +34,10 @@ public class Center extends BaseEntity {
 
     @Column(name = "centerType", length = 45)
     private String centerType;
-    
+
+    /* TODO: size in m2 or in noOfRoom */
     @NotNull
     @Positive
     @Column(name = "centerSize")
     private Integer centerSize;
-
 }

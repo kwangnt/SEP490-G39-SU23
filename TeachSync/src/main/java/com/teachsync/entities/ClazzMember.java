@@ -12,8 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_class_pair")
-public class UserClassPair extends BaseEntity {
+@Table(name = "clazz_member")
+public class ClazzMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
@@ -22,9 +22,9 @@ public class UserClassPair extends BaseEntity {
     private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "clazzId", referencedColumnName = "id", nullable = false)
     private Clazz clazz;
     @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
+    @Column(name = "clazzId", insertable = false, updatable = false)
+    private Long clazzId;
 }

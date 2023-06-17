@@ -11,6 +11,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * This <b>@Entity</b> is name <b>Clazz</b> to avoid conflict with the basic concept of <b>Class</b> in Java and OOP
+ * */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -25,18 +28,12 @@ public class Clazz extends BaseEntity {
     @Column(name = "courseId", insertable = false, updatable = false)
     private Long courseId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "roomId", referencedColumnName = "id", nullable = false)
-    private Room room;
-    @Column(name = "roomId", insertable = false, updatable = false)
-    private Long roomId;
-
     @NotBlank
     @Size(min = 1, max = 45)
-    @Column(name = "className", nullable = false, length = 45)
-    private String className;
+    @Column(name = "clazzName", nullable = false, length = 45)
+    private String clazzName;
 
     @Lob
-    @Column(name = "classDesc")
-    private String classDesc;
+    @Column(name = "clazzDesc")
+    private String clazzDesc;
 }

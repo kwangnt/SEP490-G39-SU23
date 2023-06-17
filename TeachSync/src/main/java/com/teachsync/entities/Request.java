@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +31,16 @@ public class Request extends BaseEntity {
 
     @Column(name = "requestType", length = 45)
     private String requestType;
+
+
+    @Lob
+    @Column(name = "requestContent")
+    private String requestContent;
+
+    @Lob
+    @URL
+    @Column(name = "contentLink")
+    private String contentLink;
 
     @Lob
     @Column(name = "requestDesc")

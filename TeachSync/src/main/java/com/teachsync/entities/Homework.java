@@ -17,11 +17,11 @@ import lombok.Setter;
 @Table(name = "homework")
 public class Homework extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "clazzId", referencedColumnName = "id", nullable = false)
     private Clazz clazz;
     @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
+    @Column(name = "clazzId", insertable = false, updatable = false)
+    private Long clazzId;
 
     @NotBlank
     @Size(min = 1, max = 45)
