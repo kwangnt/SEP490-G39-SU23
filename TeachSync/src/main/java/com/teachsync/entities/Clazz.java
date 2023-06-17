@@ -1,6 +1,5 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -17,20 +16,20 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "classroom")
-public class Classroom {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+@Table(name = "clazz")
+public class Clazz extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseId", referencedColumnName = "id", nullable = false)
     private Course course;
     @Positive
     @Column(name = "courseId", insertable = false, updatable = false)
     private Long courseId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "roomId", referencedColumnName = "id", nullable = false)
+    private Room room;
+    @Column(name = "roomId", insertable = false, updatable = false)
+    private Long roomId;
 
     @NotBlank
     @Size(min = 1, max = 45)
@@ -40,16 +39,4 @@ public class Classroom {
     @Lob
     @Column(name = "classDesc")
     private String classDesc;
-
-    @Column(name = "status")
-    private Status status;
-
-    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<Homework> homeworkList;
-
-    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<Schedule> scheduleList;
-
-    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<Test> testList;
 }

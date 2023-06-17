@@ -1,7 +1,7 @@
 package com.teachsync.dtos.course;
 
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
-import com.teachsync.entities.Classroom;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class CourseReadDTO implements Serializable {
 
     private Status status;
 
-    private List<Classroom> classroomList;
+    private List<Clazz> clazzList;
 
     private List<Material> materialList;
 

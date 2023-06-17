@@ -1,7 +1,6 @@
 package com.teachsync.entities;
 
 import com.teachsync.utils.enums.PromotionType;
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -19,13 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "price_log")
-public class PriceLog {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+public class PriceLog extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseId", referencedColumnName = "id", nullable = false)
     private Course course;
@@ -61,7 +54,4 @@ public class PriceLog {
 
     @Column(name = "validTo")
     private LocalDateTime validTo;
-
-    @Column(name = "status")
-    private Status status;
 }

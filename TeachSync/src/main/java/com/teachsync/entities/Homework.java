@@ -1,6 +1,5 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -16,16 +15,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "homework")
-public class Homework {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+public class Homework extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
-    private Classroom classroom;
+    private Clazz clazz;
     @Positive
     @Column(name = "classId", insertable = false, updatable = false)
     private Long classId;
@@ -38,7 +31,4 @@ public class Homework {
     @Lob
     @Column(name = "homeworkDesc")
     private String homeworkDesc;
-
-    @Column(name = "status")
-    private Status status;
 }

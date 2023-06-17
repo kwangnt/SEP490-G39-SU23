@@ -31,19 +31,19 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `teachsync`.`classroom`
+-- Table `teachsync`.`clazz`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`classroom` ;
+DROP TABLE IF EXISTS `teachsync`.`clazz` ;
 
-CREATE TABLE IF NOT EXISTS `teachsync`.`classroom` (
+CREATE TABLE IF NOT EXISTS `teachsync`.`clazz` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `courseId` BIGINT NOT NULL,
   `className` VARCHAR(45) NOT NULL,
   `classDesc` LONGTEXT NULL DEFAULT NULL,
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_class_course1_idx` (`courseId` ASC) VISIBLE,
-  CONSTRAINT `fk_class_course1`
+  INDEX `fk_clazz_course1_idx` (`courseId` ASC) VISIBLE,
+  CONSTRAINT `fk_clazz_course1`
     FOREIGN KEY (`courseId`)
     REFERENCES `teachsync`.`course` (`id`))
 ENGINE = InnoDB
@@ -342,7 +342,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `teachsync`.`price_log` ;
 
 CREATE TABLE IF NOT EXISTS `teachsync`.`price_log` (
-  `id` BIGINT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `courseId` BIGINT NOT NULL,
   `price` DOUBLE NOT NULL,
   `isCurrent` BIT(1) NULL DEFAULT NULL,

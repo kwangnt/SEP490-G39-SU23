@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,26 +16,21 @@ import org.hibernate.validator.constraints.URL;
 @Setter
 @Entity
 @Table(name = "news")
-public class News {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+public class News extends BaseEntity {
     @Size(min = 1, max = 45)
     @NotBlank
     @Column(name = "newsTitle", nullable = false, length = 45)
     private String newsTitle;
 
     @Lob
+    @NotBlank
     @Column(name = "newsDesc")
     private String newsDesc;
 
     @Lob
     @NotBlank
-    @Column(name = "newsLink")
-    private String newsLink;
+    @Column(name = "newsContent")
+    private String newsContent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "authorId", referencedColumnName = "id", nullable = false)
@@ -45,25 +39,21 @@ public class News {
     @Column(name = "authorId", insertable = false, updatable = false)
     private Long authorId;
 
-    @Column(name = "status")
-    private Status status;
-
-
-    public News(String newsTitle, String newsDesc, String newsLink, User author, Long authorId, Status status) {
+    public News(String newsTitle, String newsDesc, String newsContent, User author, Long authorId, Status status) {
+        super(null, status, null, null, null, null);
         this.newsTitle = newsTitle;
         this.newsDesc = newsDesc;
-        this.newsLink = newsLink;
+        this.newsContent = newsContent;
         this.author = author;
         this.authorId = authorId;
-        this.status = status;
     }
 
-    public News(Long id, String newsTitle, String newsDesc, String newsLink, Long authorId, Status status) {
-        this.id = id;
+    public News(Long id, String newsTitle, String newsDesc, String newsContent, User author, Long authorId, Status status) {
+        super(id, status, null, null, null, null);
         this.newsTitle = newsTitle;
         this.newsDesc = newsDesc;
-        this.newsLink = newsLink;
+        this.newsContent = newsContent;
+        this.author = author;
         this.authorId = authorId;
-        this.status = status;
     }
 }

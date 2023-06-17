@@ -1,6 +1,6 @@
 package com.teachsync.repositories;
 
-import com.teachsync.entities.Classroom;
+import com.teachsync.entities.Clazz;
 
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.domain.Page;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
+public interface ClassroomRepository extends JpaRepository<Clazz, Long> {
 
-    Page<Classroom> findAllByStatusNot(Status status, Pageable pageable);
+    Page<Clazz> findAllByStatusNot(Status status, Pageable pageable);
 
 }

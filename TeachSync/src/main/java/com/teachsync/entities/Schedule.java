@@ -1,6 +1,5 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,16 +18,10 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "schedule")
-public class Schedule {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+public class Schedule extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
-    private Classroom classroom;
+    private Clazz clazz;
     @Positive
     @Column(name = "classId", insertable = false, updatable = false)
     private Long classId;
@@ -46,7 +39,4 @@ public class Schedule {
     @Lob
     @Column(name = "scheduleDesc")
     private String scheduleDesc;
-
-    @Column(name = "status")
-    private Status status;
 }

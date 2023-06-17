@@ -1,8 +1,10 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
-
+public class User extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "roleId", referencedColumnName = "id", nullable = false)
     private Role role;
@@ -62,25 +58,13 @@ public class User {
     @Column(name = "phone", length = 10)
     private String phone;
 
-    @Size(min = 5, max = 255)
-    @Column(name = "address")
-    private String address;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressId", referencedColumnName = "id")
+    private Address address;
+    @Positive
+    @Column(name = "addressId", insertable = false, updatable = false)
+    private Long addressId;
 
-    @Column(name = "status")
-    private Status status;
-
-    @Column(name = "reset_password_token")
+    @Column(name = "resetPasswordToken")
     private String resetPasswordToken;
-
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    private List<News> newsList;
-
-    @OneToMany(mappedBy = "requester", fetch = FetchType.LAZY)
-    private List<Request> requestMadeList;
-
-    @OneToMany(mappedBy = "resolver", fetch = FetchType.LAZY)
-    private List<Request> requestResolvedList;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<User> childList;
 }

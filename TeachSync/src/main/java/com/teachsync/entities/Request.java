@@ -1,6 +1,5 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -16,13 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "request")
-public class Request {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
+public class Request extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "requesterId", referencedColumnName = "id", nullable = false)
     private User requester;
@@ -48,7 +41,4 @@ public class Request {
     @Positive
     @Column(name = "resolverId", insertable = false, updatable = false)
     private Long resolverId;
-
-    @Column(name = "status")
-    private Status status;
 }

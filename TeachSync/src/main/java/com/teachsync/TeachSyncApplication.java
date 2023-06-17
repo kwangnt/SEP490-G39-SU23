@@ -40,7 +40,7 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
                 .addMappings(mapper -> {
                     mapper.skip(CourseReadDTO::setCurrentPrice);
                     mapper.skip(CourseReadDTO::setMaterialList);
-                    mapper.skip(CourseReadDTO::setClassroomList); });
+                    mapper.skip(CourseReadDTO::setClazzList); });
 
         modelMapper.typeMap(User.class, UserReadDTO.class)
                 .addMappings(mapper -> {

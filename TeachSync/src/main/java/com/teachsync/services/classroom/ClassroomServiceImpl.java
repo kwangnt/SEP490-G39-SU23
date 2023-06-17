@@ -1,8 +1,7 @@
 package com.teachsync.services.classroom;
 
 import com.teachsync.dtos.classroom.ClassroomDto;
-import com.teachsync.entities.Classroom;
-import com.teachsync.entities.Course;
+import com.teachsync.entities.Clazz;
 import com.teachsync.repositories.ClassroomRepository;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
@@ -30,7 +29,7 @@ public class ClassroomServiceImpl implements ClassroomService {
         if (paging == null) {
             paging = miscUtil.defaultPaging();
         }
-        Page<Classroom> classroomPage = classroomRepository.findAllByStatusNot(Status.DELETED, paging);
+        Page<Clazz> classroomPage = classroomRepository.findAllByStatusNot(Status.DELETED, paging);
         List<ClassroomDto> classroomDtoList = classroomPage.getContent().stream()
                 .map(ClassroomDto::toClassroomDto)
                 .collect(Collectors.toList());

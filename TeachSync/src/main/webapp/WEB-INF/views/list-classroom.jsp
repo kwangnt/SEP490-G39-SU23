@@ -34,12 +34,12 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="classroom" items="${classroomList}">
+        <c:forEach var="clazz" items="${classroomList}">
         <tr>
-            <th scope="row">${classroom.id}</th>
-            <td>${classroom.className}</td>
-            <td>${classroom.course.courseName}</td>
-            <td>${classroom.classDesc}</td>
+            <th scope="row">${clazz.id}</th>
+            <td>${clazz.className}</td>
+            <td>${clazz.course.courseName}</td>
+            <td>${clazz.classDesc}</td>
         </tr>
         </c:forEach>
         </tbody>

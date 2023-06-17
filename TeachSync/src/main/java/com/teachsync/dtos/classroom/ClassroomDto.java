@@ -2,10 +2,6 @@ package com.teachsync.dtos.classroom;
 
 import com.teachsync.entities.*;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
@@ -34,14 +30,14 @@ public class ClassroomDto {
 
     private List<Test> testList;
 
-    public static ClassroomDto toClassroomDto(Classroom classroom){
+    public static ClassroomDto toClassroomDto(Clazz clazz){
         return ClassroomDto.builder()
-                .id(classroom.getId())
-                .course(classroom.getCourse())
-                .courseId(classroom.getCourseId())
-                .className(classroom.getClassName())
-                .classDesc(classroom.getClassDesc())
-                .status(classroom.getStatus())
+                .id(clazz.getId())
+                .course(clazz.getCourse())
+                .courseId(clazz.getCourseId())
+                .className(clazz.getClassName())
+                .classDesc(clazz.getClassDesc())
+                .status(clazz.getStatus())
                 .build();
     }
 
