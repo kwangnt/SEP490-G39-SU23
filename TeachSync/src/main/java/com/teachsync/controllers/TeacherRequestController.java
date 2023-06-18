@@ -26,12 +26,6 @@ public class TeacherRequestController {
 
     @GetMapping("")
     public String viewTeacherRequest(HttpServletRequest request, RedirectAttributes redirect) {
-        //check login
-        HttpSession session = request.getSession();
-        if (ObjectUtils.isEmpty(session.getAttribute("loginUser"))) {
-            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-            return "redirect:/";
-        }
 
         return "teacher-request";
     }

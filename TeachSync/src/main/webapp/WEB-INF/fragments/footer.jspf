@@ -26,6 +26,8 @@
                     <a href="about" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Về TeachSync</a></p>
                 <p class="ps-1 mt-1 mb-0">
                     <a href="contact" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Liên hệ</a></p>
+                <p class="ps-1 mt-1 mb-0">
+                    <a href="teacher-request" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Tuyển Dụng</a></p>
             </div>
 
             <!-- Support -->
