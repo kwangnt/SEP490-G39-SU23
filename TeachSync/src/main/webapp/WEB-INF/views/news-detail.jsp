@@ -68,11 +68,15 @@
                         <h4 class="card-title">
                             <c:out value="${news.newsTitle}"/>
                         </h4>
+                        <br/>
+                        <h6>
+<%--                            <c:out value="${news.author}"/>--%>
+                            <%= (new java.util.Date()).toLocaleString()%>
+                        </h6>
+
                     </div>
 
                     <div class="card-body">
-<%--                        <c:out value="${news.author}"/>--%>
-                        <%=(new java.util.Date()).toLocaleString()%>
                         <p class="card-text">
                             <c:out value="${news.newsDesc}"/>
                         </p>
