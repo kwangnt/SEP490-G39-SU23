@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 
 @Controller
 public class ForgotPasswordController {
-
+    @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
@@ -39,6 +39,7 @@ public class ForgotPasswordController {
         String token = RandomString.make(30);
 
         try {
+
             userService.updateResetPasswordToken(token, email);
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
@@ -47,6 +48,7 @@ public class ForgotPasswordController {
         } catch (UnsupportedEncodingException e) {
             model.addAttribute("error", "Error while sending email");
         } catch (Exception ex) {
+            ex.printStackTrace();
             model.addAttribute("error", ex.getMessage());
         }
 
@@ -58,7 +60,7 @@ public class ForgotPasswordController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("capstone.teach.sync@gmail.com", "TeachSync Support");
         helper.setTo(recipientEmail);
 
         String subject = "Here's the link to reset your password";
