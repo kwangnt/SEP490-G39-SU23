@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 public class ForgotPasswordController {
 
     private JavaMailSender mailSender;
+
     @Autowired
     private UserService userService;
 
@@ -49,7 +50,7 @@ public class ForgotPasswordController {
             model.addAttribute("error", ex.getMessage());
         }
 
-        return "forgot_password";
+        return "forgot-password";
     }
 
     public void sendEmail(String recipientEmail, String link)
