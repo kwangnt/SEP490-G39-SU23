@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class TeachSyncApplication extends SpringBootServletInitializer {
@@ -30,6 +31,7 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
     public MiscUtil miscUtil() {
         return new MiscUtil();
     }
+
 
     @Bean
     public ModelMapper modelMapper() {

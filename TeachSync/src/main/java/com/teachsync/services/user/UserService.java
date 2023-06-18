@@ -30,6 +30,8 @@ public interface UserService {
     User updateUser(User user) throws Exception;
     UserReadDTO updateDTOUser(UserUpdateDTO dto) throws Exception;
 
+    UserReadDTO activateTeacherAccount(Long unactivatedTeacherAccId) throws Exception;
+
     /* =================================================== DELETE =================================================== */
 
     List<User> getListUserByType(Long type);
