@@ -438,7 +438,7 @@ CREATE TABLE `role` (
                         `roleDesc` longtext,
                         `status` varchar(45) NOT NULL,
                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +447,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'user','user','CREATED');
+INSERT INTO `role` VALUES (1,'user','user','CREATED'),(2,'admin','admin','CREATED'),(3,'teacher','teacher','CREATED'),(4,'student','student','CREATED'),(5,'parents','parents','CREATED');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -632,7 +632,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,NULL,'mrd','mrd','mrd','mrd','123',NULL,'CREATED',NULL),(2,1,NULL,'duong123','duong123','duong123','duong123@gmail.com',NULL,NULL,'CREATED',NULL);
+INSERT INTO `user` VALUES (1,2,NULL,'mrd','mrd','mrd','mrd','123',NULL,'CREATED',NULL),(2,3,NULL,'duong123','duong123','duong123','duong123@gmail.com',NULL,NULL,'CREATED',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -730,4 +730,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-18 14:02:38
+-- Dump completed on 2023-06-19 17:18:13
