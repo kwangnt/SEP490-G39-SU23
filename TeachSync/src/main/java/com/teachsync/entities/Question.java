@@ -40,9 +40,6 @@ public class Question {
     @Column(name = "answer4")
     private String answer4;
 
-    @Column(name = "answerEssay")
-    private String answerEssay;
-
     @Column(name = "trueAnswer")
     private int trueAnswer;
 
