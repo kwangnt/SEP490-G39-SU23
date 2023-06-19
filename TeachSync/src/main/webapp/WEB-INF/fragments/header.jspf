@@ -49,6 +49,12 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
+					<div class="col border-start border-end ts-border-teal">
+						<a href="teacher-request/list" class="text-decoration-none txt-black txt-hover-blue">
+							<i class="bi-book"></i>
+							Danh sách ứng tuyển
+						</a>
+					</div>
 				</div>
 			</div>
 

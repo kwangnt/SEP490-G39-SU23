@@ -17,4 +17,6 @@ public interface TeacherRequestService {
     String deleteTeacherRequest(Long Id);
 
     TeacherRequestDto findById(Long Id) throws Exception;
+
+    void changeStatus(Long Id,String operation) throws Exception;
 }

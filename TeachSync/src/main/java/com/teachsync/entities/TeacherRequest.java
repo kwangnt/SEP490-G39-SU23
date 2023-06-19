@@ -16,7 +16,7 @@ public class TeacherRequest {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", columnDefinition = "long")
     private User User;
 

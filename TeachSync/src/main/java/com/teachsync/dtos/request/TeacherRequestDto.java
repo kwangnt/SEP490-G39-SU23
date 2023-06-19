@@ -1,10 +1,11 @@
 package com.teachsync.dtos.request;
 
 
+import com.teachsync.entities.TeacherRequest;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TeacherRequestDto {
 
     private Long id;
 
-    private User User;
+    private User user;
 
     private String requestName;
 
@@ -29,4 +31,17 @@ public class TeacherRequestDto {
     private String requestDesc;
 
     private Status status;
+
+    public static TeacherRequestDto toTeacherRequestDto(TeacherRequest teacherRequest) {
+        return TeacherRequestDto.builder()
+                .id(teacherRequest.getId())
+                .user(teacherRequest.getUser())
+                .requestName(teacherRequest.getRequestName())
+                .requestType(teacherRequest.getRequestType())
+                .requestContent(teacherRequest.getRequestContent())
+                .contentLink(teacherRequest.getContentLink())
+                .requestDesc(teacherRequest.getRequestDesc())
+                .status(teacherRequest.getStatus())
+                .build();
+    }
 }

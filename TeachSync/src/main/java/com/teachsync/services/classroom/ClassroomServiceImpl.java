@@ -41,7 +41,6 @@ public class ClassroomServiceImpl implements ClassroomService {
                 .map(ClassroomDto::toClassroomDto)
                 .collect(Collectors.toList());
         Page<ClassroomDto> classroomDtoPage = new PageImpl<>(classroomDtoList, paging, classroomPage.getTotalElements());
-        ;
 
         if (classroomDtoPage.isEmpty()) {
             return null;
