@@ -24,8 +24,8 @@
 
     <form action="login" method="post">
       <lottie-player src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"  background="transparent"  speed="1"  style="justify-content: center;" loop  autoplay></lottie-player>
-      <input type="text" name="username" placeholder="&#xf007;  username"/>
-      <input type="password" name="password" id="password" placeholder="&#xf023;  password"/>
+      <input type="text" required name="username" placeholder="&#xf007;  username"/>
+      <input type="password" required name="password" id="password" placeholder="&#xf023;  password"/>
       <c:if test="${msg ne null}">
         <p class="txt-pink my-2"><c:out value="${msg}"/></p>
       </c:if>

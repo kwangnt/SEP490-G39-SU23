@@ -19,8 +19,8 @@ public interface UserService {
 
 
     /* =================================================== READ ===================================================== */
-    User login(String username, String password) throws Exception;
-    UserReadDTO loginDTO(String username, String password) throws Exception;
+    User login(String username) throws Exception;
+    UserReadDTO loginDTO(String username,String password) throws Exception;
 
     User getById(Long id) throws Exception;
     UserReadDTO getDTOById(Long id) throws Exception;

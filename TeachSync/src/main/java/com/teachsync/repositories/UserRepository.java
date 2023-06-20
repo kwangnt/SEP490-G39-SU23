@@ -12,13 +12,17 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsernameAndPasswordAndStatusNot(String username, String pass, Status status);
+    Optional<User> findByUsernameAndStatusNot(String username, Status status);
 
-    /** For finding unactivated teacher */
+    /**
+     * For finding unactivated teacher
+     */
     Optional<User> findByIdAndStatus(Long id, Status status);
 
     /* Check duplicate */
     boolean existsByUsernameAndStatusNot(String username, Status status);
+
+    boolean existsByEmailAndStatusNot(String email, Status status);
 
     List<User> findAllByRoleId(Long roleId);
 

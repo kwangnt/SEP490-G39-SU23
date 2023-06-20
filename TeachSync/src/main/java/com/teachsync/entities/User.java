@@ -43,7 +43,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(min = 1, max = 255)
+    @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
 

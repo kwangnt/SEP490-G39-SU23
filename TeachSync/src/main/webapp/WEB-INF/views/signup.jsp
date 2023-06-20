@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
   <html>
     <head>
       <title>Sign Up</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta charset="utf-8" />
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
       <link rel="stylesheet" type="text/css" href="../../resources/css/signup_style.css" />
       <link
         rel="stylesheet"
@@ -42,10 +42,11 @@
               loop
               autoplay
             ></lottie-player>
-            <input type="text" name="fullName" placeholder="full name" />
-            <input type="email" name="email" placeholder="email address" />
-            <input type="text" name="username" placeholder="pick a username" />
-            <input type="password" name="password" id="password" placeholder="set a password" />
+            <input type="text" required name="fullName" placeholder="full name" />
+            <input type="email" required name="email" placeholder="email address" />
+            <input required="true" id="username" type="text" placeholder="pick a username" name="username" class="form-control form--control"  pattern="^[a-z0-9_-]{4,45}$" title="Tối thiểu 4 ký tự có thể là số hoặc chữ cái, viết liền, viết thường không dấu">
+
+            <input type="password" required name="password" id="password" placeholder="set a password" pattern="^[a-z0-9]{4,45}$" title="Tối thiểu 4 ký tự có thể là số hoặc chữ cái, viết liền, viết thường không dấu"/>
             <i class="fas fa-eye" onclick="show()"></i>
             <br>
             <br>
