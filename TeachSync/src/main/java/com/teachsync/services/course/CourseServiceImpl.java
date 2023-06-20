@@ -64,6 +64,26 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAll() throws Exception {
+        List<Course> coursePage =
+                courseRepository.findAllByStatusNot(Status.DELETED);
+
+        if (coursePage.isEmpty()) {
+            return null; }
+
+        return coursePage;
+    }
+    @Override
+    public List<CourseReadDTO> getAllDTO() throws Exception {
+        List<Course> courseList = getAll();
+
+        if (courseList == null) {
+            return null; }
+
+        return wrapListDTO(courseList);
+    }
+
+    @Override
     public Course getById(Long id) throws Exception {
         Optional<Course> course =
                 courseRepository.findByIdAndStatusNot(id, Status.DELETED);
@@ -80,11 +100,7 @@ public class CourseServiceImpl implements CourseService {
         return wrapDTO(course);
     }
 
-    @Override
-    public List<CourseReadDTO> getListCourseReadDTO() {
-        List<Course> listCourse = courseRepository.findAll();
-        return listCourse.stream().map(CourseReadDTO::toCourseReadDTO).collect(Collectors.toList());
-    }
+
 
     /* =================================================== UPDATE =================================================== */
 

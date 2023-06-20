@@ -1,15 +1,14 @@
 package com.teachsync.dtos.request;
 
+import com.teachsync.entities.BaseEntity;
 import com.teachsync.utils.enums.Status;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,13 +21,15 @@ public class RequestReadDTO {
 
     private String requestName;
 
+    private String requestDesc;
+
     private String requestType;
 
-    private String requestContent;
+    private Long clazzId;
+
+    private byte[] requestContent;
 
     private String contentLink;
-
-    private String requestDesc;
 
     private Long resolverId;
 

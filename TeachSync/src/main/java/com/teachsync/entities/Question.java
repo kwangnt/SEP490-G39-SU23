@@ -1,41 +1,29 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.QuestionType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
-@Table(name = "question")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Question {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "questionType")
-    private String questionType;
-    @Column(name = "questionDesc")
-    private String questionDesc;
-    @Column(name = "questionPrompt")
-    private String questionPrompt;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "createdAt")
-    private Date createdAt;
-    @Column(name = "createdBy")
-    private Long createdBy;
-    @Column(name = "updatedAt")
-    private Date updatedAt;
-    @Column(name = "updatedBy")
-    private Long updatedBy;
+@Table(name = "question")
+public class Question extends BaseEntity {
+    @Column(name = "questionType", nullable = false, length = 255)
+    private QuestionType questionType;
 
+    @Lob
+    @Column(name = "questionDesc", nullable = false, length = -1)
+    private String questionDesc;
+    
+    @Column(name = "questionPrompt", nullable = false, length = 45)
+    private String questionPrompt;
 }

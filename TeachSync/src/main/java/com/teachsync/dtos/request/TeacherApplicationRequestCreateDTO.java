@@ -28,7 +28,6 @@ public class TeacherApplicationRequestCreateDTO {
     @Size(min = 5, max = 255)
     private String email;
 
-    @Pattern(regexp = "^\\\\d{10}$")
     @Size(min = 10, max = 10)
     private String phone;
 

@@ -23,7 +23,7 @@ public class ChildController {
 
     @GetMapping("/listchild")
     public String lstChild(Model model, HttpSession session) {
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }

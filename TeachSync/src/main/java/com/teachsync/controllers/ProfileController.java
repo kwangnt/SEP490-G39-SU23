@@ -25,21 +25,22 @@ public class ProfileController {
             HttpSession session,
             Model model) {
 
-        try {
-            //get data
-            UserReadDTO oldDTO = (UserReadDTO) session.getAttribute("loginUser");
-
-            UserReadDTO dto = userService.getDTOById(oldDTO.getId());
-
-            if (dto == null) {
-                model.addAttribute("errorMsg", "Not found by id");
-            }
-
-            session.setAttribute("user", dto);
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMsg", "Server error, try again later");
-        }
+        /* Đã lưu session, */
+//        try {
+//            //get data
+//            UserReadDTO oldDTO = (UserReadDTO) session.getAttribute("user");
+//
+//            UserReadDTO dto = userService.getDTOById(oldDTO.getId());
+//
+//            if (dto == null) {
+//                model.addAttribute("errorMsg", "Not found by id");
+//            }
+//
+//            session.setAttribute("user", dto);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            model.addAttribute("errorMsg", "Server error, try again later");
+//        }
 
         return "profile";
     }

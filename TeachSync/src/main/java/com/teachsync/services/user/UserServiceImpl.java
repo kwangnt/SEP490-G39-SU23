@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         if (role == null) {
             throw new IllegalArgumentException("No role found with roleId: " + user.getRoleId());
         }
-        user.setRole(role);
+//        user.setRole(role);
 
         user = userRepository.saveAndFlush(user);
 
@@ -97,6 +97,9 @@ public class UserServiceImpl implements UserService {
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
 
+        if (user == null) {
+            return null; }
+
         return wrapDTO(user);
     }
 
@@ -133,8 +136,7 @@ public class UserServiceImpl implements UserService {
         if (role == null) {
             throw new IllegalArgumentException("No role found with roleId: " + user.getRoleId());
         }
-
-        user.setRole(role);
+//        user.setRole(role);
 
         user.setUsername(oldUser.getUsername());
         user.setPassword(oldUser.getPassword());
@@ -210,6 +212,7 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(User user, String newPassword) {
 //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //        String encodedPassword = passwordEncoder.encode(newPassword);
+//        user.setPassword(encodedPassword);
         user.setPassword(newPassword);
 
         user.setResetPasswordToken(null);
