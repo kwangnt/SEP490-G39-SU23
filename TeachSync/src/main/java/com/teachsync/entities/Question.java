@@ -4,6 +4,7 @@ import com.teachsync.utils.enums.QuestionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "question")
 public class Question extends BaseEntity {
     @Column(name = "questionType", nullable = false, length = 255)
     private QuestionType questionType;
