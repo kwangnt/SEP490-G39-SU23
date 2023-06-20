@@ -84,7 +84,7 @@ public class ForgotPasswordController {
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) throws Exception {
         User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("token", token);
+
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
@@ -96,20 +96,26 @@ public class ForgotPasswordController {
 
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest request, Model model) throws Exception {
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
+        try {
+            String token = request.getParameter("token");
+            String password = request.getParameter("password");
+            System.out.println(token);
 
-        User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("title", "Reset your password");
+            User user = userService.getByResetPasswordToken(token);
+            model.addAttribute("title", "Reset your password");
 
-        if (user == null) {
-            model.addAttribute("message", "Invalid Token");
-            return "message";
-        } else {
-            userService.updatePassword(user, password);
+            if (user == null) {
+                model.addAttribute("message", "Invalid Token");
+                return "message";
+            } else {
+                userService.updatePassword(user, password);
 
-            model.addAttribute("message", "You have successfully changed your password.");
+                model.addAttribute("message", "You have successfully changed your password.");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
         return "message";
     }
