@@ -84,4 +84,10 @@
     <%@ include file="/WEB-INF/fragments/footer.jspf" %>
     <!-- ================================================== Footer ===================================================== -->
 </body>
+<script>
+    var mess = '${mess}'
+    if (mess != '') {
+        alert(mess);
+    }
+</script>
 </html>

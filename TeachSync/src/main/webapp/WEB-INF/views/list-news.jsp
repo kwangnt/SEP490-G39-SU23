@@ -56,9 +56,9 @@
             <c:forEach var="news" items="${newsList}">
                 <div class="col-12">
                     <div class="row px-3">
-                        <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">
-<%--                            <img src="../../resources/img/engbook.jpg" class="w-100 h-auto">--%>
-                        </div>
+<%--                        <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">--%>
+<%--&lt;%&ndash;                            <img src="../../resources/img/engbook.jpg" class="w-100 h-auto">&ndash;%&gt;--%>
+<%--                        </div>--%>
 
                         <div class="col-10 px-0">
                             <div class="card rounded-start-0 border-start-0 ts-border-orange h-100">
