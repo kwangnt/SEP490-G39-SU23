@@ -96,6 +96,12 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
             role.setId(Constants.ROLE_TEACHER);
             user.setRole(role);
              userRepository.save(user);
+             //delete
+            teacherRequest.setStatus(Status.DELETED);
+            TeacherRequest teacher = teacherRequestRepository.save(teacherRequest);
+            if(ObjectUtils.isEmpty(teacher)){
+                throw new Exception("Lỗi khi xóa yêu cầu");
+            }
         } else {
             teacherRequest.setStatus(Status.DELETED);
             TeacherRequest teacher = teacherRequestRepository.save(teacherRequest);

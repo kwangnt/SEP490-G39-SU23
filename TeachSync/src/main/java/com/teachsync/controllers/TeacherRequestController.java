@@ -48,7 +48,7 @@ public class TeacherRequestController {
         }
         UserReadDTO userDto = (UserReadDTO) session.getAttribute("loginUser");
         if(!userDto.getRoleId().equals(Constants.ROLE_ADMIN)){
-            redirect.addAttribute("mess", "bạn đủ quyền");
+            redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
         }
 
@@ -72,6 +72,11 @@ public class TeacherRequestController {
             return "redirect:/";
         }
         UserReadDTO userDto = (UserReadDTO) session.getAttribute("loginUser");
+        //TODO :Check role admin
+        if(!userDto.getRoleId().equals(Constants.ROLE_USER)){
+            redirect.addAttribute("mess", "Tính năng không hợp lệ");
+            return "redirect:/";
+        }
 
         TeacherRequestDto teacherRequestDto = new TeacherRequestDto();
         User user = new User();

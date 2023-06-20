@@ -34,7 +34,7 @@
                         <form action="/teacher-request/add" method="post">
                             <div class="form-group">
                                 <p>Giới thiệu về bản thân</p>
-                                <input type="text" class="form-control"  placeholder="nhập giới thiệu" name="requestDesc">
+                                <input type="text" required class="form-control"  placeholder="nhập giới thiệu" name="requestDesc">
                             </div>
                             <div class="form-group">
                                 <p>Nhập link hồ sơ (CV)</p>
@@ -67,7 +67,7 @@
 <script>
     $(document).ready(function(){
         $("#uploadFile").click(function(){
-            alert("Không có đâu bé ơi , để làm cảnh thôi , chức năng đang bảo trì!")
+            alert("Chức năng đang phát triển")
         });
     });
 </script>
