@@ -1,138 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tạo bài test</title>
+    <title>Trang tạo bài test</title>
     <style>
+        /* CSS cho định dạng trang */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            max-width: 500px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
+            margin: 20px;
         }
 
         label {
-            font-weight: bold;
             display: block;
-            margin-bottom: 5px;
-        }
-
-        select, input[type="number"] {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        .question-container {
-            margin-bottom: 20px;
-        }
-
-        .question-container label {
-            margin-bottom: 5px;
-        }
-
-        .question-container input {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        #submit-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
             font-weight: bold;
-            border-radius: 5px;
-            border: none;
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
+            margin-top: 10px;
         }
 
-        #submit-btn:hover {
-            background-color: #45a049;
+        .question {
+            margin-top: 20px;
+        }
+
+        .answer {
+            margin-left: 20px;
         }
     </style>
-    <script>
-        function createFields() {
-            var questionType = document.getElementById('questionType').value;
-            var numQuestions = document.getElementById('numQuestions').value;
-            var container = document.getElementById('questionContainer');
-            container.innerHTML = '';
-
-            for (var i = 1; i <= numQuestions; i++) {
-                var questionDiv = document.createElement('div');
-                questionDiv.className = 'question-container';
-
-                var questionLabel = document.createElement('label');
-                questionLabel.textContent = 'Câu hỏi ' + i + ': ';
-                var questionInput = document.createElement('input');
-                questionInput.type = 'text';
-                questionInput.name = 'question' + i;
-
-                questionDiv.appendChild(questionLabel);
-                questionDiv.appendChild(questionInput);
-
-                if (questionType === 'multiple-choice') {
-                    for (var j = 1; j <= 4; j++) {
-                        var answerLabel = document.createElement('label');
-                        answerLabel.textContent = 'Đáp án ' + j + ': ';
-                        var answerInput = document.createElement('input');
-                        answerInput.type = 'text';
-                        answerInput.name = 'answer' + i + '_' + j;
-
-                        questionDiv.appendChild(answerLabel);
-                        questionDiv.appendChild(answerInput);
-                    }
-                }
-
-                container.appendChild(questionDiv);
-            }
-        }
-    </script>
 </head>
 <body>
-<div class="container">
-    <h1>Tạo bài test</h1>
+<h1>Tạo bài test</h1>
 
-    <form id="testForm">
-        <label>Loại bài test:</label>
-        <select id="questionType" name="questionType">
-            <option value="multiple-choice">Trắc nghiệm</option>
-            <option value="essay">Tự luận</option>
-        </select>
+<form action="submit_test.jsp" method="post">
+    <label for="question-type">Loại câu hỏi:</label>
+    <select id="question-type" name="questionType">
+        <option value="essay">Tự luận</option>
+        <option value="multipleChoice">Trắc nghiệm</option>
+    </select>
 
-        <label>Số lượng câu hỏi:</label>
-        <input type="number" id="numQuestions" name="numQuestions" min="1" max="10">
+    <label for="num-questions">Số lượng câu hỏi:</label>
+    <input type="number" id="num-questions" name="numQuestions" min="1" required>
 
-        <button type="button" onclick="createFields()">Tạo trường câu hỏi</button>
+    <div id="questions-container"></div>
 
-        <div id="questionContainer"></div>
+    <button type="submit">Tạo bài test</button>
+</form>
 
-        <button type="submit" id="submit-btn">Submit</button>
-    </form>
-</div>
+<script>
+    // JavaScript để xử lý sự kiện khi thay đổi loại câu hỏi
+    var questionTypeSelect = document.getElementById("question-type");
+    var questionsContainer = document.getElementById("questions-container");
+
+    questionTypeSelect.addEventListener("change", function () {
+        var questionType = questionTypeSelect.value;
+        var numQuestions = document.getElementById("num-questions").value;
+
+        if (questionType === "essay") {
+            generateEssayQuestions(numQuestions);
+        } else if (questionType === "multipleChoice") {
+            generateMultipleChoiceQuestions(numQuestions);
+        }
+    });
+
+    function generateEssayQuestions(numQuestions) {
+        questionsContainer.innerHTML = "";
+
+        for (var i = 0; i < numQuestions; i++) {
+            var questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+
+            var questionLabel = document.createElement("label");
+            questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
+
+            var questionInput = document.createElement("textarea");
+            questionInput.name = "essayQuestion" + i;
+            questionInput.required = true;
+
+            questionDiv.appendChild(questionLabel);
+            questionDiv.appendChild(questionInput);
+
+            questionsContainer.appendChild(questionDiv);
+        }
+    }
+
+    function generateMultipleChoiceQuestions(numQuestions) {
+        questionsContainer.innerHTML = "";
+
+        for (var i = 0; i < numQuestions; i++) {
+            var questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+
+            var questionLabel = document.createElement("label");
+            questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
+
+            var questionInput = document.createElement("textarea");
+            questionInput.name = "multipleChoiceQuestion" + i;
+            questionInput.required = true;
+
+            var numOptionsLabel = document.createElement("label");
+            numOptionsLabel.textContent = "Số lượng đáp án:";
+
+            var numOptionsInput = document.createElement("input");
+            numOptionsInput.type = "number";
+            numOptionsInput.name = "numOptions" + i;
+            numOptionsInput.min = "2";
+            numOptionsInput.required = true;
+
+            var answerContainer = document.createElement("div");
+            answerContainer.className = "answer-container";
+
+            questionDiv.appendChild(questionLabel);
+            questionDiv.appendChild(questionInput);
+            questionDiv.appendChild(numOptionsLabel);
+            questionDiv.appendChild(numOptionsInput);
+            questionDiv.appendChild(answerContainer);
+
+            numOptionsInput.addEventListener("change", function () {
+                generateAnswerOptions(this);
+            });
+
+            questionsContainer.appendChild(questionDiv);
+        }
+    }
+
+    function generateAnswerOptions(numOptionsInput) {
+        var questionDiv = numOptionsInput.parentNode;
+        var answerContainer = questionDiv.querySelector(".answer-container");
+
+        // Xoá các đáp án cũ
+        while (answerContainer.firstChild) {
+            answerContainer.removeChild(answerContainer.firstChild);
+        }
+
+        var numOptions = numOptionsInput.value;
+
+        for (var i = 0; i < numOptions; i++) {
+            var answerLabel = document.createElement("label");
+            answerLabel.textContent = "Đáp án " + (i + 1) + ":";
+
+            var answerInput = document.createElement("input");
+            answerInput.type = "text";
+            answerInput.name = "answer" + numOptionsInput.name.slice(-1) + "-" + i;
+            answerInput.required = true;
+
+            var isCorrectCheckbox = document.createElement("input");
+            isCorrectCheckbox.type = "checkbox";
+            isCorrectCheckbox.name = "isCorrect" + numOptionsInput.name.slice(-1) + "-" + i;
+
+            var answerWrapper = document.createElement("div");
+            answerWrapper.className = "answer";
+            answerWrapper.appendChild(answerLabel);
+            answerWrapper.appendChild(answerInput);
+            answerWrapper.appendChild(isCorrectCheckbox);
+
+            answerContainer.appendChild(answerWrapper);
+        }
+    }
+</script>
 </body>
 </html>
