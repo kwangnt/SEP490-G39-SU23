@@ -95,6 +95,20 @@
 <h1>Tạo bài test</h1>
 
 <form action="process-question" method="post">
+    <label for="question-type">Môn học:</label>
+    <select name="courseName">
+        <c:forEach var="item" items="${lstCourse}">
+            <option value="${item.id}">${item.courseName}</option>
+        </c:forEach>
+    </select>
+    <label for="question-type">Loại kiểm tra:</label>
+    <select name="testType">
+        <option value="15min">15 phút</option>
+        <option value="midterm">Giữa kỳ</option>
+        <option value="final">Cuối kỳ</option>
+    </select>
+    <label for="num-questions">Thời gian:</label>
+    <input type="number" id="timeLimit" name="timeLimit" min="1" required>
     <label for="question-type">Loại câu hỏi:</label>
     <select id="question-type" name="questionType">
         <option value="essay">Tự luận</option>
