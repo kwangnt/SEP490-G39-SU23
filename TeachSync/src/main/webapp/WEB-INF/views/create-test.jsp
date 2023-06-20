@@ -7,20 +7,73 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f1f1f1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
         }
 
         label {
             display: block;
             font-weight: bold;
             margin-top: 10px;
+            font-size: 16px;
+        }
+
+        select,
+        input[type="number"] {
+            margin-top: 5px;
+            font-size: 14px;
+            padding: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
 
         .question {
             margin-top: 20px;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .answer {
             margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .answer label {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .answer input[type="text"],
+        .answer input[type="checkbox"],
+        textarea {
+            margin-top: 5px;
+            font-size: 14px;
+            padding: 5px;
+        }
+
+        #questions-container {
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -37,6 +90,8 @@
     <label for="num-questions">Số lượng câu hỏi:</label>
     <input type="number" id="num-questions" name="numQuestions" min="1" required>
 
+    <button id="gen-question">Tạo câu hỏi</button>
+
     <div id="questions-container"></div>
 
     <button type="submit">Tạo bài test</button>
@@ -47,8 +102,10 @@
     var questionTypeSelect = document.getElementById("question-type");
     var questionsContainer = document.getElementById("questions-container");
 
-    questionTypeSelect.addEventListener("change", function () {
-        var questionType = questionTypeSelect.value;
+    var generateQuestionButton = document.getElementById("gen-question");
+
+    generateQuestionButton.addEventListener("click", function () {
+        var questionType = document.getElementById("question-type").value;
         var numQuestions = document.getElementById("num-questions").value;
 
         if (questionType === "essay") {
