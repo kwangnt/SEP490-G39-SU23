@@ -1,7 +1,9 @@
 package com.teachsync;
 
+import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Course;
 import com.teachsync.entities.User;
 import com.teachsync.utils.MiscUtil;
@@ -41,6 +43,13 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
                     mapper.skip(CourseReadDTO::setCurrentPrice);
                     mapper.skip(CourseReadDTO::setMaterialList);
                     mapper.skip(CourseReadDTO::setClazzList); });
+
+        modelMapper.typeMap(Clazz.class, ClazzReadDTO.class)
+                .addMappings(mapper -> {
+                    mapper.skip(ClazzReadDTO::setCourseSchedule);
+                    mapper.skip(ClazzReadDTO::setSessionList);
+                    mapper.skip(ClazzReadDTO::setHomeworkList);
+                    mapper.skip(ClazzReadDTO::setTestList); });
 
         modelMapper.typeMap(User.class, UserReadDTO.class)
                 .addMappings(mapper -> {

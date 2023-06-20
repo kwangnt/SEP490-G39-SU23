@@ -1,6 +1,7 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "ward")
 public class Ward extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "districtId", referencedColumnName = "id", nullable = false)
-    private District district;
-    @Column(name = "districtId", insertable = false, updatable = false)
+    @Column(name = "districtId", nullable = false)
     private Long districtId;
     
-    @Column(name = "wardName")
+    @Column(name = "wardName", nullable = false, length = 255)
     private String wardName;
+    
+    @Column(name = "wardAlias", nullable = false, length = 45)
+    private String wardAlias;
 }

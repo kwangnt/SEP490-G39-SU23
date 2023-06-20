@@ -1,28 +1,23 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
 public class Role extends BaseEntity {
-    @NotBlank
-    @Size(min = 1, max = 45)
-    @Column(name = "roleName", length = 45)
+    @Column(name = "roleName", nullable = false, length = 45)
     private String roleName;
 
     @Lob
-    @Column(name = "roleDesc")
+    @Column(name = "roleDesc", nullable = true, length = -1)
     private String roleDesc;
 }

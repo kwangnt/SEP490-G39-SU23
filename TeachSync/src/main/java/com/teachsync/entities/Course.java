@@ -1,28 +1,33 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "course")
 public class Course extends BaseEntity {
-    @NotBlank
-    @Size(min = 1, max = 45)
     @Column(name = "courseName", nullable = false, length = 45)
     private String courseName;
 
     @Lob
-    @Column(name = "courseDesc")
+    @Column(name = "courseImg", nullable = false, length = -1)
+    private String courseImg;
+
+    @Lob
+    @Column(name = "courseDesc", nullable = true, length = -1)
     private String courseDesc;
+    
+    @Column(name = "minScore", nullable = false, precision = 0)
+    private Double minScore;
+    
+    @Column(name = "minAttendant", nullable = false, precision = 0)
+    private Double minAttendant;
 }

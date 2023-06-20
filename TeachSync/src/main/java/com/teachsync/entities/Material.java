@@ -1,31 +1,33 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "material")
 public class Material extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courseId", referencedColumnName = "id")
-    private Course course;
-    @Positive
-    @Column(name = "courseId", insertable = false, updatable = false)
+    @Column(name = "courseId", nullable = true)
     private Long courseId;
+    
+    @Column(name = "materialName", nullable = false, length = 45)
+    private String materialName;
 
     @Lob
-    @URL
-    @NotBlank
-    @Column(name = "materialLink", nullable = false)
+    @Column(name = "materialLink", nullable = true, length = -1)
     private String materialLink;
+    
+    @Column(name = "materialContent", nullable = true)
+    private byte[] materialContent;
+
+    @Lob
+    @Column(name = "materialImg", nullable = false, length = -1)
+    private String materialImg;
 }

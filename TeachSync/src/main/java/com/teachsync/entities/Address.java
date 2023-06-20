@@ -1,58 +1,46 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "address")
 public class Address extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "countryId", referencedColumnName = "id", nullable = false)
-    private Country country;
-    @Column(name = "countryId", insertable = false, updatable = false)
+    @Column(name = "countryId", nullable = false)
     private Long countryId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "provinceId", referencedColumnName = "id", nullable = false)
-    private Province province;
-    @Column(name = "provinceId", insertable = false, updatable = false)
+    @Column(name = "provinceId", nullable = false)
     private Long provinceId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cityId", referencedColumnName = "id", nullable = false)
-    private City city;
-    @Column(name = "cityId", insertable = false, updatable = false)
+    @Column(name = "cityId", nullable = false)
     private Long cityId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "districtId", referencedColumnName = "id", nullable = false)
-    private District district;
-    @Column(name = "districtId", insertable = false, updatable = false)
+    @Column(name = "districtId", nullable = false)
     private Long districtId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "wardId", referencedColumnName = "id", nullable = false)
-    private Ward ward;
-    @Column(name = "wardId", insertable = false, updatable = false)
+    @Column(name = "wardId", nullable = false)
     private Long wardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "areaId", referencedColumnName = "id")
-    private Area area;
-    @Column(name = "areaId", insertable = false, updatable = false)
+    @Column(name = "areaId", nullable = true)
     private Long areaId;
 
-    @Column(name = "street")
+    @Column(name = "street", nullable = false, length = 255)
     private String street;
 
-    @Column(name = "addressNo")
+    @Column(name = "addressNo", nullable = false, length = 255)
     private String addressNo;
+
+    /** Need to auto generate on Address Create & Update.<br/>
+     *  To save on query call. */
+    @Lob
+    @Column(name = "addressString", nullable = true, length = -1)
+    private String addressString;
 }

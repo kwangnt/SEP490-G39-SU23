@@ -1,38 +1,27 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "member_test_record")
+@Table(name = "member_test_record", schema = "teachsync")
 public class MemberTestRecord extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "testId", referencedColumnName = "id", nullable = false)
-    private Test test;
-    @Positive
-    @Column(name = "testId", insertable = false, updatable = false)
-    private Long testId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId", referencedColumnName = "id", nullable = false)
-    private ClazzMember clazzMember;
-    @Positive
-    @Column(name = "memberId", insertable = false, updatable = false)
+    @Column(name = "memberId", nullable = false)
     private Long memberId;
-
-    @PositiveOrZero
-    @Range(min = 0, max = 10)
-//    @Digits(integer = 2, fraction = 2)
-    @Column(name = "score")
+    
+    @Column(name = "clazzTestId", nullable = false)
+    private Long clazzTestId;
+    
+    @Column(name = "score", nullable = true, precision = 0)
     private Double score;
 }

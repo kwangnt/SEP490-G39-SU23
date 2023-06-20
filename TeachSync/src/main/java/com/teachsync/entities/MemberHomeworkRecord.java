@@ -1,46 +1,35 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "member_homework_record")
+@Table(name = "member_homework_record", schema = "teachsync")
 public class MemberHomeworkRecord extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "homeworkId", referencedColumnName = "id", nullable = false)
-    private Homework homework;
-    @Positive
-    @Column(name = "homeworkId", insertable = false, updatable = false)
-    private Long homeworkId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId", referencedColumnName = "id", nullable = false)
-    private ClazzMember clazzMember;
-    @Positive
-    @Column(name = "memberId", insertable = false, updatable = false)
+    @Column(name = "memberId", nullable = false)
     private Long memberId;
+    
+    @Column(name = "homeworkId", nullable = false)
+    private Long homeworkId;
+    
+    @Column(name = "submission", nullable = true)
+    private byte[] submission;
 
-    /* TODO: file or link */
     @Lob
-    @Column(name = "submission")
-    private String submission;
-
-    @URL
-    @Column(name = "submissionLink")
+    @Column(name = "submissionLink", nullable = true, length = -1)
     private String submissionLink;
     
-//    @Digits(integer = 2, fraction = 2)
-//    @PositiveOrZero
-//    @Range(min = 0, max = 10)
-    @Column(name = "score")
+    @Column(name = "score", nullable = true, precision = 0)
     private Double score;
 }

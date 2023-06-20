@@ -1,10 +1,10 @@
 package com.teachsync.entities;
 
 import com.teachsync.utils.enums.PromotionType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,41 +17,33 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "price_log")
+@Table(name = "price_log", schema = "teachsync")
 public class PriceLog extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "courseId", referencedColumnName = "id", nullable = false)
-    private Course course;
-    @Positive
-    @Column(name = "courseId", insertable = false, updatable = false)
+    @Column(name = "courseId", nullable = false)
     private Long courseId;
-
-    @NotNull
-    @Min(1)
-    @Positive
-    @Column(name = "price", nullable = false)
+    
+    @Column(name = "price", nullable = false, precision = 0)
     private Double price;
-
-    @Column(name = "isCurrent")
-    private Boolean isCurrent = true;
-
-    @Column(name = "isPromotion")
-    private Boolean isPromotion = false;
-
-    @Column(name = "promotionType", length = 45)
+    
+    @Column(name = "isCurrent", nullable = false)
+    private Boolean isCurrent;
+    
+    @Column(name = "isPromotion", nullable = false)
+    private Boolean isPromotion;
+    
+    @Column(name = "promotionAmount", nullable = true, precision = 0)
+    private Double promotionAmount;
+    
+    @Column(name = "promotionType", nullable = true, length = 45)
     private PromotionType promotionType;
 
-    @Positive
-    @Column(name = "promotionAmount")
-    private Double promotionAmount;
-
     @Lob
-    @Column(name = "promotionDesc")
+    @Column(name = "promotionDesc", nullable = true, length = -1)
     private String promotionDesc;
-
-    @Column(name = "validFrom")
+    
+    @Column(name = "validFrom", nullable = false)
     private LocalDateTime validFrom;
-
-    @Column(name = "validTo")
+    
+    @Column(name = "validTo", nullable = true)
     private LocalDateTime validTo;
 }

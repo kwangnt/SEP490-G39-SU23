@@ -4,10 +4,6 @@ import com.teachsync.utils.enums.QuestionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,19 +14,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "question")
 public class Question extends BaseEntity {
-    @NotBlank
-    @Size(min = 1, max = 45)
-    @Column(name = "questionPrompt", length = 45)
-    private String questionPrompt;
+    @Column(name = "questionType", nullable = false, length = 255)
+    private QuestionType questionType;
 
     @Lob
-    @NotBlank
-    @Column(name = "questionDesc")
+    @Column(name = "questionDesc", nullable = false, length = -1)
     private String questionDesc;
-
-    @NotNull
-    @Column(name = "questionType", nullable = false)
-    private QuestionType questionType;
+    
+    @Column(name = "questionPrompt", nullable = false, length = 45)
+    private String questionPrompt;
 }

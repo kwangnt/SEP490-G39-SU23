@@ -1,9 +1,8 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,21 +13,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "homework")
 public class Homework extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clazzId", referencedColumnName = "id", nullable = false)
-    private Clazz clazz;
-    @Positive
-    @Column(name = "clazzId", insertable = false, updatable = false)
+    @Column(name = "clazzId", nullable = false)
     private Long clazzId;
 
-    @NotBlank
-    @Size(min = 1, max = 45)
     @Column(name = "homeworkName", nullable = false, length = 45)
     private String homeworkName;
 
     @Lob
-    @Column(name = "homeworkDesc")
+    @Column(name = "homeworkDesc", nullable = true, length = -1)
     private String homeworkDesc;
+
+    @Column(name = "homeworkDoc", nullable = true)
+    private byte[] homeworkDoc;
+
+    @Lob
+    @Column(name = "homeworkDocLink", nullable = true, length = -1)
+    private String homeworkDocLink;
 }

@@ -1,26 +1,24 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "city")
 public class City extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "provinceId", referencedColumnName = "id", nullable = false)
-    private Province provinceByProvinceId;
-    @Column(name = "provinceId", insertable = false, updatable = false)
+    @Column(name = "provinceId", nullable = false)
     private Long provinceId;
-
-    @Column(name = "cityName")
+    
+    @Column(name = "cityName", nullable = false, length = 255)
     private String cityName;
+    
+    @Column(name = "cityAlias", nullable = false, length = 45)
+    private String cityAlias;
 }

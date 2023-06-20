@@ -1,6 +1,7 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "province")
 public class Province extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "countryId", referencedColumnName = "id", nullable = false)
-    private Country country;
-    @Column(name = "countryId", insertable = false, updatable = false)
+    @Column(name = "countryId", nullable = false)
     private Long countryId;
     
-    @Column(name = "provinceName")
+    @Column(name = "provinceName", nullable = false, length = 255)
     private String provinceName;
+    
+    @Column(name = "provinceAlias", nullable = false, length = 45)
+    private String provinceAlias;
 }

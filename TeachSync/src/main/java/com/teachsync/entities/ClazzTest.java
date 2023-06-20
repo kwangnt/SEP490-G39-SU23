@@ -8,20 +8,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "test_question", schema = "teachsync")
-public class TestQuestion extends BaseEntity {
+@Table(name = "clazz_test", schema = "teachsync")
+public class ClazzTest extends BaseEntity {
+    @Column(name = "clazzId", nullable = false)
+    private Long clazzId;
+    
     @Column(name = "testId", nullable = false)
     private Long testId;
     
-    @Column(name = "questionId", nullable = false)
-    private Long questionId;
+    @Column(name = "openFrom", nullable = true)
+    private LocalDateTime openFrom;
     
-    @Column(name = "score", nullable = false, precision = 0)
-    private Double score;
+    @Column(name = "openTo", nullable = true)
+    private LocalDateTime openTo;
 }
