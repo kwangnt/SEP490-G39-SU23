@@ -22,4 +22,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
     /* Check duplicate */
+
+
+
+
+    List<Course> findAllByStatusNot(Status status);
 }

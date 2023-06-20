@@ -50,6 +50,6 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<Schedule> scheduleList;
 
-    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<Test> testList;
+//    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
+//    private List<Test> testList;
 }
