@@ -20,8 +20,9 @@ import java.io.UnsupportedEncodingException;
 
 @Controller
 public class ForgotPasswordController {
-
+    @Autowired
     private JavaMailSender mailSender;
+
     @Autowired
     private UserService userService;
 
@@ -41,6 +42,7 @@ public class ForgotPasswordController {
         String token = RandomString.make(30);
 
         try {
+
             userService.updateResetPasswordToken(token, email);
             String resetPasswordLink = miscUtil.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
@@ -49,10 +51,11 @@ public class ForgotPasswordController {
         } catch (UnsupportedEncodingException e) {
             model.addAttribute("error", "Error while sending email");
         } catch (Exception ex) {
+            ex.printStackTrace();
             model.addAttribute("error", ex.getMessage());
         }
 
-        return "forgot_password";
+        return "forgot-password";
     }
 
     public void sendEmail(String recipientEmail, String link)
@@ -60,7 +63,7 @@ public class ForgotPasswordController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("capstone.teach.sync@gmail.com", "TeachSync Support");
         helper.setTo(recipientEmail);
 
         String subject = "Here's the link to reset your password";
@@ -84,7 +87,7 @@ public class ForgotPasswordController {
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) throws Exception {
         User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("token", token);
+
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
@@ -96,20 +99,26 @@ public class ForgotPasswordController {
 
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest request, Model model) throws Exception {
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
+        try {
+            String token = request.getParameter("token");
+            String password = request.getParameter("password");
+            System.out.println(token);
 
-        User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("title", "Reset your password");
+            User user = userService.getByResetPasswordToken(token);
+            model.addAttribute("title", "Reset your password");
 
-        if (user == null) {
-            model.addAttribute("message", "Invalid Token");
-            return "message";
-        } else {
-            userService.updatePassword(user, password);
+            if (user == null) {
+                model.addAttribute("message", "Invalid Token");
+                return "message";
+            } else {
+                userService.updatePassword(user, password);
 
-            model.addAttribute("message", "You have successfully changed your password.");
+                model.addAttribute("message", "You have successfully changed your password.");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
         return "message";
     }

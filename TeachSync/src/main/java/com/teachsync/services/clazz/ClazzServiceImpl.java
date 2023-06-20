@@ -1,24 +1,25 @@
 package com.teachsync.services.clazz;
 
+import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
-import com.teachsync.dtos.clazz.ClazzReadDTO;
-import com.teachsync.dtos.course.CourseReadDTO;
-import com.teachsync.dtos.priceLog.PriceLogReadDTO;
+import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.entities.Clazz;
-import com.teachsync.entities.Clazz;
+import com.teachsync.entities.Course;
 import com.teachsync.entities.CourseSchedule;
 import com.teachsync.repositories.ClazzRepository;
-import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.CourseScheduleRepository;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -37,8 +38,35 @@ public class ClazzServiceImpl implements ClazzService {
     @Autowired
     private MiscUtil miscUtil;
 
-    /* =================================================== CREATE =================================================== */
+    private Logger logger = LoggerFactory.getLogger(ClazzServiceImpl.class);
 
+
+
+    /* =================================================== CREATE =================================================== */
+    @Override
+    @Transactional
+    public String addClazz(ClazzCreateDTO createDTO) {
+        try {
+            Clazz clazz = mapper.map(createDTO, Clazz.class);
+            clazz.setClazzSize(15); /* TODO: replace with dynamic */
+
+            /* TODO: replace courseId with courseScheduleId (hoc ky cua khoa hoc) */
+            Optional<CourseSchedule> schedule =
+                    courseScheduleRepository
+                            .findFirstByCourseIdAndStatusNotOrderByStartDateDesc(createDTO.getCourseId(), Status.DELETED);
+
+            CourseSchedule courseSchedule = schedule.orElse(null);
+
+            clazz.setCourseScheduleId(courseSchedule.getId());
+
+            clazzRepository.save(clazz);
+
+            return "success";
+        } catch (Exception e) {
+            logger.error("Error when addClazz  : " + e.getMessage());
+            return "error";
+        }
+    }
 
 
     /* =================================================== READ ===================================================== */
@@ -88,15 +116,53 @@ public class ClazzServiceImpl implements ClazzService {
 
 
     /* =================================================== UPDATE =================================================== */
+    @Override
+    @Transactional
+    public String editClazz(ClazzUpdateDTO updateDTO) {
+        try {
+            Clazz clazz = clazzRepository.findById(updateDTO.getId()).orElse(null);
 
+            if(ObjectUtils.isEmpty(clazz)){
+                throw new Exception();
+            }
+
+            clazz = mapper.map(updateDTO, Clazz.class);
+            clazz.setClazzSize(15); /* TODO: replace with dynamic */
+
+            /* TODO: replace courseId with courseScheduleId (hoc ky cua khoa hoc) */
+            Optional<CourseSchedule> schedule =
+                    courseScheduleRepository
+                            .findFirstByCourseIdAndStatusNotOrderByStartDateDesc(updateDTO.getCourseId(), Status.DELETED);
+
+            CourseSchedule courseSchedule = schedule.orElse(null);
+
+            clazz.setCourseScheduleId(courseSchedule.getId());
+
+            clazzRepository.save(clazz);
+            return "success";
+        } catch (Exception e) {
+            logger.error("Error when EditClazzRoom  : " + e.getMessage());
+            return "error";
+        }
+    }
 
 
     /* =================================================== DELETE =================================================== */
-
+    @Override
+    public String deleteClazz(Long Id) {
+        try{
+            Clazz clazz = clazzRepository.findById(Id).orElseThrow(() -> new Exception("Không tìm thấy lớp học"));
+            clazz.setStatus(Status.DELETED);
+            clazzRepository.save(clazz);
+            return "success";
+        }catch (Exception e){
+            logger.error("Error when deleteClazz  : " + e.getMessage());
+            return "error";
+        }
+    }
 
 
     /* =================================================== WRAPPER ================================================== */
-    
     @Override
     public ClazzReadDTO wrapDTO(Clazz clazz) throws Exception {
         ClazzReadDTO dto = mapper.map(clazz, ClazzReadDTO.class);

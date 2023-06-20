@@ -35,7 +35,7 @@
 <%--					</div>--%>
 					<div class="col border-end ts-border-teal">
 						<c:choose>
-							<c:when test="${user ne null}">
+							<c:when test="${sessionScope.user ne null}">
 								<a href="class" class="text-decoration-none txt-black txt-hover-blue">
 									<i class="bi-calendar-week"></i>
 									&nbsp;Lớp
@@ -68,7 +68,7 @@
 						</a>
 					</div>
 					<div class="col">
-						<c:set var="user" value="${sessionScope.loginUser}"/>
+						<c:set var="user" value="${sessionScope.user}"/>
 						<c:choose>
 							<c:when test="${user ne null}">
 								<a href="account" class="text-decoration-none txt-black txt-hover-blue">

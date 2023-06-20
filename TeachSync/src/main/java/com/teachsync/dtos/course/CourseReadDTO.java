@@ -2,12 +2,10 @@ package com.teachsync.dtos.course;
 
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.Clazz;
+import com.teachsync.entities.Course;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,10 +14,12 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CourseReadDTO implements Serializable {
     private Long id;
 
     private String courseName;
+    private String courseImg;
 
     private String courseDesc;
 

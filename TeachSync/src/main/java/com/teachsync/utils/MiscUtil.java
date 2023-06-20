@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MiscUtil {
     public Pageable makePaging(int pageNo, int pageSize, String sortBy, boolean isAsc) {
@@ -39,5 +42,14 @@ public class MiscUtil {
     public String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
+    }
+
+    public static String generateRandomName() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String timestamp = now.format(formatter);
+
+        String randomName =  timestamp ;
+        return randomName;
     }
 }

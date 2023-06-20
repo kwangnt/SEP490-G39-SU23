@@ -21,6 +21,11 @@ public interface CourseScheduleRepository extends JpaRepository<CourseSchedule, 
     Optional<CourseSchedule> findByIdAndStatusNot(long id, Status status);
     List<CourseSchedule> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
+    /* courseId */
+    /** Tmp function */
+    Optional<CourseSchedule> findFirstByCourseIdAndStatusNotOrderByStartDateDesc(long courseId, Status status);
+
+
     /* Check duplicate */
 
 }

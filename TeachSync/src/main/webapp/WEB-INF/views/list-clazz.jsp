@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-
+   <a href="add-classroom?option=add" > <button type="button" class="btn btn-primary">Thêm mới class</button></a>
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -31,16 +31,25 @@
             <th scope="col">Tên lớp</th>
             <th scope="col">Tên khóa học</th>
             <th scope="col">Miêu tả</th>
+            <th scope="col">Chức năng</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="clazz" items="${classroomList}">
-        <tr>
-            <th scope="row">${clazz.id}</th>
-            <td>${clazz.className}</td>
-            <td>${clazz.course.courseName}</td>
-            <td>${clazz.classDesc}</td>
-        </tr>
+        <c:forEach var="classroom" items="${clazzList}">
+            <tr>
+                <th scope="row">${classroom.id}</th>
+                <td><a style="font-weight: bold;" href="add-classroom?Id=${classroom.id}&option=detail">${classroom.className}</a> </td>
+                <td>${classroom.course.courseName}</td>
+                <td>${classroom.classDesc}</td>
+                <td>
+                    <a href="add-classroom?Id=${classroom.id}&option=edit">
+                        <button type="button" class="btn btn-success">Sửa</button>
+                    </a>
+                    <a href="delete-classroom?Id=${classroom.id}" >
+                        <button type="button" class="btn btn-danger">Xóa</button>
+                    </a>
+                </td>
+            </tr>
         </c:forEach>
         </tbody>
     </table>
@@ -52,4 +61,10 @@
 <%@ include file="/WEB-INF/fragments/footer.jspf" %>
 <!-- ================================================== Footer ===================================================== -->
 </body>
+<script>
+    var mess = '${mess}'
+    if (mess != '') {
+        alert(mess);
+    }
+</script>
 </html>

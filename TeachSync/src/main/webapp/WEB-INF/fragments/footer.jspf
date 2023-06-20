@@ -21,22 +21,24 @@
             <div class="col-sm-3 col-md-4">
                 <h6 class="ts-txt-bolder ts-txt-grey">Các trang hữu ích</h6>
                 <p class="ps-1 my-1">
-                    <a href="/" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Trang chủ</a></p>
+                    <a href="/">Trang chủ</a></p>
                 <p class="ps-1 my-1">
-                    <a href="about" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Về TeachSync</a></p>
+                    <a href="about">Về TeachSync</a></p>
+                <p class="ps-1 my-1">
+                    <a href="contact">Liên hệ</a></p>
                 <p class="ps-1 mt-1 mb-0">
-                    <a href="contact" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Liên hệ</a></p>
+                    <a href="teacher-request">Tuyển Dụng!!</a></p>
             </div>
 
             <!-- Support -->
             <div class="col-sm-3 col-md-4">
                 <h6 class="ts-txt-bolder ts-txt-grey">Hỗ trợ</h6>
                 <p class="ps-1 my-1">
-                    <a href="faq" class="text-decoration-none ts-txt-black ts-txt-hover-blue">FAQ</a></p>
+                    <a href="faq">FAQ</a></p>
                 <p class="ps-1 my-1">
-                    <a href="policies" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Chính sách</a></p>
+                    <a href="policies">Chính sách</a></p>
                 <p class="ps-1 mt-1 mb-0">
-                    <a href="term-of-service" class="text-decoration-none ts-txt-black ts-txt-hover-blue">Điều khoản</a></p>
+                    <a href="term-of-service">Điều khoản</a></p>
             </div>
 
             <!-- Address -->

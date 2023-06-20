@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -60,6 +61,26 @@ public class CourseServiceImpl implements CourseService {
             return null; }
 
         return wrapPageDTO(coursePage);
+    }
+
+    @Override
+    public List<Course> getAll() throws Exception {
+        List<Course> coursePage =
+                courseRepository.findAllByStatusNot(Status.DELETED);
+
+        if (coursePage.isEmpty()) {
+            return null; }
+
+        return coursePage;
+    }
+    @Override
+    public List<CourseReadDTO> getAllDTO() throws Exception {
+        List<Course> courseList = getAll();
+
+        if (courseList == null) {
+            return null; }
+
+        return wrapListDTO(courseList);
     }
 
     @Override

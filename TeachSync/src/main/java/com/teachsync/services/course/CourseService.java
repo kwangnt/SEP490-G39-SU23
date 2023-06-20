@@ -12,10 +12,12 @@ public interface CourseService {
     /* =================================================== CREATE =================================================== */
 
 
-
     /* =================================================== READ ===================================================== */
     Page<Course> getPageAll(Pageable paging) throws Exception;
     Page<CourseReadDTO> getPageDTOAll(Pageable paging) throws Exception;
+
+    List<Course> getAll() throws Exception;
+    List<CourseReadDTO> getAllDTO() throws Exception;
 
     Course getById(Long id) throws Exception;
     CourseReadDTO getDTOById(Long id) throws Exception;
@@ -27,7 +29,6 @@ public interface CourseService {
 
 
     /* =================================================== DELETE =================================================== */
-
 
 
     /* =================================================== WRAPPER ================================================== */

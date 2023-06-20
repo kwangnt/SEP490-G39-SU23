@@ -97,6 +97,9 @@ public class UserServiceImpl implements UserService {
     public UserReadDTO loginDTO(String username, String password) throws Exception {
         User user = login(username, password);
 
+        if (user == null) {
+            return null; }
+
         return wrapDTO(user);
     }
 
@@ -150,7 +153,22 @@ public class UserServiceImpl implements UserService {
         return wrapDTO(user);
     }
 
+    @Override
+    public UserReadDTO activateTeacherAccount(Long unactivatedTeacherAccId) throws Exception {
+        Optional<User> teacherOptional = userRepository.findByIdAndStatus(unactivatedTeacherAccId, Status.DELETED); /* TODO: different status */
 
+        if (teacherOptional.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "No unactivated teacher account found with id: " + unactivatedTeacherAccId);
+        }
+
+        User teacher = teacherOptional.get();
+        teacher.setStatus(Status.UPDATED); /* TODO: different status */
+
+        teacher = updateUser(teacher);
+
+        return wrapDTO(teacher);
+    }
 
     /* =================================================== UPDATE =================================================== */
 

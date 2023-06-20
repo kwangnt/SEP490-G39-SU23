@@ -84,9 +84,6 @@ values
     (1, 1, 'MON_WED_FRI', '2023-06-10', '2023-08-10', 1, '07:00:00', '08:30:00', 'CREATED'),
     (5, 3, 'TUE_THU_SAT', '2023-06-10', '2023-08-10', 3, '10:30:00', '12:00:00', 'CREATED');
 
-select *
-from clazz_schedule;
-
 insert into session (roomId, scheduleId, teacherId, slot, sessionStart, sessionEnd, status)
 values
     (1, 1, 3, 1, '2023-06-12 07:00:00', '2023-06-12 08:30:00', 'CREATED'),
