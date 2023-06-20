@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,23 +24,34 @@ public class Test {
     @Id
     @Column(name = "id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
-    private Classroom classroom;
-    @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
-
-    @NotBlank
-    @Size(min = 1, max = 45)
-    @Column(name = "testName", length = 45)
+    @Column(name = "courseId")
+    private Long courseId;
+    @Column(name = "testName")
     private String testName;
-
-    @Lob
+    @Column(name = "testType")
+    private String testType;
+    @Column(name = "testImg")
+    private String testImg;
     @Column(name = "testDesc")
     private String testDesc;
-
+    @Column(name = "timeLimit")
+    private int timeLimit;
+    @Column(name = "minScore")
+    private float minScore;
+    @Column(name = "testWeight")
+    private int testWeight;
+    @Column(name = "totalScore")
+    private float totalScore;
     @Column(name = "status")
-    private Status status;
+    private String status;
+    @Column(name = "createdAt")
+    private Date createdAt;
+    @Column(name = "createdBy")
+    private Long createdBy;
+    @Column(name = "updatedAt")
+    private Date updatedAt;
+    @Column(name = "updatedBy")
+    private Long updatedBy;
+
+
 }

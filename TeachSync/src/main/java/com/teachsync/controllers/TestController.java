@@ -4,9 +4,11 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Answer;
 import com.teachsync.entities.Course;
 import com.teachsync.entities.Question;
+import com.teachsync.entities.Test;
 import com.teachsync.repositories.AnswerRepository;
 import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.QuestionRepository;
+import com.teachsync.repositories.TestRepository;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class TestController {
     AnswerRepository answerRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    TestRepository testRepository;
 
     @GetMapping("/create-test")
     public String createTestViews(Model model, HttpSession session) {
@@ -45,6 +49,9 @@ public class TestController {
 
     @PostMapping("/process-question")
     public String processQuestion(Model model, HttpSession session,
+                                  @RequestParam("courseName") String courseName,
+                                  @RequestParam("testType") String testType,
+                                  @RequestParam("timeLimit") int timeLimit,
                                   @RequestParam("numQuestions") int numQuestions,
                                   @RequestParam("questionType") String questionType,
                                   @RequestParam Map<String, String> requestParams) {
@@ -53,6 +60,24 @@ public class TestController {
             return "redirect:/";
         }
         Date currentDate = new Date();
+
+        Test test = new Test();
+        test.setCourseId(Long.parseLong(courseName));
+        test.setTestName(testType);
+        test.setTestType(testType);
+        test.setTimeLimit(timeLimit);
+        if (testType.equals("15min")) {
+            test.setMinScore(1);
+            test.setTestWeight(1);
+        } else if (testType.equals("midterm")) {
+            test.setMinScore(1);
+            test.setTestWeight(3);
+        } else {
+            test.setMinScore(4);
+            test.setTestWeight(5);
+        }
+        test.setStatus("CREATED");
+        testRepository.save(test);
 
         if (questionType.equals("essay")) {
             for (int i = 0; i < numQuestions; i++) {
@@ -71,7 +96,7 @@ public class TestController {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
                 question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
-                question.setQuestionType("essay");
+                question.setQuestionType("multipleChoice");
                 question.setStatus("CREATED");
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
@@ -92,6 +117,6 @@ public class TestController {
 
         // Redirect to a success page or do any other necessary actions
 
-        return "redirect:/success";
+        return "redirect:/";
     }
 }
