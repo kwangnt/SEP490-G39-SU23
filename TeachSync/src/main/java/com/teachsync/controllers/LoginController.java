@@ -5,6 +5,7 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,8 @@ public class LoginController {
             Model model,
             HttpSession session) {
         try {
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            password = passwordEncoder.encode(password);
             UserReadDTO user = userService.loginDTO(username, password);
 
             if (user == null) {

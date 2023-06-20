@@ -208,9 +208,9 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void updatePassword(User user, String newPassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(newPassword);
-        user.setPassword(encodedPassword);
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(newPassword);
 
         user.setResetPasswordToken(null);
         userRepository.save(user);
