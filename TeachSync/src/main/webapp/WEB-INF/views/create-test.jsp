@@ -80,7 +80,7 @@
 <body>
 <h1>Tạo bài test</h1>
 
-<form action="submit_test.jsp" method="post">
+<form action="process-question" method="post">
     <label for="question-type">Loại câu hỏi:</label>
     <select id="question-type" name="questionType">
         <option value="essay">Tự luận</option>
