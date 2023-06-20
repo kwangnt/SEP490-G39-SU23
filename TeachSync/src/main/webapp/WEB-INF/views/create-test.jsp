@@ -1,7 +1,20 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Trang tạo bài test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+
+    <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
+
+    <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
+    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+
+    <script src="../../resources/js/common.js"></script>
     <style>
         /* CSS cho định dạng trang */
         body {
@@ -78,6 +91,7 @@
     </style>
 </head>
 <body>
+<%@ include file="/WEB-INF/fragments/header.jspf" %>
 <h1>Tạo bài test</h1>
 
 <form action="process-question" method="post">
@@ -96,6 +110,8 @@
 
     <button type="submit">Tạo bài test</button>
 </form>
+
+<%@ include file="/WEB-INF/fragments/footer.jspf" %>
 
 <script>
     // JavaScript để xử lý sự kiện khi thay đổi loại câu hỏi

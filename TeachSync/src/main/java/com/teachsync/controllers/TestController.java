@@ -2,13 +2,17 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Answer;
+import com.teachsync.entities.Course;
 import com.teachsync.entities.Question;
 import com.teachsync.repositories.AnswerRepository;
+import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.QuestionRepository;
+import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,29 +28,53 @@ public class TestController {
     QuestionRepository questionRepository;
     @Autowired
     AnswerRepository answerRepository;
+    @Autowired
+    CourseRepository courseRepository;
+
+    @GetMapping("/create-test")
+    public String createTestViews(Model model, HttpSession session) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
+        List<Course> lst = courseRepository.findAllByStatusNot(Status.DELETED);
+        model.addAttribute("lstCourse", lst);
+        return "create-test";
+    }
+
 
     @PostMapping("/process-question")
     public String processQuestion(Model model, HttpSession session,
                                   @RequestParam("numQuestions") int numQuestions,
-                                  @RequestParam("question-type") String questionType,
+                                  @RequestParam("questionType") String questionType,
                                   @RequestParam Map<String, String> requestParams) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
+        Date currentDate = new Date();
 
         if (questionType.equals("essay")) {
-            for (int i = 1; i <= numQuestions; i++) {
+            for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
-                question.setQuestion(requestParams.get("essayQuestion" + i));
+                question.setQuestionDesc(requestParams.get("essayQuestion" + i));
+                question.setQuestionType("essay");
+                question.setStatus("CREATED");
+
+                question.setCreatedAt(currentDate);
+                question.setCreatedBy(user.getId());
                 questionRepository.save(question);
             }
 
         } else if (questionType.equals("multipleChoice")) {
-            for (int i = 1; i <= numQuestions; i++) {
+            for (int i = 0; i < numQuestions; i++) {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
-                question.setQuestion(requestParams.get("multipleChoiceQuestion" + i));
+                question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
+                question.setQuestionType("essay");
+                question.setStatus("CREATED");
+                question.setCreatedAt(currentDate);
+                question.setCreatedBy(user.getId());
                 Question result = questionRepository.save(question);
                 for (int j = 0; j < numAnswer; j++) {
                     Answer answer = new Answer();
@@ -54,7 +82,6 @@ public class TestController {
                     answer.setAnswerDesc(requestParams.get("answer" + i + "-" + j));
                     answer.setCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
                     answer.setStatus("CREATED");
-                    Date currentDate = new Date();
                     answer.setCreatedAt(currentDate);
                     answer.setCreatedBy(user.getId());
                     answerRepository.save(answer);

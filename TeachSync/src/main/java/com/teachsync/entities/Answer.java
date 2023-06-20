@@ -33,9 +33,9 @@ public class Answer {
     private Date createdAt;
     @Column(name = "createdBy")
     private Long createdBy;
-    @Column(name = "updateAt")
-    private Date updateAt;
-    @Column(name = "updateBy")
-    private Long updateBy;
+    @Column(name = "updatedAt")
+    private Date updatedAt;
+    @Column(name = "updatedBy")
+    private Long updatedBy;
 
 }

@@ -7,40 +7,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Table(name = "question")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Question {
     @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "id")
-    private Long testId;
-
-    @Column(name = "typeAnswer")
-    private int typeAnswer;
-
-    @Column(name = "question")
-    private String question;
-
-    @Column(name = "answer1")
-    private String answer1;
-
-    @Column(name = "answer2")
-    private String answer2;
-
-    @Column(name = "answer3")
-    private String answer3;
-
-    @Column(name = "answer4")
-    private String answer4;
-
-    @Column(name = "trueAnswer")
-    private int trueAnswer;
+    @Column(name = "questionType")
+    private String questionType;
+    @Column(name = "questionDesc")
+    private String questionDesc;
+    @Column(name = "questionPrompt")
+    private String questionPrompt;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "createdAt")
+    private Date createdAt;
+    @Column(name = "createdBy")
+    private Long createdBy;
+    @Column(name = "updatedAt")
+    private Date updatedAt;
+    @Column(name = "updatedBy")
+    private Long updatedBy;
 
 }
