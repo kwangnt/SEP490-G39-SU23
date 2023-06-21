@@ -1,15 +1,15 @@
 .container{
-    max-width: 1200px;
+    max-width: 1400px;
     margin: auto;
     background: #85cce6;
     overflow: auto;
 }
 
 .certificate{
-    margin: 5px;
+    margin: 50px;
     border: 1px solid #ffffff;
     float: left;
-    width: 580px;
+    width: 570px;
     border-radius: 4%;
     background:#ffffff ;
 }
@@ -21,7 +21,19 @@
     border-top-right-radius: 4%;
 }
 
-.desc{
+.cer-name{
     padding: 15px;
     text-align: center;
+}
+
+.cer-desc{
+    margin: 50px;
+}
+
+.cer-desc .label{
+    font-weight: bold;
+}
+
+.cer-desc td{
+    font-size: 20px;
 }
