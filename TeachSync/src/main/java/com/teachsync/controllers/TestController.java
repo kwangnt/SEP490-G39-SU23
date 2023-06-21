@@ -9,6 +9,7 @@ import com.teachsync.repositories.AnswerRepository;
 import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.QuestionRepository;
 import com.teachsync.repositories.TestRepository;
+import com.teachsync.utils.enums.QuestionType;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,16 +68,16 @@ public class TestController {
         test.setTestType(testType);
         test.setTimeLimit(timeLimit);
         if (testType.equals("15min")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(1);
         } else if (testType.equals("midterm")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(3);
         } else {
-            test.setMinScore(4);
+            test.setMinScore(4.0);
             test.setTestWeight(5);
         }
-        test.setStatus("CREATED");
+        test.setStatus(Status.CREATED);
         testRepository.save(test);
 
         if (questionType.equals("essay")) {
@@ -96,8 +97,8 @@ public class TestController {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
                 question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
-                question.setQuestionType("multipleChoice");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.MULTIPLE);
+                question.setStatus(Status.CREATED);
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
                 Question result = questionRepository.save(question);

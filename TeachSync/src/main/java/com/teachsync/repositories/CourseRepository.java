@@ -27,5 +27,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
 
 
-    List<Course> findAllByStatusNot(Status status);
+//    List<Course> findAllByStatusNot(Status status);
 }
