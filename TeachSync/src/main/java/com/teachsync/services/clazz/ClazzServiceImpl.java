@@ -59,7 +59,7 @@ public class ClazzServiceImpl implements ClazzService {
 
             clazz.setCourseScheduleId(courseSchedule.getId());
 
-            clazzRepository.save(clazz);
+            clazzRepository.saveAndFlush(clazz);
 
             return "success";
         } catch (Exception e) {
@@ -138,7 +138,7 @@ public class ClazzServiceImpl implements ClazzService {
 
             clazz.setCourseScheduleId(courseSchedule.getId());
 
-            clazzRepository.save(clazz);
+            clazzRepository.saveAndFlush(clazz);
             return "success";
         } catch (Exception e) {
             logger.error("Error when EditClazzRoom  : " + e.getMessage());
@@ -153,7 +153,7 @@ public class ClazzServiceImpl implements ClazzService {
         try{
             Clazz clazz = clazzRepository.findById(Id).orElseThrow(() -> new Exception("Không tìm thấy lớp học"));
             clazz.setStatus(Status.DELETED);
-            clazzRepository.save(clazz);
+            clazzRepository.saveAndFlush(clazz);
             return "success";
         }catch (Exception e){
             logger.error("Error when deleteClazz  : " + e.getMessage());

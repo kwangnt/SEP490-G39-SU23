@@ -1,5 +1,7 @@
 package com.teachsync.controllers;
 
+import com.teachsync.utils.Constants;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +12,17 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String home(Model model,@ModelAttribute("mess") String mess) {
+    public String home(
+            HttpSession session,
+            Model model,
+            @ModelAttribute("mess") String mess) {
         model.addAttribute("mess", mess);
+
+        session.setAttribute("studentRoleId", Constants.ROLE_STUDENT);
+        session.setAttribute("parentRoleId", Constants.ROLE_PARENTS);
+        session.setAttribute("teacherRoleId", Constants.ROLE_TEACHER);
+        session.setAttribute("adminRoleId", Constants.ROLE_ADMIN);
+
         return "index";
     }
 

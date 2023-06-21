@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,13 +40,18 @@ public class UserServiceImpl implements UserService {
         boolean isExists =
                 userRepository.existsByUsernameAndStatusNot(user.getUsername(), Status.DELETED);
         if (isExists) {
-            throw new IllegalArgumentException("Already exists account with username: " + user.getUsername());
+            throw new Exception("Đã tồn tại tài khoản : " + user.getUsername());
+        }
+        boolean isExistsEmail =
+                userRepository.existsByEmailAndStatusNot(user.getEmail(), Status.DELETED);
+        if (isExistsEmail) {
+            throw new Exception("email đã có người đăng ký ");
         }
 
         /* Check FK */
         Role role = roleService.getById(user.getRoleId());
         if (role == null) {
-            throw new IllegalArgumentException("No role found with roleId: " + user.getRoleId());
+            throw new Exception("Không có role hợp lệ : " + user.getRoleId());
         }
 //        user.setRole(role);
 
@@ -65,6 +71,11 @@ public class UserServiceImpl implements UserService {
 //            User parent = createUser(new User());
 //            user.setParent(parent);
         }
+        //process password BCryptPasswordEncoder
+        String password = user.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPassword(hashedPassword);
 
         user = createUser(user);
 
@@ -74,10 +85,28 @@ public class UserServiceImpl implements UserService {
 
     /* =================================================== READ ===================================================== */
     @Override
-    public User login(String username, String password) throws Exception {
-        Optional<User> user = userRepository.findByUsernameAndPasswordAndStatusNot(username, password, Status.DELETED);
+    public User login(String username) throws Exception {
+        Optional<User> user = userRepository.findByUsernameAndStatusNot(username, Status.DELETED);
 
         return user.orElse(null);
+    }
+
+    @Override
+    public UserReadDTO loginDTO(String username, String password) throws Exception {
+        User user = login(username);
+
+        if (ObjectUtils.isEmpty(user)) {
+            throw new Exception("Không tìm thấy tài khoản với username: " + username);
+        }
+
+        //check password
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean isMatch = passwordEncoder.matches(password, user.getPassword());
+        if (!isMatch) {
+            return null;
+        }
+
+        return wrapDTO(user);
     }
 
     @Override
@@ -91,16 +120,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getListUserByUserName(String username) {
         return userRepository.findAllByUsernameContaining(username);
-    }
-
-    @Override
-    public UserReadDTO loginDTO(String username, String password) throws Exception {
-        User user = login(username, password);
-
-        if (user == null) {
-            return null; }
-
-        return wrapDTO(user);
     }
 
     @Override
@@ -202,12 +221,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     /* =================================================== Forgot Password ========================================== */
     @Override
     public User getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
+
     @Override
     public void updatePassword(User user, String newPassword) {
 //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -216,8 +235,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword);
 
         user.setResetPasswordToken(null);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
+
     @Override
     public void updateResetPasswordToken(String token, String email) {
         User user = userRepository.findByEmail(email);
@@ -225,7 +245,7 @@ public class UserServiceImpl implements UserService {
             user.setResetPasswordToken(token);
 
             /* Check data */
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
         }
     }
 }

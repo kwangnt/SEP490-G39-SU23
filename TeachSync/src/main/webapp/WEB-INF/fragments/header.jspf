@@ -36,7 +36,7 @@
 					<div class="col border-end ts-border-teal">
 						<c:choose>
 							<c:when test="${sessionScope.user ne null}">
-								<a href="class" class="text-decoration-none txt-black txt-hover-blue">
+								<a href="clazz" class="text-decoration-none txt-black txt-hover-blue">
 									<i class="bi-calendar-week"></i>
 									&nbsp;Lớp
 								</a>
@@ -49,6 +49,14 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
+					<c:if test="${sessionScope.user ne null and sessionScope.user.roleId eq sessionScope.adminRoleId}">
+						<div class="col border-start border-end ts-border-teal">
+							<a href="teacher-request/list" class="text-decoration-none txt-black txt-hover-blue">
+								<i class="bi-book"></i>
+								Danh sách ứng tuyển
+							</a>
+						</div>
+					</c:if>
 				</div>
 			</div>
 

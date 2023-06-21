@@ -40,8 +40,6 @@ public class LoginController {
             Model model,
             HttpSession session) {
         try {
-//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//            password = passwordEncoder.encode(password);
             UserReadDTO user = userService.loginDTO(username, password);
 
             if (user == null) {
@@ -50,9 +48,10 @@ public class LoginController {
             }
 
             session.setAttribute("user", user);
+           // session.setAttribute("loginUser", user);
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("errorMsg", "Server error, please try again later");
+            model.addAttribute("errorMsg", e.getMessage());
             return "login";
         }
 

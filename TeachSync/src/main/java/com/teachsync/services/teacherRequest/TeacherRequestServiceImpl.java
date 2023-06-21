@@ -34,7 +34,7 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
         teacherRequest.setContentLink(createDTO.getContentLink());
         teacherRequest.setStatus(Status.CREATED);
 
-        Request teacherDb = requestRepository.save(teacherRequest);
+        Request teacherDb = requestRepository.saveAndFlush(teacherRequest);
 
         if (ObjectUtils.isEmpty(teacherDb)) {
             return "error";
