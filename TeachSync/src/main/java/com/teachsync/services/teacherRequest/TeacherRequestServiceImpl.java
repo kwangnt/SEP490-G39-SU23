@@ -1,9 +1,8 @@
 package com.teachsync.services.teacherRequest;
 
-import com.teachsync.dtos.request.TeacherRequestDto;
-import com.teachsync.entities.TeacherRequest;
-import com.teachsync.entities.User;
-import com.teachsync.repositories.TeacherRequestRepository;
+import com.teachsync.dtos.request.*;
+import com.teachsync.entities.Request;
+import com.teachsync.repositories.RequestRepository;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +14,28 @@ import org.springframework.util.ObjectUtils;
 
 @Service
 public class TeacherRequestServiceImpl implements TeacherRequestService {
-
     @Autowired
-    TeacherRequestRepository teacherRequestRepository;
+    RequestRepository requestRepository;
 
     @Override
-    public Page<TeacherRequestDto> getPageAll(Pageable paging) throws Exception {
+    public Page<RequestReadDTO> getPageAll(Pageable paging) throws Exception {
         return null;
     }
 
     @Transactional
     @Override
-    public String addTeacherRequest(TeacherRequestDto teacherRequestDto) {
-        TeacherRequest teacherRequest = new TeacherRequest();
-        teacherRequest.setUser(teacherRequestDto.getUser());
+    public String addRequest(RequestCreateDTO createDTO) {
+        Request teacherRequest = new Request();
+        teacherRequest.setRequesterId(createDTO.getRequesterId());
         teacherRequest.setRequestName("Request apply Teacher " + MiscUtil.generateRandomName());
         teacherRequest.setRequestType("APPLICATION");
-        teacherRequest.setRequestDesc(teacherRequestDto.getRequestDesc());
-        teacherRequest.setRequestContent(teacherRequestDto.getRequestContent());
+        teacherRequest.setRequestDesc(createDTO.getRequestDesc());
+        teacherRequest.setRequestContent(createDTO.getRequestContent());
+        teacherRequest.setContentLink(createDTO.getContentLink());
         teacherRequest.setStatus(Status.CREATED);
-        TeacherRequest teacherDb = teacherRequestRepository.save(teacherRequest);
+
+        Request teacherDb = requestRepository.save(teacherRequest);
+
         if (ObjectUtils.isEmpty(teacherDb)) {
             return "error";
         }
@@ -43,17 +44,17 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
     }
 
     @Override
-    public String editTeacherRequest(TeacherRequestDto teacherRequestDto) {
+    public String editRequest(RequestUpdateDTO updateDTO) {
         return null;
     }
 
     @Override
-    public String deleteTeacherRequest(Long Id) {
+    public String deleteRequest(Long Id) {
         return null;
     }
 
     @Override
-    public TeacherRequestDto findById(Long Id) throws Exception {
+    public RequestReadDTO findById(Long Id) throws Exception {
         return null;
     }
 }

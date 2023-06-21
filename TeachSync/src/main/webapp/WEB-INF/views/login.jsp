@@ -35,7 +35,7 @@
       <i class="fas fa-eye" onclick="show()"></i>
       <br>
       <br>
-      <button>LOGIN</button>
+      <button type="submit">LOGIN</button>
       <p class="message"></p>
     </form>
 

@@ -1,10 +1,8 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,30 +13,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "test")
-public class Test {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
-    private Classroom classroom;
-    @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
-
-    @NotBlank
-    @Size(min = 1, max = 45)
-    @Column(name = "testName", length = 45)
+public class Test extends BaseEntity {
+    @Column(name = "courseId", nullable = true)
+    private Long courseId;
+    
+    @Column(name = "testName", nullable = false, length = 45)
     private String testName;
+    
+    @Column(name = "testType", nullable = false, length = 45)
+    private String testType;
 
     @Lob
-    @Column(name = "testDesc")
-    private String testDesc;
+    @Column(name = "testImg", nullable = true, length = -1)
+    private String testImg;
 
-    @Column(name = "status")
-    private Status status;
+    @Lob
+    @Column(name = "testDesc", nullable = true, length = -1)
+    private String testDesc;
+    
+    @Column(name = "timeLimit", nullable = false)
+    private Integer timeLimit;
+    
+    @Column(name = "minScore", nullable = false, precision = 0)
+    private Double minScore;
+    
+    @Column(name = "testWeight", nullable = false)
+    private Integer testWeight;
+    
+    @Column(name = "totalScore", nullable = true, precision = 0)
+    private Double totalScore;
 }
