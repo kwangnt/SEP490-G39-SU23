@@ -9,6 +9,7 @@ import com.teachsync.repositories.AnswerRepository;
 import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.QuestionRepository;
 import com.teachsync.repositories.TestRepository;
+import com.teachsync.utils.enums.QuestionType;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +62,7 @@ public class TestController {
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
@@ -67,24 +70,24 @@ public class TestController {
         test.setTestType(testType);
         test.setTimeLimit(timeLimit);
         if (testType.equals("15min")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(1);
         } else if (testType.equals("midterm")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(3);
         } else {
-            test.setMinScore(4);
+            test.setMinScore(4.0);
             test.setTestWeight(5);
         }
-        test.setStatus("CREATED");
+        test.setStatus(Status.CREATED);
         testRepository.save(test);
 
         if (questionType.equals("essay")) {
             for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
-                question.setQuestionType("essay");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.ESSAY);
+                question.setStatus(Status.CREATED);
 
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
@@ -96,8 +99,8 @@ public class TestController {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
                 question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
-                question.setQuestionType("multipleChoice");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.MULTIPLE);
+                question.setStatus(Status.CREATED);
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
                 Question result = questionRepository.save(question);
@@ -105,8 +108,8 @@ public class TestController {
                     Answer answer = new Answer();
                     answer.setQuestionId(result.getId());
                     answer.setAnswerDesc(requestParams.get("answer" + i + "-" + j));
-                    answer.setCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
-                    answer.setStatus("CREATED");
+                    answer.setIsCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
+                    answer.setStatus(Status.CREATED);
                     answer.setCreatedAt(currentDate);
                     answer.setCreatedBy(user.getId());
                     answerRepository.save(answer);
