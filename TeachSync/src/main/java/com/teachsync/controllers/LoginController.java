@@ -5,6 +5,7 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,8 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public String login(Model model) {
-        Object objUser = model.getAttribute("user");
+    public String login(HttpSession session) {
+        Object objUser = session.getAttribute("user");
 
         /* TODO: use DTO instead */
         if (objUser instanceof UserReadDTO) {
@@ -45,8 +46,8 @@ public class LoginController {
                 model.addAttribute("msg", "Incorrect username or password");
                 return "login";
             }
-
-            session.setAttribute("loginUser", user);
+            session.setAttribute("user", user);
+           // session.setAttribute("loginUser", user);
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", e.getMessage());
@@ -82,7 +83,7 @@ public class LoginController {
             return "signup";
         }
 
-        return "login";
+        return "redirect:/login";
     }
 
 }

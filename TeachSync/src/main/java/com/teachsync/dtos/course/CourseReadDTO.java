@@ -1,7 +1,7 @@
 package com.teachsync.dtos.course;
 
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
-import com.teachsync.entities.Classroom;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Course;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
@@ -19,28 +19,17 @@ public class CourseReadDTO implements Serializable {
     private Long id;
 
     private String courseName;
+    private String courseImg;
 
     private String courseDesc;
 
     private Status status;
 
-    private List<Classroom> classroomList;
+    private List<Clazz> clazzList;
 
     private List<Material> materialList;
 
-    //    private List<PriceLog> priceLogList;
+//    private List<PriceLog> priceLogList;
     private PriceLogReadDTO currentPrice;
-
-    public static CourseReadDTO toCourseReadDTO(Course course) {
-        return CourseReadDTO.builder()
-                .id(course.getId())
-                .courseName(course.getCourseName())
-                .courseDesc(course.getCourseDesc())
-                .status(course.getStatus())
-                .classroomList(course.getClassroomList())
-                .materialList(course.getMaterialList())
-                .build();
-    }
-
 }
 

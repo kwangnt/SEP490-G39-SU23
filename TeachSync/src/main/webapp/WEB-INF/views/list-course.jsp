@@ -96,8 +96,7 @@
                     <div class="col-12">
                         <div class="row px-3">
                             <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">
-                                    <%--<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">--%>
-                                <img src="../../resources/img/engbook.jpg" class="w-100 h-auto">
+                                <img src="${course.courseImg}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">
                             </div>
 
                             <div class="col-10 px-0">

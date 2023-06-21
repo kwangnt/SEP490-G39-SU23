@@ -32,6 +32,7 @@
         <datasource-mapping>
           <factory-entry name="TeachSync" value="0e219158-178a-4601-883f-09b3e5fc6f40" />
           <factory-entry name="entityManagerFactory" value="0e219158-178a-4601-883f-09b3e5fc6f40" />
+          <factory-entry name="noname-a.xml@0" value="0e219158-178a-4601-883f-09b3e5fc6f40" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
