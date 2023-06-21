@@ -3,6 +3,7 @@ package com.teachsync.utils.enums;
 public enum QuestionType {
     SINGLE("SINGLE"),
     MULTIPLE("MULTIPLE"),
+    ESSAY("ESSAY"),
     TEXT("TEXT");
 
     private final String stringValue;

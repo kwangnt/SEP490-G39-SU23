@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +62,7 @@ public class TestController {
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
@@ -84,8 +86,8 @@ public class TestController {
             for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
-                question.setQuestionType("essay");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.ESSAY);
+                question.setStatus(Status.CREATED);
 
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
@@ -106,8 +108,8 @@ public class TestController {
                     Answer answer = new Answer();
                     answer.setQuestionId(result.getId());
                     answer.setAnswerDesc(requestParams.get("answer" + i + "-" + j));
-                    answer.setCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
-                    answer.setStatus("CREATED");
+                    answer.setIsCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
+                    answer.setStatus(Status.CREATED);
                     answer.setCreatedAt(currentDate);
                     answer.setCreatedBy(user.getId());
                     answerRepository.save(answer);
