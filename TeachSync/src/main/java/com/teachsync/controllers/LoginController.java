@@ -40,12 +40,13 @@ public class LoginController {
             Model model,
             HttpSession session) {
         try {
-            UserReadDTO user = userService.loginDTO(username,password);
+            UserReadDTO user = userService.loginDTO(username, password);
 
             if (user == null) {
                 model.addAttribute("msg", "Incorrect username or password");
                 return "login";
             }
+
             session.setAttribute("user", user);
            // session.setAttribute("loginUser", user);
         } catch (Exception e) {

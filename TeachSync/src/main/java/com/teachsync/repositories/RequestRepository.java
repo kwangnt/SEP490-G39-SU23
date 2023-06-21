@@ -1,7 +1,7 @@
 package com.teachsync.repositories;
 
 
-import com.teachsync.entities.TeacherRequest;
+import com.teachsync.entities.Request;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface TeacherRequestRepository extends JpaRepository<TeacherRequest, Long> {
+public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    Page<TeacherRequest> findAllByStatusNot(Status status, Pageable pageable);
+    Page<Request> findAllByStatusNot(Status status, Pageable pageable);
 
 }

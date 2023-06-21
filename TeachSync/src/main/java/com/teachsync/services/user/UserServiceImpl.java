@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         }
         boolean isExistsEmail =
                 userRepository.existsByEmailAndStatusNot(user.getEmail(), Status.DELETED);
-        if (isExists) {
+        if (isExistsEmail) {
             throw new Exception("email đã có người đăng ký ");
         }
 
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
 //        user.setRole(role);
 
-        user = userRepository.save(user);
+        user = userRepository.saveAndFlush(user);
 
         return user;
     }
@@ -92,6 +92,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserReadDTO loginDTO(String username, String password) throws Exception {
+        User user = login(username);
+
+        if (ObjectUtils.isEmpty(user)) {
+            throw new Exception("Không tìm thấy tài khoản với username: " + username);
+        }
+
+        //check password
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean isMatch = passwordEncoder.matches(password, user.getPassword());
+        if (!isMatch) {
+            return null;
+        }
+
+        return wrapDTO(user);
+    }
+
+    @Override
     public List<User> getListUserByType(Long type) {
         System.out.println("type = " + type);
         List<User> x = userRepository.findAllByRoleId(type);
@@ -102,26 +120,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getListUserByUserName(String username) {
         return userRepository.findAllByUsernameContaining(username);
-    }
-
-    @Override
-    public UserReadDTO loginDTO(String username, String password) throws Exception {
-        User user = login(username);
-        if (ObjectUtils.isEmpty(user)) {
-            throw new Exception("không tìm thấy user " + username);
-        }
-        //check password
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        boolean isMatch = passwordEncoder.matches(password, user.getPassword());
-        if (!isMatch) {
-            return null;
-        }
-
-        if (user == null) {
-            return null; }
-
-        return wrapDTO(user);
     }
 
     @Override
@@ -237,7 +235,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword);
 
         user.setResetPasswordToken(null);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -247,7 +245,7 @@ public class UserServiceImpl implements UserService {
             user.setResetPasswordToken(token);
 
             /* Check data */
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
         }
     }
 }

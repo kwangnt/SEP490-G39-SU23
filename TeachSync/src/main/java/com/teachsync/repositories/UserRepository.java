@@ -12,12 +12,13 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /** For login */
     Optional<User> findByUsernameAndStatusNot(String username, Status status);
 
-    /**
-     * For finding unactivated teacher
-     */
+    /** For finding unactivated teacher */
     Optional<User> findByIdAndStatus(Long id, Status status);
+
+    Optional<User> findByIdAndStatusNot(Long id, Status status);
 
     /* Check duplicate */
     boolean existsByUsernameAndStatusNot(String username, Status status);
@@ -28,13 +29,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByUsernameContaining(String username);
 
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
+//    @Query("SELECT u FROM User u WHERE u.email = ?1")
     public User findByEmail(String email);
 
     public User findByResetPasswordToken(String token);
-
-    Optional<User> findByIdAndStatusNot(Long id, Status status);
-
-    User findUsersById(Long id);
 }
 
