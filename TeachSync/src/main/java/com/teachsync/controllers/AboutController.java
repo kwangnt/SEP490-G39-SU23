@@ -9,4 +9,9 @@ public class AboutController {
     public String about() {
         return "about";
     }
+
+    @GetMapping("/faq")
+    public String faq() {
+        return "faq";
+    }
 }
