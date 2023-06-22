@@ -324,7 +324,12 @@ a:hover {
 
 
 /* ==================== CUSTOM ====================================================================================== */
-
+.ts-deal {
+    color: var(--ts-white);
+    font-family: Garamond, serif;
+    font-weight: bold;
+    background-image: url("../webapp/resources/img/deal-pow.png");
+}
 /* ==================== CUSTOM ====================================================================================== */
 
 

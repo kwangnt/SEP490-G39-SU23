@@ -9,6 +9,10 @@
     </a>
   </div>
 
+  <%--  Set var --%>
+  <c:set var="user" value="${sessionScope.user}"/>
+  <c:set var="isAdmin" value="${((user ne null) && (user.roleId eq sessionScope.adminRoleId))}"/>
+
   <!-- Menu -->
   <div class="col-sm-10 col-md-11 txt-normal">
     <div class="row row-cols-md-2 row-cols-sm-1 d-flex align-items-center h-100">
@@ -27,15 +31,9 @@
               &nbsp;Khóa học
             </a>
           </div>
-<%--          <div class="col border-start border-end ts-border-teal">--%>
-<%--            <a href="class" class="text-decoration-none txt-black txt-hover-blue">--%>
-<%--              <i class="bi-book"></i>--%>
-<%--              Lớp--%>
-<%--            </a>--%>
-<%--          </div>--%>
           <div class="col border-end ts-border-teal">
             <c:choose>
-              <c:when test="${sessionScope.user ne null}">
+              <c:when test="${user ne null}">
                 <a href="clazz" class="text-decoration-none txt-black txt-hover-blue">
                   <i class="bi-calendar-week"></i>
                   &nbsp;Lớp
@@ -49,11 +47,24 @@
               </c:otherwise>
             </c:choose>
           </div>
-          <c:if test="${sessionScope.user ne null and sessionScope.user.roleId eq sessionScope.adminRoleId}">
-            <div class="col border-start border-end ts-border-teal">
+
+          <c:if test="${isAdmin}">
+            <div class="col">
               <a href="teacher-request/list" class="text-decoration-none txt-black txt-hover-blue">
                 <i class="bi-book"></i>
-                Danh sách ứng tuyển
+                QL Tuyển dụng
+              </a>
+            </div>
+            <div class="col border-start border-end ts-border-teal">
+              <a href="certificate" class="text-decoration-none txt-black txt-hover-blue">
+                <i class="bi-book"></i>
+                QL Bằng cấp
+              </a>
+            </div>
+            <div class="col border-end ts-border-teal">
+              <a href="user" class="text-decoration-none txt-black txt-hover-blue">
+                <i class="bi-book"></i>
+                QL Tài khoản
               </a>
             </div>
           </c:if>
@@ -76,7 +87,6 @@
             </a>
           </div>
           <div class="col">
-            <c:set var="user" value="${sessionScope.user}"/>
             <c:choose>
               <c:when test="${user ne null}">
                 <a href="account" class="text-decoration-none txt-black txt-hover-blue">

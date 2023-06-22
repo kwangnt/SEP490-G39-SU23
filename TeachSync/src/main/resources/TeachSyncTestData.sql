@@ -36,10 +36,11 @@ values
 insert into user(username, password, roleId, userAvatar, fullName, email,
                  phone, addressId, resetPasswordToken, parentId, status)
 values
-    ('student', '123456789', 1, null, 'Test Student', 'test.student@gmail.com', null, null, null, null, 'CREATED'),
-    ('parent', '123456789', 1, null, 'Test Parent', 'test.parent@gmail.com', null, null, null, null, 'CREATED'),
-    ('teacher', '123456789', 1, null, 'Test Teacher', 'test.teacher@gmail.com', null, null, null, null, 'CREATED'),
-    ('admin', '123456789', 1, null, 'Test Admin', 'test.admin@gmail.com', null, null, null, null, 'CREATED');
+    ('student', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 1, null, 'Test Student', 'test.student@gmail.com', null, null, null, null, 'CREATED'),
+    ('parent', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 1, null, 'Test Parent', 'test.parent@gmail.com', null, null, null, null, 'CREATED'),
+    ('teacher', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 1, null, 'Test Teacher', 'test.teacher@gmail.com', null, null, null, null, 'CREATED'),
+    ('admin', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 1, null, 'Test Admin', 'test.admin@gmail.com', null, null, null, null, 'CREATED');
+--     Password = 123456789
 
 insert into course(courseName, courseImg, courseDesc, minScore, minAttendant, status)
     value

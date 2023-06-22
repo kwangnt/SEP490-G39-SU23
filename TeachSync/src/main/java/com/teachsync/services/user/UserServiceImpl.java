@@ -7,6 +7,7 @@ import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.role.RoleService;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,12 @@ public class UserServiceImpl implements UserService {
         boolean isExists =
                 userRepository.existsByUsernameAndStatusNot(user.getUsername(), Status.DELETED);
         if (isExists) {
-            throw new Exception("Đã tồn tại tài khoản : " + user.getUsername());
+            throw new IllegalArgumentException("Đã tồn tại tài khoản : " + user.getUsername());
         }
         boolean isExistsEmail =
                 userRepository.existsByEmailAndStatusNot(user.getEmail(), Status.DELETED);
         if (isExistsEmail) {
-            throw new Exception("email đã có người đăng ký ");
+            throw new IllegalArgumentException("email đã có người đăng ký ");
         }
 
         /* Check FK */
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserReadDTO signupDTO(UserCreateDTO dto) throws Exception {
-        dto.setRoleId(1L);
+        dto.setRoleId(Constants.ROLE_STUDENT);
 
         User user = mapper.map(dto, User.class);
 

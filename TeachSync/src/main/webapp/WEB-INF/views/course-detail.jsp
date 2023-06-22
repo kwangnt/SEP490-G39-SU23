@@ -56,45 +56,61 @@
     <!-- Course List paging -->
     <div class="col-12 mb-3">
       <div class="row gy-3">
-        <div class="col-sm-12 col-md-5 px-sm-3 pe-md-0">
-            <%--<img src="${hotCourse.img}" class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">--%>
-          <img src="${course.courseImg}"
-             class="rounded-2 border ts-border-blue w-100 h-auto">
+        <div class="col-sm-12 col-md-4 px-sm-3 pe-md-0">
+          <img src="${course.courseImg}" class="rounded-2 border ts-border-blue w-100 h-auto">
         </div>
 
-        <div class="col-sm-12 col-md-7 px-3">
+        <div class="col-sm-12 col-md-8 px-3">
           <div class="card ts-border-yellow h-100">
 
             <div class="card-header">
-              <h4 class="card-title">
-                <c:out value="${course.courseName}"/>
+              <h4 class="card-title d-flex justify-content-between mb-0">
+                <span class="align-middle"><c:out value="${course.courseName}"/></span>
+                <c:if test="${isAdmin}">
+                  <a href="edit-course" class="btn btn-warning">
+                    Chỉnh sửa
+                  </a>
+                </c:if>
               </h4>
             </div>
 
-            <div class="card-body">
+            <div class="card-body d-flex">
+              <c:set var="currentPrice" value="${course.currentPrice}"/>
+              <c:set var="isPromotion" value="${currentPrice.isPromotion}"/>
               <h5 class="card-subtitle">
-                <c:if test="${course.currentPrice ne null}">
-                  <c:set var="currentPrice" value="${course.currentPrice}"/>
-                  <c:out value="${currentPrice.finalPrice}"/> vnd
+                <c:if test="${!isPromotion}">
+                  <c:out value="${currentPrice.price}"/> ₫
+                </c:if>
 
-                  <c:if test="${currentPrice.isPromotion}">
-                    &nbsp;&nbsp;Giảm <c:out value="${currentPrice.promotionAmount}"/>
+                <c:if test="${isPromotion}">
+                  <span class="text-danger ts-txt-bold"><c:out value="${currentPrice.finalPrice}"/>&nbsp;₫</span>
+                  <br/>
+                  <span class="ts-txt-grey ts-txt-light ts-txt-sm ts-txt-italic ts-txt-line-through">
+                    &nbsp;<c:out value="${currentPrice.price}"/>&nbsp;₫
+                  </span>
+                  <span class="text-danger ts-txt-sm">
+                    &nbsp;-<c:out value="${currentPrice.promotionAmount}"/>
                     <c:choose>
-                      <c:when test="${currentPrice.promotionType eq 'PERCENT'}">
-                        %
-                      </c:when>
-
-                      <c:when test="${currentPrice.promotionType eq 'AMOUNT'}">
-                         vnd
-                      </c:when>
+                      <c:when test="${currentPrice.promotionType eq 'PERCENT'}">%</c:when>
+                      <c:when test="${currentPrice.promotionType eq 'AMOUNT'}">₫</c:when>
                     </c:choose>
-                  </c:if>
+                  </span>
                 </c:if>
               </h5>
 
               <p class="card-text">
                 <c:out value="${course.courseDesc}"/>
               </p>
+
+              <!-- Course schedule -->
+
+            </div>
+
+            <div class="card-footer text-center">
+              <c:url var="enrollLink" value="enroll">
+                <c:param name="id" value="${course.id}"/>
+              </c:url>
+              <a href="${enrollLink}" class="btn btn-primary w-25">Đăng ký học</a>
             </div>
 
           </div>
