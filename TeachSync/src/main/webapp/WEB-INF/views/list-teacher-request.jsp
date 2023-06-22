@@ -4,17 +4,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Danh sách lớp học</title>
+  <title>Danh sách lớp học</title>
 
-    <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
-    <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
+  <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+  <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
-    <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
-    <script src="../../resources/js/common.js"></script>
+  <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
 <!-- ================================================== Header ===================================================== -->
@@ -23,41 +23,41 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tên user</th>
-            <th scope="col">Họ và tên</th>
-            <th scope="col">Tên yêu cầu</th>
-            <th scope="col">File CV upload</th>
-            <th scope="col">Link CV </th>
-            <th scope="col">Thư giới thiệu</th>
-            <th scope="col">Chức năng</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="teacherQuest" items="${teacherQuestList}">
-            <tr>
-                <th scope="row">${teacherQuest.id}</th>
-                <td>${teacherQuest.user.username}</td>
-                <td>${teacherQuest.user.fullName}</td>
-                <td>${teacherQuest.requestName}</td>
-                <td>${teacherQuest.requestContent}</td>
-                <td>${teacherQuest.contentLink}</td>
-                <td>${teacherQuest.requestDesc}</td>
-                <td>
-                    <a href="change-status?id=${teacherQuest.id}&operation=approve">
-                        <button type="button" class="btn btn-success">Chấp nhận</button>
-                    </a>
-                    <a href="change-status?id=${teacherQuest.id}&operation=reject">
-                        <button type="button" class="btn btn-danger">Từ chối</button>
-                    </a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Tên user</th>
+      <th scope="col">Họ và tên</th>
+      <th scope="col">Tên yêu cầu</th>
+      <th scope="col">File CV upload</th>
+      <th scope="col">Link CV </th>
+      <th scope="col">Thư giới thiệu</th>
+      <th scope="col">Chức năng</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="teacherQuest" items="${teacherQuestList}">
+      <tr>
+        <th scope="row">${teacherQuest.id}</th>
+        <td>${teacherQuest.user.username}</td>
+        <td>${teacherQuest.user.fullName}</td>
+        <td>${teacherQuest.requestName}</td>
+        <td>${teacherQuest.requestContent}</td>
+        <td>${teacherQuest.contentLink}</td>
+        <td>${teacherQuest.requestDesc}</td>
+        <td>
+          <a href="change-status?id=${teacherQuest.id}&operation=approve">
+            <button type="button" class="btn btn-success">Chấp nhận</button>
+          </a>
+          <a href="change-status?id=${teacherQuest.id}&operation=reject">
+            <button type="button" class="btn btn-danger">Từ chối</button>
+          </a>
+        </td>
+      </tr>
+    </c:forEach>
+    </tbody>
+  </table>
 
 </div>
 <!-- ================================================== Main Body ================================================== -->
@@ -67,9 +67,9 @@
 <!-- ================================================== Footer ===================================================== -->
 </body>
 <script>
-    var mess = '${mess}'
-    if (mess != '') {
-        alert(mess);
-    }
+  var mess = '${mess}'
+  if (mess != '') {
+    alert(mess);
+  }
 </script>
 </html>
