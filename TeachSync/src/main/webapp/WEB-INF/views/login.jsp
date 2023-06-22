@@ -17,48 +17,48 @@
 </head>
 
 <body class="body">
-	
+
 
 <div class="login-page">
   <div class="form">
 
-    <form action="login" method="post">
-      <lottie-player src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"  background="transparent"  speed="1"  style="justify-content: center;" loop  autoplay></lottie-player>
-      <input type="text" required name="username" placeholder="&#xf007;  username"/>
-      <input type="password" required name="password" id="password" placeholder="&#xf023;  password"/>
-      <c:if test="${msg ne null}">
-        <p class="txt-pink my-2"><c:out value="${msg}"/></p>
-      </c:if>
-      <c:if test="${errorMsg ne null}">
-        <p class="txt-pink my-2"><c:out value="${errorMsg}"/></p>
-      </c:if>
-      <i class="fas fa-eye" onclick="show()"></i>
-      <br>
-      <br>
-      <button type="submit">LOGIN</button>
-      <p class="message"></p>
-    </form>
+  <form action="login" method="post">
+    <lottie-player src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"  background="transparent"  speed="1"  style="justify-content: center;" loop  autoplay></lottie-player>
+    <input type="text" required name="username" placeholder="&#xf007;  username"/>
+    <input type="password" required name="password" id="password" placeholder="&#xf023;  password"/>
+    <c:if test="${msg ne null}">
+    <p class="txt-pink my-2"><c:out value="${msg}"/></p>
+    </c:if>
+    <c:if test="${errorMsg ne null}">
+    <p class="txt-pink my-2"><c:out value="${errorMsg}"/></p>
+    </c:if>
+    <i class="fas fa-eye" onclick="show()"></i>
+    <br>
+    <br>
+    <button type="submit">LOGIN</button>
+    <p class="message"></p>
+  </form>
 
-    <form class="login-form" action="signup" method="get">
-      <button type="submit">SIGN UP</button>
-    </form>
-    <a href="forgot_password" > Forgot your password?</a>
+  <form class="login-form" action="signup" method="get">
+    <button type="submit">SIGN UP</button>
+  </form>
+  <a href="forgot_password" > Forgot your password?</a>
   </div>
 </div>
 
   <script>
-    function show(){
-      var password = document.getElementById("password");
-      var icon = document.querySelector(".fas")
+  function show(){
+    var password = document.getElementById("password");
+    var icon = document.querySelector(".fas")
 
-      // ========== Checking type of password ===========
-      if(password.type === "password"){
-        password.type = "text";
-      }
-      else {
-        password.type = "password";
-      }
-    };
+    // ========== Checking type of password ===========
+    if(password.type === "password"){
+    password.type = "text";
+    }
+    else {
+    password.type = "password";
+    }
+  };
   </script>
 </body>
 </html>
