@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -29,12 +31,15 @@ public abstract class BaseEntity {@Positive
     @Positive
     @Column(name = "createdBy")
     private Long createdBy;
+
     @Column(name = "createdAt")
+    @CreatedDate
     private LocalDateTime createdAt;
 
     @Positive
     @Column(name = "updatedBy")
     private Long updatedBy;
     @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt ;
 }

@@ -3,19 +3,24 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Course;
 import com.teachsync.services.course.CourseService;
 import com.teachsync.utils.MiscUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static com.teachsync.utils.Constants.ROLE_ADMIN;
 
 @Controller
 public class CourseController {
@@ -76,12 +81,35 @@ public class CourseController {
     }
 
     @GetMapping("/add-course")
-    public String addCourse() {
+    public String addCourse(HttpServletRequest request, RedirectAttributes redirect) {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+
         return "add-course";
     }
 
     @PostMapping("/add-course")
     public String addCourse(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+
+
         CourseReadDTO courseReadDTO = new CourseReadDTO();
         courseReadDTO.setCourseName(request.getParameter("name"));
         //TODO : process upload file
@@ -94,9 +122,9 @@ public class CourseController {
         courseReadDTO.setCurrentPrice(currentPrice);
 
         try {
-            courseService.addCourse(courseReadDTO);
+            courseService.addCourse(courseReadDTO, userDTO.getId());
         } catch (Exception e) {
-            model.addAttribute("mess", e.getMessage());
+            model.addAttribute("mess", "Lỗi : " + e.getMessage());
             return "add-course";
         }
 

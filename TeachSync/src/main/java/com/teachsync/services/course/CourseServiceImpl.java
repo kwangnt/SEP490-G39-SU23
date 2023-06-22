@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
     /* =================================================== CREATE =================================================== */
     @Override
     @Transactional
-    public CourseReadDTO addCourse(CourseReadDTO courseReadDTO) throws Exception {
+    public CourseReadDTO addCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception {
         Course course = new Course();
 
         course.setCourseName(courseReadDTO.getCourseName());
@@ -55,8 +55,10 @@ public class CourseServiceImpl implements CourseService {
         course.setMinScore(courseReadDTO.getMinScore());
         course.setMinAttendant(courseReadDTO.getMinAttendant());
         course.setStatus(Status.CREATED);
+        course.setCreatedBy(userId);
+        course.setUpdatedBy(userId);
         Course courseDb = courseRepository.save(course);
-        if(ObjectUtils.isEmpty(courseDb)){
+        if (ObjectUtils.isEmpty(courseDb)) {
             throw new Exception("Tạo khóa học thất bại");
         }
 
@@ -69,12 +71,14 @@ public class CourseServiceImpl implements CourseService {
         priceLog.setIsPromotion(false);
         priceLog.setValidFrom(LocalDateTime.now());
         priceLog.setValidTo(LocalDateTime.now());
+        priceLog.setCreatedBy(userId);
+        priceLog.setUpdatedBy(userId);
 
         PriceLog priceLogDb = priceLogRepository.save(priceLog);
-        if(ObjectUtils.isEmpty(priceLogDb)){
+        if (ObjectUtils.isEmpty(priceLogDb)) {
             throw new Exception("Tạo giá của khóa học thất bại");
         }
-        return mapper.map(courseDb,CourseReadDTO.class);
+        return mapper.map(courseDb, CourseReadDTO.class);
     }
 
     /* =================================================== READ ===================================================== */
