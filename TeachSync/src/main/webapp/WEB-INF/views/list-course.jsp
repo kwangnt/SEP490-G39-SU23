@@ -48,6 +48,7 @@
 
   <!-- ================================================== Main Body ================================================== -->
   <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
+    <a href="add-course" > <button type="button" class="btn btn-primary">Thêm mới khóa học</button></a>
     <!-- Hot Course -->
     <c:if test="${hotCourseList ne null}">
       <div class="col-12 border-bottom ts-border-blue mb-3">
@@ -133,4 +134,10 @@
   <%@ include file="/WEB-INF/fragments/footer.jspf" %>
   <!-- ================================================== Footer ===================================================== -->
 </body>
+<script>
+  var mess = '${mess}'
+  if (mess != '') {
+    alert(mess);
+  }
+</script>
 </html>

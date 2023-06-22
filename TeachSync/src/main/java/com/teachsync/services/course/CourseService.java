@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CourseService {
     /* =================================================== CREATE =================================================== */
-
+    CourseReadDTO addCourse(CourseReadDTO courseReadDTO) throws Exception;
 
     /* =================================================== READ ===================================================== */
     Page<Course> getPageAll(Pageable paging) throws Exception;
