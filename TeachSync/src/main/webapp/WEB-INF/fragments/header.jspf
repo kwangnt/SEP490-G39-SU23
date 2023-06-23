@@ -11,6 +11,10 @@
 
   <%--  Set var --%>
   <c:set var="user" value="${sessionScope.user}"/>
+  <c:set var="isGuest" value="${user eq null}"/>
+  <c:set var="isStudent" value="${((user ne null) && (user.roleId eq sessionScope.studentRoleId))}"/>
+  <c:set var="isParent" value="${((user ne null) && (user.roleId eq sessionScope.parentRoleId))}"/>
+  <c:set var="isTeacher" value="${((user ne null) && (user.roleId eq sessionScope.teacherRoleId))}"/>
   <c:set var="isAdmin" value="${((user ne null) && (user.roleId eq sessionScope.adminRoleId))}"/>
 
   <!-- Menu -->
@@ -51,19 +55,19 @@
           <c:if test="${isAdmin}">
             <div class="col">
               <a href="teacher-request/list" class="text-decoration-none txt-black txt-hover-blue">
-                <i class="bi-book"></i>
+                <i class="bi-person-plus"></i>
                 QL Tuyển dụng
               </a>
             </div>
             <div class="col border-start border-end ts-border-teal">
               <a href="certificate" class="text-decoration-none txt-black txt-hover-blue">
-                <i class="bi-book"></i>
+                <i class="bi-postcard"></i>
                 QL Bằng cấp
               </a>
             </div>
             <div class="col border-end ts-border-teal">
               <a href="user" class="text-decoration-none txt-black txt-hover-blue">
-                <i class="bi-book"></i>
+                <i class="bi-person-vcard"></i>
                 QL Tài khoản
               </a>
             </div>

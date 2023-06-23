@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface PriceLogRepository extends JpaRepository<PriceLog, Long> {
 
     Page<PriceLog> findAllByStatusNot(Status status, Pageable pageable);
+    Page<PriceLog> findAllByIsCurrentTrueAndIsPromotionTrueAndStatusNot(Status status, Pageable pageable);
 
     /* id */
     Optional<PriceLog> findByIdAndStatusNot(Long id, Status status);

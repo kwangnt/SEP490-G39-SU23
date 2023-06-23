@@ -21,23 +21,27 @@ public class CourseController {
 
     @GetMapping("/course")
     public String course(Model model) {
-        /* TODO: get course list, hot course list */
-
         try {
-            model.addAttribute(
-                    "searchableFieldList",
-                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
+            /* Hot course */
+            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAllHotCourse(null);
+            if (dtoPage != null) {
+                model.addAttribute("hotCourseList", dtoPage.getContent());
+                model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
+                model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
+            }
 
-
-            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAll(null);
-
+            /* All course */
+            dtoPage = courseService.getPageDTOAll(null);
             if (dtoPage != null) {
                 model.addAttribute("courseList", dtoPage.getContent());
                 model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
                 model.addAttribute("pageTotal", dtoPage.getTotalPages());
-
             }
 
+            /* TODO: set up searchable course */
+            model.addAttribute(
+                    "searchableFieldList",
+                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
@@ -67,4 +71,11 @@ public class CourseController {
 
         return "course-detail";
     }
+
+    @GetMapping("/enroll")
+    public String enroll(@RequestParam Long id) {
+
+        return "enroll";
+    }
+
 }
