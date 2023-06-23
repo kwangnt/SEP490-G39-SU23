@@ -29,7 +29,6 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Tên lớp</th>
-      <th scope="col">Tên khóa học</th>
       <th scope="col">Miêu tả</th>
       <th scope="col">Chức năng</th>
     </tr>
@@ -38,14 +37,13 @@
     <c:forEach var="classroom" items="${clazzList}">
       <tr>
         <th scope="row">${classroom.id}</th>
-        <td><a style="font-weight: bold;" href="add-classroom?Id=${classroom.id}&option=detail">${classroom.className}</a> </td>
-        <td>${classroom.course.courseName}</td>
-        <td>${classroom.classDesc}</td>
+        <td><a style="font-weight: bold;" href="add-classroom?Id=${classroom.id}&option=detail">${classroom.clazzName}</a> </td>
+        <td>${classroom.clazzDesc}</td>
         <td>
-          <a href="add-classroom?Id=${classroom.id}&option=edit">
+          <a href="add-clazz?Id=${classroom.id}&option=edit">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
-          <a href="delete-classroom?Id=${classroom.id}" >
+          <a href="delete-clazz?Id=${classroom.id}" >
             <button type="button" class="btn btn-danger">Xóa</button>
           </a>
         </td>

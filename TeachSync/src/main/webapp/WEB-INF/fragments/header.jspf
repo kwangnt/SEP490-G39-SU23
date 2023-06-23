@@ -51,7 +51,7 @@
           </div>
           <c:if test="${sessionScope.user ne null and sessionScope.user.roleId eq sessionScope.adminRoleId}">
             <div class="col border-start border-end ts-border-teal">
-              <a href="teacher-request/list" class="text-decoration-none txt-black txt-hover-blue">
+              <a href="teacher-request" class="text-decoration-none txt-black txt-hover-blue">
                 <i class="bi-book"></i>
                 Danh sách ứng tuyển
               </a>
