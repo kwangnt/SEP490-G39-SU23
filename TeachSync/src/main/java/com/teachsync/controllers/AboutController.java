@@ -9,4 +9,14 @@ public class AboutController {
     public String about() {
         return "about";
     }
+
+    @GetMapping("/faq")
+    public String faq() {
+        return "faq";
+    }
+
+    @GetMapping("/view-job")
+    public String viewJob() {
+        return "view-job";
+    }
 }

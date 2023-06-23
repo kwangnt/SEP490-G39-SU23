@@ -14,21 +14,21 @@
     <p class="ts-txt-lg">Streamline, organize and excel in education</p>
   </div>
 
-  <!-- Links & address -->
-  <div class="col-sm-12 col-md-8">
-    <div class="row">
-      <!-- Helpful link -->
-      <div class="col-sm-3 col-md-4">
-        <h6 class="ts-txt-bolder ts-txt-grey">Các trang hữu ích</h6>
-        <p class="ps-1 my-1">
-          <a href="/">Trang chủ</a></p>
-        <p class="ps-1 my-1">
-          <a href="about">Về TeachSync</a></p>
-        <p class="ps-1 my-1">
-          <a href="contact">Liên hệ</a></p>
-        <p class="ps-1 mt-1 mb-0">
-          <a href="teacher-request">Tuyển Dụng!!</a></p>
-      </div>
+    <!-- Links & address -->
+    <div class="col-sm-12 col-md-8">
+        <div class="row">
+            <!-- Helpful link -->
+            <div class="col-sm-3 col-md-4">
+                <h6 class="ts-txt-bolder ts-txt-grey">Các trang hữu ích</h6>
+                <p class="ps-1 my-1">
+                    <a href="/">Trang chủ</a></p>
+                <p class="ps-1 my-1">
+                    <a href="about">Về TeachSync</a></p>
+                <p class="ps-1 my-1">
+                    <a href="contact">Liên hệ</a></p>
+                <p class="ps-1 mt-1 mb-0">
+                    <a href="view-job">Tuyển Dụng</a></p>
+            </div>
 
       <!-- Support -->
       <div class="col-sm-3 col-md-4">
