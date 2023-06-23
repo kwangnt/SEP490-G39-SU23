@@ -10,18 +10,21 @@ import java.util.List;
 
 public interface CourseService {
     /* =================================================== CREATE =================================================== */
-
+    CourseReadDTO addCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception;
 
     /* =================================================== READ ===================================================== */
     Page<Course> getPageAll(Pageable paging) throws Exception;
+
     Page<CourseReadDTO> getPageDTOAll(Pageable paging) throws Exception;
     Page<CourseReadDTO> getPageDTOAllHotCourse(Pageable paging) throws Exception;
 
     List<Course> getAll() throws Exception;
+
     List<CourseReadDTO> getAllDTO() throws Exception;
 
     /* id */
     Course getById(Long id) throws Exception;
+
     CourseReadDTO getDTOById(Long id) throws Exception;
 
     Page<Course> getPageAllByIdIn(Pageable paging, Collection<Long> courseIdCollection) throws Exception;

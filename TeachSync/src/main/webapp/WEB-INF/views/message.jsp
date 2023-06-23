@@ -17,9 +17,10 @@
   <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   <style>
-    .form button .home{
+    .form button .home {
       font-family: "Titillium Web", sans-serif;
       font-size: 14px;
       font-weight: bold;
@@ -42,21 +43,21 @@
   </style>
 </head>
 <body class="body">
-  </div>
-  <div class="login-page">
-    <div class="form">
+</div>
+<div class="login-page">
+  <div class="form">
 
-      <h1>
-        <c:out value="${message}"/>
+    <h1>
+      <c:out value="${message}"/>
 
-      </h1>
-      <button>
-        <a href="/" class="home">
-          <i class="bi-house-door"></i>
-          &nbsp;Trang chủ
-        </a>
-      </button>
-    </div>
+    </h1>
+    <button>
+      <a href="/" class="home">
+        <i class="bi-house-door"></i>
+        &nbsp;Trang chủ
+      </a>
+    </button>
   </div>
+</div>
 </body>
 </html>

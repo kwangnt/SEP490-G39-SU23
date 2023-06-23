@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="row bg-white sticky-top border-bottom ts-border-teal mb-3">
   <!-- Logo -->
@@ -12,10 +12,10 @@
   <%--  Set var --%>
   <c:set var="user" value="${sessionScope.user}"/>
   <c:set var="isGuest" value="${user eq null}"/>
-  <c:set var="isStudent" value="${((user ne null) && (user.roleId eq sessionScope.studentRoleId))}"/>
-  <c:set var="isParent" value="${((user ne null) && (user.roleId eq sessionScope.parentRoleId))}"/>
-  <c:set var="isTeacher" value="${((user ne null) && (user.roleId eq sessionScope.teacherRoleId))}"/>
-  <c:set var="isAdmin" value="${((user ne null) && (user.roleId eq sessionScope.adminRoleId))}"/>
+  <c:set var="isStudent" value="${((!isGuest) && (user.roleId eq sessionScope.studentRoleId))}"/>
+  <c:set var="isParent" value="${((!isGuest) && (user.roleId eq sessionScope.parentRoleId))}"/>
+  <c:set var="isTeacher" value="${((!isGuest) && (user.roleId eq sessionScope.teacherRoleId))}"/>
+  <c:set var="isAdmin" value="${((!isGuest) && (user.roleId eq sessionScope.adminRoleId))}"/>
 
   <!-- Menu -->
   <div class="col-sm-10 col-md-11 txt-normal">
@@ -37,7 +37,7 @@
           </div>
           <div class="col border-end ts-border-teal">
             <c:choose>
-              <c:when test="${user ne null}">
+              <c:when test="${!isGuest}">
                 <a href="clazz" class="text-decoration-none txt-black txt-hover-blue">
                   <i class="bi-calendar-week"></i>
                   &nbsp;Lớp
@@ -92,7 +92,7 @@
           </div>
           <div class="col">
             <c:choose>
-              <c:when test="${user ne null}">
+              <c:when test="${!isGuest}">
                 <a href="account" class="text-decoration-none txt-black txt-hover-blue">
                   <i class="bi-person"></i>
                     <%--TODO: Replace with avatar, dropdown option--%>

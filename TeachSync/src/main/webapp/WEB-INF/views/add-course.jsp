@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Danh sách lớp học</title>
+  <title>Thêm mới khóa học</title>
 
   <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
@@ -23,41 +23,49 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Tên user</th>
-      <th scope="col">Họ và tên</th>
-      <th scope="col">Tên yêu cầu</th>
-      <th scope="col">File CV upload</th>
-      <th scope="col">Link CV</th>
-      <th scope="col">Thư giới thiệu</th>
-      <th scope="col">Chức năng</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="teacherQuest" items="${teacherQuestList}">
-      <tr>
-        <th scope="row">${teacherQuest.id}</th>
-        <td>${teacherQuest.user.username}</td>
-        <td>${teacherQuest.user.fullName}</td>
-        <td>${teacherQuest.requestName}</td>
-        <td>${teacherQuest.requestContent}</td>
-        <td>${teacherQuest.contentLink}</td>
-        <td>${teacherQuest.requestDesc}</td>
-        <td>
-          <a href="change-status?id=${teacherQuest.id}&operation=approve">
-            <button type="button" class="btn btn-success">Chấp nhận</button>
-          </a>
-          <a href="change-status?id=${teacherQuest.id}&operation=reject">
-            <button type="button" class="btn btn-danger">Từ chối</button>
-          </a>
-        </td>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
+  <form action="add-course" method="post">
+    <div class="form-group">
+      <label>Tên khóa học</label>
+      <input type="text" name="name"
+           required
+           class="form-control" placeholder="Nhập tên lớp">
+    </div>
+    <div class="form-group">
+      <label>Ảnh khóa học</label>
+      <input type="file" name="image"
+           class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Miêu tả về khóa học</label>
+      <input type="text" name="desc"
+           class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Điểm khóa học</label>
+      <input type="number" name="score"
+           required
+           class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Số thành viên</label>
+      <input type="number" name="attendant"
+           required
+           class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Giá khóa học</label>
+      <input type="number" name="price"
+           required
+           class="form-control">
+    </div>
+
+    <div class="form-group">
+      <br>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <br><br>
+    </div>
+  </form>
+
 
 </div>
 <!-- ================================================== Main Body ================================================== -->
