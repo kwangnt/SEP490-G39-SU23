@@ -29,10 +29,11 @@ public interface CourseService {
 
     /* =================================================== UPDATE =================================================== */
 
-
+    CourseReadDTO editCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception;
 
     /* =================================================== DELETE =================================================== */
 
+    void deleteCourse(Long Id, Long userId) throws Exception;
 
     /* =================================================== WRAPPER ================================================== */
     CourseReadDTO wrapDTO(Course course) throws Exception;

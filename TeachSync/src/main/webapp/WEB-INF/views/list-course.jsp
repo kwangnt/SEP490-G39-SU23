@@ -93,7 +93,7 @@
         <%--      </select>--%>
 
         <h5>Danh sách</h5>
-
+        <br>
         <div class="row gy-3 mb-3">
             <c:forEach var="course" items="${courseList}">
                 <div class="col-12">
@@ -113,6 +113,17 @@
                                             <c:out value="${course.courseName}"/>
                                         </a>
                                     </h5>
+
+                                    <c:if test="${sessionScope.user.roleId == 4}">
+                                        <br>
+                                        <a href="edit-course?id=${course.id}">
+                                            <button type="button" class="btn btn-success">Sửa khóa học</button>
+                                        </a>
+                                        <a href="delete-course?id=${course.id}">
+                                            <button type="button" class="btn btn-danger">Xóa khóa học</button>
+                                        </a>
+                                    </c:if>
+
                                 </div>
 
                                 <div class="card-body">
