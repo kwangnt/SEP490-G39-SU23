@@ -84,6 +84,9 @@
                     <%--TODO: Replace with avatar, dropdown option--%>
                   &nbsp; <c:out value="${user.username}"/>
                 </a>
+                <a href="logout" class="text-decoration-none txt-black txt-hover-blue">
+                  Log out
+                </a>
               </c:when>
               <c:otherwise>
                 <a href="login" class="text-decoration-none txt-black txt-hover-blue">
