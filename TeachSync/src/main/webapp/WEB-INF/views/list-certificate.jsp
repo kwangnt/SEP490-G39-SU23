@@ -19,49 +19,51 @@
 <!-- ================================================== Header ===================================================== -->
 
 <!-- ================================================== Main Body ================================================== -->
-<div class ="container">
+<div class="container">
   <p style="color:black;font-size:30px;font-weight: bold">Danh sách chứng chỉ</p>
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Appreciation</div>
+      <div class="cer-name">Certificate of Appreciation</div>
     </div>
   </a>
 
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Service</div>
+      <div class="cer-name">Certificate of Service</div>
     </div>
   </a>
 
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Completion</div>
+      <div class="cer-name">Certificate of Completion</div>
     </div>
   </a>
 
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Appreciation</div>
+      <div class="cer-name">Certificate of Appreciation</div>
     </div>
   </a>
 
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Service</div>
+      <div class="cer-name">Certificate of Service</div>
     </div>
   </a>
-  <a href ="certificate-detail">
+  <a href="certificate-detail">
     <div class="certificate">
       <img src="https://marketplace.canva.com/EAFIEvneNCM/1/0/1600w/canva-golden-elegant-certificate-of-appreciation-0bN-aLORS9U.jpg">
-      <div class ="cer-name">Certificate of Completion</div>
+      <div class="cer-name">Certificate of Completion</div>
     </div>
   </a>
-  <a href="add-certificate"><button type="button" class="btn btn-primary">Thêm chứng chỉ</button></a>
+  <a href="add-certificate">
+    <button type="button" class="btn btn-primary">Thêm chứng chỉ</button>
+  </a>
 </div>
 <!-- ================================================== Main Body ================================================== -->
 

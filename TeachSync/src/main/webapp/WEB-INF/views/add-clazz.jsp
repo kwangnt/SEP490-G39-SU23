@@ -70,10 +70,12 @@
     <div class="form-group">
       <label>Miêu tả</label>
       <c:if test="${option == 'detail'}">
-        <input type="text" disabled value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+        <input type="text" disabled value="${classroom.classDesc}" name="desc" class="form-control"
+             placeholder="Nhập miêu tả">
       </c:if>
       <c:if test="${option == 'edit' || option == 'add'}">
-        <input type="text" value="${classroom.classDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+        <input type="text" value="${classroom.classDesc}" name="desc" class="form-control"
+             placeholder="Nhập miêu tả">
       </c:if>
     </div>
     <br>

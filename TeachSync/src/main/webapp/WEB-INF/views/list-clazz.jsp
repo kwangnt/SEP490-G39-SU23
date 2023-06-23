@@ -23,7 +23,9 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-   <a href="add-classroom?option=add" > <button type="button" class="btn btn-primary">Thêm mới class</button></a>
+  <a href="add-classroom?option=add">
+    <button type="button" class="btn btn-primary">Thêm mới class</button>
+  </a>
   <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -38,14 +40,15 @@
     <c:forEach var="classroom" items="${clazzList}">
       <tr>
         <th scope="row">${classroom.id}</th>
-        <td><a style="font-weight: bold;" href="add-classroom?Id=${classroom.id}&option=detail">${classroom.className}</a> </td>
+        <td><a style="font-weight: bold;"
+             href="add-classroom?Id=${classroom.id}&option=detail">${classroom.className}</a></td>
         <td>${classroom.course.courseName}</td>
         <td>${classroom.classDesc}</td>
         <td>
           <a href="add-classroom?Id=${classroom.id}&option=edit">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
-          <a href="delete-classroom?Id=${classroom.id}" >
+          <a href="delete-classroom?Id=${classroom.id}">
             <button type="button" class="btn btn-danger">Xóa</button>
           </a>
         </td>

@@ -3,6 +3,9 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.user.UserService;
+import com.teachsync.utils.Constants;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 public class LoginController {
@@ -23,7 +27,6 @@ public class LoginController {
     public String login(HttpSession session) {
         Object objUser = session.getAttribute("user");
 
-        /* TODO: use DTO instead */
         if (objUser instanceof UserReadDTO) {
             /* Already login */
             return "redirect:/index";
@@ -38,7 +41,8 @@ public class LoginController {
             @RequestParam String username,
             @RequestParam String password,
             Model model,
-            HttpSession session) {
+            HttpSession session,
+            @SessionAttribute(required = false) String targetUrl) {
         try {
             UserReadDTO user = userService.loginDTO(username, password);
 
@@ -48,7 +52,11 @@ public class LoginController {
             }
 
             session.setAttribute("user", user);
-           // session.setAttribute("loginUser", user);
+
+            System.out.println(targetUrl);
+            if (targetUrl != null) {
+                return "redirect:" + targetUrl;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", e.getMessage());
@@ -87,4 +95,9 @@ public class LoginController {
         return "redirect:/login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
 }

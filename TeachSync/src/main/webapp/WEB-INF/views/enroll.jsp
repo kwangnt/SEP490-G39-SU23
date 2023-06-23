@@ -46,10 +46,6 @@
     </nav>
   </div>
 </div>
-
-<c:set var="currentUri" value="${requestScope['jakarta.servlet.forward.request_uri']}"/>
-<c:set var="queryString" value="${requestScope['jakarta.servlet.forward.query_string']}"/>
-<c:set var="targetUrl" scope="session" value="${currentUri}${not empty queryString ? '?'.concat(queryString) : ''}"/>
 <!-- ================================================== Breadcrumb ================================================= -->
 
 
@@ -66,14 +62,10 @@
         <div class="card ts-border-yellow h-100">
 
           <div class="card-header">
-            <h4 class="card-title d-flex justify-content-between align-items-center mb-0">
-              <span><c:out value="${course.courseName}"/></span>
-              <c:if test="${isAdmin}">
-                <a href="edit-course" class="btn btn-warning">
-                  Chỉnh sửa
-                </a>
-              </c:if>
-            </h4>
+            <label>
+              Tên khóa:
+              <input type="text" value="${course.courseName}"/>
+            </label>
           </div>
 
           <div class="card-body d-flex">
@@ -83,6 +75,12 @@
               <c:if test="${!isPromotion}">
                 <c:out value="${currentPrice.price}"/> ₫
               </c:if>
+
+              <label>
+                Học phí:
+                <input type="text" value="${course.courseName}"/>
+              </label>
+
 
               <c:if test="${isPromotion}">
                 <span class="ts-txt-orange ts-txt-bold"><c:out value="${currentPrice.finalPrice}"/>&nbsp;₫</span>
@@ -111,6 +109,7 @@
 
           <c:if test="${isGuest}">
             <div class="card-footer text-center">
+              <c:set var="courseId" value="${course.id}" scope="session"/>
               <a href="login" class="btn btn-primary w-25">Đăng ký học</a>
             </div>
           </c:if>

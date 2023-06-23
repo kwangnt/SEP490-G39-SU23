@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -39,26 +39,40 @@
               <td class="left bold">Cộng đồng hỗ trợ:</td>
               <td class="right"><a href="TeachSync">Cộng đồng TeachSync</a></td>
             </tr>
-            <tr><th>Phòng Kinh Doanh</th></tr>
+            <tr>
+              <th>Phòng Kinh Doanh</th>
+            </tr>
             <tr>
               <td class="left">Điện thoại:</td>
               <td class="right"><a href="cal:0968457623">0968457623</a></td>
             </tr>
             <tr>
               <td class="left">Email:</td>
-              <td class="right"><a href="mailto:kinhdoanh@zioncom.net">kinhdoanh@zioncom.net</a> (hỗ trợ các vấn đề về kinh doanh).</td>
+              <td class="right"><a href="mailto:kinhdoanh@zioncom.net">kinhdoanh@zioncom.net</a> (hỗ trợ
+                                                         các vấn
+                                                         đề về
+                                                         kinh
+                                                         doanh).
+              </td>
             </tr>
-            <tr><th>Phòng Kỹ Thuật</th></tr>
+            <tr>
+              <th>Phòng Kỹ Thuật</th>
+            </tr>
             <tr>
               <td class="left">Điện thoại:</td>
               <td class="right"><a href="cal:0968457623">0968457623</a></td>
             </tr>
             <tr>
               <td class="left">Email:</td>
-              <td class="right"><a href="mailto:hotro@zioncom.net">hotro@zioncom.net</a> (hỗ trợ kỹ thuật nhanh chóng kịp thời).</td>
+              <td class="right"><a href="mailto:hotro@zioncom.net">hotro@zioncom.net</a> (hỗ trợ kỹ thuật
+                                                     nhanh chóng kịp
+                                                     thời).
+              </td>
             </tr>
 
-            <tr><th>Văn Phòng Nhà Máy</th></tr>
+            <tr>
+              <th>Văn Phòng Nhà Máy</th>
+            </tr>
             <tr>
               <td class="left">Điện thoại:</td>
               <td class="right"><a href="cal:0968457623">0968457623</a></td>
@@ -68,7 +82,8 @@
 
             <tr>
               <td class="left bold">Thời gian làm việc:</td>
-              <td class="right"><p>Thứ 2 – 6:&nbsp; 8:00 – 12:00, 13:00 – 17:00</p> <p>Thứ 7:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8:00 – 12:00</p></td>
+              <td class="right"><p>Thứ 2 – 6:&nbsp; 8:00 – 12:00, 13:00 – 17:00</p>
+                <p>Thứ 7:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8:00 – 12:00</p></td>
             </tr>
 
             <tr>
@@ -80,7 +95,8 @@
           </table>
         </div>
         <div class="col">
-          <img src="https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/vuthihuyen/062019/11/08/in_article/bai-1-trung-tam-anh-ngu-phu-song-tu-doi-thuc-den-coi-face.jpg" width="100%" height="100%">
+          <img src="https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/vuthihuyen/062019/11/08/in_article/bai-1-trung-tam-anh-ngu-phu-song-tu-doi-thuc-den-coi-face.jpg"
+             width="100%" height="100%">
         </div>
       </div>
     </div>

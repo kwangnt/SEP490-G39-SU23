@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.*;
+import java.util.function.Function;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -108,6 +110,34 @@ public class CourseServiceImpl implements CourseService {
 
         return wrapPageDTO(coursePage);
     }
+    @Override
+    public Page<CourseReadDTO> getPageDTOAllHotCourse(Pageable paging) throws Exception {
+        Page<PriceLogReadDTO> priceLogDTOPage = priceLogService.getPageAllLatestPromotionDTO(paging);
+
+        if (priceLogDTOPage == null) {
+            return null; }
+
+        Map<Long, PriceLogReadDTO> courseIdPriceLogDTOMap =
+                priceLogDTOPage.stream()
+                        .collect(Collectors.toMap(PriceLogReadDTO::getCourseId, Function.identity()));
+
+        Page<Course> coursePage = getPageAllByIdIn(priceLogDTOPage.getPageable(), courseIdPriceLogDTOMap.keySet());
+
+        if (coursePage == null) {
+            return null; }
+
+        List<CourseReadDTO> courseDTOList = wrapListDTO(coursePage.getContent());
+
+        courseDTOList =
+                courseDTOList.stream()
+                        .peek(dto -> dto.setCurrentPrice(courseIdPriceLogDTOMap.get(dto.getId())))
+                        .collect(Collectors.toList());
+
+        return new PageImpl<>(
+                courseDTOList,
+                coursePage.getPageable(),
+                coursePage.getTotalPages());
+    }
 
     @Override
     public List<Course> getAll() throws Exception {
@@ -132,6 +162,7 @@ public class CourseServiceImpl implements CourseService {
         return wrapListDTO(courseList);
     }
 
+    /* id */
     @Override
     public Course getById(Long id) throws Exception {
         Optional<Course> course =
@@ -151,7 +182,28 @@ public class CourseServiceImpl implements CourseService {
         return wrapDTO(course);
     }
 
+    @Override
+    public Page<Course> getPageAllByIdIn(Pageable paging, Collection<Long> courseIdCollection) throws Exception {
+        if (paging == null) {
+            paging = miscUtil.defaultPaging(); }
 
+        Page<Course> coursePage =
+                courseRepository.findAllByIdInAndStatusNot(courseIdCollection, Status.DELETED, paging);
+
+        if (coursePage.isEmpty()) {
+            return null; }
+
+        return coursePage;
+    }
+    @Override
+    public Page<CourseReadDTO> getPageDTOAllByIdIn(Pageable paging, Collection<Long> courseIdCollection) throws Exception {
+        Page<Course> coursePage = getPageAllByIdIn(paging, courseIdCollection);
+
+        if (coursePage == null) {
+            return null; }
+
+        return wrapPageDTO(coursePage);
+    }
 
     /* =================================================== UPDATE =================================================== */
 
