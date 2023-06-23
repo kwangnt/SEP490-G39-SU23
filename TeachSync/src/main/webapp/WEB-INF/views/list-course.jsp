@@ -50,11 +50,6 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <c:if test="${sessionScope.user.roleId == 4}">
-    <a href="add-course">
-      <button type="button" class="btn btn-primary">Thêm mới khóa học</button>
-    </a>
-  </c:if>
   <!-- Hot Course -->
   <c:if test="${!isAdmin && !isTeacher}">
     <c:if test="${hotCourseList ne null}">

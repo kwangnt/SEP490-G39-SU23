@@ -95,11 +95,14 @@ public class CourseController {
     @GetMapping("/add-course")
     public String addCourse(HttpServletRequest request, RedirectAttributes redirect) {
         HttpSession session = request.getSession();
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
         if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";
