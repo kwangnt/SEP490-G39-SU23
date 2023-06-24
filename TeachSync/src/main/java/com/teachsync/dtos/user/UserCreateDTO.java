@@ -1,5 +1,6 @@
 package com.teachsync.dtos.user;
 
+import com.teachsync.dtos.BaseCreateDTO;
 import com.teachsync.utils.enums.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,15 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
  * DTO for {@link com.teachsync.entities.User}
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateDTO implements Serializable {
+public class UserCreateDTO extends BaseCreateDTO {
     @Positive
     private Long roleId;
 

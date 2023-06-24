@@ -1,11 +1,10 @@
 package com.teachsync.dtos.role;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * DTO for {@link com.teachsync.entities.Role}
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleReadDTO implements Serializable {
+public class RoleReadDTO extends BaseReadDTO {
     private Long id;
 
     private String roleName;

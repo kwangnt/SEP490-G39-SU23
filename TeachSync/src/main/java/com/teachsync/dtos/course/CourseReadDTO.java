@@ -1,5 +1,6 @@
 package com.teachsync.dtos.course;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Material;
@@ -9,7 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseReadDTO implements Serializable {
+public class CourseReadDTO extends BaseReadDTO {
     private Long id;
 
     private String courseName;

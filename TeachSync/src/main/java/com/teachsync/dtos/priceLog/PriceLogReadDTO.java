@@ -1,12 +1,12 @@
 package com.teachsync.dtos.priceLog;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.PromotionType;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceLogReadDTO implements Serializable {
+public class PriceLogReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long courseId;

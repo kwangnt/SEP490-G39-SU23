@@ -1,5 +1,6 @@
 package com.teachsync.dtos.user;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
@@ -7,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserReadDTO implements Serializable {
+public class UserReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long roleId;

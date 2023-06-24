@@ -1,5 +1,6 @@
 package com.teachsync.dtos.clazz;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.entities.ClazzTest;
 import com.teachsync.entities.CourseSchedule;
 import com.teachsync.entities.Homework;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClazzReadDTO implements Serializable {
+public class ClazzReadDTO extends BaseReadDTO {
     private Long id;
 
     private CourseSchedule courseSchedule;

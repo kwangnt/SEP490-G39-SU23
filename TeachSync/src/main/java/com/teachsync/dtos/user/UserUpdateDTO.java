@@ -1,12 +1,12 @@
 package com.teachsync.dtos.user;
 
+import com.teachsync.dtos.BaseUpdateDTO;
 import com.teachsync.utils.enums.Status;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDTO implements Serializable {
+public class UserUpdateDTO extends BaseUpdateDTO {
     @NotNull
     @Positive
     private Long id;

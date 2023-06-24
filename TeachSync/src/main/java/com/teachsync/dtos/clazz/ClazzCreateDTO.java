@@ -1,11 +1,10 @@
 package com.teachsync.dtos.clazz;
 
+import com.teachsync.dtos.BaseCreateDTO;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * DTO for {@link com.teachsync.entities.Clazz}
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClazzCreateDTO implements Serializable {
+public class ClazzCreateDTO extends BaseCreateDTO {
     private Long courseId;
 
     private Long courseScheduleId;

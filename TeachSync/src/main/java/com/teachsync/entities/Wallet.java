@@ -2,15 +2,16 @@ package com.teachsync.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 public class Wallet extends BaseEntity {
     @Column(name = "userId", nullable = false)

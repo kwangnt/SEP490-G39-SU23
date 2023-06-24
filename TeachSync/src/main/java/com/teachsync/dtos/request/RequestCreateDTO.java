@@ -1,12 +1,11 @@
 package com.teachsync.dtos.request;
 
+import com.teachsync.dtos.BaseCreateDTO;
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * DTO for {@link com.teachsync.entities.Request}
@@ -14,7 +13,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestCreateDTO implements Serializable {
+public class RequestCreateDTO extends BaseCreateDTO {
     private Long id;
 
     private Long requesterId;
