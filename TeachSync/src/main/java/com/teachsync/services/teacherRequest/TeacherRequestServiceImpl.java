@@ -1,6 +1,8 @@
 package com.teachsync.services.teacherRequest;
 
-import com.teachsync.dtos.request.*;
+import com.teachsync.dtos.request.RequestCreateDTO;
+import com.teachsync.dtos.request.RequestReadDTO;
+import com.teachsync.dtos.request.RequestUpdateDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.repositories.RequestRepository;
 import com.teachsync.utils.MiscUtil;

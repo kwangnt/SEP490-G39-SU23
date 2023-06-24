@@ -1,20 +1,19 @@
 package com.teachsync.dtos.request;
 
-import com.teachsync.entities.BaseEntity;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.io.Serializable;
+
+/**
+ * DTO for {@link com.teachsync.entities.Request}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class RequestReadDTO {
+public class RequestReadDTO implements Serializable {
     private Long id;
 
     private Long requesterId;

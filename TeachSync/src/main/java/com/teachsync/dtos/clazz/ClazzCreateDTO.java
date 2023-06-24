@@ -1,22 +1,19 @@
 package com.teachsync.dtos.clazz;
 
-import com.teachsync.entities.ClazzTest;
-import com.teachsync.entities.CourseSchedule;
-import com.teachsync.entities.Homework;
-import com.teachsync.entities.Session;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.List;
+import java.io.Serializable;
 
+/**
+ * DTO for {@link com.teachsync.entities.Clazz}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class ClazzCreateDTO {
+public class ClazzCreateDTO implements Serializable {
     private Long courseId;
 
     private Long courseScheduleId;

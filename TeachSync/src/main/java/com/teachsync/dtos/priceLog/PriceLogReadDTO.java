@@ -3,18 +3,19 @@ package com.teachsync.dtos.priceLog;
 import com.teachsync.utils.enums.PromotionType;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * DTO for {@link com.teachsync.entities.PriceLog}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-
-public class PriceLogReadDTO {
+public class PriceLogReadDTO implements Serializable {
     private Long id;
 
     private Long courseId;

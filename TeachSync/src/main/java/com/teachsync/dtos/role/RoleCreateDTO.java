@@ -5,16 +5,17 @@ import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * DTO for {@link com.teachsync.entities.Role}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class RoleCreateDTO implements Serializable {
     @NotBlank
     @Size(min = 1, max = 45)

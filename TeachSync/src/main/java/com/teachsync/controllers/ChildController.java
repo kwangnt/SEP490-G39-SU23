@@ -2,10 +2,7 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.User;
-import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.user.UserService;
-import com.teachsync.services.user.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

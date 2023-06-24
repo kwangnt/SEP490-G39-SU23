@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import java.util.Collection;
 import java.util.List;
 
-import java.util.List;
-
 public interface UserService {
     /* =================================================== CREATE =================================================== */
     User createUser(User user) throws Exception;

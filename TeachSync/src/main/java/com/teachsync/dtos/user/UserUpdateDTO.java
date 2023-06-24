@@ -3,17 +3,18 @@ package com.teachsync.dtos.user;
 import com.teachsync.utils.enums.Status;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * DTO for {@link com.teachsync.entities.User}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class UserUpdateDTO implements Serializable {
     @NotNull
     @Positive

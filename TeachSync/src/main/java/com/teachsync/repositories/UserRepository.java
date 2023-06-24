@@ -3,7 +3,6 @@ package com.teachsync.repositories;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

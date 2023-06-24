@@ -2,19 +2,22 @@ package com.teachsync.dtos.course;
 
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.Clazz;
-import com.teachsync.entities.Course;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Column;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * DTO for {@link com.teachsync.entities.Course}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Builder
 public class CourseReadDTO implements Serializable {
     private Long id;

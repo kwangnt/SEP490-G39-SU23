@@ -1,16 +1,25 @@
 package com.teachsync.dtos.clazz;
 
-import com.teachsync.entities.*;
+import com.teachsync.entities.ClazzTest;
+import com.teachsync.entities.CourseSchedule;
+import com.teachsync.entities.Homework;
+import com.teachsync.entities.Session;
 import com.teachsync.utils.enums.Status;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * DTO for {@link com.teachsync.entities.Clazz}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class ClazzReadDTO {
+public class ClazzReadDTO implements Serializable {
     private Long id;
 
     private CourseSchedule courseSchedule;
@@ -21,10 +30,14 @@ public class ClazzReadDTO {
 
     private int clazzSize;
 
-    private Status status;
-
     private List<Homework> homeworkList;
     private List<ClazzTest> testList;
 
     private List<Session> sessionList;
+
+    private Status status;
+    private Long createdBy;
+    private LocalDateTime createdAt;
+    private Long updatedBy;
+    private LocalDateTime updatedAt;
 }

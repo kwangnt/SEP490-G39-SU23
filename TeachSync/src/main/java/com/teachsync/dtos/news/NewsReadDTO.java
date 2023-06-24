@@ -3,15 +3,17 @@ package com.teachsync.dtos.news;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
+
+/**
+ * DTO for {@link com.teachsync.entities.News}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class NewsReadDTO implements Serializable {
     private Long id;
 

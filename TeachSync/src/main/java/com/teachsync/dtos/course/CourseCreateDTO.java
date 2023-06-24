@@ -4,16 +4,17 @@ import com.teachsync.utils.enums.Status;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * DTO for {@link com.teachsync.entities.Course}
+ */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class CourseCreateDTO implements Serializable {
     @NotBlank
     @Size(min = 1, max = 45)

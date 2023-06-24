@@ -1,6 +1,5 @@
 package com.teachsync.controllers;
 
-import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
