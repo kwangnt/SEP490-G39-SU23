@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

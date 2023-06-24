@@ -4,11 +4,13 @@ import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * DTO for {@link com.teachsync.entities.Request}
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

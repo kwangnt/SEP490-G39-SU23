@@ -9,7 +9,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

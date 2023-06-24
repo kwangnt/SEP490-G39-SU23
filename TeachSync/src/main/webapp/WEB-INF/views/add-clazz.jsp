@@ -29,13 +29,13 @@
       <label>Tên lớp</label>
       <c:if test="${option == 'detail'}">
         <input type="text" name="name"
-             value="${classroom.className}"
+             value="${classroom.clazzName}"
              disabled
              class="form-control" placeholder="Nhập tên lớp">
       </c:if>
       <c:if test="${option == 'edit' || option == 'add'}">
         <input type="text" name="name"
-             value="${classroom.className}"
+             value="${classroom.clazzName}"
              class="form-control" placeholder="Nhập tên lớp">
       </c:if>
 

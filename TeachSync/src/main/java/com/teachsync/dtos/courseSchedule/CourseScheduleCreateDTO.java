@@ -1,7 +1,6 @@
 package com.teachsync.dtos.courseSchedule;
 
 import com.teachsync.dtos.BaseCreateDTO;
-import com.teachsync.entities.CourseSchedule;
 import com.teachsync.utils.enums.ScheduleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,10 +12,8 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.teachsync.entities.CourseSchedule}
  */
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseScheduleCreateDTO extends BaseCreateDTO {

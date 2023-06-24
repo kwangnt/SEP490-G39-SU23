@@ -8,6 +8,7 @@ import com.teachsync.entities.Session;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * DTO for {@link com.teachsync.entities.Clazz}
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,16 +5,14 @@ import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 /**
  * DTO for {@link com.teachsync.entities.Course}
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

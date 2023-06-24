@@ -3,6 +3,7 @@ package com.teachsync.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.teachsync.utils.enums.Status;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

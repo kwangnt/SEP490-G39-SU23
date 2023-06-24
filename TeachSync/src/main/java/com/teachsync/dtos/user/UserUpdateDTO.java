@@ -5,6 +5,7 @@ import com.teachsync.utils.enums.Status;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * DTO for {@link com.teachsync.entities.User}
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

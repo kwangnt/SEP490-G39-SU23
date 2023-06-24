@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import lombok.*;
 
 
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
