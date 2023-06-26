@@ -36,6 +36,8 @@ public class Test {
     private String testDesc;
     @Column(name = "timeLimit")
     private int timeLimit;
+    @Column(name = "numQuestion")
+    private int numQuestion;
     @Column(name = "minScore")
     private float minScore;
     @Column(name = "testWeight")
