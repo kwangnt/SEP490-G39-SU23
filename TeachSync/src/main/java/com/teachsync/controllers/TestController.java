@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class TestController {
@@ -64,7 +61,8 @@ public class TestController {
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
         test.setTestName(testType);
-        test.setTestType(testType);
+        test.setTestType(questionType);
+        test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
         if (testType.equals("15min")) {
             test.setMinScore(1);
@@ -77,11 +75,12 @@ public class TestController {
             test.setTestWeight(5);
         }
         test.setStatus("CREATED");
-        testRepository.save(test);
+        Test rsTest = testRepository.save(test);
 
         if (questionType.equals("essay")) {
             for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
+                question.setIdTest(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
                 question.setQuestionType("essay");
                 question.setStatus("CREATED");
@@ -95,6 +94,7 @@ public class TestController {
             for (int i = 0; i < numQuestions; i++) {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
+                question.setIdTest(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
                 question.setQuestionType("multipleChoice");
                 question.setStatus("CREATED");
@@ -118,5 +118,28 @@ public class TestController {
         // Redirect to a success page or do any other necessary actions
 
         return "redirect:/";
+    }
+
+
+    @GetMapping("/edit-test")
+    public String editTestView(Model model, HttpSession session, @RequestParam("id") String idTest) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
+
+        Test test = testRepository.findAllById(Collections.singleton(Long.parseLong(idTest))).get(0);
+        List<Question> lstQuestion = questionRepository.findAllById(Collections.singleton(test.getId()));
+        HashMap<Question, List<Answer>> hm = new HashMap<>();
+        for (Question qs : lstQuestion) {
+            hm.put(qs, answerRepository.findAllById(Collections.singleton(qs.getId())));
+        }
+        List<Course> lst = courseRepository.findAllByStatusNot(Status.DELETED);
+        model.addAttribute("lstCourse", lst);
+
+        model.addAttribute("test", test);
+        model.addAttribute("questionAnswer", test);
+        return "edit-test";
+
     }
 }
