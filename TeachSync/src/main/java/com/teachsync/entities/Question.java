@@ -23,6 +23,8 @@ public class Question {
     private Long id;
     @Column(name = "questionType")
     private String questionType;
+    @Column(name = "idTest")
+    private Long idTest;
     @Column(name = "questionDesc")
     private String questionDesc;
     @Column(name = "questionPrompt")
