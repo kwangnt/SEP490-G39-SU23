@@ -2,7 +2,6 @@ package com.teachsync.services.clazz;
 
 import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
-import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.entities.Clazz;
 import org.springframework.data.domain.Page;

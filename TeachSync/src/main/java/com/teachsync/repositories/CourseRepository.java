@@ -20,6 +20,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     /* id */
     Optional<Course> findByIdAndStatusNot(long id, Status status);
+    Page<Course> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status, Pageable pageable);
     List<Course> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
     /* Check duplicate */

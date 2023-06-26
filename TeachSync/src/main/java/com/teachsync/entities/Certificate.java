@@ -1,15 +1,15 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class Certificate extends BaseEntity {
 //    @OneToOne(fetch = FetchType.LAZY, optional = false, orphanRemoval = true)

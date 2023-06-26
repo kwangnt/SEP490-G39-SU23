@@ -31,7 +31,7 @@
       <th scope="col">Họ và tên</th>
       <th scope="col">Tên yêu cầu</th>
       <th scope="col">File CV upload</th>
-      <th scope="col">Link CV </th>
+      <th scope="col">Link CV</th>
       <th scope="col">Thư giới thiệu</th>
       <th scope="col">Chức năng</th>
     </tr>

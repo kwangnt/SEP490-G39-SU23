@@ -1,6 +1,5 @@
 package com.teachsync.controllers;
 
-import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
@@ -37,20 +36,26 @@ public class CourseController {
         /* TODO: get course list, hot course list */
 
         try {
-            model.addAttribute(
-                    "searchableFieldList",
-                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
+            /* Hot course */
+            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAllHotCourse(null);
+            if (dtoPage != null) {
+                model.addAttribute("hotCourseList", dtoPage.getContent());
+                model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
+                model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
+            }
 
-
-            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAll(null);
-
+            /* All course */
+            dtoPage = courseService.getPageDTOAll(null);
             if (dtoPage != null) {
                 model.addAttribute("courseList", dtoPage.getContent());
                 model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
                 model.addAttribute("pageTotal", dtoPage.getTotalPages());
-
             }
 
+            /* TODO: set up searchable course */
+            model.addAttribute(
+                    "searchableFieldList",
+                    miscUtil.sortSearchableField(Course.class.getDeclaredFields()));
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
@@ -82,14 +87,23 @@ public class CourseController {
         return "course-detail";
     }
 
+    @GetMapping("/enroll")
+    public String enroll(@RequestParam Long id) {
+
+        return "enroll";
+    }
+
     @GetMapping("/add-course")
     public String addCourse(HttpServletRequest request, RedirectAttributes redirect) {
         HttpSession session = request.getSession();
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
         if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";

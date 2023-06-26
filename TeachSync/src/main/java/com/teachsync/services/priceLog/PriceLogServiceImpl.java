@@ -8,9 +8,11 @@ import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +57,30 @@ public class PriceLogServiceImpl implements PriceLogService {
         return wrapPageDTO(priceLogPage);
     }
 
+    @Override
+    public Page<PriceLog> getPageAllLatestPromotion(Pageable paging) throws Exception {
+        if (paging == null) {
+            paging = miscUtil.defaultPaging(); }
+
+        Page<PriceLog> priceLogPage =
+                priceLogRepository.findAllByIsCurrentTrueAndIsPromotionTrueAndStatusNot(Status.DELETED, paging);
+
+        if (priceLogPage.isEmpty()) {
+            return null; }
+
+        return priceLogPage;
+    }
+    @Override
+    public Page<PriceLogReadDTO> getPageAllLatestPromotionDTO(Pageable paging) throws Exception {
+        Page<PriceLog> priceLogPage = getPageAllLatestPromotion(paging);
+
+        if (priceLogPage == null) {
+            return null; }
+
+        return wrapPageDTO(priceLogPage);
+    }
+
+    /* id */
     @Override
     public PriceLog getById(Long id) throws Exception {
         Optional<PriceLog> priceLog =
@@ -141,13 +167,36 @@ public class PriceLogServiceImpl implements PriceLogService {
 
     @Override
     public List<PriceLogReadDTO> wrapListDTO(Collection<PriceLog> priceLogCollection) throws Exception {
-        // TODO:
-        return null;
+        List<PriceLogReadDTO> dtoList = new ArrayList<>();
+
+        PriceLogReadDTO dto;
+
+        Double finalPrice;
+        for (PriceLog priceLog : priceLogCollection) {
+            dto = mapper.map(priceLog, PriceLogReadDTO.class);
+
+            finalPrice = priceLog.getPrice();
+
+            if (priceLog.getIsPromotion()) {
+                finalPrice = switch (priceLog.getPromotionType()) {
+                    case AMOUNT -> priceLog.getPrice() - priceLog.getPromotionAmount();
+                    case PERCENT -> priceLog.getPrice() * ((100.0 - priceLog.getPromotionAmount()) / 100.0);
+                };
+            }
+
+            dto.setFinalPrice(finalPrice);
+
+            dtoList.add(dto);
+        }
+
+        return dtoList;
     }
 
     @Override
     public Page<PriceLogReadDTO> wrapPageDTO(Page<PriceLog> priceLogPage) throws Exception {
-        // TODO:
-        return null;
+        return new PageImpl<>(
+                wrapListDTO(priceLogPage.getContent()),
+                priceLogPage.getPageable(),
+                priceLogPage.getTotalPages());
     }
 }

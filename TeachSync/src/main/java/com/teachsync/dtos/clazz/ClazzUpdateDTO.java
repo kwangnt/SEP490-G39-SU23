@@ -1,16 +1,20 @@
 package com.teachsync.dtos.clazz;
 
+import com.teachsync.dtos.BaseUpdateDTO;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+/**
+ * DTO for {@link com.teachsync.entities.Clazz}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class ClazzUpdateDTO {
+public class ClazzUpdateDTO extends BaseUpdateDTO {
     private Long id;
     private Long courseId;
 

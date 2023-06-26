@@ -1,21 +1,24 @@
 package com.teachsync.dtos.user;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.List;
 
+/**
+ * DTO for {@link com.teachsync.entities.User}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class UserReadDTO implements Serializable {
+public class UserReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long roleId;

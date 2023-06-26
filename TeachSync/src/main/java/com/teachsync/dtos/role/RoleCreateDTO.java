@@ -1,21 +1,23 @@
 package com.teachsync.dtos.role;
 
+import com.teachsync.dtos.BaseCreateDTO;
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.io.Serializable;
-
+/**
+ * DTO for {@link com.teachsync.entities.Role}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class RoleCreateDTO implements Serializable {
+public class RoleCreateDTO extends BaseCreateDTO {
     @NotBlank
     @Size(min = 1, max = 45)
     private String roleName;

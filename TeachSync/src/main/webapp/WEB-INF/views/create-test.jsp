@@ -150,7 +150,7 @@
 
     for (var i = 0; i < numQuestions; i++) {
       var questionDiv = document.createElement("div");
-      questionDiv.className = "question";
+      questionDiv.clazzName = "question";
 
       var questionLabel = document.createElement("label");
       questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
@@ -171,7 +171,7 @@
 
     for (var i = 0; i < numQuestions; i++) {
       var questionDiv = document.createElement("div");
-      questionDiv.className = "question";
+      questionDiv.clazzName = "question";
 
       var questionLabel = document.createElement("label");
       questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
@@ -190,7 +190,7 @@
       numOptionsInput.required = true;
 
       var answerContainer = document.createElement("div");
-      answerContainer.className = "answer-container";
+      answerContainer.clazzName = "answer-container";
 
       questionDiv.appendChild(questionLabel);
       questionDiv.appendChild(questionInput);
@@ -231,7 +231,7 @@
       isCorrectCheckbox.name = "isCorrect" + numOptionsInput.name.slice(-1) + "-" + i;
 
       var answerWrapper = document.createElement("div");
-      answerWrapper.className = "answer";
+      answerWrapper.clazzName = "answer";
       answerWrapper.appendChild(answerLabel);
       answerWrapper.appendChild(answerInput);
       answerWrapper.appendChild(isCorrectCheckbox);

@@ -1,20 +1,20 @@
 package com.teachsync.dtos.request;
 
-import com.teachsync.entities.BaseEntity;
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+/**
+ * DTO for {@link com.teachsync.entities.Request}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class RequestReadDTO {
+public class RequestReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long requesterId;
