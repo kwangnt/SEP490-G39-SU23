@@ -12,10 +12,11 @@
   <%--  Set var --%>
   <c:set var="user" value="${sessionScope.user}"/>
   <c:set var="isGuest" value="${user eq null}"/>
-  <c:set var="isStudent" value="${((!isGuest) && (user.roleId eq sessionScope.studentRoleId))}"/>
-  <c:set var="isParent" value="${((!isGuest) && (user.roleId eq sessionScope.parentRoleId))}"/>
-  <c:set var="isTeacher" value="${((!isGuest) && (user.roleId eq sessionScope.teacherRoleId))}"/>
-  <c:set var="isAdmin" value="${((!isGuest) && (user.roleId eq sessionScope.adminRoleId))}"/>
+  <%-- TODO: replace with const --%>
+  <c:set var="isStudent" value="${((!isGuest) && (user.roleId eq 1))}"/>
+  <c:set var="isParent" value="${((!isGuest) && (user.roleId eq 2))}"/>
+  <c:set var="isTeacher" value="${((!isGuest) && (user.roleId eq 3))}"/>
+  <c:set var="isAdmin" value="${((!isGuest) && (user.roleId eq 4))}"/>
 
   <!-- Menu -->
   <div class="col-sm-10 col-md-11 txt-normal">

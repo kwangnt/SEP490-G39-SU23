@@ -5,6 +5,8 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,10 +51,14 @@ public class LoginController {
 
             session.setAttribute("user", user);
 
-            System.out.println(targetUrl);
             if (targetUrl != null) {
+                /* Quay lại trang cũ sau login */
                 return "redirect:" + targetUrl;
             }
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
+            e.printStackTrace();
+            model.addAttribute("msg", e.getMessage());
+            return "login";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", e.getMessage());

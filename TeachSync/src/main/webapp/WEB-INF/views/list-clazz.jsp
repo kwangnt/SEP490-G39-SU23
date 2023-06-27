@@ -37,18 +37,18 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="classroom" items="${clazzList}">
+    <c:forEach var="class" items="${clazzList}">
       <tr>
-        <th scope="row">${classroom.id}</th>
+        <th scope="row">${class.id}</th>
         <td><a style="font-weight: bold;"
-             href="add-classroom?Id=${classroom.id}&option=detail">${classroom.clazzName}</a></td>
-<%--    TODO: fix    <td>${classroom.course.courseName}</td>--%>
-        <td>${classroom.clazzDesc}</td>
+             href="add-classroom?Id=${class.id}&option=detail">${class.clazzName}</a></td>
+        <td>${class.courseSchedule.courseName}</td>
+        <td>${class.clazzDesc}</td>
         <td>
-          <a href="add-classroom?Id=${classroom.id}&option=edit">
+          <a href="add-classroom?Id=${class.id}&option=edit">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
-          <a href="delete-classroom?Id=${classroom.id}">
+          <a href="delete-classroom?Id=${class.id}">
             <button type="button" class="btn btn-danger">Xóa</button>
           </a>
         </td>

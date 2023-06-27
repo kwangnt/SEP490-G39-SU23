@@ -21,6 +21,11 @@ public interface ClazzRepository extends JpaRepository<Clazz, Long> {
     Optional<Clazz> findByIdAndStatusNot(long id, Status status);
     List<Clazz> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
+    /* courseScheduleId */
+    List<Clazz> findAllByCourseScheduleIdAndStatusNot(Long scheduleId, Status status);
+    List<Clazz> findAllByCourseScheduleIdInAndStatusNot(Collection<Long> scheduleIdCollection, Status status);
+
+
     /* Check duplicate */
 
 }
