@@ -1,43 +1,59 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import lombok.*;
+import com.teachsync.utils.enums.Status;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
-public class Test extends BaseEntity {
-    @Column(name = "courseId", nullable = true)
+@Table(name = "test")
+public class Test {
+    @Positive
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "courseId")
     private Long courseId;
-    
-    @Column(name = "testName", nullable = false, length = 45)
+    @Column(name = "testName")
     private String testName;
-    
-    @Column(name = "testType", nullable = false, length = 45)
+    @Column(name = "testType")
     private String testType;
-
-    @Lob
-    @Column(name = "testImg", nullable = true, length = -1)
+    @Column(name = "testImg")
     private String testImg;
-
-    @Lob
-    @Column(name = "testDesc", nullable = true, length = -1)
+    @Column(name = "testDesc")
     private String testDesc;
-    
-    @Column(name = "timeLimit", nullable = false)
-    private Integer timeLimit;
-    
-    @Column(name = "minScore", nullable = false, precision = 0)
-    private Double minScore;
-    
-    @Column(name = "testWeight", nullable = false)
-    private Integer testWeight;
-    
-    @Column(name = "totalScore", nullable = true, precision = 0)
-    private Double totalScore;
+    @Column(name = "timeLimit")
+    private int timeLimit;
+    @Column(name = "numQuestion")
+    private int numQuestion;
+    @Column(name = "minScore")
+    private float minScore;
+    @Column(name = "testWeight")
+    private int testWeight;
+    @Column(name = "totalScore")
+    private float totalScore;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "createdAt")
+    private Date createdAt;
+    @Column(name = "createdBy")
+    private Long createdBy;
+    @Column(name = "updatedAt")
+    private Date updatedAt;
+    @Column(name = "updatedBy")
+    private Long updatedBy;
+
+
 }
