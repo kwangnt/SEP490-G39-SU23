@@ -69,8 +69,11 @@
             <h4 class="card-title d-flex justify-content-between align-items-center mb-0">
               <span><c:out value="${course.courseName}"/></span>
               <c:if test="${isAdmin}">
-                <a href="edit-course" class="btn btn-warning">
+                <a href="edit-course?id=${course.id}" class="btn btn-warning">
                   Chỉnh sửa
+                </a>
+                <a href="delete-course?id=${course.id}" class="btn btn-danger">
+                  Xóa
                 </a>
               </c:if>
             </h4>
