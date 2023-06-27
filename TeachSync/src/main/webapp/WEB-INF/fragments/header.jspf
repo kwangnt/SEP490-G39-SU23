@@ -61,12 +61,6 @@
                             </a>
                         </div>
                         <div class="col border-start border-end ts-border-teal">
-                            <a href="teacher-request" class="text-decoration-none txt-black txt-hover-blue">
-                                <i class="bi-book"></i>
-                                Danh sách ứng tuyển
-                            </a>
-                        </div>
-                        <div class="col border-start border-end ts-border-teal">
                             <a href="certificate" class="text-decoration-none txt-black txt-hover-blue">
                                 <i class="bi-postcard"></i>
                                 QL Bằng cấp

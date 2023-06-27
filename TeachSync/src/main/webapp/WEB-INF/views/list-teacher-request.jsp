@@ -40,8 +40,8 @@
     <c:forEach var="teacherQuest" items="${teacherQuestList}">
       <tr>
         <th scope="row">${teacherQuest.id}</th>
-        <td>${teacherQuest.user.username}</td>
-        <td>${teacherQuest.user.fullName}</td>
+        <td>${teacherQuest.username}</td>
+        <td>${teacherQuest.fullName}</td>
         <td>${teacherQuest.requestName}</td>
         <td>${teacherQuest.requestContent}</td>
         <td>${teacherQuest.contentLink}</td>
