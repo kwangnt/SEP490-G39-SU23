@@ -12,10 +12,13 @@ import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.naming.AuthenticationException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -95,14 +98,15 @@ public class UserServiceImpl implements UserService {
         User user = login(username);
 
         if (ObjectUtils.isEmpty(user)) {
-            throw new Exception("Không tìm thấy tài khoản với username: " + username);
+            throw new UsernameNotFoundException("Không tìm thấy tài khoản với username: " + username);
         }
 
         //check password
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean isMatch = passwordEncoder.matches(password, user.getPassword());
         if (!isMatch) {
-            return null;
+            /* Wrong password */
+            throw new BadCredentialsException("Sai username hoặc password");
         }
 
         return wrapDTO(user);

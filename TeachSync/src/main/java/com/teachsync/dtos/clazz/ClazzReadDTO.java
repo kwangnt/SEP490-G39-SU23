@@ -1,10 +1,9 @@
 package com.teachsync.dtos.clazz;
 
 import com.teachsync.dtos.BaseReadDTO;
-import com.teachsync.entities.ClazzTest;
-import com.teachsync.entities.CourseSchedule;
-import com.teachsync.entities.Homework;
-import com.teachsync.entities.Session;
+import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
+import com.teachsync.dtos.courseSchedule.CourseScheduleReadDTO;
+import com.teachsync.entities.*;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,24 +21,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClazzReadDTO extends BaseReadDTO {
-    private Long id;
-
-    private CourseSchedule courseSchedule;
-
     private String clazzName;
 
     private String clazzDesc;
 
     private int clazzSize;
 
-    private List<Homework> homeworkList;
-    private List<ClazzTest> testList;
+    private Long courseScheduleId;
+    private CourseScheduleReadDTO courseSchedule;
+
+    private ClazzScheduleReadDTO clazzSchedule;
 
     private List<Session> sessionList;
 
-    private Status status;
-    private Long createdBy;
-    private LocalDateTime createdAt;
-    private Long updatedBy;
-    private LocalDateTime updatedAt;
+    private List<ClazzMember> memberList;
+
+    private List<Homework> homeworkList;
+
+    private List<ClazzTest> testList;
 }

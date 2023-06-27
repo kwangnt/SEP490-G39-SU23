@@ -16,11 +16,11 @@ import java.time.LocalDate;
 public class CourseScheduleReadDTO extends BaseReadDTO {
     private Long courseId;
 
-    private Long courseName;
+    private String courseName;
 
     private Long centerId;
 
-    private Long centerName;
+    private String centerName;
 
     private String scheduleAlias;
 

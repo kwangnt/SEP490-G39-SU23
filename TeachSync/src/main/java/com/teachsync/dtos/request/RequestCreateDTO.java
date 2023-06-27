@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestCreateDTO extends BaseCreateDTO {
-    private Long id;
-
     private Long requesterId;
 
     private String requestName;
@@ -35,6 +33,4 @@ public class RequestCreateDTO extends BaseCreateDTO {
     private String contentLink;
 
     private Long resolverId;
-
-    private Status status = Status.CREATED;
 }

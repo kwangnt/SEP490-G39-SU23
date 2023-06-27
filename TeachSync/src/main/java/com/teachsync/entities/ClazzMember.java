@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.MemberRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,7 +22,7 @@ public class ClazzMember extends BaseEntity {
     private Long userId;
     
     @Column(name = "memberRole", nullable = false, length = 45)
-    private String memberRole;
+    private MemberRole memberRole;
     
     @Column(name = "score", nullable = true, precision = 0)
     private Double score;

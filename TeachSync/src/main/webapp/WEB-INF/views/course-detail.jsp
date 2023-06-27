@@ -109,18 +109,28 @@
           </div>
 
 
-          <c:if test="${isGuest}">
-            <div class="card-footer text-center">
-              <a href="login" class="btn btn-primary w-25">Đăng ký học</a>
-            </div>
+          <c:if test="${hasLatestSchedule}">
+            <c:if test="${isGuest}">
+              <div class="card-footer text-center">
+                <a href="login" class="btn btn-primary w-25">Đăng ký học</a>
+              </div>
+            </c:if>
+
+            <c:if test="${isStudent}">
+              <div class="card-footer text-center">
+                <c:url var="enrollLink" value="enroll">
+                  <c:param name="id" value="${course.id}"/>
+                </c:url>
+                <a href="${enrollLink}" class="btn btn-primary w-25">Đăng ký học</a>
+              </div>
+            </c:if>
           </c:if>
 
-          <c:if test="${isStudent}">
+          <c:if test="${!hasLatestSchedule}">
             <div class="card-footer text-center">
-              <c:url var="enrollLink" value="enroll">
-                <c:param name="id" value="${course.id}"/>
-              </c:url>
-              <a href="${enrollLink}" class="btn btn-primary w-25">Đăng ký học</a>
+              <p class="card-text text-danger">
+                Khóa học này hiện chưa có kỳ học nào sắp tới để đăng ký
+              </p>
             </div>
           </c:if>
 

@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+/**Học kỳ của khóa học*/
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
