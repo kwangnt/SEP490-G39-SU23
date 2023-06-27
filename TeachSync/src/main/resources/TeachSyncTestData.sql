@@ -53,37 +53,49 @@ insert into price_log(courseId, price, isCurrent, isPromotion, promotionAmount,
                       promotionType, promotionDesc, validFrom, validTo, status)
 values
     (1, 200000, true, true, 15, 'PERCENT', 'Grand opening super deal, now cheaper ', '2023-06-10 00:00:01', null, 'CREATED'),
-    (1, 100000, true, true, 20000, 'AMOUNT', 'To help with the first step, now reduce', '2023-06-10 00:00:01', null, 'CREATED'),
-    (1, 125000, true, false, null, null, null, '2023-06-10 00:00:01', null, 'CREATED'),
-    (1, 150000, true, false, null, null, null, '2023-06-10 00:00:01', null, 'CREATED');
+    (2, 100000, true, true, 20000, 'AMOUNT', 'To help with the first step, now reduce', '2023-06-10 00:00:01', null, 'CREATED'),
+    (3, 125000, true, false, null, null, null, '2023-06-10 00:00:01', null, 'CREATED'),
+    (4, 150000, true, false, null, null, null, '2023-06-10 00:00:01', null, 'CREATED');
 
 insert into certificate(courseId, certificateName, certificateDesc, status)
 values
     (1, 'Ielts 101', 'You have complete the Ielts 101 course', 'CREATED'),
-    (2, 'Ielts 101', 'You have complete the Ielts 101 course', 'CREATED'),
-    (3, 'Ielts 101', 'You have complete the Ielts 101 course', 'CREATED'),
-    (4, 'Ielts 101', 'You have complete the Ielts 101 course', 'CREATED');
+    (2, 'Eng 1', 'You have complete the Eng 1 course', 'CREATED'),
+    (3, 'Eng 2', 'You have complete the Eng 2 course', 'CREATED'),
+    (4, 'Eng 3', 'You have complete the Eng 3 course', 'CREATED');
 
 insert into course_schedule(courseId, centerId, scheduleAlias, scheduleType, startDate, endDate, status)
 values
     (1, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
     (1, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
+
     (2, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
+    (2, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
+
     (3, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
-    (4, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED');
+    (3, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
+
+    (4, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
+    (4, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED');
 
 insert into clazz(courseScheduleId, clazzName, clazzDesc, clazzSize, status)
     value
     (1, 'Class 1 Ielts 101', null, 15, 'CREATED'),
-    (2, 'Class 1 Eng gr 1', null, 30, 'CREATED'),
-    (3, 'Class 1 Eng gr 2', null, 30, 'CREATED'),
-    (4, 'Class 1 Eng gr 3', null, 25, 'CREATED'),
-    (1, 'Class 2 Ielts 101', null, 15, 'CREATED');
+    (2, 'Class 2 Ielts 101', null, 15, 'CREATED'),
+
+    (3, 'Class 1 Eng gr 1', null, 30, 'CREATED'),
+    (4, 'Class 2 Eng gr 1', null, 30, 'CREATED'),
+
+    (5, 'Class 1 Eng gr 2', null, 30, 'CREATED'),
+    (6, 'Class 2 Eng gr 2', null, 30, 'CREATED'),
+
+    (7, 'Class 1 Eng gr 3', null, 25, 'CREATED'),
+    (8, 'Class 2 Eng gr 3', null, 25, 'CREATED');
 
 insert into clazz_schedule(clazzId, roomId, scheduleType, startDate, endDate, slot, sessionStart, sessionEnd, status)
 values
     (1, 1, 'MON_WED_FRI', '2023-06-10', '2023-08-10', 1, '07:00:00', '08:30:00', 'CREATED'),
-    (5, 3, 'TUE_THU_SAT', '2023-06-10', '2023-08-10', 3, '10:30:00', '12:00:00', 'CREATED');
+    (2, 3, 'TUE_THU_SAT', '2023-06-10', '2023-08-10', 3, '10:30:00', '12:00:00', 'CREATED');
 
 insert into session (roomId, scheduleId, teacherId, slot, sessionStart, sessionEnd, status)
 values

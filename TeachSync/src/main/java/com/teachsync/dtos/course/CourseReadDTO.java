@@ -18,8 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CourseReadDTO extends BaseReadDTO {
-    private Long id;
-
     private String courseName;
     private String courseImg;
 
@@ -28,8 +26,6 @@ public class CourseReadDTO extends BaseReadDTO {
     private Double minScore;
 
     private Double minAttendant;
-
-    private Status status;
 
     private List<Clazz> clazzList;
 

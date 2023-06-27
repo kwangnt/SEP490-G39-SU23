@@ -1,7 +1,9 @@
 package com.teachsync.services.course;
 
+import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
+import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Course;
 import com.teachsync.entities.PriceLog;
 import com.teachsync.repositories.CourseRepository;
@@ -45,18 +47,17 @@ public class CourseServiceImpl implements CourseService {
     /* =================================================== CREATE =================================================== */
     @Override
     @Transactional
-    public CourseReadDTO addCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception {
+    public CourseReadDTO addCourse(CourseCreateDTO courseDTO, Long userId) throws Exception {
         Course course = new Course();
 
-        course.setCourseName(courseReadDTO.getCourseName());
+        course.setCourseName(courseDTO.getCourseName());
         //TODO : process upload file
-        course.setCourseImg(courseReadDTO.getCourseImg());
-        course.setCourseDesc(courseReadDTO.getCourseDesc());
-        course.setMinScore(courseReadDTO.getMinScore());
-        course.setMinAttendant(courseReadDTO.getMinAttendant());
-        course.setStatus(Status.CREATED);
+        course.setCourseImg(courseDTO.getCourseImg());
+        course.setCourseDesc(courseDTO.getCourseDesc());
+        course.setMinScore(courseDTO.getMinScore());
+        course.setMinAttendant(courseDTO.getMinAttendant());
+        course.setStatus(courseDTO.getStatus());
         course.setCreatedBy(userId);
-        course.setUpdatedBy(userId);
         Course courseDb = courseRepository.save(course);
         if (ObjectUtils.isEmpty(courseDb)) {
             throw new Exception("Tạo khóa học thất bại");
@@ -65,7 +66,7 @@ public class CourseServiceImpl implements CourseService {
         //add price
         PriceLog priceLog = new PriceLog();
         priceLog.setCourseId(courseDb.getId());
-        priceLog.setPrice(courseReadDTO.getCurrentPrice().getPrice());
+        priceLog.setPrice(courseDTO.getPrice());
         priceLog.setStatus(Status.CREATED);
         priceLog.setPromotionAmount(0.0);
         priceLog.setIsCurrent(true);
@@ -164,10 +165,9 @@ public class CourseServiceImpl implements CourseService {
     /* id */
     @Override
     public Course getById(Long id) throws Exception {
-        Optional<Course> course =
-                courseRepository.findByIdAndStatusNot(id, Status.DELETED);
-
-        return course.orElse(null);
+        return courseRepository
+                .findByIdAndStatusNot(id, Status.DELETED)
+                .orElse(null);
     }
 
     @Override
@@ -203,6 +203,28 @@ public class CourseServiceImpl implements CourseService {
 
         return wrapPageDTO(coursePage);
     }
+
+    @Override
+    public List<Course> getAllByIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<Course> courseList =
+                courseRepository.findAllByIdInAndStatusNot(courseIdCollection, Status.DELETED);
+
+        if (courseList.isEmpty()) {
+            return null; }
+
+        return courseList;
+    }
+    @Override
+    public Map<Long, String> mapCourseIdCourseNameByIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<Course> courseList = getAllByIdIn(courseIdCollection);
+
+        if (courseList.isEmpty()) {
+            return new HashMap<>(); }
+
+        return courseList.stream()
+                .collect(Collectors.toMap(BaseEntity::getId, Course::getCourseName));
+    }
+
 
     /* =================================================== UPDATE =================================================== */
 
