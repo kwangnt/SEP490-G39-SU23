@@ -74,6 +74,7 @@ public class ClazzController {
         String result = "";
         String optional = "";
 
+        //TODO : sửa lại chỗ thêm khóa học vào lớp , cần làm rõ
         if (ObjectUtils.isEmpty(request.getParameter("clazzId"))) {
             result = clazzService.addClazz(createDTO);
             optional = "Thêm mới";

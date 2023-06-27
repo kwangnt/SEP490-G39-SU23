@@ -24,18 +24,18 @@
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
   <form action="add-clazz" method="post">
-    <input type="hidden" name="classroomId" value="${classroom.id}">
+    <input type="hidden" name="clazzId" value="${clazz.id}">
     <div class="form-group">
       <label>Tên lớp</label>
       <c:if test="${option == 'detail'}">
         <input type="text" name="name"
-             value="${classroom.clazzName}"
+             value="${clazz.clazzName}"
              disabled
              class="form-control" placeholder="Nhập tên lớp">
       </c:if>
       <c:if test="${option == 'edit' || option == 'add'}">
         <input type="text" name="name"
-             value="${classroom.clazzName}"
+             value="${clazz.clazzName}"
              class="form-control" placeholder="Nhập tên lớp">
       </c:if>
 
@@ -70,10 +70,10 @@
     <div class="form-group">
       <label>Miêu tả</label>
       <c:if test="${option == 'detail'}">
-        <input type="text" disabled value="${classroom.clazzDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+        <input type="text" disabled value="${clazz.clazzDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
       </c:if>
       <c:if test="${option == 'edit' || option == 'add'}">
-        <input type="text" value="${classroom.clazzDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
+        <input type="text" value="${clazz.clazzDesc}" name="desc" class="form-control" placeholder="Nhập miêu tả">
       </c:if>
     </div>
     <br>
