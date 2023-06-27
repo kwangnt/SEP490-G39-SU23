@@ -34,10 +34,10 @@ public class TestController {
 
     @GetMapping("/create-test")
     public String createTestViews(Model model, HttpSession session) {
-//        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
-//        if (user == null || user.getRoleId() != 1) {
-//            return "redirect:/";
-//        }
+        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        if (user == null || user.getRoleId() != 1) {
+            return "redirect:/";
+        }
         List<Course> lst = courseRepository.findAllByStatusNot(Status.DELETED);
         model.addAttribute("lstCourse", lst);
         return "create-test";

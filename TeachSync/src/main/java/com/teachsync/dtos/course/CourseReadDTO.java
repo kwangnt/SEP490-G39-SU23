@@ -1,46 +1,37 @@
 package com.teachsync.dtos.course;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
-import com.teachsync.entities.Classroom;
-import com.teachsync.entities.Course;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Material;
 import com.teachsync.utils.enums.Status;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
+/**
+ * DTO for {@link com.teachsync.entities.Course}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Builder
-public class CourseReadDTO implements Serializable {
-    private Long id;
-
+public class CourseReadDTO extends BaseReadDTO {
     private String courseName;
+    private String courseImg;
 
     private String courseDesc;
 
-    private Status status;
+    private Double minScore;
 
-    private List<Classroom> classroomList;
+    private Double minAttendant;
+
+    private List<Clazz> clazzList;
 
     private List<Material> materialList;
 
-    //    private List<PriceLog> priceLogList;
+//    private List<PriceLog> priceLogList;
     private PriceLogReadDTO currentPrice;
-
-    public static CourseReadDTO toCourseReadDTO(Course course) {
-        return CourseReadDTO.builder()
-                .id(course.getId())
-                .courseName(course.getCourseName())
-                .courseDesc(course.getCourseDesc())
-                .status(course.getStatus())
-                .classroomList(course.getClassroomList())
-                .materialList(course.getMaterialList())
-                .build();
-    }
-
 }
 

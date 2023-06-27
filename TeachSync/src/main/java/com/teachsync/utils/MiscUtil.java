@@ -1,5 +1,6 @@
 package com.teachsync.utils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -9,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MiscUtil {
     public Pageable makePaging(int pageNo, int pageSize, String sortBy, boolean isAsc) {
@@ -36,6 +36,11 @@ public class MiscUtil {
         }
 
         return searchableFieldList;
+    }
+
+    public String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
     }
 
     public static String generateRandomName() {

@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-
 @Controller
 public class NewsController {
     @Autowired
@@ -38,7 +35,7 @@ public class NewsController {
 
     @GetMapping("/createnews")
     public String createNews(Model model, HttpSession session) {
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         } else return "create-news";
@@ -50,7 +47,7 @@ public class NewsController {
                                    @RequestParam String description,
                                    @RequestParam String content) {
 
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
@@ -58,7 +55,8 @@ public class NewsController {
 
         User user1 = userRepository.findById(user.getId()).orElse(null);
 
-        News news = new News(title, description, content, user1, user1.getId(), Status.CREATED);
+        News news = new News(user1.getId(), title, null, content, description);
+        news.setStatus(Status.CREATED);
 
         newsRepository.save(news);
         return "redirect:/";
@@ -69,7 +67,7 @@ public class NewsController {
     public String editNews(Model model, HttpSession session,
                            @RequestParam String id) {
 
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
@@ -88,7 +86,7 @@ public class NewsController {
                                  @RequestParam String description,
                                  @RequestParam String content) {
 
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {
             return "redirect:/";
         }
@@ -96,7 +94,9 @@ public class NewsController {
 
         User user1 = userRepository.findById(user.getId()).orElse(null);
 
-        News news = new News(Long.parseLong(idNews), title, description, content, user1, user1.getId(), Status.UPDATED);
+        News news = new News(user1.getId(), title, null, content, description);
+        news.setId(Long.parseLong(idNews));
+        news.setStatus(Status.UPDATED);
 
         newsRepository.save(news);
         return "redirect:/";

@@ -8,7 +8,7 @@
   <title>Profile</title>
 
   <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
-  <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
+  <link rel="stylesheet" href="../../resources/css/profile_style.css">
   <link rel="stylesheet" type="text/css" href="../../resources/css/profile_style.css">
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
   <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
@@ -28,9 +28,10 @@
           <div class="account-settings">
             <div class="user-profile">
               <div class="user-avatar">
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Maxwell Admin">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                   alt="Maxwell Admin">
               </div>
-              <h5 class="user-name" ><c:out value="${sessionScope.user.username}"/></h5>
+              <h5 class="user-name"><c:out value="${sessionScope.user.username}"/></h5>
               <h6 class="user-email"><c:out value="${sessionScope.user.email}"/></h6>
             </div>
             <div class="about">
@@ -54,21 +55,24 @@
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                   <label for="fullName">Full Name</label>
-                  <input type="text" class="form-control" id="fullName" name="fullName" value="${sessionScope.user.fullName}">
+                  <input type="text" class="form-control" id="fullName" name="fullName"
+                       value="${sessionScope.user.fullName}">
                 </div>
               </div>
 
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" value="${sessionScope.user.email}">
+                  <input type="text" class="form-control" id="email" name="email"
+                       value="${sessionScope.user.email}">
                 </div>
               </div>
 
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                   <label for="phone">Phone</label>
-                  <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.user.phone}">
+                  <input type="text" class="form-control" id="phone" name="phone"
+                       value="${sessionScope.user.phone}">
                 </div>
               </div>
             </div>
@@ -81,7 +85,8 @@
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                   <label for="address">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" value="${sessionScope.user.address}">
+                  <input type="text" class="form-control" id="address" name="address"
+                       value="${sessionScope.user.address}">
                 </div>
               </div>
             </div>
@@ -89,7 +94,9 @@
             <div class="row gutters">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="text-right">
-                  <button type="submit" id="submit" name="submit" class="btn btn-primary">Edit Profile</button>
+                  <button type="submit" id="submit" name="submit" class="btn btn-primary">Edit
+                                                      Profile
+                  </button>
                 </div>
               </div>
             </div>

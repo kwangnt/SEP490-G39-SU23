@@ -1,16 +1,12 @@
 package com.teachsync.controllers;
 
-import com.teachsync.dtos.request.TeacherRequestDto;
+import com.teachsync.dtos.request.RequestCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.entities.User;
 import com.teachsync.services.teacherRequest.TeacherRequestService;
-import com.teachsync.utils.MiscUtil;
-import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +24,7 @@ public class TeacherRequestController {
     public String viewTeacherRequest(HttpServletRequest request, RedirectAttributes redirect) {
         //check login
         HttpSession session = request.getSession();
-        if (ObjectUtils.isEmpty(session.getAttribute("loginUser"))) {
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
@@ -37,24 +33,25 @@ public class TeacherRequestController {
     }
 
     @PostMapping("/add")
-    public String addTeacherRequest(HttpServletRequest request, RedirectAttributes redirect) {
+    public String addTeacherRequest(
+            HttpServletRequest request,
+            HttpSession session,
+            RedirectAttributes redirect) {
         //check login
-        HttpSession session = request.getSession();
-        if (ObjectUtils.isEmpty(session.getAttribute("loginUser"))) {
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDto = (UserReadDTO) session.getAttribute("loginUser");
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
 
-        TeacherRequestDto teacherRequestDto = new TeacherRequestDto();
-        User user = new User();
-        user.setId(userDto.getId());
-        teacherRequestDto.setUser(user);
-        teacherRequestDto.setRequestDesc(request.getParameter("requestDesc"));
-        teacherRequestDto.setRequestContent(request.getParameter("contentLink"));
+        RequestCreateDTO createDTO = new RequestCreateDTO();
+
+        createDTO.setRequesterId(userDTO.getId());
+        createDTO.setRequestDesc(request.getParameter("requestDesc"));
+        createDTO.setContentLink(request.getParameter("contentLink"));
 
 
-        String result = teacherRequestService.addTeacherRequest(teacherRequestDto);
+        String result = teacherRequestService.addRequest(createDTO);
 
         if (result.equals("error")) {
             redirect.addAttribute("mess", "Lỗi khi thêm yêu cầu tuyển dụng giáo viên");

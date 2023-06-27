@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import java.util.Collection;
 import java.util.List;
 
-import java.util.List;
-
 public interface UserService {
     /* =================================================== CREATE =================================================== */
     User createUser(User user) throws Exception;
@@ -19,8 +17,8 @@ public interface UserService {
 
 
     /* =================================================== READ ===================================================== */
-    User login(String username, String password) throws Exception;
-    UserReadDTO loginDTO(String username, String password) throws Exception;
+    User login(String username) throws Exception;
+    UserReadDTO loginDTO(String username,String password) throws Exception;
 
     User getById(Long id) throws Exception;
     UserReadDTO getDTOById(Long id) throws Exception;

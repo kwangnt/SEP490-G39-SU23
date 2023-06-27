@@ -1,46 +1,39 @@
 package com.teachsync.dtos.request;
 
-import com.teachsync.entities.User;
+import com.teachsync.dtos.BaseUpdateDTO;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
+/**
+ * DTO for {@link com.teachsync.entities.Request}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class RequestUpdateDTO {
-    @Positive
+public class RequestUpdateDTO extends BaseUpdateDTO {
     private Long id;
 
-    /* Nullable */
-    @Positive
     private Long requesterId;
 
-    @NotBlank
-    @Size(min = 1, max = 45)
     private String requestName;
-
-    private String requestType;
-
-    @Lob
-    private String requestContent;
-
-    @Lob
-    @URL
-    private String contentLink;
 
     @Lob
     private String requestDesc;
 
-    @Positive
+    private String requestType;
+
+    private Long clazzId;
+
+    private byte[] requestContent;
+
+    @Lob
+    private String contentLink;
+
     private Long resolverId;
 
     private Status status = Status.UPDATED;

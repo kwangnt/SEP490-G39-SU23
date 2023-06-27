@@ -1,7 +1,9 @@
 package com.teachsync;
 
+import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Course;
 import com.teachsync.entities.User;
 import com.teachsync.utils.MiscUtil;
@@ -13,8 +15,9 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableJpaAuditing
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class TeachSyncApplication extends SpringBootServletInitializer {
 
@@ -42,7 +45,14 @@ public class TeachSyncApplication extends SpringBootServletInitializer {
                 .addMappings(mapper -> {
                     mapper.skip(CourseReadDTO::setCurrentPrice);
                     mapper.skip(CourseReadDTO::setMaterialList);
-                    mapper.skip(CourseReadDTO::setClassroomList); });
+                    mapper.skip(CourseReadDTO::setClazzList); });
+
+        modelMapper.typeMap(Clazz.class, ClazzReadDTO.class)
+                .addMappings(mapper -> {
+                    mapper.skip(ClazzReadDTO::setCourseSchedule);
+                    mapper.skip(ClazzReadDTO::setSessionList);
+                    mapper.skip(ClazzReadDTO::setHomeworkList);
+                    mapper.skip(ClazzReadDTO::setTestList); });
 
         modelMapper.typeMap(User.class, UserReadDTO.class)
                 .addMappings(mapper -> {

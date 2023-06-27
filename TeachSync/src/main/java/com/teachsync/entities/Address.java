@@ -1,43 +1,44 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(name = "address")
-@Data
-public class Address {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id" )
-    private Long id;
-
-    @Column(name = "countryId")
+public class Address extends BaseEntity {
+    @Column(name = "countryId", nullable = false)
     private Long countryId;
 
-    @Column(name = "provinceId")
+    @Column(name = "provinceId", nullable = false)
     private Long provinceId;
 
-    @Column(name = "cityId")
+    @Column(name = "cityId", nullable = false)
     private Long cityId;
 
-    @Column(name = "districtId")
+    @Column(name = "districtId", nullable = false)
     private Long districtId;
 
-    @Column(name = "wardId")
+    @Column(name = "wardId", nullable = false)
     private Long wardId;
 
-    @Column(name = "areaId")
+    @Column(name = "areaId", nullable = true)
     private Long areaId;
 
-    @Column(name = "street")
+    @Column(name = "street", nullable = false, length = 255)
     private String street;
 
-    @Column(name = "addressNo")
+    @Column(name = "addressNo", nullable = false, length = 255)
     private String addressNo;
 
-    @Column(name = "status")
-    private Status status;
+    /** Need to auto generate on Address Create & Update.<br/>
+     *  To save on query call. */
+    @Lob
+    @Column(name = "addressString", nullable = true, length = -1)
+    private String addressString;
 }

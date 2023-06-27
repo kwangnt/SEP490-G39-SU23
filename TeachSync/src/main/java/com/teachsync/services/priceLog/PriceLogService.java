@@ -17,13 +17,17 @@ public interface PriceLogService {
     Page<PriceLog> getPageAll(Pageable paging) throws Exception;
     Page<PriceLogReadDTO> getPageDTOAll(Pageable paging) throws Exception;
 
+    Page<PriceLog> getPageAllLatestPromotion(Pageable paging) throws Exception;
+    Page<PriceLogReadDTO> getPageAllLatestPromotionDTO(Pageable paging) throws Exception;
+
+    /* id */
     PriceLog getById(Long id) throws Exception;
     PriceLogReadDTO getDTOById(Long id) throws Exception;
 
     /* courseId */
     PriceLog getLatestByCourseId(Long courseId) throws Exception;
     PriceLogReadDTO getLatestDTOByCourseId(Long courseId) throws Exception;
-    
+
     List<PriceLog> getAllByCourseId(Long courseId) throws Exception;
     List<PriceLogReadDTO> getAllDTOById(Long courseId) throws Exception;
 
