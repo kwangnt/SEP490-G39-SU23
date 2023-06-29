@@ -373,6 +373,7 @@ DROP TABLE IF EXISTS `teachsync`.`question` ;
 
 CREATE TABLE IF NOT EXISTS `teachsync`.`question` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `testId` BIGINT NOT NULL,
   `questionType` VARCHAR(255) NOT NULL,
   `questionDesc` LONGTEXT NOT NULL,
   `questionPrompt` VARCHAR(45) NOT NULL,
@@ -382,8 +383,12 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`question` (
   `updatedAt` DATETIME NULL DEFAULT NULL,
   `updatedBy` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_question_test_idx` (`testId` ASC) VISIBLE,
   INDEX `fk_question_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
   INDEX `fk_question_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
+  CONSTRAINT `fk_question_test`
+    FOREIGN KEY (`testId`)
+    REFERENCES `teachsync`.`test` (`id`),
   CONSTRAINT `fk_question_user_createdBy`
     FOREIGN KEY (`createdBy`)
     REFERENCES `teachsync`.`user` (`id`)
@@ -520,6 +525,7 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`course` (
   `courseName` VARCHAR(45) NOT NULL,
   `courseImg` LONGTEXT NOT NULL,
   `courseDesc` LONGTEXT NULL DEFAULT NULL,
+  `numSession` INT NOT NULL,
   `minScore` FLOAT NOT NULL,
   `minAttendant` FLOAT NOT NULL,
   `status` VARCHAR(45) NOT NULL,
@@ -932,6 +938,7 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`test` (
   `testImg` LONGTEXT NULL,
   `testDesc` LONGTEXT NULL,
   `timeLimit` INT NOT NULL,
+  `numQuestion` INT NOT NULL,
   `minScore` FLOAT NOT NULL,
   `testWeight` INT NOT NULL,
   `totalScore` FLOAT NULL,
@@ -1170,46 +1177,6 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`request` (
   CONSTRAINT `fk_request_clazz`
     FOREIGN KEY (`clazzId`)
     REFERENCES `teachsync`.`clazz` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`test_question`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`test_question` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`test_question` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `testId` BIGINT NOT NULL,
-  `questionId` BIGINT NOT NULL,
-  `score` DOUBLE NOT NULL,
-  `status` VARCHAR(45) NOT NULL,
-  `createdAt` DATETIME NULL DEFAULT NULL,
-  `createdBy` BIGINT NULL DEFAULT NULL,
-  `updatedAt` DATETIME NULL DEFAULT NULL,
-  `updatedBy` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_test_question_question_idx` (`questionId` ASC) VISIBLE,
-  INDEX `fk_test_question_test_idx` (`testId` ASC) VISIBLE,
-  INDEX `fk_test_question_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-  INDEX `fk_test_question_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-  CONSTRAINT `fk_test_question_test`
-    FOREIGN KEY (`testId`)
-    REFERENCES `teachsync`.`test` (`id`),
-  CONSTRAINT `fk_test_question_question`
-    FOREIGN KEY (`questionId`)
-    REFERENCES `teachsync`.`question` (`id`),
-  CONSTRAINT `fk_test_question_user_createdBy`
-    FOREIGN KEY (`createdBy`)
-    REFERENCES `teachsync`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_test_question_user_updatedBy`
-    FOREIGN KEY (`updatedBy`)
-    REFERENCES `teachsync`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
