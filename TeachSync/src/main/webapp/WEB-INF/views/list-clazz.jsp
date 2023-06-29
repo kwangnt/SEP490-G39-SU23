@@ -23,7 +23,7 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <a href="add-classroom?option=add">
+  <a href="add-clazz?option=add">
     <button type="button" class="btn btn-primary">Thêm mới class</button>
   </a>
   <table class="table">
@@ -31,24 +31,23 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Tên lớp</th>
-      <th scope="col">Tên khóa học</th>
       <th scope="col">Miêu tả</th>
       <th scope="col">Chức năng</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="class" items="${clazzList}">
+    <c:forEach var="clazz" items="${clazzList}">
       <tr>
-        <th scope="row">${class.id}</th>
+        <th scope="row">${clazz.id}</th>
         <td><a style="font-weight: bold;"
-             href="add-classroom?Id=${class.id}&option=detail">${class.clazzName}</a></td>
-        <td>${class.courseSchedule.courseName}</td>
-        <td>${class.clazzDesc}</td>
+             href="add-clazz?Id=${clazz.id}&option=detail">${clazz.clazzName}</a></td>
+        <td>${clazz.courseSchedule.courseName}</td>
+        <td>${clazz.clazzDesc}</td>
         <td>
-          <a href="add-classroom?Id=${class.id}&option=edit">
+          <a href="add-clazz?Id=${clazz.id}&option=edit">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
-          <a href="delete-classroom?Id=${class.id}">
+          <a href="delete-clazz?Id=${clazz.id}">
             <button type="button" class="btn btn-danger">Xóa</button>
           </a>
         </td>

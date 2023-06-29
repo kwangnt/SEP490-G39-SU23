@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.teachsync.utils.enums.PromotionType.PERCENT;
+
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
@@ -66,6 +68,7 @@ public class CourseServiceImpl implements CourseService {
         priceLog.setCourseId(courseDb.getId());
         priceLog.setPrice(courseDTO.getPrice());
         priceLog.setStatus(Status.CREATED);
+        priceLog.setPromotionAmount(0.0);
         priceLog.setIsCurrent(true);
         priceLog.setIsPromotion(false);
         priceLog.setValidFrom(LocalDateTime.now());
@@ -225,10 +228,62 @@ public class CourseServiceImpl implements CourseService {
 
     /* =================================================== UPDATE =================================================== */
 
+    @Override
+    @Transactional
+    public CourseReadDTO editCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception {
+        Course course = courseRepository.findById(courseReadDTO.getId()).orElseThrow(() -> new Exception("không tìm thấy khóa học"));
 
+        course.setCourseName(courseReadDTO.getCourseName());
+        //TODO : process upload file
+        course.setCourseImg(courseReadDTO.getCourseImg());
+        course.setCourseDesc(courseReadDTO.getCourseDesc());
+        course.setMinScore(courseReadDTO.getMinScore());
+        course.setMinAttendant(courseReadDTO.getMinAttendant());
+        course.setStatus(Status.UPDATED);
+        course.setUpdatedBy(userId);
+        Course courseDb = courseRepository.save(course);
+        if (ObjectUtils.isEmpty(courseDb)) {
+            throw new Exception("Cập nhật khóa học thất bại");
+        }
+
+        //add price
+        PriceLog priceLog = priceLogRepository.findByCourseIdAndIsCurrentTrueAndStatusNot(course.getId(), Status.DELETED)
+                .orElseThrow(() -> new Exception("không tìm thấy giá"));
+        priceLog.setPrice(courseReadDTO.getCurrentPrice().getPrice());
+        priceLog.setStatus(Status.UPDATED);
+        if (!ObjectUtils.isEmpty(courseReadDTO.getCurrentPrice().getPromotionAmount()) && courseReadDTO.getCurrentPrice().getPromotionAmount() > 0) {
+            priceLog.setPromotionAmount(courseReadDTO.getCurrentPrice().getPromotionAmount());
+            priceLog.setPromotionType(courseReadDTO.getCurrentPrice().getPromotionType());
+            priceLog.setPromotionDesc(courseReadDTO.getCurrentPrice().getPromotionDesc());
+            priceLog.setIsPromotion(true);
+        }
+        priceLog.setValidFrom(LocalDateTime.now());
+        priceLog.setValidTo(LocalDateTime.now());
+        priceLog.setUpdatedBy(userId);
+
+        PriceLog priceLogDb = priceLogRepository.save(priceLog);
+        if (ObjectUtils.isEmpty(priceLogDb)) {
+            throw new Exception("Sửa giá tiền của khóa học thất bại");
+        }
+        return mapper.map(courseDb, CourseReadDTO.class);
+    }
 
     /* =================================================== DELETE =================================================== */
 
+    @Override
+    @Transactional
+    public void deleteCourse(Long Id, Long userId) throws Exception {
+        Course course = courseRepository.findById(Id).orElseThrow(() -> new Exception("không tìm thấy khóa học"));
+        PriceLog priceLog = priceLogRepository.findByCourseIdAndIsCurrentTrueAndStatusNot(Id, Status.DELETED)
+                .orElseThrow(() -> new Exception("không tìm thấy giá khóa học"));
+        priceLog.setStatus(Status.DELETED);
+        priceLog.setUpdatedBy(userId);
+        course.setStatus(Status.DELETED);
+        course.setUpdatedBy(userId);
+        priceLogRepository.save(priceLog);
+        courseRepository.save(course);
+
+    }
 
     /* =================================================== WRAPPER ================================================== */
     @Override

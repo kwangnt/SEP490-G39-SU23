@@ -34,4 +34,8 @@ public class RequestReadDTO extends BaseReadDTO {
     private Long resolverId;
 
     private Status status;
+
+    private String username;
+
+    private String fullName;
 }
