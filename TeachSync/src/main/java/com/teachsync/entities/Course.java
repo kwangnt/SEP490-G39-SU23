@@ -22,7 +22,10 @@ public class Course extends BaseEntity {
     @Lob
     @Column(name = "courseDesc", nullable = true, length = -1)
     private String courseDesc;
-    
+
+    @Column(name = "numSession", nullable = false)
+    private Integer numSession;
+
     @Column(name = "minScore", nullable = false, precision = 0)
     private Double minScore;
     

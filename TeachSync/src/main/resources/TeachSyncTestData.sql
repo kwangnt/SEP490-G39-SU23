@@ -42,12 +42,12 @@ values
     ('admin', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 4, null, 'Test Admin', 'test.admin@gmail.com', null, null, null, null, 'CREATED');
 --     Password = 123456789
 
-insert into course(courseName, courseImg, courseDesc, minScore, minAttendant, status)
+insert into course(courseName, courseImg, courseDesc, numSession, minScore, minAttendant, status)
     value
-    ('ielts 101', 'https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1', null, 5.0, 80, 'CREATED'),
-    ('English Grade 1', 'https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1', null, 4.5, 75, 'CREATED'),
-    ('English Grade 2', 'https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg', null, 5.0, 75, 'CREATED'),
-    ('English Grade 3', 'https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1', null, 5.0, 75, 'CREATED');
+    ('ielts 101', 'https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1', null, 14, 5.0, 80, 'CREATED'),
+    ('English Grade 1', 'https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1', null, 12, 4.5, 75, 'CREATED'),
+    ('English Grade 2', 'https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg', null, 12, 5.0, 75, 'CREATED'),
+    ('English Grade 3', 'https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1', null, 12, 5.0, 75, 'CREATED');
 
 insert into price_log(courseId, price, isCurrent, isPromotion, promotionAmount,
                       promotionType, promotionDesc, validFrom, validTo, status)

@@ -9,6 +9,8 @@ import com.teachsync.repositories.AnswerRepository;
 import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.QuestionRepository;
 import com.teachsync.repositories.TestRepository;
+import com.teachsync.utils.Constants;
+import com.teachsync.utils.enums.QuestionType;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -34,8 +37,8 @@ public class TestController {
 
     @GetMapping("/create-test")
     public String createTestViews(Model model, HttpSession session) {
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
-        if (user == null || user.getRoleId() != 1) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
+        if (user == null || !user.getRoleId().equals(Constants.ROLE_ADMIN)) {
             return "redirect:/";
         }
         List<Course> lst = courseRepository.findAllByStatusNot(Status.DELETED);
@@ -52,11 +55,11 @@ public class TestController {
                                   @RequestParam("numQuestions") int numQuestions,
                                   @RequestParam("questionType") String questionType,
                                   @RequestParam Map<String, String> requestParams) {
-        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
-        if (user == null || user.getRoleId() != 1) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
+        if (user == null || !user.getRoleId().equals(Constants.ROLE_ADMIN)) {
             return "redirect:/";
         }
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
@@ -74,16 +77,16 @@ public class TestController {
             test.setMinScore(4);
             test.setTestWeight(5);
         }
-        test.setStatus("CREATED");
+        test.setStatus(Status.CREATED);
         Test rsTest = testRepository.save(test);
 
         if (questionType.equals("essay")) {
             for (int i = 1; i <= numQuestions; i++) {
                 Question question = new Question();
-                question.setIdTest(rsTest.getId());
+                question.setTestId(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
-                question.setQuestionType("essay");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.ESSAY);
+                question.setStatus(Status.CREATED);
 
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
@@ -94,10 +97,10 @@ public class TestController {
             for (int i = 0; i < numQuestions; i++) {
                 int numAnswer = Integer.parseInt(requestParams.get("numOptions" + i));
                 Question question = new Question();
-                question.setIdTest(rsTest.getId());
+                question.setTestId(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("multipleChoiceQuestion" + i));
-                question.setQuestionType("multipleChoice");
-                question.setStatus("CREATED");
+                question.setQuestionType(QuestionType.MULTIPLE);
+                question.setStatus(Status.CREATED);
                 question.setCreatedAt(currentDate);
                 question.setCreatedBy(user.getId());
                 Question result = questionRepository.save(question);
@@ -105,8 +108,8 @@ public class TestController {
                     Answer answer = new Answer();
                     answer.setQuestionId(result.getId());
                     answer.setAnswerDesc(requestParams.get("answer" + i + "-" + j));
-                    answer.setCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
-                    answer.setStatus("CREATED");
+                    answer.setIsCorrect(requestParams.get("isCorrect" + i + "-" + j) != null);
+                    answer.setStatus(Status.CREATED);
                     answer.setCreatedAt(currentDate);
                     answer.setCreatedBy(user.getId());
                     answerRepository.save(answer);
@@ -123,13 +126,13 @@ public class TestController {
 
     @GetMapping("/edit-test")
     public String editTestView(Model model, HttpSession session, @RequestParam("id") String idTest) {
-//        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+//        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
 //        if (user == null || user.getRoleId() != 1) {
 //            return "redirect:/";
 //        }
 
         Test test = testRepository.findAllById(Collections.singleton(Long.parseLong(idTest))).get(0);
-        List<Question> lstQuestion = questionRepository.findAllByIdTest(test.getId());
+        List<Question> lstQuestion = questionRepository.findAllByTestId(test.getId());
         HashMap<Question, List<Answer>> hm = new HashMap<>();
         for (Question qs : lstQuestion) {
             hm.put(qs, answerRepository.findAllByQuestionId(qs.getId()));
@@ -155,11 +158,11 @@ public class TestController {
                                @RequestParam("numQuestions") int numQuestions,
                                @RequestParam("questionType") String questionType,
                                @RequestParam Map<String, String> requestParams) {
-//        UserReadDTO user = (UserReadDTO) session.getAttribute("loginUser");
+//        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
 //        if (user == null || user.getRoleId() != 1) {
 //            return "redirect:/";
 //        }
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
         test.setTestName(testType);
@@ -173,7 +176,7 @@ public class TestController {
             test.setMinScore(4);
             test.setTestWeight(5);
         }
-        test.setStatus("UPDATED");
+        test.setStatus(Status.UPDATED);
         test.setTimeLimit(timeLimit);
         test.setCourseId(Long.parseLong(courseName));
         testRepository.save(test);
@@ -188,8 +191,8 @@ public class TestController {
                 Answer answer = new Answer();
                 answer.setQuestionId(question.getId());
                 answer.setAnswerDesc(requestParams.get("answer" + i));
-                answer.setCorrect(requestParams.get("correctAnswer" + i) != null);
-                answer.setStatus("UPDATED");
+                answer.setIsCorrect(requestParams.get("correctAnswer" + i) != null);
+                answer.setStatus(Status.UPDATED);
                 answer.setCreatedAt(currentDate);
 //                answer.setCreatedBy(user.getId());
                 answerRepository.save(answer);

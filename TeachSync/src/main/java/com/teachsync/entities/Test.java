@@ -18,42 +18,34 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "test")
-public class Test {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
+public class Test extends BaseEntity {
     @Column(name = "courseId")
     private Long courseId;
+
     @Column(name = "testName")
     private String testName;
+
     @Column(name = "testType")
     private String testType;
+
     @Column(name = "testImg")
     private String testImg;
+
     @Column(name = "testDesc")
     private String testDesc;
+
     @Column(name = "timeLimit")
     private int timeLimit;
+
     @Column(name = "numQuestion")
     private int numQuestion;
+
     @Column(name = "minScore")
     private float minScore;
+
     @Column(name = "testWeight")
     private int testWeight;
+
     @Column(name = "totalScore")
     private float totalScore;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "createdAt")
-    private Date createdAt;
-    @Column(name = "createdBy")
-    private Long createdBy;
-    @Column(name = "updatedAt")
-    private Date updatedAt;
-    @Column(name = "updatedBy")
-    private Long updatedBy;
-
-
 }
