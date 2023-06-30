@@ -75,7 +75,7 @@ public class MaterialController {
         return "edit-material";
     }
 
-//    @PostMapping("/submiteditnews")
+//    @PostMapping("/submiteditmaterial")
 //    public String submitEditNews(Model model, HttpSession session,
 //                                 @RequestParam String ,
 //                                 @RequestParam String ,
