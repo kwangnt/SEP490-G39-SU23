@@ -1,1406 +1,733 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema teachsync
--- -----------------------------------------------------
-
-DROP SCHEMA IF EXISTS `teachsync` ;
-
-CREATE SCHEMA IF NOT EXISTS `teachsync` DEFAULT CHARACTER SET utf8mb3 ;
-USE `teachsync` ;
-
--- -----------------------------------------------------
--- Table `teachsync`.`role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`role` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`role` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `roleName` VARCHAR(45) NOT NULL,
-                                                  `roleDesc` LONGTEXT NULL DEFAULT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_role_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_role_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_role_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_role_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`user` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`user` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `username` VARCHAR(45) NOT NULL,
-                                                  `password` VARCHAR(255) NOT NULL,
-                                                  `roleId` BIGINT NOT NULL,
-                                                  `userAvatar` LONGTEXT NULL,
-                                                  `fullName` VARCHAR(255) NOT NULL,
-                                                  `email` VARCHAR(255) NOT NULL,
-                                                  `phone` VARCHAR(10) NULL DEFAULT NULL,
-                                                  `addressId` BIGINT NULL,
-                                                  `resetPasswordToken` VARCHAR(255) NULL DEFAULT NULL,
-                                                  `parentId` BIGINT NULL DEFAULT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_user_address_idx` (`addressId` ASC) VISIBLE,
-                                                  INDEX `fk_user_user_parentId_idx` (`parentId` ASC) VISIBLE,
-                                                  INDEX `fk_user_role_idx` (`roleId` ASC) VISIBLE,
-                                                  INDEX `fk_user_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_user_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_user_address`
-                                                      FOREIGN KEY (`addressId`)
-                                                          REFERENCES `teachsync`.`address` (`id`),
-                                                  CONSTRAINT `fk_user_role`
-                                                      FOREIGN KEY (`roleId`)
-                                                          REFERENCES `teachsync`.`role` (`id`),
-                                                  CONSTRAINT `fk_user_user_parentId`
-                                                      FOREIGN KEY (`parentId`)
-                                                          REFERENCES `teachsync`.`user` (`id`),
-                                                  CONSTRAINT `fk_user_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_user_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`country`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`country` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`country` (
-                                                     `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                     `countryName` VARCHAR(255) NOT NULL,
-                                                     `countryAlias` VARCHAR(45) NOT NULL,
-                                                     `status` VARCHAR(45) NOT NULL,
-                                                     `createdAt` DATETIME NULL DEFAULT NULL,
-                                                     `createdBy` BIGINT NULL DEFAULT NULL,
-                                                     `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                     `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     INDEX `fk_country_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                     INDEX `fk_country_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_country_user_createdBy`
-                                                         FOREIGN KEY (`createdBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_country_user_updatedBy`
-                                                         FOREIGN KEY (`updatedBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`province`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`province` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`province` (
-                                                      `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                      `countryId` BIGINT NOT NULL,
-                                                      `provinceName` VARCHAR(255) NOT NULL,
-                                                      `provinceAlias` VARCHAR(45) NOT NULL,
-                                                      `status` VARCHAR(45) NOT NULL,
-                                                      `createdAt` DATETIME NULL DEFAULT NULL,
-                                                      `createdBy` BIGINT NULL DEFAULT NULL,
-                                                      `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                      `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                      PRIMARY KEY (`id`),
-                                                      INDEX `fk_province_country_idx` (`countryId` ASC) VISIBLE,
-                                                      INDEX `fk_province_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                      INDEX `fk_province_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                      CONSTRAINT `fk_province_country`
-                                                          FOREIGN KEY (`countryId`)
-                                                              REFERENCES `teachsync`.`country` (`id`),
-                                                      CONSTRAINT `fk_province_user_createdBy`
-                                                          FOREIGN KEY (`createdBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION,
-                                                      CONSTRAINT `fk_province_user_updatedBy`
-                                                          FOREIGN KEY (`updatedBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`city`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`city` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`city` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `provinceId` BIGINT NOT NULL,
-                                                  `cityName` VARCHAR(255) NOT NULL,
-                                                  `cityAlias` VARCHAR(45) NOT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_city_province_idx` (`provinceId` ASC) VISIBLE,
-                                                  INDEX `fk_city_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_city_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_city_province`
-                                                      FOREIGN KEY (`provinceId`)
-                                                          REFERENCES `teachsync`.`province` (`id`),
-                                                  CONSTRAINT `fk_city_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_city_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`district`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`district` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`district` (
-                                                      `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                      `cityId` BIGINT NOT NULL,
-                                                      `districtName` VARCHAR(255) NOT NULL,
-                                                      `districtAlias` VARCHAR(45) NOT NULL,
-                                                      `status` VARCHAR(45) NOT NULL,
-                                                      `createdAt` DATETIME NULL DEFAULT NULL,
-                                                      `createdBy` BIGINT NULL DEFAULT NULL,
-                                                      `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                      `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                      PRIMARY KEY (`id`),
-                                                      INDEX `fk_district_city_idx` (`cityId` ASC) INVISIBLE,
-                                                      INDEX `fk_district_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                      INDEX `fk_district_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                      CONSTRAINT `fk_district_city`
-                                                          FOREIGN KEY (`cityId`)
-                                                              REFERENCES `teachsync`.`city` (`id`),
-                                                      CONSTRAINT `fk_district_user_createdBy`
-                                                          FOREIGN KEY (`createdBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION,
-                                                      CONSTRAINT `fk_district_user_updatedBy`
-                                                          FOREIGN KEY (`updatedBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`ward`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`ward` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`ward` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `districtId` BIGINT NOT NULL,
-                                                  `wardName` VARCHAR(255) NOT NULL,
-                                                  `wardAlias` VARCHAR(45) NOT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_ward_district_idx` (`districtId` ASC) VISIBLE,
-                                                  INDEX `fk_ward_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_ward_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_ward_district`
-                                                      FOREIGN KEY (`districtId`)
-                                                          REFERENCES `teachsync`.`district` (`id`),
-                                                  CONSTRAINT `fk_ward_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_ward_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`area`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`area` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`area` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `wardId` BIGINT NOT NULL,
-                                                  `areaName` VARCHAR(255) NOT NULL,
-                                                  `areaAlias` VARCHAR(45) NOT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_area_ward_idx` (`wardId` ASC) VISIBLE,
-                                                  INDEX `fk_area_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  INDEX `fk_area_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_area_ward`
-                                                      FOREIGN KEY (`wardId`)
-                                                          REFERENCES `teachsync`.`ward` (`id`),
-                                                  CONSTRAINT `fk_area_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_area_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`address`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`address` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`address` (
-                                                     `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                     `countryId` BIGINT NOT NULL,
-                                                     `provinceId` BIGINT NOT NULL,
-                                                     `cityId` BIGINT NOT NULL,
-                                                     `districtId` BIGINT NOT NULL,
-                                                     `wardId` BIGINT NOT NULL,
-                                                     `areaId` BIGINT NULL DEFAULT NULL,
-                                                     `street` VARCHAR(255) NOT NULL,
-                                                     `addressNo` VARCHAR(255) NOT NULL,
-                                                     `addressString` LONGTEXT NULL COMMENT 'auto generated in code, save on query resource',
-                                                     `status` VARCHAR(45) NOT NULL,
-                                                     `createdAt` DATETIME NULL DEFAULT NULL,
-                                                     `createdBy` BIGINT NULL DEFAULT NULL,
-                                                     `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                     `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     INDEX `fk_address_area_idx` (`areaId` ASC) VISIBLE,
-                                                     INDEX `fk_address_city_idx` (`cityId` ASC) VISIBLE,
-                                                     INDEX `fk_address_country_idx` (`countryId` ASC) VISIBLE,
-                                                     INDEX `fk_address_district_idx` (`districtId` ASC) VISIBLE,
-                                                     INDEX `fk_address_province_idx` (`provinceId` ASC) VISIBLE,
-                                                     INDEX `fk_address_ward_idx` (`wardId` ASC) VISIBLE,
-                                                     INDEX `fk_address_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                     INDEX `fk_address_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_address_area`
-                                                         FOREIGN KEY (`areaId`)
-                                                             REFERENCES `teachsync`.`area` (`id`),
-                                                     CONSTRAINT `fk_address_country`
-                                                         FOREIGN KEY (`countryId`)
-                                                             REFERENCES `teachsync`.`country` (`id`),
-                                                     CONSTRAINT `fk_address_city`
-                                                         FOREIGN KEY (`cityId`)
-                                                             REFERENCES `teachsync`.`city` (`id`),
-                                                     CONSTRAINT `fk_address_province`
-                                                         FOREIGN KEY (`provinceId`)
-                                                             REFERENCES `teachsync`.`province` (`id`),
-                                                     CONSTRAINT `fk_address_ward`
-                                                         FOREIGN KEY (`wardId`)
-                                                             REFERENCES `teachsync`.`ward` (`id`),
-                                                     CONSTRAINT `fk_address_district`
-                                                         FOREIGN KEY (`districtId`)
-                                                             REFERENCES `teachsync`.`district` (`id`),
-                                                     CONSTRAINT `fk_address_user_createdBy`
-                                                         FOREIGN KEY (`createdBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_address_user_updatedBy`
-                                                         FOREIGN KEY (`updatedBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`question`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`question` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`question` (
-                                                      `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                      `testId` BIGINT NOT NULL,
-                                                      `questionType` VARCHAR(255) NOT NULL,
-                                                      `questionDesc` LONGTEXT NOT NULL,
-                                                      `questionPrompt` VARCHAR(45) NOT NULL,
-                                                      `status` VARCHAR(45) NOT NULL,
-                                                      `createdAt` DATETIME NULL DEFAULT NULL,
-                                                      `createdBy` BIGINT NULL DEFAULT NULL,
-                                                      `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                      `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                      PRIMARY KEY (`id`),
-                                                      INDEX `fk_question_test_idx` (`testId` ASC) VISIBLE,
-                                                      INDEX `fk_question_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                      INDEX `fk_question_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                      CONSTRAINT `fk_question_test`
-                                                          FOREIGN KEY (`testId`)
-                                                              REFERENCES `teachsync`.`test` (`id`),
-                                                      CONSTRAINT `fk_question_user_createdBy`
-                                                          FOREIGN KEY (`createdBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION,
-                                                      CONSTRAINT `fk_question_user_updatedBy`
-                                                          FOREIGN KEY (`updatedBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`answer`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`answer` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`answer` (
-                                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                    `questionId` BIGINT NOT NULL,
-                                                    `answerDesc` LONGTEXT NOT NULL,
-                                                    `isCorrect` BIT(1) NOT NULL,
-                                                    `status` VARCHAR(45) NOT NULL,
-                                                    `createdAt` DATETIME NULL DEFAULT NULL,
-                                                    `createdBy` BIGINT NULL DEFAULT NULL,
-                                                    `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                    `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    INDEX `fk_answer_question_idx` (`questionId` ASC) VISIBLE,
-                                                    INDEX `fk_answer_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                    INDEX `fk_answer_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                    CONSTRAINT `fk_answer_question`
-                                                        FOREIGN KEY (`questionId`)
-                                                            REFERENCES `teachsync`.`question` (`id`),
-                                                    CONSTRAINT `fk_answer_user_createdBy`
-                                                        FOREIGN KEY (`createdBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_answer_user_updatedBy`
-                                                        FOREIGN KEY (`updatedBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`center`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`center` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`center` (
-                                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                    `addressId` BIGINT NOT NULL,
-                                                    `centerName` VARCHAR(45) NOT NULL,
-                                                    `centerType` VARCHAR(45) NOT NULL,
-                                                    `centerDesc` LONGTEXT NULL DEFAULT NULL,
-                                                    `centerSize` INT NOT NULL,
-                                                    `status` VARCHAR(45) NOT NULL,
-                                                    `createdAt` DATETIME NULL DEFAULT NULL,
-                                                    `createdBy` BIGINT NULL DEFAULT NULL,
-                                                    `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                    `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    INDEX `fk_center_address_idx` (`addressId` ASC) VISIBLE,
-                                                    INDEX `fk_center_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                    INDEX `fk_center_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                    CONSTRAINT `fk_center_address`
-                                                        FOREIGN KEY (`addressId`)
-                                                            REFERENCES `teachsync`.`address` (`id`),
-                                                    CONSTRAINT `fk_center_user_createdBy`
-                                                        FOREIGN KEY (`createdBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_center_user_updatedBy`
-                                                        FOREIGN KEY (`updatedBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`room`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`room` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`room` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `centerId` BIGINT NOT NULL,
-                                                  `roomType` VARCHAR(45) NULL DEFAULT NULL,
-                                                  `roomDesc` LONGTEXT NULL DEFAULT NULL,
-                                                  `roomName` VARCHAR(45) NULL DEFAULT NULL,
-                                                  `roomSize` INT NOT NULL COMMENT 'no of people',
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_room_center_idx` (`centerId` ASC) VISIBLE,
-                                                  INDEX `fk_room_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_room_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_room_center`
-                                                      FOREIGN KEY (`centerId`)
-                                                          REFERENCES `teachsync`.`center` (`id`),
-                                                  CONSTRAINT `fk_room_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_room_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`course`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`course` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`course` (
-                                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                    `courseName` VARCHAR(45) NOT NULL,
-                                                    `courseImg` LONGTEXT NOT NULL,
-                                                    `courseDesc` LONGTEXT NULL DEFAULT NULL,
-                                                    `numSession` INT NOT NULL,
-                                                    `minScore` FLOAT NOT NULL,
-                                                    `minAttendant` FLOAT NOT NULL,
-                                                    `status` VARCHAR(45) NOT NULL,
-                                                    `createdAt` DATETIME NULL DEFAULT NULL,
-                                                    `createdBy` BIGINT NULL DEFAULT NULL,
-                                                    `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                    `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    INDEX `fk_course_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                    INDEX `fk_course_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                    CONSTRAINT `fk_course_user_createdBy`
-                                                        FOREIGN KEY (`createdBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_course_user_updatedBy`
-                                                        FOREIGN KEY (`updatedBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`course_schedule`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`course_schedule` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`course_schedule` (
-                                                             `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                             `courseId` BIGINT NOT NULL,
-                                                             `centerId` BIGINT NOT NULL COMMENT 'default room',
-                                                             `scheduleAlias` VARCHAR(45) NOT NULL,
-                                                             `scheduleType` LONGTEXT NOT NULL,
-                                                             `startDate` DATE NOT NULL,
-                                                             `endDate` DATE NOT NULL,
-                                                             `status` VARCHAR(45) NOT NULL,
-                                                             `createdAt` DATETIME NULL DEFAULT NULL,
-                                                             `createdBy` BIGINT NULL DEFAULT NULL,
-                                                             `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                             `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                             PRIMARY KEY (`id`),
-                                                             INDEX `fk_course_schedule_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                             INDEX `fk_course_schedule_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                             INDEX `fk_course_schedule_center_idx` (`centerId` ASC) VISIBLE,
-                                                             INDEX `fk_course_schedule_course_idx` (`courseId` ASC) VISIBLE,
-                                                             CONSTRAINT `fk_course_schedule_center`
-                                                                 FOREIGN KEY (`centerId`)
-                                                                     REFERENCES `teachsync`.`center` (`id`),
-                                                             CONSTRAINT `fk_course_schedule_course`
-                                                                 FOREIGN KEY (`courseId`)
-                                                                     REFERENCES `teachsync`.`course` (`id`),
-                                                             CONSTRAINT `fk_course_schedule_user_createdBy`
-                                                                 FOREIGN KEY (`createdBy`)
-                                                                     REFERENCES `teachsync`.`user` (`id`)
-                                                                     ON DELETE NO ACTION
-                                                                     ON UPDATE NO ACTION,
-                                                             CONSTRAINT `fk_course_schedule_user_updatedBy`
-                                                                 FOREIGN KEY (`updatedBy`)
-                                                                     REFERENCES `teachsync`.`user` (`id`)
-                                                                     ON DELETE NO ACTION
-                                                                     ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`clazz`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`clazz` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`clazz` (
-                                                   `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                   `courseScheduleId` BIGINT NOT NULL,
-                                                   `clazzName` VARCHAR(45) NOT NULL,
-                                                   `clazzDesc` LONGTEXT NULL DEFAULT NULL,
-                                                   `clazzSize` INT NOT NULL COMMENT 'no of people',
-                                                   `status` VARCHAR(45) NOT NULL,
-                                                   `createdAt` DATETIME NULL DEFAULT NULL,
-                                                   `createdBy` BIGINT NULL DEFAULT NULL,
-                                                   `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                   `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                   PRIMARY KEY (`id`),
-                                                   INDEX `fk_clazz_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                   INDEX `fk_clazz_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                   INDEX `fk_clazz_course_schedule_idx` (`courseScheduleId` ASC) VISIBLE,
-                                                   CONSTRAINT `fk_clazz_course_schedule`
-                                                       FOREIGN KEY (`courseScheduleId`)
-                                                           REFERENCES `teachsync`.`course_schedule` (`id`),
-                                                   CONSTRAINT `fk_clazz_user_createdBy`
-                                                       FOREIGN KEY (`createdBy`)
-                                                           REFERENCES `teachsync`.`user` (`id`)
-                                                           ON DELETE NO ACTION
-                                                           ON UPDATE NO ACTION,
-                                                   CONSTRAINT `fk_clazz_user_updatedBy`
-                                                       FOREIGN KEY (`updatedBy`)
-                                                           REFERENCES `teachsync`.`user` (`id`)
-                                                           ON DELETE NO ACTION
-                                                           ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`clazz_schedule`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`clazz_schedule` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`clazz_schedule` (
-                                                            `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                            `clazzId` BIGINT NOT NULL,
-                                                            `roomId` BIGINT NOT NULL COMMENT 'default room',
-                                                            `scheduleType` VARCHAR(45) NOT NULL,
-                                                            `startDate` DATE NOT NULL,
-                                                            `endDate` DATE NOT NULL,
-                                                            `slot` INT NULL,
-                                                            `sessionStart` TIME NOT NULL,
-                                                            `sessionEnd` TIME NOT NULL,
-                                                            `status` VARCHAR(45) NOT NULL,
-                                                            `createdAt` DATETIME NULL DEFAULT NULL,
-                                                            `createdBy` BIGINT NULL DEFAULT NULL,
-                                                            `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                            `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                            PRIMARY KEY (`id`),
-                                                            INDEX `fk_clazz_schedule_clazz_idx` (`clazzId` ASC) INVISIBLE,
-                                                            INDEX `fk_clazz_schedule_room_idx` (`roomId` ASC) VISIBLE,
-                                                            INDEX `fk_clazz_schedule_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                            INDEX `fk_clazz_schedule_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                            CONSTRAINT `fk_clazz_schedule_room`
-                                                                FOREIGN KEY (`roomId`)
-                                                                    REFERENCES `teachsync`.`room` (`id`),
-                                                            CONSTRAINT `fk_clazz_schedule_clazz`
-                                                                FOREIGN KEY (`clazzId`)
-                                                                    REFERENCES `teachsync`.`clazz` (`id`),
-                                                            CONSTRAINT `fk_clazz_schedule_user_createdBy`
-                                                                FOREIGN KEY (`createdBy`)
-                                                                    REFERENCES `teachsync`.`user` (`id`)
-                                                                    ON DELETE NO ACTION
-                                                                    ON UPDATE NO ACTION,
-                                                            CONSTRAINT `fk_clazz_schedule_user_updatedBy`
-                                                                FOREIGN KEY (`updatedBy`)
-                                                                    REFERENCES `teachsync`.`user` (`id`)
-                                                                    ON DELETE NO ACTION
-                                                                    ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`session`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`session` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`session` (
-                                                     `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                     `roomId` BIGINT NOT NULL COMMENT 'actual room',
-                                                     `scheduleId` BIGINT NOT NULL,
-                                                     `teacherId` BIGINT NOT NULL,
-                                                     `slot` INT NULL,
-                                                     `sessionStart` DATETIME NOT NULL,
-                                                     `sessionEnd` DATETIME NOT NULL,
-                                                     `status` VARCHAR(45) NOT NULL,
-                                                     `createdAt` DATETIME NULL DEFAULT NULL,
-                                                     `createdBy` BIGINT NULL DEFAULT NULL,
-                                                     `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                     `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     INDEX `fk_session_room_idx` (`roomId` ASC) VISIBLE,
-                                                     INDEX `fk_session_schedule_idx` (`scheduleId` ASC) VISIBLE,
-                                                     INDEX `fk_session_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                     INDEX `fk_session_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                     INDEX `fk_session_user_teacherId_idx` (`teacherId` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_session_room`
-                                                         FOREIGN KEY (`roomId`)
-                                                             REFERENCES `teachsync`.`room` (`id`),
-                                                     CONSTRAINT `fk_session_schedule`
-                                                         FOREIGN KEY (`scheduleId`)
-                                                             REFERENCES `teachsync`.`clazz_schedule` (`id`),
-                                                     CONSTRAINT `fk_session_user_createdBy`
-                                                         FOREIGN KEY (`createdBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_session_user_updatedBy`
-                                                         FOREIGN KEY (`updatedBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_session_user_teacherId`
-                                                         FOREIGN KEY (`teacherId`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`clazz_member`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`clazz_member` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`clazz_member` (
-                                                          `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                          `clazzId` BIGINT NOT NULL,
-                                                          `userId` BIGINT NOT NULL,
-                                                          `memberRole` VARCHAR(45) NOT NULL COMMENT 'teacher/student',
-                                                          `score` FLOAT NULL,
-                                                          `attendant` FLOAT NULL,
-                                                          `isPassed` BIT(1) NULL,
-                                                          `status` VARCHAR(45) NOT NULL,
-                                                          `createdAt` DATETIME NULL DEFAULT NULL,
-                                                          `createdBy` BIGINT NULL DEFAULT NULL,
-                                                          `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                          `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                          PRIMARY KEY (`id`),
-                                                          INDEX `fk_clazz_member_clazz_idx` (`clazzId` ASC) VISIBLE,
-                                                          INDEX `fk_clazz_member_user_idx` (`userId` ASC) VISIBLE,
-                                                          INDEX `fk_clazz_member_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                          INDEX `fk_clazz_member_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                          CONSTRAINT `fk_clazz_member_clazz`
-                                                              FOREIGN KEY (`clazzId`)
-                                                                  REFERENCES `teachsync`.`clazz` (`id`),
-                                                          CONSTRAINT `fk_clazz_member_user`
-                                                              FOREIGN KEY (`userId`)
-                                                                  REFERENCES `teachsync`.`user` (`id`),
-                                                          CONSTRAINT `fk_clazz_member_user_createdBy`
-                                                              FOREIGN KEY (`createdBy`)
-                                                                  REFERENCES `teachsync`.`user` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION,
-                                                          CONSTRAINT `fk_clazz_member_user_updatedBy`
-                                                              FOREIGN KEY (`updatedBy`)
-                                                                  REFERENCES `teachsync`.`user` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`attendant`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`attendant` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`attendant` (
-                                                       `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                       `sessionId` BIGINT NOT NULL,
-                                                       `memberId` BIGINT NOT NULL,
-                                                       `isPresent` BIT(1) NOT NULL,
-                                                       `status` VARCHAR(45) NOT NULL,
-                                                       `createdAt` DATETIME NULL DEFAULT NULL,
-                                                       `createdBy` BIGINT NULL DEFAULT NULL,
-                                                       `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                       `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                       PRIMARY KEY (`id`),
-                                                       INDEX `fk_attendant_clazz_member_idx` (`memberId` ASC) VISIBLE,
-                                                       INDEX `fk_attendant_session_idx` (`sessionId` ASC) VISIBLE,
-                                                       INDEX `fk_attendant_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                       INDEX `fk_attendant_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                       CONSTRAINT `fk_attendant_session`
-                                                           FOREIGN KEY (`sessionId`)
-                                                               REFERENCES `teachsync`.`session` (`id`),
-                                                       CONSTRAINT `fk_attendant_clazz_member`
-                                                           FOREIGN KEY (`memberId`)
-                                                               REFERENCES `teachsync`.`clazz_member` (`id`),
-                                                       CONSTRAINT `fk_attendant_user_createdBy`
-                                                           FOREIGN KEY (`createdBy`)
-                                                               REFERENCES `teachsync`.`user` (`id`)
-                                                               ON DELETE NO ACTION
-                                                               ON UPDATE NO ACTION,
-                                                       CONSTRAINT `fk_attendant_user_updatedBy`
-                                                           FOREIGN KEY (`updatedBy`)
-                                                               REFERENCES `teachsync`.`user` (`id`)
-                                                               ON DELETE NO ACTION
-                                                               ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`homework`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`homework` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`homework` (
-                                                      `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                      `clazzId` BIGINT NOT NULL,
-                                                      `homeworkName` VARCHAR(45) NOT NULL,
-                                                      `homeworkDesc` LONGTEXT NULL DEFAULT NULL,
-                                                      `homeworkDoc` MEDIUMBLOB NULL,
-                                                      `homeworkDocLink` LONGTEXT NULL,
-                                                      `status` VARCHAR(45) NOT NULL,
-                                                      `createdAt` DATETIME NULL DEFAULT NULL,
-                                                      `createdBy` BIGINT NULL DEFAULT NULL,
-                                                      `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                      `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                      PRIMARY KEY (`id`),
-                                                      INDEX `fk_homework_clazz_idx` (`clazzId` ASC) VISIBLE,
-                                                      INDEX `fk_homework_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                      INDEX `fk_homework_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                      CONSTRAINT `fk_homework_clazz`
-                                                          FOREIGN KEY (`clazzId`)
-                                                              REFERENCES `teachsync`.`clazz` (`id`),
-                                                      CONSTRAINT `fk_homework_user_createdBy`
-                                                          FOREIGN KEY (`createdBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION,
-                                                      CONSTRAINT `fk_homework_user_updatedBy`
-                                                          FOREIGN KEY (`updatedBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`material`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`material` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`material` (
-                                                      `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                      `courseId` BIGINT NULL,
-                                                      `materialName` VARCHAR(45) NOT NULL,
-                                                      `materialLink` LONGTEXT NULL,
-                                                      `materialContent` MEDIUMBLOB NULL,
-                                                      `materialImg` LONGTEXT NOT NULL,
-                                                      `status` VARCHAR(45) NOT NULL,
-                                                      `createdAt` DATETIME NULL DEFAULT NULL,
-                                                      `createdBy` BIGINT NULL DEFAULT NULL,
-                                                      `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                      `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                      PRIMARY KEY (`id`),
-                                                      INDEX `fk_material_course_idx` (`courseId` ASC) VISIBLE,
-                                                      INDEX `fk_material_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                      INDEX `fk_material_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                      CONSTRAINT `fk_material_course`
-                                                          FOREIGN KEY (`courseId`)
-                                                              REFERENCES `teachsync`.`course` (`id`),
-                                                      CONSTRAINT `fk_material_user_createdBy`
-                                                          FOREIGN KEY (`createdBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION,
-                                                      CONSTRAINT `fk_material_user_updatedBy`
-                                                          FOREIGN KEY (`updatedBy`)
-                                                              REFERENCES `teachsync`.`user` (`id`)
-                                                              ON DELETE NO ACTION
-                                                              ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`member_homework_record`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`member_homework_record` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`member_homework_record` (
-                                                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                                    `memberId` BIGINT NOT NULL,
-                                                                    `homeworkId` BIGINT NOT NULL,
-                                                                    `submission` MEDIUMBLOB NULL DEFAULT NULL COMMENT 'file, 16.76 Mb',
-                                                                    `submissionLink` LONGTEXT NULL DEFAULT NULL,
-                                                                    `score` FLOAT NULL DEFAULT NULL COMMENT 'max 10.00',
-                                                                    `status` VARCHAR(45) NOT NULL,
-                                                                    `createdAt` DATETIME NULL DEFAULT NULL,
-                                                                    `createdBy` BIGINT NULL DEFAULT NULL,
-                                                                    `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                                    `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                                    PRIMARY KEY (`id`),
-                                                                    INDEX `fk_member_homework_record_clazz_member_idx` (`memberId` ASC) VISIBLE,
-                                                                    INDEX `fk_member_homework_record_homework_idx` (`homeworkId` ASC) VISIBLE,
-                                                                    INDEX `fk_member_homework_record_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                                    INDEX `fk_member_homework_record_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                                    CONSTRAINT `fk_member_homework_record_homework`
-                                                                        FOREIGN KEY (`homeworkId`)
-                                                                            REFERENCES `teachsync`.`homework` (`id`),
-                                                                    CONSTRAINT `fk_member_homework_record_clazz_member`
-                                                                        FOREIGN KEY (`memberId`)
-                                                                            REFERENCES `teachsync`.`clazz_member` (`id`),
-                                                                    CONSTRAINT `fk_member_homework_record_user_createdBy`
-                                                                        FOREIGN KEY (`createdBy`)
-                                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                                            ON DELETE NO ACTION
-                                                                            ON UPDATE NO ACTION,
-                                                                    CONSTRAINT `fk_member_homework_record_user_updatedBy`
-                                                                        FOREIGN KEY (`updatedBy`)
-                                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                                            ON DELETE NO ACTION
-                                                                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`test`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`test` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`test` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `courseId` BIGINT NULL,
-                                                  `testName` VARCHAR(45) NOT NULL,
-                                                  `testType` VARCHAR(45) NOT NULL,
-                                                  `testImg` LONGTEXT NULL,
-                                                  `testDesc` LONGTEXT NULL,
-                                                  `timeLimit` INT NOT NULL,
-                                                  `numQuestion` INT NOT NULL,
-                                                  `minScore` FLOAT NOT NULL,
-                                                  `testWeight` INT NOT NULL,
-                                                  `totalScore` FLOAT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_test_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_test_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  INDEX `fk_test_course_idx` (`courseId` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_test_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`),
-                                                  CONSTRAINT `fk_test_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_test_course`
-                                                      FOREIGN KEY (`courseId`)
-                                                          REFERENCES `teachsync`.`course` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`clazz_test`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`clazz_test` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`clazz_test` (
-                                                        `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                        `clazzId` BIGINT NOT NULL,
-                                                        `testId` BIGINT NOT NULL,
-                                                        `openFrom` DATETIME NULL,
-                                                        `openTo` DATETIME NULL,
-                                                        `status` VARCHAR(45) NOT NULL,
-                                                        `createdAt` DATETIME NULL,
-                                                        `createdBy` BIGINT NULL,
-                                                        `updatedAt` DATETIME NULL,
-                                                        `updatedBy` BIGINT NULL,
-                                                        PRIMARY KEY (`id`),
-                                                        INDEX `fk_clazz_test_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                        INDEX `fk_clazz_test_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                        INDEX `fk_clazz_test_test_idx` (`testId` ASC) VISIBLE,
-                                                        INDEX `fk_clazz_test_clazz_idx` (`clazzId` ASC) VISIBLE,
-                                                        CONSTRAINT `fk_clazz_test_clazz`
-                                                            FOREIGN KEY (`clazzId`)
-                                                                REFERENCES `teachsync`.`clazz` (`id`)
-                                                                ON DELETE NO ACTION
-                                                                ON UPDATE NO ACTION,
-                                                        CONSTRAINT `fk_clazz_test_test`
-                                                            FOREIGN KEY (`testId`)
-                                                                REFERENCES `teachsync`.`test` (`id`)
-                                                                ON DELETE NO ACTION
-                                                                ON UPDATE NO ACTION,
-                                                        CONSTRAINT `fk_clazz_test_user_createdBy`
-                                                            FOREIGN KEY (`createdBy`)
-                                                                REFERENCES `teachsync`.`user` (`id`)
-                                                                ON DELETE NO ACTION
-                                                                ON UPDATE NO ACTION,
-                                                        CONSTRAINT `fk_clazz_test_user_updatedBy`
-                                                            FOREIGN KEY (`updatedBy`)
-                                                                REFERENCES `teachsync`.`user` (`id`)
-                                                                ON DELETE NO ACTION
-                                                                ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`member_test_record`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`member_test_record` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`member_test_record` (
-                                                                `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                                `memberId` BIGINT NOT NULL,
-                                                                `clazzTestId` BIGINT NOT NULL,
-                                                                `score` DOUBLE NULL DEFAULT NULL,
-                                                                `status` VARCHAR(45) NOT NULL,
-                                                                `createdAt` DATETIME NULL DEFAULT NULL,
-                                                                `createdBy` BIGINT NULL DEFAULT NULL,
-                                                                `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                                `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                                PRIMARY KEY (`id`),
-                                                                INDEX `fk_member_test_record_clazz_member_idx` (`memberId` ASC) VISIBLE,
-                                                                INDEX `fk_member_test_record_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                                INDEX `fk_member_test_record_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                                INDEX `fk_member_test_record_clazz_test_idx` (`clazzTestId` ASC) VISIBLE,
-                                                                CONSTRAINT `fk_member_test_record_clazz_test`
-                                                                    FOREIGN KEY (`clazzTestId`)
-                                                                        REFERENCES `teachsync`.`clazz_test` (`id`),
-                                                                CONSTRAINT `fk_member_test_record_clazz_member`
-                                                                    FOREIGN KEY (`memberId`)
-                                                                        REFERENCES `teachsync`.`clazz_member` (`id`),
-                                                                CONSTRAINT `fk_member_test_record_user_createdBy`
-                                                                    FOREIGN KEY (`createdBy`)
-                                                                        REFERENCES `teachsync`.`user` (`id`)
-                                                                        ON DELETE NO ACTION
-                                                                        ON UPDATE NO ACTION,
-                                                                CONSTRAINT `fk_member_test_record_user_updatedBy`
-                                                                    FOREIGN KEY (`updatedBy`)
-                                                                        REFERENCES `teachsync`.`user` (`id`)
-                                                                        ON DELETE NO ACTION
-                                                                        ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`news`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`news` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`news` (
-                                                  `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                  `authorId` BIGINT NOT NULL,
-                                                  `newsTitle` VARCHAR(45) NOT NULL,
-                                                  `newsContent` MEDIUMBLOB NULL DEFAULT NULL,
-                                                  `newsLink` LONGTEXT NULL,
-                                                  `newsDesc` LONGTEXT NULL DEFAULT NULL,
-                                                  `status` VARCHAR(45) NOT NULL,
-                                                  `createdAt` DATETIME NULL DEFAULT NULL,
-                                                  `createdBy` BIGINT NULL DEFAULT NULL,
-                                                  `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                  `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                  PRIMARY KEY (`id`),
-                                                  INDEX `fk_news_user_idx` (`authorId` ASC) VISIBLE,
-                                                  INDEX `fk_news_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                  INDEX `fk_news_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                  CONSTRAINT `fk_news_user`
-                                                      FOREIGN KEY (`authorId`)
-                                                          REFERENCES `teachsync`.`user` (`id`),
-                                                  CONSTRAINT `fk_news_user_createdBy`
-                                                      FOREIGN KEY (`createdBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION,
-                                                  CONSTRAINT `fk_news_user_updatedBy`
-                                                      FOREIGN KEY (`updatedBy`)
-                                                          REFERENCES `teachsync`.`user` (`id`)
-                                                          ON DELETE NO ACTION
-                                                          ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`price_log`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`price_log` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`price_log` (
-                                                       `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                       `courseId` BIGINT NOT NULL,
-                                                       `price` DOUBLE NOT NULL,
-                                                       `isCurrent` BIT(1) NOT NULL,
-                                                       `isPromotion` BIT(1) NOT NULL,
-                                                       `promotionAmount` DOUBLE NULL DEFAULT NULL,
-                                                       `promotionType` VARCHAR(45) NULL DEFAULT NULL,
-                                                       `promotionDesc` LONGTEXT NULL DEFAULT NULL,
-                                                       `validFrom` DATETIME NOT NULL,
-                                                       `validTo` DATETIME NULL DEFAULT NULL,
-                                                       `status` VARCHAR(45) NOT NULL,
-                                                       `createdAt` DATETIME NULL DEFAULT NULL,
-                                                       `createdBy` BIGINT NULL DEFAULT NULL,
-                                                       `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                       `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                       PRIMARY KEY (`id`),
-                                                       INDEX `fk_price_log_course_idx` (`courseId` ASC) VISIBLE,
-                                                       INDEX `fk_price_log_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                       INDEX `fk_price_log_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                       CONSTRAINT `fk_price_log_course`
-                                                           FOREIGN KEY (`courseId`)
-                                                               REFERENCES `teachsync`.`course` (`id`),
-                                                       CONSTRAINT `fk_price_log_user_createdBy`
-                                                           FOREIGN KEY (`createdBy`)
-                                                               REFERENCES `teachsync`.`user` (`id`)
-                                                               ON DELETE NO ACTION
-                                                               ON UPDATE NO ACTION,
-                                                       CONSTRAINT `fk_price_log_user_updatedBy`
-                                                           FOREIGN KEY (`updatedBy`)
-                                                               REFERENCES `teachsync`.`user` (`id`)
-                                                               ON DELETE NO ACTION
-                                                               ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`request`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`request` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`request` (
-                                                     `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                     `requesterId` BIGINT NOT NULL,
-                                                     `requestName` VARCHAR(45) NOT NULL,
-                                                     `requestDesc` LONGTEXT NOT NULL,
-                                                     `requestType` VARCHAR(45) NOT NULL,
-                                                     `clazzId` BIGINT NULL,
-                                                     `requestContent` MEDIUMBLOB NULL DEFAULT NULL,
-                                                     `contentLink` LONGTEXT NULL DEFAULT NULL,
-                                                     `resolverId` BIGINT NULL DEFAULT NULL,
-                                                     `status` VARCHAR(45) NOT NULL,
-                                                     `createdAt` DATETIME NULL DEFAULT NULL,
-                                                     `createdBy` BIGINT NULL DEFAULT NULL,
-                                                     `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                     `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     INDEX `fk_request_user_requesterId_idx` (`requesterId` ASC) VISIBLE,
-                                                     INDEX `fk_request_user_resolverId_idx` (`resolverId` ASC) VISIBLE,
-                                                     INDEX `fk_request_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                     INDEX `fk_request_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                     INDEX `fk_request_clazz_idx` (`clazzId` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_request_user_resolverId`
-                                                         FOREIGN KEY (`resolverId`)
-                                                             REFERENCES `teachsync`.`user` (`id`),
-                                                     CONSTRAINT `fk_request_user_requesterId`
-                                                         FOREIGN KEY (`requesterId`)
-                                                             REFERENCES `teachsync`.`user` (`id`),
-                                                     CONSTRAINT `fk_request_user_createdBy`
-                                                         FOREIGN KEY (`createdBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_request_user_updatedBy`
-                                                         FOREIGN KEY (`updatedBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_request_clazz`
-                                                         FOREIGN KEY (`clazzId`)
-                                                             REFERENCES `teachsync`.`clazz` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`test_record`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`test_record` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`test_record` (
-                                                         `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                         `memberTestRecordId` BIGINT NOT NULL,
-                                                         `answerId` BIGINT NOT NULL,
-                                                         `answerTxt` LONGTEXT NULL,
-                                                         `score` FLOAT NULL,
-                                                         `status` VARCHAR(45) NOT NULL,
-                                                         `createdAt` DATETIME NULL DEFAULT NULL,
-                                                         `createdBy` BIGINT NULL DEFAULT NULL,
-                                                         `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                         `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                         PRIMARY KEY (`id`),
-                                                         INDEX `fk_test_record_answer_idx` (`answerId` ASC) VISIBLE,
-                                                         INDEX `fk_test_record_member_test_record` (`memberTestRecordId` ASC) VISIBLE,
-                                                         INDEX `fk_test_record_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                         INDEX `fk_test_record_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                         CONSTRAINT `fk_test_record_answer`
-                                                             FOREIGN KEY (`answerId`)
-                                                                 REFERENCES `teachsync`.`answer` (`id`),
-                                                         CONSTRAINT `fk_test_record_member_test_record`
-                                                             FOREIGN KEY (`memberTestRecordId`)
-                                                                 REFERENCES `teachsync`.`member_test_record` (`id`),
-                                                         CONSTRAINT `fk_test_record_user_createdBy`
-                                                             FOREIGN KEY (`createdBy`)
-                                                                 REFERENCES `teachsync`.`user` (`id`)
-                                                                 ON DELETE NO ACTION
-                                                                 ON UPDATE NO ACTION,
-                                                         CONSTRAINT `fk_test_record_user_updatedBy`
-                                                             FOREIGN KEY (`updatedBy`)
-                                                                 REFERENCES `teachsync`.`user` (`id`)
-                                                                 ON DELETE NO ACTION
-                                                                 ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`payment`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`payment` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`payment` (
-                                                     `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                     `payerId` BIGINT NOT NULL,
-                                                     `requestId` BIGINT NOT NULL,
-                                                     `paymentType` VARCHAR(45) NOT NULL,
-                                                     `paymentAmount` DOUBLE NOT NULL,
-                                                     `paymentAt` DATETIME NOT NULL,
-                                                     `paymentDoc` MEDIUMBLOB NULL,
-                                                     `paymentDocLink` LONGTEXT NULL,
-                                                     `verifierId` BIGINT NOT NULL,
-                                                     `status` VARCHAR(45) NOT NULL,
-                                                     `createdAt` DATETIME NULL DEFAULT NULL,
-                                                     `createdBy` BIGINT NULL DEFAULT NULL,
-                                                     `updatedAt` DATETIME NULL DEFAULT NULL,
-                                                     `updatedBy` BIGINT NULL DEFAULT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     INDEX `fk_payment_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                     INDEX `fk_payment_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                     INDEX `fk_payment_user_verifierId_idx` (`verifierId` ASC) VISIBLE,
-                                                     INDEX `fk_payment_user_payerId_idx` (`payerId` ASC) VISIBLE,
-                                                     INDEX `fk_payment_request1_idx` (`requestId` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_payment_user_payerId`
-                                                         FOREIGN KEY (`payerId`)
-                                                             REFERENCES `teachsync`.`user` (`id`),
-                                                     CONSTRAINT `fk_payment_user_verifierId`
-                                                         FOREIGN KEY (`verifierId`)
-                                                             REFERENCES `teachsync`.`user` (`id`),
-                                                     CONSTRAINT `fk_payment_user_createdBy`
-                                                         FOREIGN KEY (`createdBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_payment_user_updatedBy`
-                                                         FOREIGN KEY (`updatedBy`)
-                                                             REFERENCES `teachsync`.`user` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION,
-                                                     CONSTRAINT `fk_payment_request1`
-                                                         FOREIGN KEY (`requestId`)
-                                                             REFERENCES `teachsync`.`request` (`id`)
-                                                             ON DELETE NO ACTION
-                                                             ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`center_staff`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`center_staff` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`center_staff` (
-                                                          `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                          `centerId` BIGINT NOT NULL,
-                                                          `userId` BIGINT NOT NULL,
-                                                          `staffType` VARCHAR(45) NOT NULL,
-                                                          `status` VARCHAR(45) NOT NULL,
-                                                          `createdAt` DATETIME NULL,
-                                                          `createdBy` BIGINT NULL,
-                                                          `updatedAt` DATETIME NULL,
-                                                          `updatedBy` BIGINT NULL,
-                                                          PRIMARY KEY (`id`),
-                                                          INDEX `fk_center_staff_center_idx` (`centerId` ASC) VISIBLE,
-                                                          INDEX `fk_center_staff_user_idx` (`userId` ASC) VISIBLE,
-                                                          INDEX `fk_center_staff_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                          INDEX `fk_center_staff_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                          CONSTRAINT `fk_center_staff_center`
-                                                              FOREIGN KEY (`centerId`)
-                                                                  REFERENCES `teachsync`.`center` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION,
-                                                          CONSTRAINT `fk_center_staff_user`
-                                                              FOREIGN KEY (`userId`)
-                                                                  REFERENCES `teachsync`.`user` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION,
-                                                          CONSTRAINT `fk_center_staff_user_createdBy`
-                                                              FOREIGN KEY (`createdBy`)
-                                                                  REFERENCES `teachsync`.`user` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION,
-                                                          CONSTRAINT `fk_center_staff_user_updatedBy`
-                                                              FOREIGN KEY (`updatedBy`)
-                                                                  REFERENCES `teachsync`.`user` (`id`)
-                                                                  ON DELETE NO ACTION
-                                                                  ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`certificate`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`certificate` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`certificate` (
-                                                         `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                         `courseId` BIGINT NOT NULL,
-                                                         `certificateName` VARCHAR(45) NOT NULL,
-                                                         `certificateDesc` LONGTEXT NULL,
-                                                         `status` VARCHAR(45) NOT NULL,
-                                                         `createdAt` DATETIME NULL,
-                                                         `createdBy` BIGINT NULL,
-                                                         `updatedAt` DATETIME NULL,
-                                                         `updatedBy` BIGINT NULL,
-                                                         PRIMARY KEY (`id`),
-                                                         INDEX `fk_certificate_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                         INDEX `fk_certificate_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                         INDEX `fk_certificate_course_idx` (`courseId` ASC) VISIBLE,
-                                                         CONSTRAINT `fk_certificate_course`
-                                                             FOREIGN KEY (`courseId`)
-                                                                 REFERENCES `teachsync`.`course` (`id`)
-                                                                 ON DELETE NO ACTION
-                                                                 ON UPDATE NO ACTION,
-                                                         CONSTRAINT `fk_certificate_user_createdBy`
-                                                             FOREIGN KEY (`createdBy`)
-                                                                 REFERENCES `teachsync`.`user` (`id`)
-                                                                 ON DELETE NO ACTION
-                                                                 ON UPDATE NO ACTION,
-                                                         CONSTRAINT `fk_certificate_user_updatedBy`
-                                                             FOREIGN KEY (`updatedBy`)
-                                                                 REFERENCES `teachsync`.`user` (`id`)
-                                                                 ON DELETE NO ACTION
-                                                                 ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `teachsync`.`wallet`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`wallet` ;
-
-CREATE TABLE IF NOT EXISTS `teachsync`.`wallet` (
-                                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                    `userId` BIGINT NOT NULL,
-                                                    `paymentId` BIGINT NULL,
-                                                    `currentBalance` DOUBLE NOT NULL,
-                                                    `note` VARCHAR(255) NULL,
-                                                    `amountChange` DOUBLE NOT NULL,
-                                                    `changeAt` DATETIME NOT NULL,
-                                                    `status` VARCHAR(45) NOT NULL,
-                                                    `createdAt` DATETIME NULL,
-                                                    `createdBy` BIGINT NULL,
-                                                    `updatedAt` DATETIME NULL,
-                                                    `updatedBy` BIGINT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    INDEX `fk_wallet_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-                                                    INDEX `fk_wallet_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-                                                    INDEX `fk_wallet_payment_idx` (`paymentId` ASC) VISIBLE,
-                                                    INDEX `fk_wallet_user_idx` (`userId` ASC) VISIBLE,
-                                                    CONSTRAINT `fk_wallet_payment`
-                                                        FOREIGN KEY (`paymentId`)
-                                                            REFERENCES `teachsync`.`payment` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_wallet_user`
-                                                        FOREIGN KEY (`userId`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_wallet_user_createdBy`
-                                                        FOREIGN KEY (`createdBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION,
-                                                    CONSTRAINT `fk_wallet_user_updatedBy`
-                                                        FOREIGN KEY (`updatedBy`)
-                                                            REFERENCES `teachsync`.`user` (`id`)
-                                                            ON DELETE NO ACTION
-                                                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+--
+-- Host: localhost    Database: teachsync
+-- ------------------------------------------------------
+-- Server version	8.0.31
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address` (
+                           `id` bigint NOT NULL AUTO_INCREMENT,
+                           `countryId` bigint NOT NULL,
+                           `provinceId` bigint NOT NULL,
+                           `cityId` bigint NOT NULL,
+                           `districtId` bigint NOT NULL,
+                           `wardId` bigint NOT NULL,
+                           `areaId` bigint DEFAULT NULL,
+                           `street` varchar(255) NOT NULL,
+                           `addressNo` varchar(255) DEFAULT NULL,
+                           `status` varchar(255) DEFAULT NULL,
+                           PRIMARY KEY (`id`),
+                           KEY `fk_address_country_idx` (`countryId`),
+                           KEY `fk_address_province_idx` (`provinceId`),
+                           KEY `fk_address_city_idx` (`cityId`),
+                           KEY `fk_address_district_idx` (`districtId`),
+                           KEY `fk_address_ward_idx` (`wardId`),
+                           KEY `fk_address_area_idx` (`areaId`),
+                           CONSTRAINT `fk_address_area` FOREIGN KEY (`areaId`) REFERENCES `area` (`id`),
+                           CONSTRAINT `fk_address_city` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`),
+                           CONSTRAINT `fk_address_country` FOREIGN KEY (`countryId`) REFERENCES `country` (`id`),
+                           CONSTRAINT `fk_address_district` FOREIGN KEY (`districtId`) REFERENCES `district` (`id`),
+                           CONSTRAINT `fk_address_province` FOREIGN KEY (`provinceId`) REFERENCES `province` (`id`),
+                           CONSTRAINT `fk_address_ward` FOREIGN KEY (`wardId`) REFERENCES `ward` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `area`
+--
+
+DROP TABLE IF EXISTS `area`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `area` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `wardId` bigint NOT NULL,
+                        `areaName` varchar(255) NOT NULL,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_area_ward_idx` (`wardId`),
+                        CONSTRAINT `fk_area_ward` FOREIGN KEY (`wardId`) REFERENCES `ward` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `area`
+--
+
+LOCK TABLES `area` WRITE;
+/*!40000 ALTER TABLE `area` DISABLE KEYS */;
+/*!40000 ALTER TABLE `area` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city`
+--
+
+DROP TABLE IF EXISTS `city`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `city` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `provinceId` bigint NOT NULL,
+                        `cityName` varchar(255) NOT NULL,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_city_province_idx` (`provinceId`),
+                        CONSTRAINT `fk_city_province` FOREIGN KEY (`provinceId`) REFERENCES `province` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city`
+--
+
+LOCK TABLES `city` WRITE;
+/*!40000 ALTER TABLE `city` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `classroom`
+--
+
+DROP TABLE IF EXISTS `classroom`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `classroom` (
+                             `id` bigint NOT NULL AUTO_INCREMENT,
+                             `courseId` bigint NOT NULL,
+                             `className` varchar(45) NOT NULL,
+                             `classDesc` tinytext,
+                             `status` varchar(255) DEFAULT NULL,
+                             PRIMARY KEY (`id`),
+                             KEY `fk_class_course1_idx` (`courseId`),
+                             CONSTRAINT `fk_class_course1` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `classroom`
+--
+
+LOCK TABLES `classroom` WRITE;
+/*!40000 ALTER TABLE `classroom` DISABLE KEYS */;
+INSERT INTO `classroom` VALUES (1,1,'khóa học demo 1','khóa học demo 1','CREATED'),(2,2,'khóa học demo 2','khóa học demo 1','CREATED'),(3,1,'khóa học demo 3','khóa học demo 1','CREATED'),(4,1,'khóa học 4','khóa học demo 1','CREATED'),(5,1,'3',NULL,'DELETED'),(6,1,'demo duong',NULL,'DELETED'),(7,1,'desc',NULL,'DELETED'),(8,1,'Mr D 12344','Mr D 123','DELETED'),(9,2,'dđ','dđ','CREATED');
+/*!40000 ALTER TABLE `classroom` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `country`
+--
+
+DROP TABLE IF EXISTS `country`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `country` (
+                           `id` bigint NOT NULL AUTO_INCREMENT,
+                           `countryName` varchar(255) NOT NULL,
+                           `status` varchar(45) NOT NULL,
+                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `country`
+--
+
+LOCK TABLES `country` WRITE;
+/*!40000 ALTER TABLE `country` DISABLE KEYS */;
+/*!40000 ALTER TABLE `country` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `course` (
+                          `id` bigint NOT NULL AUTO_INCREMENT,
+                          `courseName` varchar(45) NOT NULL,
+                          `courseDesc` tinytext,
+                          `status` varchar(255) DEFAULT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,'demo1','demo1','CREATED'),(2,'demo2','demo1','CREATED'),(3,'couse3','demo1','CREATED');
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `district`
+--
+
+DROP TABLE IF EXISTS `district`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `district` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `cityId` bigint NOT NULL,
+                            `districtName` varchar(255) NOT NULL,
+                            `status` varchar(45) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_district_city_idx` (`cityId`),
+                            CONSTRAINT `fk_district_city` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `district`
+--
+
+LOCK TABLES `district` WRITE;
+/*!40000 ALTER TABLE `district` DISABLE KEYS */;
+/*!40000 ALTER TABLE `district` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `homework`
+--
+
+DROP TABLE IF EXISTS `homework`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `homework` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `classId` bigint NOT NULL,
+                            `homeworkName` varchar(45) NOT NULL,
+                            `homeworkDesc` tinytext,
+                            `status` varchar(255) DEFAULT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_homework_class1_idx` (`classId`),
+                            CONSTRAINT `fk_homework_class1` FOREIGN KEY (`classId`) REFERENCES `classroom` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `homework`
+--
+
+LOCK TABLES `homework` WRITE;
+/*!40000 ALTER TABLE `homework` DISABLE KEYS */;
+/*!40000 ALTER TABLE `homework` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `homework_user_pair`
+--
+
+DROP TABLE IF EXISTS `homework_user_pair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `homework_user_pair` (
+                                      `id` bigint NOT NULL AUTO_INCREMENT,
+                                      `homeworkId` bigint NOT NULL,
+                                      `userId` bigint NOT NULL,
+                                      `score` float DEFAULT NULL,
+                                      `status` varchar(45) NOT NULL,
+                                      PRIMARY KEY (`id`),
+                                      KEY `fk_homework_user_pair_user1_idx` (`userId`),
+                                      KEY `fk_homework_user_pair_homework1_idx` (`homeworkId`),
+                                      CONSTRAINT `fk_homework_user_pair_homework1` FOREIGN KEY (`homeworkId`) REFERENCES `homework` (`id`),
+                                      CONSTRAINT `fk_homework_user_pair_user1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `homework_user_pair`
+--
+
+LOCK TABLES `homework_user_pair` WRITE;
+/*!40000 ALTER TABLE `homework_user_pair` DISABLE KEYS */;
+/*!40000 ALTER TABLE `homework_user_pair` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `material`
+--
+
+DROP TABLE IF EXISTS `material`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `material` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `courseId` bigint DEFAULT NULL,
+                            `materialLink` longtext NOT NULL,
+                            `status` varchar(45) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_Material_course1_idx` (`courseId`),
+                            CONSTRAINT `fk_Material_course1` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `material`
+--
+
+LOCK TABLES `material` WRITE;
+/*!40000 ALTER TABLE `material` DISABLE KEYS */;
+/*!40000 ALTER TABLE `material` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `news`
+--
+
+DROP TABLE IF EXISTS `news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `news` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `newsTitle` varchar(45) NOT NULL,
+                        `newsDesc` longtext,
+                        `newsLink` longtext NOT NULL,
+                        `authorId` bigint NOT NULL,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_news_user1_idx` (`authorId`),
+                        CONSTRAINT `fk_news_user1` FOREIGN KEY (`authorId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `news`
+--
+
+LOCK TABLES `news` WRITE;
+/*!40000 ALTER TABLE `news` DISABLE KEYS */;
+/*!40000 ALTER TABLE `news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `price_log`
+--
+
+DROP TABLE IF EXISTS `price_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `price_log` (
+                             `id` bigint NOT NULL,
+                             `courseId` bigint NOT NULL,
+                             `price` double NOT NULL,
+                             `isCurrent` bit(1) DEFAULT NULL,
+                             `isPromotion` bit(1) DEFAULT NULL,
+                             `promotionType` varchar(45) DEFAULT NULL,
+                             `promotionAmount` double DEFAULT NULL,
+                             `promotionDesc` longtext,
+                             `validFrom` datetime DEFAULT NULL,
+                             `validTo` datetime DEFAULT NULL,
+                             `status` varchar(45) NOT NULL,
+                             PRIMARY KEY (`id`),
+                             KEY `fk_promotion_course1_idx` (`courseId`),
+                             CONSTRAINT `fk_promotion_course1` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `price_log`
+--
+
+LOCK TABLES `price_log` WRITE;
+/*!40000 ALTER TABLE `price_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `price_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `province`
+--
+
+DROP TABLE IF EXISTS `province`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `province` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `countryId` bigint NOT NULL,
+                            `provinceName` varchar(255) NOT NULL,
+                            `status` varchar(45) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_province_country_idx` (`countryId`),
+                            CONSTRAINT `fk_province_country` FOREIGN KEY (`countryId`) REFERENCES `country` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `province`
+--
+
+LOCK TABLES `province` WRITE;
+/*!40000 ALTER TABLE `province` DISABLE KEYS */;
+/*!40000 ALTER TABLE `province` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `request`
+--
+
+DROP TABLE IF EXISTS `request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `request` (
+                           `id` bigint NOT NULL AUTO_INCREMENT,
+                           `requesterId` bigint NOT NULL,
+                           `requestName` varchar(45) NOT NULL,
+                           `requestType` varchar(45) NOT NULL,
+                           `requestDesc` longtext,
+                           `resolverId` bigint DEFAULT NULL,
+                           `status` varchar(45) NOT NULL,
+                           PRIMARY KEY (`id`),
+                           KEY `fk_request_user1_idx` (`requesterId`),
+                           KEY `fk_request_user2_idx` (`resolverId`),
+                           CONSTRAINT `fk_request_user1_requester` FOREIGN KEY (`requesterId`) REFERENCES `user` (`id`),
+                           CONSTRAINT `fk_request_user2_resolver` FOREIGN KEY (`resolverId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `request`
+--
+
+LOCK TABLES `request` WRITE;
+/*!40000 ALTER TABLE `request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `roleName` varchar(45) NOT NULL,
+                        `roleDesc` longtext,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'user','user','CREATED');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `schedule`
+--
+
+DROP TABLE IF EXISTS `schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `schedule` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `classId` bigint NOT NULL,
+                            `date` date NOT NULL,
+                            `slot` int NOT NULL,
+                            `scheduleDesc` longtext,
+                            `status` varchar(45) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `fk_schedule_class1_idx` (`classId`),
+                            CONSTRAINT `fk_schedule_class1` FOREIGN KEY (`classId`) REFERENCES `classroom` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schedule`
+--
+
+LOCK TABLES `schedule` WRITE;
+/*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `schedule_user_pair`
+--
+
+DROP TABLE IF EXISTS `schedule_user_pair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `schedule_user_pair` (
+                                      `id` bigint NOT NULL AUTO_INCREMENT,
+                                      `scheduleId` bigint NOT NULL,
+                                      `userId` bigint NOT NULL,
+                                      `status` varchar(45) NOT NULL,
+                                      PRIMARY KEY (`id`),
+                                      KEY `fk_schedule_user_pair_user1_idx` (`userId`),
+                                      KEY `fk_schedule_user_pair_schedule1_idx` (`scheduleId`),
+                                      CONSTRAINT `fk_schedule_user_pair_schedule1` FOREIGN KEY (`scheduleId`) REFERENCES `schedule` (`id`),
+                                      CONSTRAINT `fk_schedule_user_pair_user1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schedule_user_pair`
+--
+
+LOCK TABLES `schedule_user_pair` WRITE;
+/*!40000 ALTER TABLE `schedule_user_pair` DISABLE KEYS */;
+/*!40000 ALTER TABLE `schedule_user_pair` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `teacher_request`
+--
+
+DROP TABLE IF EXISTS `teacher_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `teacher_request` (
+                                   `Id` int NOT NULL AUTO_INCREMENT,
+                                   `userId` bigint NOT NULL,
+                                   `requestName` varchar(100) DEFAULT NULL,
+                                   `requestType` varchar(100) DEFAULT NULL,
+                                   `requestContent` varchar(100) DEFAULT NULL,
+                                   `contentLink` varchar(100) DEFAULT NULL,
+                                   `requestDesc` varchar(100) DEFAULT NULL,
+                                   `status` varchar(100) DEFAULT NULL,
+                                   PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `teacher_request`
+--
+
+LOCK TABLES `teacher_request` WRITE;
+/*!40000 ALTER TABLE `teacher_request` DISABLE KEYS */;
+INSERT INTO `teacher_request` VALUES (1,2,'Request apply Teacher2023-06-18-135121841_736','APPLICATION',NULL,NULL,NULL,'CREATED'),(2,2,'Request apply Teacher 2023-06-18-13-54-14_912','APPLICATION',NULL,NULL,'a','CREATED'),(3,2,'Request apply Teacher 18-06-2023:13-59-02','APPLICATION',NULL,NULL,'a','CREATED'),(4,2,'Request apply Teacher 18-06-2023:13-59-38','APPLICATION',NULL,NULL,'v','CREATED'),(5,2,'Request apply Teacher 18-06-2023:14-00-07','APPLICATION',NULL,NULL,'v','CREATED'),(6,2,'Request apply Teacher 18-06-2023:14-00-22','APPLICATION','v',NULL,'v','CREATED');
+/*!40000 ALTER TABLE `teacher_request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test`
+--
+
+DROP TABLE IF EXISTS `test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `test` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `classId` bigint NOT NULL,
+                        `testName` varchar(45) NOT NULL,
+                        `testDesc` longtext,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_test_class1_idx` (`classId`),
+                        CONSTRAINT `fk_test_class1` FOREIGN KEY (`classId`) REFERENCES `classroom` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test`
+--
+
+LOCK TABLES `test` WRITE;
+/*!40000 ALTER TABLE `test` DISABLE KEYS */;
+/*!40000 ALTER TABLE `test` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test_user_pair`
+--
+
+DROP TABLE IF EXISTS `test_user_pair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `test_user_pair` (
+                                  `id` bigint NOT NULL AUTO_INCREMENT,
+                                  `testId` bigint NOT NULL,
+                                  `userId` bigint NOT NULL,
+                                  `score` float DEFAULT NULL,
+                                  `status` varchar(45) NOT NULL,
+                                  PRIMARY KEY (`id`),
+                                  KEY `fk_test_user_pair_user1_idx` (`userId`),
+                                  KEY `fk_test_user_pair_test1_idx` (`testId`),
+                                  CONSTRAINT `fk_test_user_pair_test1` FOREIGN KEY (`testId`) REFERENCES `test` (`id`),
+                                  CONSTRAINT `fk_test_user_pair_user1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test_user_pair`
+--
+
+LOCK TABLES `test_user_pair` WRITE;
+/*!40000 ALTER TABLE `test_user_pair` DISABLE KEYS */;
+/*!40000 ALTER TABLE `test_user_pair` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `roleId` bigint NOT NULL,
+                        `parentId` bigint DEFAULT NULL,
+                        `username` varchar(45) NOT NULL,
+                        `password` varchar(255) NOT NULL,
+                        `fullName` varchar(255) NOT NULL,
+                        `email` varchar(255) DEFAULT NULL,
+                        `phone` varchar(10) DEFAULT NULL,
+                        `addressId` bigint DEFAULT NULL,
+                        `status` varchar(45) NOT NULL,
+                        `reset_password_token` varchar(100) DEFAULT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_user_role_idx` (`roleId`),
+                        KEY `fk_user_user1_idx` (`parentId`),
+                        KEY `fk_user_address_idx` (`addressId`),
+                        CONSTRAINT `fk_user_address` FOREIGN KEY (`addressId`) REFERENCES `address` (`id`),
+                        CONSTRAINT `fk_user_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`),
+                        CONSTRAINT `fk_user_user_parent_child` FOREIGN KEY (`parentId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,1,NULL,'mrd','mrd','mrd','mrd','123',NULL,'CREATED',NULL),(2,1,NULL,'duong123','duong123','duong123','duong123@gmail.com',NULL,NULL,'CREATED',NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_class_pair`
+--
+
+DROP TABLE IF EXISTS `user_class_pair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_class_pair` (
+                                   `id` bigint NOT NULL AUTO_INCREMENT,
+                                   `userId` bigint NOT NULL,
+                                   `classId` bigint NOT NULL,
+                                   `status` varchar(45) NOT NULL,
+                                   PRIMARY KEY (`id`),
+                                   KEY `fk_user_has_class_class1_idx` (`classId`),
+                                   KEY `fk_user_has_class_user1_idx` (`userId`),
+                                   CONSTRAINT `fk_user_class_pair_class1` FOREIGN KEY (`classId`) REFERENCES `classroom` (`id`),
+                                   CONSTRAINT `fk_user_class_pair_user1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_class_pair`
+--
+
+LOCK TABLES `user_class_pair` WRITE;
+/*!40000 ALTER TABLE `user_class_pair` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_class_pair` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_course_pair`
+--
+
+DROP TABLE IF EXISTS `user_course_pair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_course_pair` (
+                                    `id` bigint NOT NULL AUTO_INCREMENT,
+                                    `userId` bigint NOT NULL,
+                                    `courseId` bigint NOT NULL,
+                                    `status` varchar(45) NOT NULL,
+                                    PRIMARY KEY (`id`),
+                                    KEY `fk_user_has_course_course1_idx` (`courseId`),
+                                    KEY `fk_user_has_course_user1_idx` (`userId`),
+                                    CONSTRAINT `fk_user_course_pair_course1` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`),
+                                    CONSTRAINT `fk_user_course_pair_user1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_course_pair`
+--
+
+LOCK TABLES `user_course_pair` WRITE;
+/*!40000 ALTER TABLE `user_course_pair` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_course_pair` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ward`
+--
+
+DROP TABLE IF EXISTS `ward`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ward` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `districtId` bigint NOT NULL,
+                        `wardName` varchar(255) NOT NULL,
+                        `status` varchar(45) NOT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `fk_ward_district_idx` (`districtId`),
+                        CONSTRAINT `fk_ward_district` FOREIGN KEY (`districtId`) REFERENCES `district` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ward`
+--
+
+LOCK TABLES `ward` WRITE;
+/*!40000 ALTER TABLE `ward` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ward` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-06-18 14:02:38

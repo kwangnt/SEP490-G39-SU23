@@ -1,19 +1,24 @@
 package com.teachsync.dtos.user;
 
+import com.teachsync.dtos.BaseCreateDTO;
 import com.teachsync.utils.enums.Status;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.io.Serializable;
-
+/**
+ * DTO for {@link com.teachsync.entities.User}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class UserCreateDTO implements Serializable {
+public class UserCreateDTO extends BaseCreateDTO {
     @Positive
     private Long roleId;
 
@@ -36,7 +41,7 @@ public class UserCreateDTO implements Serializable {
     @Size(min = 5, max = 255)
     private String email;
 
-    @Pattern(regexp = "^\\\\d{10}$")
+//    @Pattern(regexp = "^\\\\d{10}$")
     @Size(min = 10, max = 10)
     private String phone;
 

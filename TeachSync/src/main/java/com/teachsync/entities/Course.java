@@ -1,48 +1,34 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
-@Table(name = "course")
-public class Course {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
-    @NotBlank
-    @Size(min = 1, max = 45)
+public class Course extends BaseEntity {
     @Column(name = "courseName", nullable = false, length = 45)
     private String courseName;
 
     @Lob
-    @Column(name = "courseDesc")
+    @Column(name = "courseImg", nullable = false, length = -1)
+    private String courseImg;
+
+    @Lob
+    @Column(name = "courseDesc", nullable = true, length = -1)
     private String courseDesc;
 
-    @Column(name = "status")
-    private Status status;
+    @Column(name = "numSession", nullable = false)
+    private Integer numSession;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<Classroom> classroomList;
-
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<Material> materialList;
-
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<PriceLog> priceLogList;
+    @Column(name = "minScore", nullable = false, precision = 0)
+    private Double minScore;
+    
+    @Column(name = "minAttendant", nullable = false, precision = 0)
+    private Double minAttendant;
 }

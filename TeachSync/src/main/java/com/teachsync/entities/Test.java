@@ -10,35 +10,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "test")
-public class Test {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
+public class Test extends BaseEntity {
+    @Column(name = "courseId")
+    private Long courseId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
-    private Classroom classroom;
-    @Positive
-    @Column(name = "classId", insertable = false, updatable = false)
-    private Long classId;
-
-    @NotBlank
-    @Size(min = 1, max = 45)
-    @Column(name = "testName", length = 45)
+    @Column(name = "testName")
     private String testName;
 
-    @Lob
+    @Column(name = "testType")
+    private String testType;
+
+    @Column(name = "testImg")
+    private String testImg;
+
     @Column(name = "testDesc")
     private String testDesc;
 
-    @Column(name = "status")
-    private Status status;
+    @Column(name = "timeLimit")
+    private int timeLimit;
+
+    @Column(name = "numQuestion")
+    private int numQuestion;
+
+    @Column(name = "minScore")
+    private float minScore;
+
+    @Column(name = "testWeight")
+    private int testWeight;
+
+    @Column(name = "totalScore")
+    private float totalScore;
 }

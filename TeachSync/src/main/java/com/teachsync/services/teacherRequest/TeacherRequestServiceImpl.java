@@ -1,40 +1,82 @@
 package com.teachsync.services.teacherRequest;
 
-import com.teachsync.dtos.request.TeacherRequestDto;
-import com.teachsync.entities.TeacherRequest;
+import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.dtos.request.RequestCreateDTO;
+import com.teachsync.dtos.request.RequestReadDTO;
+import com.teachsync.dtos.request.RequestUpdateDTO;
+import com.teachsync.entities.Request;
+import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
-import com.teachsync.repositories.TeacherRequestRepository;
+import com.teachsync.repositories.RequestRepository;
+import com.teachsync.repositories.UserRepository;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TeacherRequestServiceImpl implements TeacherRequestService {
+    @Autowired
+    RequestRepository requestRepository;
 
     @Autowired
-    TeacherRequestRepository teacherRequestRepository;
+    private ModelMapper mapper;
+
+    @Autowired
+    private MiscUtil miscUtil;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
-    public Page<TeacherRequestDto> getPageAll(Pageable paging) throws Exception {
-        return null;
+    public Page<RequestReadDTO> getPageAll(Pageable paging) throws Exception {
+        if (paging == null) {
+            paging = miscUtil.defaultPaging();
+        }
+        Page<Request> teacherRequests = requestRepository.findAllByStatusNot(Status.DELETED, paging);
+        List<RequestReadDTO> teacherRequestDtoList = new ArrayList<>();
+        for(Request request : teacherRequests){
+            RequestReadDTO requestReadDTO = mapper.map(request, RequestReadDTO.class);
+            //get user
+            User user = userRepository.findById(request.getRequesterId()).orElseThrow(() -> new Exception("không tìm thấy tài khoản"));
+            requestReadDTO.setUsername(user.getUsername());
+            requestReadDTO.setFullName(user.getFullName());
+            teacherRequestDtoList.add(requestReadDTO);
+        }
+
+        Page<RequestReadDTO> requestReadList = new PageImpl<>(teacherRequestDtoList, paging, teacherRequests.getTotalElements());
+
+        if (requestReadList.isEmpty()) {
+            return null;
+        }
+
+        return requestReadList;
     }
 
     @Transactional
     @Override
-    public String addTeacherRequest(TeacherRequestDto teacherRequestDto) {
-        TeacherRequest teacherRequest = new TeacherRequest();
-        teacherRequest.setUser(teacherRequestDto.getUser());
+    public String addRequest(RequestCreateDTO createDTO) {
+        Request teacherRequest = new Request();
+        teacherRequest.setRequesterId(createDTO.getRequesterId());
         teacherRequest.setRequestName("Request apply Teacher " + MiscUtil.generateRandomName());
         teacherRequest.setRequestType("APPLICATION");
-        teacherRequest.setRequestDesc(teacherRequestDto.getRequestDesc());
-        teacherRequest.setRequestContent(teacherRequestDto.getRequestContent());
+        teacherRequest.setRequestDesc(createDTO.getRequestDesc());
+        teacherRequest.setRequestContent(createDTO.getRequestContent());
+        teacherRequest.setContentLink(createDTO.getContentLink());
         teacherRequest.setStatus(Status.CREATED);
-        TeacherRequest teacherDb = teacherRequestRepository.save(teacherRequest);
+
+        Request teacherDb = requestRepository.saveAndFlush(teacherRequest);
+
         if (ObjectUtils.isEmpty(teacherDb)) {
             return "error";
         }
@@ -43,17 +85,34 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
     }
 
     @Override
-    public String editTeacherRequest(TeacherRequestDto teacherRequestDto) {
+    public String editRequest(RequestUpdateDTO updateDTO) {
         return null;
     }
 
     @Override
-    public String deleteTeacherRequest(Long Id) {
+    public String deleteRequest(Long Id) {
         return null;
     }
 
     @Override
-    public TeacherRequestDto findById(Long Id) throws Exception {
+    public RequestReadDTO findById(Long Id) throws Exception {
         return null;
+    }
+
+    @Transactional
+    @Override
+    public void changeStatus(Long Id, String operation) throws Exception {
+        Request teacherRequest = requestRepository.findById(Id).orElseThrow(() -> new Exception("không tìm thấy yêu cầu"));
+        if (operation.equals("approve")) {
+            User user = userRepository.findById(teacherRequest.getRequesterId()).orElseThrow(() -> new Exception("không tìm thấy tài khoản"));
+            user.setRoleId(Constants.ROLE_TEACHER);
+            userRepository.save(user);
+
+        }
+        teacherRequest.setStatus(Status.DELETED);
+        Request requestDB = requestRepository.save(teacherRequest);
+        if(ObjectUtils.isEmpty(requestDB)){
+            throw new Exception("Lỗi khi hủy yêu cầu");
+        }
     }
 }

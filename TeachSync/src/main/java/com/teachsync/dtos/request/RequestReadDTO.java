@@ -1,36 +1,41 @@
 package com.teachsync.dtos.request;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
+/**
+ * DTO for {@link com.teachsync.entities.Request}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class RequestReadDTO {
+public class RequestReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long requesterId;
 
     private String requestName;
 
+    private String requestDesc;
+
     private String requestType;
 
-    private String requestContent;
+    private Long clazzId;
+
+    private byte[] requestContent;
 
     private String contentLink;
-
-    private String requestDesc;
 
     private Long resolverId;
 
     private Status status;
+
+    private String username;
+
+    private String fullName;
 }

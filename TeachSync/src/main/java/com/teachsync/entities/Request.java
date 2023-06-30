@@ -1,64 +1,40 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
-@Table(name = "request")
-public class Request {
-    @Positive
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "requesterId", referencedColumnName = "id", nullable = true)
-    private User requester;
-    @Positive
-    @Column(name = "requesterId", insertable = false, updatable = false)
+public class Request extends BaseEntity {
+    @Column(name = "requesterId", nullable = false)
     private Long requesterId;
-
-    @NotBlank
-    @Size(min = 1, max = 45)
+    
     @Column(name = "requestName", nullable = false, length = 45)
     private String requestName;
 
-    @Column(name = "requestType", length = 45)
-    private String requestType;
-
     @Lob
-    @Column(name = "requestContent")
-    private String requestContent;
-
-    @Lob
-    @URL
-    @Column(name = "contentLink")
-    private String contentLink;
-
-    @Lob
-    @Column(name = "requestDesc")
+    @Column(name = "requestDesc", nullable = false, length = -1)
     private String requestDesc;
+    
+    @Column(name = "requestType", nullable = false, length = 45)
+    private String requestType;
+    
+    @Column(name = "clazzId", nullable = true)
+    private Long clazzId;
+    
+    @Column(name = "requestContent", nullable = true)
+    private byte[] requestContent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resolverId", referencedColumnName = "id")
-    private User resolver;
-    @Positive
-    @Column(name = "resolverId", insertable = false, updatable = false)
+    @Lob
+    @Column(name = "contentLink", nullable = true, length = -1)
+    private String contentLink;
+    
+    @Column(name = "resolverId", nullable = true)
     private Long resolverId;
-
-    @Column(name = "status")
-    private Status status;
 }
