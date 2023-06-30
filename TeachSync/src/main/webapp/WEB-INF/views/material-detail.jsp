@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>News Detail</title>
+    <title>Material Detail</title>
 
     <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
 
@@ -37,11 +37,11 @@
                 </li>
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="/news">
-                        Tin Tức
+                        Tài liệu
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <c:out value="${news.newsTitle}"/>
+                    <c:out value="${material.courseName}"/>
                 </li>
             </ol>
         </nav>
@@ -63,21 +63,18 @@
 
                     <div class="card-header">
                         <h4 class="card-title">
-                            <c:out value="${news.newsTitle}"/>
+                            <c:out value="${material.courseName}"/>
                         </h4>
                         <br/>
                         <h6>
-<%--                            <c:out value="${news.author}"/>--%>
-                            <%= (new java.util.Date()).toLocaleString()%>
+
                         </h6>
 
                     </div>
 
                     <div class="card-body">
                         <p class="card-text">
-                            <img src="../../resources/img/engbook.jpg"
-                                 class="rounded-2 border ts-border-blue w-100 h-auto">
-                            <c:out value="${news.newsDesc}"/>
+
                         </p>
                     </div>
 

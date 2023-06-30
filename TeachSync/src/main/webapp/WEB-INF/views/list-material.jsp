@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>News Detail</title>
+    <title>Material List</title>
 
     <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
 
@@ -35,13 +35,8 @@
                         <i class="bi-house-door"></i>&nbsp;Trang chủ
                     </a>
                 </li>
-                <li class="breadcrumb-item" aria-current="page">
-                    <a href="/news">
-                        Tin Tức
-                    </a>
-                </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <c:out value="${news.newsTitle}"/>
+                    Tài liệu
                 </li>
             </ol>
         </nav>
@@ -53,36 +48,43 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-    <!-- News List paging -->
+
+    <!-- Course List paging -->
     <div class="col-12 mb-3">
-        <div class="row gy-3">
 
+        <h5>Danh sách</h5>
 
-            <div class="col-sm-12 col-md-7 px-3">
-                <div class="card ts-border-yellow h-100">
+        <div class="row gy-3 mb-3">
+            <c:forEach var="material" items="${materialList}">
+                <div class="col-12">
+                    <div class="row px-3">
+                        <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">
 
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <c:out value="${news.newsTitle}"/>
-                        </h4>
-                        <br/>
-                        <h6>
-<%--                            <c:out value="${news.author}"/>--%>
-                            <%= (new java.util.Date()).toLocaleString()%>
-                        </h6>
+                        </div>
 
+                        <div class="col-10 px-0">
+                            <div class="card rounded-start-0 border-start-0 ts-border-orange h-100">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <c:url var="materialLink" value="material-detail">
+                                            <c:param name="id" value="${material.id}"/>
+                                        </c:url>
+<%--                                        <a href="${materialLink}">--%>
+<%--                                            <c:out value="${material.courseName}"/>--%>
+<%--                                        </a>--%>
+                                    </h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="card-text">
+<%--                                        <c:out value="${course.courseDesc}"/>--%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="card-body">
-                        <p class="card-text">
-                            <img src="../../resources/img/engbook.jpg"
-                                 class="rounded-2 border ts-border-blue w-100 h-auto">
-                            <c:out value="${news.newsDesc}"/>
-                        </p>
-                    </div>
-
                 </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
