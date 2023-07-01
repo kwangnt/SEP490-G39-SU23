@@ -3,6 +3,7 @@ package com.teachsync.services.Material;
 
 import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
+import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Material;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.utils.MiscUtil;
@@ -18,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
@@ -30,6 +32,7 @@ public class MaterialServiceImpl implements MaterialService {
     @Autowired
     private ModelMapper mapper;
 
+    /* =================================================== CREATE =================================================== */
     @Override
     @Transactional
     public MaterialReadDTO addMaterial(MaterialCreateDTO materialDTO, Long userId) throws Exception {
@@ -49,7 +52,7 @@ public class MaterialServiceImpl implements MaterialService {
 
         return mapper.map(materialDb, MaterialReadDTO.class);
     }
-
+    /* =================================================== READ ===================================================== */
     @Override
     public Page<Material> getPageAll(Pageable paging) throws Exception {
         if (paging == null) {
@@ -76,12 +79,25 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public List<Material> getAll() throws Exception {
-        return null;
+        List<Material> materialPage =
+                materialRepository.findAllByStatusNot(Status.DELETED);
+
+        if (materialPage.isEmpty()) {
+            return null;
+        }
+
+        return materialPage;
     }
 
     @Override
     public List<MaterialReadDTO> getAllDTO() throws Exception {
-        return null;
+        List<Material> materialList = getAll();
+
+        if (materialList == null) {
+            return null;
+        }
+
+        return wrapListDTO(materialList);
     }
 
     @Override
@@ -104,34 +120,80 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public Page<Material> getPageAllByIdIn(Pageable paging, Collection<Long> materialIdCollection) throws Exception {
-        return null;
+        if (paging == null) {
+            paging = miscUtil.defaultPaging(); }
+
+        Page<Material> materialPage =
+                materialRepository.findAllByIdInAndStatusNot(materialIdCollection, Status.DELETED, paging);
+
+        if (materialPage.isEmpty()) {
+            return null; }
+
+        return materialPage;
     }
 
     @Override
     public Page<MaterialReadDTO> getPageDTOAllByIdIn(Pageable paging, Collection<Long> materialIdCollection) throws Exception {
-        return null;
+        Page<Material> materialPage = getPageAllByIdIn(paging, materialIdCollection);
+
+        if (materialPage == null) {
+            return null; }
+
+        return wrapPageDTO(materialPage);
     }
 
     @Override
     public List<Material> getAllByIdIn(Collection<Long> materialIdCollection) throws Exception {
-        return null;
+        List<Material>  materialList =
+                materialRepository.findAllByIdInAndStatusNot(materialIdCollection, Status.DELETED);
+
+        if (materialList.isEmpty()) {
+            return null; }
+
+        return materialList;
     }
 
     @Override
     public Map<Long, String> mapMaterialIdMaterialNameByIdIn(Collection<Long> materialIdCollection) throws Exception {
-        return null;
+        List<Material> materialList = getAllByIdIn(materialIdCollection);
+
+        if (materialList.isEmpty()) {
+            return new HashMap<>(); }
+
+        return materialList.stream()
+                .collect(Collectors.toMap(BaseEntity::getId, Material::getMaterialName));
     }
 
+    /* =================================================== UPDATE =================================================== */
     @Override
+    @Transactional
     public MaterialReadDTO editMaterial(MaterialReadDTO materialReadDTO, Long userId) throws Exception {
-        return null;
-    }
+        Material material = materialRepository.findById(materialReadDTO.getId()).orElseThrow(() -> new Exception("không tìm thấy tài liệu"));
 
+        material.setMaterialName(materialReadDTO.getMaterialName());
+        //TODO : process upload file
+        material.setMaterialLink(materialReadDTO.getMaterialLink());
+        material.setMaterialContent(materialReadDTO.getMaterialContent());
+        material.setMaterialImg(materialReadDTO.getMaterialImg());
+        material.setStatus(Status.UPDATED);
+        material.setUpdatedBy(userId);
+        Material materialDb = materialRepository.save(material);
+        if (ObjectUtils.isEmpty(materialDb)) {
+            throw new Exception("Cập nhật tài liệu thất bại");
+        }
+
+        return mapper.map(materialDb, MaterialReadDTO.class);
+    }
+    /* =================================================== DELETE =================================================== */
     @Override
+    @Transactional
     public void deleteMaterial(Long Id, Long userId) throws Exception {
-
+        Material material = materialRepository.findById(Id).orElseThrow(() -> new Exception("không tìm thấy tài liệu"));
+        material.setStatus(Status.DELETED);
+        material.setUpdatedBy(userId);
+        materialRepository.save(material);
     }
-
+    /* =================================================== WRAPPER ================================================== */
     @Override
     public MaterialReadDTO wrapDTO(Material material) throws Exception {
         MaterialReadDTO dto = mapper.map(material, MaterialReadDTO.class);

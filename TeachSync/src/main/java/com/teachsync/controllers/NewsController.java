@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -104,7 +105,7 @@ public class NewsController {
 
 
     @GetMapping("/news")
-    public String news(Model model) {
+    public String news(Model model, @ModelAttribute("mess") String mess) {
 
         try {
             Page<NewsReadDTO> dtoPage = newsService.getPageDTOAll(null);
@@ -120,15 +121,17 @@ public class NewsController {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
+        model.addAttribute("mess", mess);
+
         return "list-news";
     }
 
     @GetMapping("/news-detail")
     public String getDetailById(
-            @RequestParam Long id,
+            @RequestParam(name = "id") Long authorId,
             Model model) {
         try {
-            NewsReadDTO news = newsService.getDTOById(id);
+            NewsReadDTO news = newsService.getDTOById(authorId);
 
             if (news == null) {
                 /* Not found by Id */

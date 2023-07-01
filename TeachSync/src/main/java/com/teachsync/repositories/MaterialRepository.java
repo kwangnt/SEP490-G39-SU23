@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MaterialRepository extends JpaRepository<Material, Long> {
-    Material findAllById(Long id);
 
     Page<Material> findAllByStatusNot(Status status, Pageable pageable);
 
+    List<Material> findAllByStatusNot(Status status);
+
     /* id */
     Optional<Material> findByIdAndStatusNot(Long id, Status status);
+
+    Page<Material> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status, Pageable pageable);
 
     List<Material> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 }
