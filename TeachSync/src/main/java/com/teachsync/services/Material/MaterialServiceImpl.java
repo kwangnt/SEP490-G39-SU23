@@ -1,6 +1,7 @@
 package com.teachsync.services.Material;
 
 
+import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
 import com.teachsync.entities.Material;
 import com.teachsync.repositories.MaterialRepository;
@@ -12,11 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
@@ -28,6 +29,26 @@ public class MaterialServiceImpl implements MaterialService {
     private MiscUtil miscUtil;
     @Autowired
     private ModelMapper mapper;
+
+    @Override
+    @Transactional
+    public MaterialReadDTO addMaterial(MaterialCreateDTO materialDTO, Long userId) throws Exception {
+        Material material = new Material();
+
+        material.setMaterialName(materialDTO.getMaterialName());
+        //TODO : process upload file
+        material.setMaterialLink(materialDTO.getMaterialLink());
+        material.setMaterialContent(materialDTO.getMaterialContent());
+        material.setMaterialImg(materialDTO.getMaterialImg());
+        material.setStatus(materialDTO.getStatus());
+        material.setCreatedBy(userId);
+        Material materialDb = materialRepository.save(material);
+        if (ObjectUtils.isEmpty(materialDb)) {
+            throw new Exception("Tạo tài liệu thất bại");
+        }
+
+        return mapper.map(materialDb, MaterialReadDTO.class);
+    }
 
     @Override
     public Page<Material> getPageAll(Pageable paging) throws Exception {
@@ -54,6 +75,16 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    public List<Material> getAll() throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<MaterialReadDTO> getAllDTO() throws Exception {
+        return null;
+    }
+
+    @Override
     public Material getById(Long id) throws Exception {
         Optional<Material> news =
                 materialRepository.findByIdAndStatusNot(id, Status.DELETED);
@@ -69,6 +100,36 @@ public class MaterialServiceImpl implements MaterialService {
             return null; }
 
         return wrapDTO(material);
+    }
+
+    @Override
+    public Page<Material> getPageAllByIdIn(Pageable paging, Collection<Long> materialIdCollection) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Page<MaterialReadDTO> getPageDTOAllByIdIn(Pageable paging, Collection<Long> materialIdCollection) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<Material> getAllByIdIn(Collection<Long> materialIdCollection) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Map<Long, String> mapMaterialIdMaterialNameByIdIn(Collection<Long> materialIdCollection) throws Exception {
+        return null;
+    }
+
+    @Override
+    public MaterialReadDTO editMaterial(MaterialReadDTO materialReadDTO, Long userId) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void deleteMaterial(Long Id, Long userId) throws Exception {
+
     }
 
     @Override

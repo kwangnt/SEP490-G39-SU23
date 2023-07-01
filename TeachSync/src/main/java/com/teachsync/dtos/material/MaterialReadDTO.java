@@ -1,24 +1,21 @@
 package com.teachsync.dtos.material;
 
-import com.teachsync.entities.Course;
-import com.teachsync.utils.enums.Status;
+import com.teachsync.dtos.BaseReadDTO;
 import lombok.*;
 
-import java.io.Serializable;
 
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
-public class MaterialReadDTO implements Serializable {
-    private Long id;
-
-    private Course course;
-
+@NoArgsConstructor
+public class MaterialReadDTO extends BaseReadDTO {
     private Long courseId;
+
+    private String materialName;
 
     private String materialLink;
 
-    private Status status;
+    private byte[] materialContent;
+
+    private String materialImg;
 }
