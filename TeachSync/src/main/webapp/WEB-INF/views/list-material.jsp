@@ -51,35 +51,42 @@
 
     <!-- Course List paging -->
     <div class="col-12 mb-3">
-
-        <h5>Danh sách</h5>
-
+        <h5 class="d-flex justify-content-between align-items-center mb-3">
+            <span>Danh sách</span>
+            <c:if test="${isAdmin}">
+                <a href="create-material" class="btn btn-primary">
+                    Thêm mới
+                </a>
+            </c:if>
+        </h5>
         <div class="row gy-3 mb-3">
             <c:forEach var="material" items="${materialList}">
                 <div class="col-12">
                     <div class="row px-3">
                         <div class="col-2 rounded-start-2 border ts-border-orange overflow-hidden px-0">
-
+                            <img src="${material.materialImg}" alt="Material Img"
+                                 class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">
                         </div>
 
-                        <div class="col-10 px-0">
+                        <div class="col-11 px-0">
                             <div class="card rounded-start-0 border-start-0 ts-border-orange h-100">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">
                                         <c:url var="materialLink" value="material-detail">
                                             <c:param name="id" value="${material.id}"/>
                                         </c:url>
-<%--                                        <a href="${materialLink}">--%>
-<%--                                            <c:out value="${material.courseName}"/>--%>
-<%--                                        </a>--%>
+                                        <a href="${materialLink}">
+                                            <c:out value="${material.materialName}"/>
+                                        </a>
                                     </h5>
                                 </div>
 
                                 <div class="card-body">
                                     <p class="card-text">
-<%--                                        <c:out value="${course.courseDesc}"/>--%>
+                                        <c:out value="${material.materialContent}"/>
                                     </p>
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -49,6 +49,14 @@
 
   <!-- News List paging -->
   <div class="col-12 mb-3">
+    <h5 class="d-flex justify-content-between align-items-center mb-3">
+      <span>Danh sách</span>
+      <c:if test="${isAdmin}">
+        <a href="create-news" class="btn btn-primary">
+          Thêm mới
+        </a>
+      </c:if>
+    </h5>
 
     <div class="row gy-3 mb-3">
       <c:forEach var="news" items="${newsList}">

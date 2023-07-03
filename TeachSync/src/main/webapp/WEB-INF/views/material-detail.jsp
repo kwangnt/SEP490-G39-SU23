@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <c:out value="${material.courseName}"/>
+                    <c:out value="${material.materialName}"/>
                 </li>
             </ol>
         </nav>
@@ -53,18 +53,28 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-    <!-- News List paging -->
+    <!-- Material List paging -->
     <div class="col-12 mb-3">
         <div class="row gy-3">
-
+            <div class="col-sm-12 col-md-3 px-sm-3 pe-md-0">
+                <img src="${material.materialImg}" class="rounded-2 border ts-border-blue w-100 h-auto">
+            </div>
 
             <div class="col-sm-12 col-md-7 px-3">
                 <div class="card ts-border-yellow h-100">
 
                     <div class="card-header">
                         <h4 class="card-title">
-                            <c:out value="${material.courseName}"/>
+                            <c:out value="${material.materialName}"/>
                         </h4>
+                        <c:if test="${isAdmin}">
+                            <a href="edit-material?id=${material.id}" class="btn btn-warning">
+                                Chỉnh sửa
+                            </a>
+                            <a href="delete-material?id=${material.id}" class="btn btn-danger">
+                                Xóa
+                            </a>
+                        </c:if>
                         <br/>
                         <h6>
 
@@ -74,7 +84,7 @@
 
                     <div class="card-body">
                         <p class="card-text">
-
+                            <c:out value="${material.materialContent}"/>
                         </p>
                     </div>
 
