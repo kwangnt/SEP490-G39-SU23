@@ -96,6 +96,35 @@ public class HomeworkController {
         return "add-homework";
     }
 
+    @GetMapping("/detail-homework")
+    public String detailHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
+            , @ModelAttribute("mess") String mess) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+
+        try {
+            Page<ClazzReadDTO> dtoPage = clazzService.getPageDTOAll(null);
+            if (!ObjectUtils.isEmpty(request.getParameter("id"))) {
+                HomeworkReadDTO homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("id")));
+                model.addAttribute("homework", homeworkReadDTO);
+                model.addAttribute("option", "detail");
+            }
+            model.addAttribute("clazzList", dtoPage.getContent());
+            model.addAttribute("mess", mess);
+
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            redirect.addAttribute("mess", "xem chi tiêt bài tập thất bại ,lỗi : " + e.getMessage());
+            return "redirect:/";
+
+        }
+
+        return "add-homework";
+    }
+
     @PostMapping("/add-homework")
     public String addHomework(
             HttpServletRequest request,
@@ -141,6 +170,29 @@ public class HomeworkController {
         }
 
         redirect.addAttribute("mess", options + " bài tập về nhà thành công");
+        return "redirect:/homework/list";
+    }
+
+    @GetMapping("/delete-homework")
+    public String deleteHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
+            , @ModelAttribute("mess") String mess) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        try {
+            homeworkService.deleteHomework(Long.parseLong(request.getParameter("id")), userDTO);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            redirect.addAttribute("mess", e.getMessage());
+            return "redirect:/homework/add-homework";
+
+        }
+
+        redirect.addAttribute("mess", "Xóa bài tập về nhà thành công");
         return "redirect:/homework/list";
     }
 }

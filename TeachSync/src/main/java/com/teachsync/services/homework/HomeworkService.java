@@ -16,4 +16,6 @@ public interface HomeworkService {
     void addHomework(HomeworkReadDTO homeworkReadDTO, UserReadDTO userDTO) throws Exception;
 
     void editHomework(HomeworkReadDTO homeworkReadDTO ,UserReadDTO userDTO) throws Exception;
+
+    void deleteHomework(Long Id ,UserReadDTO userDTO) throws Exception;
 }

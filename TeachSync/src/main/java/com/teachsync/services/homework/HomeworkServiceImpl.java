@@ -116,4 +116,15 @@ public class HomeworkServiceImpl implements HomeworkService {
             throw new Exception("Lỗi khi sửa bài tập về nhà");
         }
     }
+
+    @Override
+    public void deleteHomework(Long Id, UserReadDTO userDTO) throws Exception {
+        Homework homework = homeworkRepository.findById(Id).orElseThrow(() -> new Exception("không tìm bài tập về nhà"));
+        homework.setUpdatedBy(userDTO.getId());
+        homework.setStatus(Status.DELETED);
+        Homework homeworkDb = homeworkRepository.save(homework);
+        if (ObjectUtils.isEmpty(homeworkDb)) {
+            throw new Exception("Lỗi khi xóa bài tập về nhà");
+        }
+    }
 }

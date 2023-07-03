@@ -43,7 +43,11 @@
     <c:forEach var="homework" items="${homeworkList}">
       <tr>
         <th scope="row">${homework.id}</th>
-        <td>${homework.clazzName}</td>
+        <td>
+          <a href="detail-homework?id=${homework.id}">
+              ${homework.clazzName}
+          </a>
+           </td>
         <td>${homework.homeworkName}</td>
         <td>${homework.homeworkDesc}</td>
         <td>${homework.homeworkDoc}</td>
@@ -53,7 +57,7 @@
           <a href="add-homework?id=${homework.id}">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
-          <a href="">
+          <a href="delete-homework?id=${homework.id}">
             <button type="button" class="btn btn-danger">Xóa</button>
           </a>
         </td>

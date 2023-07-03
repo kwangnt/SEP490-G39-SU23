@@ -43,17 +43,8 @@
         <div class="row">
             <div class="col-md-4 pt-4">
                 <div class="d-flex align-items-center">
-                    <p class="mr-2">Tên lớp học</p>
+                    <p class="mr-2">Tên lớp học : ${homework.clazzName}</p>
                     <div class="dropdown ms-3">
-                        <c:if test="${option == 'detail'}">
-                            <select name="clazzId"
-                                    disabled
-                                    class="btn btn-secondary dropdown-toggle">
-                                <c:forEach items="${clazzList}" var="clazz">
-                                    <option value="${clazz.id}"> ${clazz.clazzName}</option>
-                                </c:forEach>
-                            </select>
-                        </c:if>
                         <c:if test="${option == 'edit' || option == 'add'}">
                             <select name="clazzId" required
                                     class="btn btn-secondary dropdown-toggle">
@@ -83,22 +74,21 @@
             <label>File đính kèm</label>
             <c:if test="${option == 'detail'}">
                 <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
-                    <br>
-                    <a href="${homework.homeworkDoc}" >
-                        <button type="button" class="btn btn-primary">Xem</button>
+                    <br/>
+                    <a href="${homework.homeworkDoc}" target="_blank">
+                        <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
             </c:if>
             <c:if test="${option == 'edit' || option == 'add'}">
-                ${homework.homeworkDoc}
                 <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
-                    <br>
-                    <a href="${homework.homeworkDoc}" >
-                        <button type="button" class="btn btn-primary">Xem</button>
+                    <br/>
+                    <a href="${homework.homeworkDoc}" target="_blank">
+                        <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
                 <input type="file" value="${homework.homeworkDoc}" name="homeworkDoc" class="form-control"
-                       placeholder="đính kèm file">
+                       placeholder="File đính kèm file">
             </c:if>
         </div>
 
@@ -106,16 +96,16 @@
             <label>Link đính kèm</label>
             <c:if test="${option == 'detail'}">
                 <c:if test="${homework.homeworkDocLink != null || homework.homeworkDocLink == ''}">
-                    <br>
-                    <a href="${homework.homeworkDocLink}" >
-                        <button type="button" class="btn btn-primary">Xem</button>
+                    <br/>
+                    <a href="${homework.homeworkDocLink}" target="_blank">
+                        <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
             </c:if>
             <c:if test="${option == 'edit' || option == 'add'}">
                 <c:if test="${homework.homeworkDocLink != null || homework.homeworkDocLink == ''}">
-                    <br>
-                    <a href="${homework.homeworkDocLink}" >
+                    <br/>
+                    <a href="${homework.homeworkDocLink}" target="_blank" >
                         <button type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
