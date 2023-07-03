@@ -25,7 +25,7 @@ public class Homework extends BaseEntity {
     private String homeworkDesc;
 
     @Column(name = "homeworkDoc", nullable = true)
-    private byte[] homeworkDoc;
+    private String homeworkDoc;
 
     @Lob
     @Column(name = "homeworkDocLink", nullable = true, length = -1)

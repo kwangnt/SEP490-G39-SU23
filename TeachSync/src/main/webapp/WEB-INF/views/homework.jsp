@@ -23,6 +23,9 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
+  <a href="add-homework">
+    <button type="button" class="btn btn-primary">Thêm mới bài tập về nhà</button>
+  </a>
   <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -47,7 +50,7 @@
         <td>${homework.homeworkDocLink}</td>
         <td>${homework.deadline}</td>
         <td>
-          <a href="">
+          <a href="add-homework?id=${homework.id}">
             <button type="button" class="btn btn-success">Sửa</button>
           </a>
           <a href="">
@@ -66,4 +69,10 @@
 <%@ include file="/WEB-INF/fragments/footer.jspf" %>
 <!-- ================================================== Footer ===================================================== -->
 </body>
+<script>
+  var mess = '${mess}'
+  if (mess != '') {
+    alert(mess);
+  }
+</script>
 </html>

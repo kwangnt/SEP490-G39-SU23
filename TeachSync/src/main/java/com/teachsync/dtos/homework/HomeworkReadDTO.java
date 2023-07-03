@@ -22,11 +22,11 @@ public class HomeworkReadDTO extends BaseReadDTO {
 
     private String homeworkDesc;
 
-    private byte[] homeworkDoc;
+    private String homeworkDoc;
 
     private String homeworkDocLink;
 
-    private LocalDateTime deadline;
+        private LocalDateTime deadline;
 
     private String clazzName;
 
