@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -28,4 +30,7 @@ public class Homework extends BaseEntity {
     @Lob
     @Column(name = "homeworkDocLink", nullable = true, length = -1)
     private String homeworkDocLink;
+
+    @Column(name = "deadline")
+    private LocalDateTime deadline;
 }
