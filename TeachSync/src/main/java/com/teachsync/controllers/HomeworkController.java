@@ -48,9 +48,9 @@ public class HomeworkController {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
         try {
-            Page<HomeworkReadDTO> dtoPage = homeworkService.getPageAll(null);
+            Page<HomeworkReadDTO> dtoPage = homeworkService.getPageAll(null,userDTO);
             model.addAttribute("homeworkList", dtoPage.getContent());
             model.addAttribute("pageNo", dtoPage.isEmpty() ? 0 : dtoPage.getPageable().getPageNumber());
             model.addAttribute("pageTotal", dtoPage.getTotalPages());
@@ -71,6 +71,11 @@ public class HomeworkController {
         //check login
         if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
         }
 
@@ -135,7 +140,12 @@ public class HomeworkController {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
+
         UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
 
         HomeworkReadDTO homeworkReadDTO = new HomeworkReadDTO();
 
@@ -148,6 +158,11 @@ public class HomeworkController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime deadline = LocalDateTime.parse(deadlineString, formatter);
         homeworkReadDTO.setDeadline(deadline);
+        if (!ObjectUtils.isEmpty(request.getParameter("openAt"))) {
+            String openAtString = request.getParameter("openAt");
+            LocalDateTime openAt = LocalDateTime.parse(openAtString, formatter);
+            homeworkReadDTO.setOpenAt(openAt);
+        }
         String options = "";
         try {
 
@@ -182,6 +197,11 @@ public class HomeworkController {
             return "redirect:/";
         }
         UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
 
         try {
             homeworkService.deleteHomework(Long.parseLong(request.getParameter("id")), userDTO);

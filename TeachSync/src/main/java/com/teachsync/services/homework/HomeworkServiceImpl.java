@@ -9,6 +9,7 @@ import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.ClazzRepository;
 import com.teachsync.repositories.HomeworkRepository;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -42,7 +43,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     ClazzRepository clazzRepository;
 
     @Override
-    public Page<HomeworkReadDTO> getPageAll(Pageable paging) throws Exception {
+    public Page<HomeworkReadDTO> getPageAll(Pageable paging, UserReadDTO userDTO) throws Exception {
         if (paging == null) {
             paging = miscUtil.defaultPaging();
         }
@@ -55,7 +56,14 @@ public class HomeworkServiceImpl implements HomeworkService {
             Clazz clazz = clazzRepository.findById(homeworkReadDTO.getClazzId()).orElseThrow(() -> new Exception("không tìm lớp học"));
             homeworkReadDTO.setClazzName(clazz.getClazzName());
 
-            homeworkDtoList.add(homeworkReadDTO);
+            //check student to show
+            if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+                if (!ObjectUtils.isEmpty(homeworkReadDTO.getOpenAt()) && homeworkReadDTO.getOpenAt().isBefore(LocalDateTime.now())) {
+                    homeworkDtoList.add(homeworkReadDTO);
+                }
+            } else {
+                homeworkDtoList.add(homeworkReadDTO);
+            }
         }
 
         Page<HomeworkReadDTO> homeworkReadDTOS = new PageImpl<>(homeworkDtoList, paging, homeworkPage.getTotalElements());
@@ -87,6 +95,7 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setHomeworkDoc(null);//TODO : upload file
         homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());
+        homework.setOpenAt(homeworkReadDTO.getOpenAt());
         homework.setCreatedBy(userDTO.getId());
         homework.setUpdatedBy(userDTO.getId());
         homework.setStatus(Status.CREATED);
@@ -100,7 +109,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     @Transactional
     public void editHomework(HomeworkReadDTO homeworkReadDTO, UserReadDTO userDTO) throws Exception {
-        Homework homework = homeworkRepository.findById(homeworkReadDTO.getId()).orElseThrow(() -> new Exception("không tìm bài tập về nhà"));;
+        Homework homework = homeworkRepository.findById(homeworkReadDTO.getId()).orElseThrow(() -> new Exception("không tìm bài tập về nhà"));
+        ;
 
         homework.setHomeworkName(homeworkReadDTO.getHomeworkName());
         homework.setClazzId(homeworkReadDTO.getClazzId());
@@ -108,6 +118,7 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setHomeworkDoc(null);//TODO : upload file
         homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());
+        homework.setOpenAt(homeworkReadDTO.getOpenAt());
         homework.setUpdatedBy(userDTO.getId());
         homework.setStatus(Status.UPDATED);
 

@@ -1,11 +1,6 @@
 package com.teachsync.dtos.homework;
 
 import com.teachsync.dtos.BaseReadDTO;
-import com.teachsync.entities.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -27,6 +22,8 @@ public class HomeworkReadDTO extends BaseReadDTO {
     private String homeworkDocLink;
 
     private LocalDateTime deadline;
+
+    private LocalDateTime openAt;
 
     private String clazzName;
 

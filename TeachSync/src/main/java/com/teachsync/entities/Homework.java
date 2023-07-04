@@ -33,4 +33,7 @@ public class Homework extends BaseEntity {
 
     @Column(name = "deadline")
     private LocalDateTime deadline;
+
+    @Column(name = "openAt")
+    private LocalDateTime openAt;
 }

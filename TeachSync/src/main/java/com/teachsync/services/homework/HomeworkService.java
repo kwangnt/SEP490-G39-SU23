@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface HomeworkService {
 
-    Page<HomeworkReadDTO> getPageAll(Pageable paging) throws Exception;
+    Page<HomeworkReadDTO> getPageAll(Pageable paging,UserReadDTO userDTO) throws Exception;
 
     HomeworkReadDTO findById(Long id) throws Exception;
 
