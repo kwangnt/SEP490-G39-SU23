@@ -41,14 +41,37 @@ values
     ('teacher', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 3, null, 'Test Teacher', 'test.teacher@gmail.com', null, null, null, null, 'CREATED'),
     ('admin', '$2a$10$2muXk6hqYaoTLnXWCszDaeDE71FGa2hJkh3QPaGKJLRJ77bm6GFJW', 4, null, 'Test Admin', 'test.admin@gmail.com', null, null, null, null, 'CREATED');
 --     Password = 123456789
+insert into semester(semesterName, semesterAlias, semesterDesc, semesterType, startDate, endDate, status)
+values
+    ('Spring 23','SP23','Spring 23', 'SEASON', '2023-01-05', '2023-03-05', 'CREATED'),
+    ('Summer 23','SU23','Summer 23', 'SEASON', '2023-03-10', '2023-06-10', 'CREATED'),
+    ('Fall 23', 'FA23', 'Fall 23', 'SEASON', '2023-06-15', '2023-09-15', 'CREATED'),
+    ('Winter 23', 'WI23', 'Winter 23', 'SEASON', '2023-09-15', '2023-12-15', 'CREATED');
 
-insert into course(courseName, courseImg, courseDesc, numSession, minScore, minAttendant, status)
+insert into course(courseName, courseAlias, courseImg, courseDesc, numSession, minScore, minAttendant, status)
     value
-    ('ielts 101', 'https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1', null, 14, 5.0, 80, 'CREATED'),
-    ('English Grade 1', 'https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1', null, 12, 4.5, 75, 'CREATED'),
-    ('English Grade 2', 'https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg', null, 12, 5.0, 75, 'CREATED'),
-    ('English Grade 3', 'https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1', null, 12, 5.0, 75, 'CREATED');
+    ('ielts 101', 'ILT101', 'https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1', null, 14, 5.0, 80, 'CREATED'),
+    ('English Grade 1', 'ENG001', 'https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1', null, 12, 4.5, 75, 'CREATED'),
+    ('English Grade 2', 'ENG002', 'https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg', null, 12, 5.0, 75, 'CREATED'),
+    ('English Grade 3', 'ENG003', 'https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1', null, 12, 5.0, 75, 'CREATED');
 
+insert into course_semester(courseId, semesterId, centerId, status)
+values
+    (1, 1, 1, 'CREATED'),
+    (1, 2, 1, 'CREATED'),
+    (1, 3, 1, 'CREATED'),
+    (1, 4, 1, 'CREATED'),
+    (2, 1, 1, 'CREATED'),
+    (2, 2, 1, 'CREATED'),
+    (2, 3, 1, 'CREATED'),
+    (2, 4, 1, 'CREATED'),
+    (3, 1, 1, 'CREATED'),
+    (3, 2, 1, 'CREATED'),
+    (3, 3, 1, 'CREATED'),
+    (3, 4, 1, 'CREATED'),
+    (4, 1, 1, 'CREATED'),
+    (4, 2, 1, 'CREATED'),
+    (4, 3, 1, 'CREATED');
 insert into price_log(courseId, price, isCurrent, isPromotion, promotionAmount,
                       promotionType, promotionDesc, validFrom, validTo, status)
 values
@@ -64,21 +87,7 @@ values
     (3, 'Eng 2', 'You have complete the Eng 2 course', 'CREATED'),
     (4, 'Eng 3', 'You have complete the Eng 3 course', 'CREATED');
 
-insert into course_schedule(courseId, centerId, scheduleAlias, scheduleType, startDate, endDate, status)
-values
-    (1, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
-    (1, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
-
-    (2, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
-    (2, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
-
-    (3, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
-    (3, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED'),
-
-    (4, 1, 'Summer 23', 'SEASON', '2023-06-10', '2023-08-10', 'CREATED'),
-    (4, 1, 'Fall 23', 'SEASON', '2023-08-15', '2023-10-15', 'CREATED');
-
-insert into clazz(courseScheduleId, clazzName, clazzDesc, clazzSize, status)
+insert into clazz(courseSemesterId, clazzName, clazzDesc, clazzSize, status)
     value
     (1, 'Class 1 Ielts 101', null, 15, 'CREATED'),
     (2, 'Class 2 Ielts 101', null, 15, 'CREATED'),

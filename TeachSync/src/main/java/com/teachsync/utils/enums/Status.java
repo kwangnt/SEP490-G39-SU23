@@ -2,8 +2,15 @@ package com.teachsync.utils.enums;
 
 public enum Status {
     PENDING("PENDING"),
-    IN_PROGRESS("IN_PROGRESS"),
+    ONGOING("ONGOING"),
     DONE("DONE"),
+    
+    APPROVED("APPROVED"),
+    DENIED("DENIED"),
+    
+    OPENED("OPENED"),
+    CLOSED("CLOSED"),
+    
     CREATED("CREATED"),
     UPDATED("UPDATED"),
     DELETED("DELETED");

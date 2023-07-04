@@ -1,5 +1,6 @@
 package com.teachsync.utils;
 
+import com.teachsync.dtos.BaseReadDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,8 +9,9 @@ import org.springframework.data.domain.Sort;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MiscUtil {
     public Pageable makePaging(int pageNo, int pageSize, String sortBy, boolean isAsc) {

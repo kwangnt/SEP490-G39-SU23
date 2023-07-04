@@ -23,6 +23,7 @@ public interface PriceLogRepository extends JpaRepository<PriceLog, Long> {
 
     /* courseId */
     Optional<PriceLog> findByCourseIdAndIsCurrentTrueAndStatusNot(Long courseId, Status status);
+    List<PriceLog> findAllByCourseIdInAndIsCurrentTrueAndStatusNot(Collection<Long> courseIdCollection, Status status);
     List<PriceLog> findAllByCourseIdAndStatusNot(Long courseId, Status status);
     List<PriceLog> findAllByCourseIdInAndStatusNot(Collection<Long> courseIdCollection, Status status);
 

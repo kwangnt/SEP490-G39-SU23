@@ -21,7 +21,7 @@ public class LoginController {
 
 
 
-    @GetMapping("/login")
+    @GetMapping("/sign-in")
     public String login(HttpSession session) {
         Object objUser = session.getAttribute("user");
 
@@ -34,7 +34,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping("/sign-in")
     public String login(
             @RequestParam String username,
             @RequestParam String password,
@@ -68,12 +68,12 @@ public class LoginController {
         return "redirect:/index";
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/sign-up")
     public String signup(Model model) {
         return "signup";
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public String signup(
             @RequestParam String username,
             @RequestParam String password,
@@ -97,7 +97,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/sign-out")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:/";

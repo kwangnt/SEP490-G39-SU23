@@ -1,6 +1,7 @@
 package com.teachsync.dtos.center;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.room.RoomReadDTO;
 import com.teachsync.entities.Center;
 import com.teachsync.entities.CenterStaff;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,6 @@ public class CenterReadDTO extends BaseReadDTO {
 
     private Integer centerSize;
 
-//    private List<RoomReadDTO> roomList;
+    private List<RoomReadDTO> roomList;
 //    private List<CenterStaffReadDTO> staffList;
 }

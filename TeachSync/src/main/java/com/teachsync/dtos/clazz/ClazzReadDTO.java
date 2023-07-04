@@ -2,15 +2,13 @@ package com.teachsync.dtos.clazz;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
-import com.teachsync.dtos.courseSchedule.CourseScheduleReadDTO;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.entities.*;
-import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,8 +25,8 @@ public class ClazzReadDTO extends BaseReadDTO {
 
     private int clazzSize;
 
-    private Long courseScheduleId;
-    private CourseScheduleReadDTO courseSchedule;
+    private Long courseSemesterId;
+    private CourseSemesterReadDTO courseSemester;
 
     private ClazzScheduleReadDTO clazzSchedule;
 

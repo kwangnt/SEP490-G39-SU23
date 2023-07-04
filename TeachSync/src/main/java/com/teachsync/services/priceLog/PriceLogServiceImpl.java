@@ -1,5 +1,6 @@
 package com.teachsync.services.priceLog;
 
+import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.entities.PriceLog;
 import com.teachsync.repositories.PriceLogRepository;
@@ -12,10 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class PriceLogServiceImpl implements PriceLogService {
@@ -117,6 +117,36 @@ public class PriceLogServiceImpl implements PriceLogService {
     }
 
     @Override
+    public List<PriceLog> getAllLatestByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<PriceLog> priceLogList =
+                priceLogRepository.findAllByCourseIdInAndIsCurrentTrueAndStatusNot(courseIdCollection ,Status.DELETED);
+
+        if (priceLogList.isEmpty()) {
+            return null; }
+
+        return priceLogList;
+    }
+    @Override
+    public List<PriceLogReadDTO> getAllLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<PriceLog> priceLogList = getAllLatestByCourseIdIn(courseIdCollection);
+
+        if (priceLogList == null) {
+            return null; }
+
+        return wrapListDTO(priceLogList);
+    }
+    @Override
+    public Map<Long, PriceLogReadDTO> mapCourseIdLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<PriceLogReadDTO> priceLodDTOList = getAllLatestDTOByCourseIdIn(courseIdCollection);
+
+        if (priceLodDTOList == null) {
+            return new HashMap<>(); }
+
+        return priceLodDTOList.stream()
+                .collect(Collectors.toMap(PriceLogReadDTO::getCourseId, Function.identity()));
+    }
+
+    @Override
     public List<PriceLog> getAllByCourseId(Long courseId) throws Exception {
         List<PriceLog> priceLogList =
                 priceLogRepository.findAllByCourseIdAndStatusNot(courseId ,Status.DELETED);
@@ -127,7 +157,7 @@ public class PriceLogServiceImpl implements PriceLogService {
         return priceLogList;
     }
     @Override
-    public List<PriceLogReadDTO> getAllDTOById(Long courseId) throws Exception {
+    public List<PriceLogReadDTO> getAllDTOByCourseId(Long courseId) throws Exception {
         List<PriceLog> priceLogList = getAllByCourseId(courseId);
 
         if (priceLogList == null) {

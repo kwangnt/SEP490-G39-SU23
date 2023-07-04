@@ -1,5 +1,8 @@
 package com.teachsync.services.course;
 
+import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.center.CenterReadDTO;
+import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
@@ -10,6 +13,7 @@ import com.teachsync.repositories.CourseRepository;
 import com.teachsync.repositories.PriceLogRepository;
 import com.teachsync.services.priceLog.PriceLogService;
 import com.teachsync.utils.MiscUtil;
+import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +166,28 @@ public class CourseServiceImpl implements CourseService {
         return wrapListDTO(courseList);
     }
 
+    @Override
+    public List<CourseReadDTO> getAllDTO(Collection<DtoOption> options) throws Exception {
+        List<Course> courseList = getAll();
+
+        if (courseList == null) {
+            return null;
+        }
+
+        return wrapListDTO(courseList, options);
+    }
+    @Override
+    public Map<Long, CourseReadDTO> mapIdDTO(Collection<DtoOption> options) throws Exception {
+        List<CourseReadDTO> courseDTOList = getAllDTO(options);
+
+        if (courseDTOList == null) {
+            return new HashMap<>();
+        }
+
+        return courseDTOList.stream()
+                .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
+    }
+
     /* id */
     @Override
     public Course getById(Long id) throws Exception {
@@ -302,7 +328,6 @@ public class CourseServiceImpl implements CourseService {
 
         return dto;
     }
-
     @Override
     public List<CourseReadDTO> wrapListDTO(Collection<Course> courseCollection) throws Exception {
         List<CourseReadDTO> dtoList = new ArrayList<>();
@@ -322,9 +347,97 @@ public class CourseServiceImpl implements CourseService {
 
         return dtoList;
     }
-
     @Override
     public Page<CourseReadDTO> wrapPageDTO(Page<Course> coursePage) throws Exception {
+        return new PageImpl<>(
+                wrapListDTO(coursePage.getContent()),
+                coursePage.getPageable(),
+                coursePage.getTotalPages());
+    }
+
+    @Override
+    public CourseReadDTO wrapDTO(Course course, Collection<DtoOption> options) throws Exception {
+        CourseReadDTO dto = mapper.map(course, CourseReadDTO.class);
+
+        /* Add Dependency */
+        if (options != null && !options.isEmpty()) {
+            if (options.contains(DtoOption.CLAZZ_LIST)) {
+//                dto.setClazzList();
+            }
+
+            if (options.contains(DtoOption.MATERIAL_LIST)) {
+//                dto.setMaterialList();
+            }
+
+            if (options.contains(DtoOption.TEST_LIST)) {
+//                dto.setTestList();
+            }
+
+            if (options.contains(DtoOption.CURRENT_PRICE)) {
+                PriceLogReadDTO priceLogDTO = priceLogService.getLatestDTOByCourseId(course.getId());
+
+                dto.setCurrentPrice(priceLogDTO);
+            }
+        }
+
+        return dto;
+    }
+    @Override
+    public List<CourseReadDTO> wrapListDTO(
+            Collection<Course> courseCollection, Collection<DtoOption> options) throws Exception {
+        List<CourseReadDTO> dtoList = new ArrayList<>();
+
+        CourseReadDTO dto;
+
+//        Map<Long, List<ClazzReadDTO>> courseIdClazzDTOListMap = new HashMap<>();
+//        Map<Long, List<MaterialReadDTO>> courseIdMaterialDTOListMap = new HashMap<>();
+//        Map<Long, List<TestReadDTO>> courseIdTestDTOListMap = new HashMap<>();
+        Map<Long, PriceLogReadDTO> courseIdLatestPriceLogMap = new HashMap<>();
+
+        if (options != null && !options.isEmpty()) {
+            Set<Long> courseIdSet = new HashSet<>();
+
+            for (Course course : courseCollection) {
+                courseIdSet.add(course.getId());
+            }
+
+            if (options.contains(DtoOption.CLAZZ_LIST)) {
+//                dto.setClazzList();
+            }
+
+            if (options.contains(DtoOption.MATERIAL_LIST)) {
+//                dto.setMaterialList();
+            }
+
+            if (options.contains(DtoOption.TEST_LIST)) {
+//                dto.setTestList();
+            }
+
+            if (options.contains(DtoOption.CURRENT_PRICE)) {
+                courseIdLatestPriceLogMap =
+                        priceLogService.mapCourseIdLatestDTOByCourseIdIn(courseIdSet);
+            }
+        }
+
+
+        for (Course course : courseCollection) {
+            dto = mapper.map(course, CourseReadDTO.class);
+
+            /* Add Dependency */
+//            dto.setClazzList();
+//            dto.setMaterialList();
+//            dto.setTestList();
+
+            dto.setCurrentPrice(courseIdLatestPriceLogMap.get(course.getId()));
+
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+    @Override
+    public Page<CourseReadDTO> wrapPageDTO(
+            Page<Course> coursePage, Collection<DtoOption> options) throws Exception {
         return new PageImpl<>(
                 wrapListDTO(coursePage.getContent()),
                 coursePage.getPageable(),

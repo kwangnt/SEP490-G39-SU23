@@ -1,8 +1,6 @@
 package com.teachsync.services.clazzSchedule;
 
-import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
-import com.teachsync.dtos.courseSchedule.CourseScheduleReadDTO;
 import com.teachsync.entities.*;
 import com.teachsync.repositories.ClazzScheduleRepository;
 import com.teachsync.services.clazz.ClazzService;

@@ -1,8 +1,6 @@
 package com.teachsync.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -12,8 +10,8 @@ import lombok.*;
 @ToString
 @Entity
 public class Clazz extends BaseEntity {
-    @Column(name = "courseScheduleId", nullable = false)
-    private Long courseScheduleId;
+    @Column(name = "courseSemesterId", nullable = false)
+    private Long courseSemesterId;
     
     @Column(name = "clazzName", nullable = false, length = 45)
     private String clazzName;

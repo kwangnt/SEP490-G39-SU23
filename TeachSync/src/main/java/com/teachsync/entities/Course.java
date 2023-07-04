@@ -3,7 +3,11 @@ package com.teachsync.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +18,9 @@ import lombok.*;
 public class Course extends BaseEntity {
     @Column(name = "courseName", nullable = false, length = 45)
     private String courseName;
+
+    @Column(name = "courseAlias", nullable = false, length = 10)
+    private String courseAlias;
 
     @Lob
     @Column(name = "courseImg", nullable = false, length = -1)

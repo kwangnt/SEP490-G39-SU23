@@ -523,6 +523,7 @@ DROP TABLE IF EXISTS `teachsync`.`course` ;
 CREATE TABLE IF NOT EXISTS `teachsync`.`course` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `courseName` VARCHAR(45) NOT NULL,
+  `courseAlias` VARCHAR(10) NOT NULL,
   `courseImg` LONGTEXT NOT NULL,
   `courseDesc` LONGTEXT NULL DEFAULT NULL,
   `numSession` INT NOT NULL,
@@ -549,42 +550,79 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`course` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
-
 -- -----------------------------------------------------
--- Table `teachsync`.`course_schedule`
+-- Table `teachsync`.`semester`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `teachsync`.`course_schedule` ;
+DROP TABLE IF EXISTS `teachsync`.`semester` ;
 
-CREATE TABLE IF NOT EXISTS `teachsync`.`course_schedule` (
+CREATE TABLE IF NOT EXISTS `teachsync`.`semester` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `courseId` BIGINT NOT NULL,
-  `centerId` BIGINT NOT NULL COMMENT 'default room',
-  `scheduleAlias` VARCHAR(45) NOT NULL,
-  `scheduleType` LONGTEXT NOT NULL,
+  `semesterName` VARCHAR(45) NOT NULL,
+  `semesterAlias` VARCHAR(10) NOT NULL,
+  `semesterDesc` LONGTEXT NULL DEFAULT NULL,
+  `semesterType` VARCHAR(45) NOT NULL,
   `startDate` DATE NOT NULL,
   `endDate` DATE NOT NULL,
+
   `status` VARCHAR(45) NOT NULL,
   `createdAt` DATETIME NULL DEFAULT NULL,
   `createdBy` BIGINT NULL DEFAULT NULL,
   `updatedAt` DATETIME NULL DEFAULT NULL,
   `updatedBy` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_course_schedule_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
-  INDEX `fk_course_schedule_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-  INDEX `fk_course_schedule_center_idx` (`centerId` ASC) VISIBLE,
-  INDEX `fk_course_schedule_course_idx` (`courseId` ASC) VISIBLE,
-  CONSTRAINT `fk_course_schedule_center`
-    FOREIGN KEY (`centerId`)
-    REFERENCES `teachsync`.`center` (`id`),
-  CONSTRAINT `fk_course_schedule_course`
-    FOREIGN KEY (`courseId`)
-    REFERENCES `teachsync`.`course` (`id`),
-  CONSTRAINT `fk_course_schedule_user_createdBy`
+  INDEX `fk_semester_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
+  INDEX `fk_semester_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
+  CONSTRAINT `fk_semester_user_createdBy`
     FOREIGN KEY (`createdBy`)
     REFERENCES `teachsync`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_course_schedule_user_updatedBy`
+  CONSTRAINT `fk_semester_user_updatedBy`
+    FOREIGN KEY (`updatedBy`)
+    REFERENCES `teachsync`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `teachsync`.`course_semester`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `teachsync`.`course_semester` ;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`course_semester` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `courseId` BIGINT NOT NULL,
+  `semesterId` BIGINT NOT NULL,
+  `centerId` BIGINT NOT NULL,
+
+  `status` VARCHAR(45) NOT NULL,
+  `createdAt` DATETIME NULL DEFAULT NULL,
+  `createdBy` BIGINT NULL DEFAULT NULL,
+  `updatedAt` DATETIME NULL DEFAULT NULL,
+  `updatedBy` BIGINT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_course_semester_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
+  INDEX `fk_course_semester_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
+  INDEX `fk_course_semester_semester_idx` (`semesterId` ASC) VISIBLE,
+  INDEX `fk_course_semester_center_idx` (`centerId` ASC) VISIBLE,
+  INDEX `fk_course_semester_course_idx` (`courseId` ASC) VISIBLE,
+  CONSTRAINT `fk_course_semester_semester`
+    FOREIGN KEY (`semesterId`)
+    REFERENCES `teachsync`.`semester` (`id`),
+  CONSTRAINT `fk_course_semester_center`
+    FOREIGN KEY (`centerId`)
+    REFERENCES `teachsync`.`center` (`id`),
+  CONSTRAINT `fk_course_semester_course`
+    FOREIGN KEY (`courseId`)
+    REFERENCES `teachsync`.`course` (`id`),
+  CONSTRAINT `fk_course_semester_user_createdBy`
+    FOREIGN KEY (`createdBy`)
+    REFERENCES `teachsync`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_course_semester_user_updatedBy`
     FOREIGN KEY (`updatedBy`)
     REFERENCES `teachsync`.`user` (`id`)
     ON DELETE NO ACTION
@@ -600,7 +638,7 @@ DROP TABLE IF EXISTS `teachsync`.`clazz` ;
 
 CREATE TABLE IF NOT EXISTS `teachsync`.`clazz` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `courseScheduleId` BIGINT NOT NULL,
+  `courseSemesterId` BIGINT NOT NULL,
   `clazzName` VARCHAR(45) NOT NULL,
   `clazzDesc` LONGTEXT NULL DEFAULT NULL,
   `clazzSize` INT NOT NULL COMMENT 'no of people',
@@ -612,10 +650,10 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`clazz` (
   PRIMARY KEY (`id`),
   INDEX `fk_clazz_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
   INDEX `fk_clazz_user_updatedBy_idx` (`updatedBy` ASC) VISIBLE,
-  INDEX `fk_clazz_course_schedule_idx` (`courseScheduleId` ASC) VISIBLE,
-  CONSTRAINT `fk_clazz_course_schedule`
-    FOREIGN KEY (`courseScheduleId`)
-    REFERENCES `teachsync`.`course_schedule` (`id`),
+  INDEX `fk_clazz_course_semester_idx` (`courseSemesterId` ASC) VISIBLE,
+  CONSTRAINT `fk_clazz_course_semester`
+    FOREIGN KEY (`courseSemesterId`)
+    REFERENCES `teachsync`.`course_semester` (`id`),
   CONSTRAINT `fk_clazz_user_createdBy`
     FOREIGN KEY (`createdBy`)
     REFERENCES `teachsync`.`user` (`id`)
@@ -819,6 +857,8 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`homework` (
   `homeworkDesc` LONGTEXT NULL DEFAULT NULL,
   `homeworkDoc` MEDIUMBLOB NULL,
   `homeworkDocLink` LONGTEXT NULL,
+  `openAt` DATETIME NULL,
+  `deadline` DATETIME NULL,
   `status` VARCHAR(45) NOT NULL,
   `createdAt` DATETIME NULL DEFAULT NULL,
   `createdBy` BIGINT NULL DEFAULT NULL,
