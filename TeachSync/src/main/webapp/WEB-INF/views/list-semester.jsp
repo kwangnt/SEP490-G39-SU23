@@ -8,16 +8,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Course List</title>
+  <title>Semester List</title>
 
   <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
 
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
-
+  
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
   <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
-
+  
   <script src="../../resources/js/common.js"></script>
+  <script src="../../resources/js/list-semester.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
 <!-- ================================================== Header ===================================================== -->
@@ -69,7 +70,8 @@
     </div>
     
     <c:if test="${not empty semesterIdSemesterDTOMap}">
-    
+  
+      <!-- Semester Tab -->
       <ul class="nav nav-tabs align-items-center" id="semesterTab" role="tablist">
         <c:forEach var="semesterIdSemesterDTO" items="${semesterIdSemesterDTOMap}" varStatus="counter">
           <c:set var="semesterId" value="${semesterIdSemesterDTO.key.toString()}"/>
@@ -90,7 +92,8 @@
       
         </c:forEach>
       </ul>
-    
+
+      <!-- Semester TabPane -->
       <div class="tab-content border rounded-bottom-3 p-3" id="semesterTabContent">
         <c:forEach var="semesterIdSemesterDTO" items="${semesterIdSemesterDTOMap}" varStatus="counter">
           <c:set var="semesterId" value="${semesterIdSemesterDTO.key.toString()}"/>
@@ -104,7 +107,8 @@
               <p>Bắt đầu: <c:out value="${semesterIdSemesterDTO.value.startDate}"/>&nbsp;&nbsp;&nbsp;
                  Kết thúc: <c:out value="${semesterIdSemesterDTO.value.endDate}"/></p>
             </div>
-            
+  
+            <!-- Center Tab -->
             <ul class="nav nav-tabs" id="semesterTab${semesterId}" role="tablist">
               <c:forEach var="centerIdCenterDTO" items="${centerIdCenterDTOMap}" varStatus="counter2">
                 <c:set var="centerId" value="${centerIdCenterDTO.key.toString()}"/>
@@ -126,7 +130,8 @@
                 
               </c:forEach>
             </ul>
-            
+
+            <!-- Center TabPane -->
             <div class="tab-content border rounded-bottom-3 p-3" id="semesterTab${semesterId}Content">
               <c:forEach var="centerIdCenterDTO" items="${centerIdCenterDTOMap}" varStatus="counter3">
                 <c:set var="centerId" value="${centerIdCenterDTO.key.toString()}"/>
@@ -138,13 +143,13 @@
                 
                 <div class="tab-pane row fade" id="${semesterId}-se-${centerId}-ce-tab-pane" role="tabpanel" 
                      aria-labelledby="${semesterId}-se-${centerId}-ce-tab" tabindex="0">
+                  
                   <c:forEach var="courseIdCourseDTO" items="${courseIdCourseDTOMap}" varStatus="counter4">
                     <c:set var="courseId" value="${courseIdCourseDTO.key.toString()}"/>
-                    
                     <div class="col-2 py-2">
                       <input type="checkbox" name="courseId" 
                              id="${semesterId}-se-${centerId}-ce-${courseId}-co"
-                             value="${courseIdCourseDTO.value.id}">
+                             value="${courseIdCourseDTO.value.id}" disabled="disabled">
   
                       <c:if test="${distributionMap.get(Long.parseLong(semesterId)) ne null}">
                         <c:if test="${distributionMap.get(Long.parseLong(semesterId))
@@ -153,7 +158,7 @@
                                                         .get(Long.parseLong(centerId))
                                                         .contains(Long.parseLong(courseId))}">
                             <script id="script3">
-                                $("#${semesterId}-se-${centerId}-ce-${courseId}-co").attr("checked", true);
+                                $("#${semesterId}-se-${centerId}-ce-${courseId}-co").prop("checked", true);
                                 $("#script3").remove(); /* Xóa thẻ <script> sau khi xong */
                             </script>
                           </c:if>
@@ -162,8 +167,28 @@
                       
                       <c:out value="${courseIdCourseDTO.value.courseAlias}"/>
                     </div>
-                    
                   </c:forEach>
+  
+                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-edit" class="btn btn-warning ms-2"
+                          onclick="openEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
+                    Chỉnh sửa
+                  </button>
+                  
+                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel" class="btn btn-danger visually-hidden ms-2"
+                          onclick="cancelEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
+                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
+                    Hủy
+                  </button>
+                  
+                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-save" class="btn btn-primary visually-hidden ms-2"
+                          onclick="sendRequestEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane')">
+                    Lưu
+                  </button>
                 </div>
   
                 <c:if test="${counter3.first}">

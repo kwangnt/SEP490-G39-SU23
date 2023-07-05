@@ -6,6 +6,22 @@ function hideById(id) {
     $("#" + id).addClass("visually-hidden");
 }
 
+function enableAllInputIn(id, type) {
+    if (type == null) {
+        $("#"+id+" input").prop("disabled", false);
+    } else {
+        $("#"+id+" input[type="+type+"]").prop("disabled", false);
+    }
+}
+
+function disableAllInputIn(id, type) {
+    if (type == null) {
+        $("#"+id+" input").prop("disabled", true);
+    } else {
+        $("#"+id+" input[type="+type+"]").prop("disabled", true);
+    }
+}
+
 function copyToClipboard(id) {
     const fadeTime = 1500;
 
@@ -23,6 +39,7 @@ function copyToClipboard(id) {
     setTimeout(function() { $("#alert").remove(); }, fadeTime);
 }
 
+/* TODO: chưa import js cho datatable */
 $(document).ready( function () {
     $('#myTable').DataTable();
 } );
