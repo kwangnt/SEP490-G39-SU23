@@ -43,6 +43,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialDTO.getMaterialLink());
         material.setMaterialContent(materialDTO.getMaterialContent());
         material.setMaterialImg(materialDTO.getMaterialImg());
+        material.setIsFree(true);
         material.setStatus(materialDTO.getStatus());
         material.setCreatedBy(userId);
         Material materialDb = materialRepository.save(material);
@@ -175,6 +176,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialReadDTO.getMaterialLink());
         material.setMaterialContent(materialReadDTO.getMaterialContent());
         material.setMaterialImg(materialReadDTO.getMaterialImg());
+        material.setIsFree(materialReadDTO.getIsFree());
         material.setStatus(Status.UPDATED);
         material.setUpdatedBy(userId);
         Material materialDb = materialRepository.save(material);

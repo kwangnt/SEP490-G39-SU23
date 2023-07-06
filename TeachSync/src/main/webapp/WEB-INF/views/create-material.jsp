@@ -61,6 +61,12 @@
         </div>
 
         <div class="form-group">
+            <label>Tài liệu free</label>
+            <input type="checkbox" name="free"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>
             <br><br>

@@ -12,8 +12,6 @@ import lombok.*;
 @ToString
 @Entity
 public class Material extends BaseEntity {
-    @Column(name = "courseId", nullable = true)
-    private Long courseId;
     
     @Column(name = "materialName", nullable = false, length = 45)
     private String materialName;
@@ -28,4 +26,7 @@ public class Material extends BaseEntity {
     @Lob
     @Column(name = "materialImg", nullable = false, length = -1)
     private String materialImg;
+
+    @Column(name = "isFree", nullable = false)
+    private Boolean isFree;
 }

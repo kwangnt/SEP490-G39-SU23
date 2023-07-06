@@ -74,10 +74,12 @@ public class MaterialController {
         /* Thay = modelAttr or json (RequestBody) */
         MaterialCreateDTO materialDTO = new MaterialCreateDTO();
         materialDTO.setMaterialName(request.getParameter("name"));
-        //TODO : process upload file
+
         materialDTO.setMaterialLink(request.getParameter("link"));
         materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        //TODO : process upload file
         materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
         try {
@@ -112,7 +114,7 @@ public class MaterialController {
     }
 
     @PostMapping("/edit-material")
-    public String submitEditNews(Model model, HttpServletRequest request, RedirectAttributes redirect ) {
+    public String submitEditMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect ) {
         HttpSession session = request.getSession();
         if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
@@ -130,7 +132,7 @@ public class MaterialController {
         materialReadDTO.setMaterialLink(request.getParameter("link"));
         materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-
+        materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
             materialService.editMaterial(materialReadDTO, userDTO.getId());
@@ -152,7 +154,7 @@ public class MaterialController {
             Page<MaterialReadDTO> dtoPage = materialService.getPageDTOAll(null);
 
             if (dtoPage != null) {
-                model.addAttribute("newsList", dtoPage.getContent());
+                model.addAttribute("materialList", dtoPage.getContent());
                 model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
                 model.addAttribute("pageTotal", dtoPage.getTotalPages());
 

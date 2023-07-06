@@ -22,4 +22,6 @@ public class MaterialCreateDTO extends BaseCreateDTO {
     private byte[] materialContent;
 
     private String materialImg;
+
+    private boolean isFree = false;
 }

@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MaterialReadDTO extends BaseReadDTO {
-    private Long courseId;
 
     private String materialName;
 
@@ -18,4 +17,6 @@ public class MaterialReadDTO extends BaseReadDTO {
     private byte[] materialContent;
 
     private String materialImg;
+
+    private Boolean isFree;
 }
