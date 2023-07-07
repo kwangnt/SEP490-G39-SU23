@@ -3,10 +3,13 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +33,6 @@ public class ClazzController {
 
     @Autowired
     private ModelMapper mapper;
-
 
 
     @GetMapping("/clazz")
@@ -64,8 +66,20 @@ public class ClazzController {
     @PostMapping("/add-clazz")
     public String addClazz(
             HttpServletRequest request,
+            HttpSession session,
             Model model,
             RedirectAttributes redirect) throws Exception {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
+
         ClazzCreateDTO createDTO = new ClazzCreateDTO();
         createDTO.setClazzName(request.getParameter("name"));
         createDTO.setClazzDesc(request.getParameter("desc"));
@@ -98,7 +112,17 @@ public class ClazzController {
     }
 
     @GetMapping("/delete-clazz")
-    public String deleteClazz(HttpServletRequest request, Model model, RedirectAttributes redirect) {
+    public String deleteClazz(HttpSession session, HttpServletRequest request, Model model, RedirectAttributes redirect) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
         Long Id = Long.parseLong(request.getParameter("Id"));
         String result = clazzService.deleteClazz(Id);
         if (result.equals("success")) {
