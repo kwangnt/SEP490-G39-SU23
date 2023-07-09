@@ -16,12 +16,9 @@ public interface ClazzMemberService {
     /* =================================================== READ ===================================================== */
     /* clazzId */
     List<ClazzMember> getAllByClazzId(Long clazzId) throws Exception;
-    List<ClazzMember> getAllStudentMemberByClazzId(Long clazzId) throws Exception;
 
     List<ClazzMember> getAllByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception;
-    List<ClazzMember> getAllStudentMemberByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception;
-    Map<Long, List<ClazzMember>> mapClazzIdClazzMemberListByClazzIdIn(
-            Collection<Long> clazzIdCollection, DtoOption option) throws Exception;
+    Map<Long, List<ClazzMember>> mapClazzIdClazzMemberListByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception;
 
     /* userId */
     List<ClazzMember> getAllByUserId(Long userId) throws Exception;

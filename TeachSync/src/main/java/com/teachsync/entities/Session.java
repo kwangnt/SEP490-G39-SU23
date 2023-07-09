@@ -2,6 +2,7 @@ package com.teachsync.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,16 +13,17 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
+@Table(name = "session")
 public class Session extends BaseEntity {
     @Column(name = "roomId", nullable = false)
     private Long roomId;
-    
+
     @Column(name = "scheduleId", nullable = false)
     private Long scheduleId;
-    
-    @Column(name = "teacherId", nullable = false)
-    private Long teacherId;
-    
+
+    @Column(name = "staffId", nullable = false)
+    private Long staffId;
+
     @Column(name = "slot", nullable = true)
     private Integer slot;
 

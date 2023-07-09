@@ -1,17 +1,19 @@
 package com.teachsync.services.clazz;
 
-import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
-import com.teachsync.dtos.courseSchedule.CourseScheduleReadDTO;
-import com.teachsync.entities.*;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
+import com.teachsync.entities.BaseEntity;
+import com.teachsync.entities.Clazz;
+import com.teachsync.entities.ClazzMember;
+import com.teachsync.entities.CourseSemester;
 import com.teachsync.repositories.ClazzRepository;
-import com.teachsync.repositories.CourseScheduleRepository;
+import com.teachsync.repositories.CourseSemesterRepository;
 import com.teachsync.services.clazzMember.ClazzMemberService;
 import com.teachsync.services.clazzSchedule.ClazzScheduleService;
-import com.teachsync.services.courseSchedule.CourseScheduleService;
+import com.teachsync.services.courseSemester.CourseSemesterService;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
@@ -27,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,9 +41,9 @@ public class ClazzServiceImpl implements ClazzService {
     @Autowired
     private ClazzScheduleService clazzScheduleService;
     @Autowired
-    private CourseScheduleService courseScheduleService;
+    private CourseSemesterService courseSemesterService;
     @Autowired
-    private CourseScheduleRepository courseScheduleRepository;
+    private CourseSemesterRepository courseSemesterRepository;
 
     @Autowired
     private ModelMapper mapper;
@@ -61,14 +62,14 @@ public class ClazzServiceImpl implements ClazzService {
             Clazz clazz = mapper.map(createDTO, Clazz.class);
             clazz.setClazzSize(15); /* TODO: replace with dynamic, not yet code on controller */
 
-            /* TODO: replace courseId with courseScheduleId (hoc ky cua khoa hoc) */
-            Optional<CourseSchedule> schedule =
-                    courseScheduleRepository
-                            .findFirstByCourseIdAndStatusNotOrderByStartDateDesc(createDTO.getCourseId(), Status.DELETED);
+            /* TODO: replace courseId with courseSemesterId (hoc ky cua khoa hoc) */
+            Optional<CourseSemester> schedule =
+                    courseSemesterRepository
+                            .findFirstByCourseIdAndStatusNot(createDTO.getCourseId(), Status.DELETED);
 
-            CourseSchedule courseSchedule = schedule.orElse(null);
+            CourseSemester courseSemester = schedule.orElse(null);
 
-            clazz.setCourseScheduleId(courseSchedule.getId());
+            clazz.setCourseSemesterId(courseSemester.getId());
 
             clazzRepository.saveAndFlush(clazz);
 
@@ -149,12 +150,12 @@ public class ClazzServiceImpl implements ClazzService {
                 .collect(Collectors.toMap(BaseEntity::getId, Clazz::getClazzName));
     }
 
-    /* courseScheduleId */
+    /* courseSemesterId */
     @Override
-    public List<Clazz> getAllByCourseScheduleIdIn(
+    public List<Clazz> getAllByCourseSemesterIdIn(
             Collection<Long> scheduleIdCollection) throws Exception {
         List<Clazz> clazzList =
-                clazzRepository.findAllByCourseScheduleIdInAndStatusNot(scheduleIdCollection, Status.DELETED);
+                clazzRepository.findAllByCourseSemesterIdInAndStatusNot(scheduleIdCollection, Status.DELETED);
 
         if (clazzList.isEmpty()) {
             return null;
@@ -163,9 +164,9 @@ public class ClazzServiceImpl implements ClazzService {
         return clazzList;
     }
     @Override
-    public List<ClazzReadDTO> getAllDTOByCourseScheduleIdIn(
+    public List<ClazzReadDTO> getAllDTOByCourseSemesterIdIn(
             Collection<Long> scheduleIdCollection, Collection<DtoOption> options) throws Exception {
-        List<Clazz> clazzList = getAllByCourseScheduleIdIn(scheduleIdCollection);
+        List<Clazz> clazzList = getAllByCourseSemesterIdIn(scheduleIdCollection);
 
         if (clazzList == null) {
             return null;
@@ -174,9 +175,9 @@ public class ClazzServiceImpl implements ClazzService {
         return wrapListDTO(clazzList, options);
     }
     @Override
-    public Map<Long, List<ClazzReadDTO>> mapScheduleIdClazzDTOListByCourseScheduleIdIn(
+    public Map<Long, List<ClazzReadDTO>> mapScheduleIdClazzDTOListByCourseSemesterIdIn(
             Collection<Long> scheduleIdCollection, Collection<DtoOption> options) throws Exception {
-        List<ClazzReadDTO> clazzDTOList = getAllDTOByCourseScheduleIdIn(scheduleIdCollection, options);
+        List<ClazzReadDTO> clazzDTOList = getAllDTOByCourseSemesterIdIn(scheduleIdCollection, options);
 
         if (clazzDTOList == null) {
             return new HashMap<>(); }
@@ -185,7 +186,7 @@ public class ClazzServiceImpl implements ClazzService {
         long scheduleId;
         List<ClazzReadDTO> tmpList;
         for (ClazzReadDTO dto : clazzDTOList) {
-            scheduleId = dto.getCourseScheduleId();
+            scheduleId = dto.getCourseSemesterId();
 
             tmpList = scheduleIdClazzDTOListMap.get(scheduleId);
             if (tmpList == null) {
@@ -213,14 +214,14 @@ public class ClazzServiceImpl implements ClazzService {
             clazz = mapper.map(updateDTO, Clazz.class);
             clazz.setClazzSize(15); /* TODO: replace with dynamic */
 
-            /* TODO: replace courseId with courseScheduleId (hoc ky cua khoa hoc) */
-            Optional<CourseSchedule> schedule =
-                    courseScheduleRepository
-                            .findFirstByCourseIdAndStatusNotOrderByStartDateDesc(updateDTO.getCourseId(), Status.DELETED);
+            /* TODO: replace courseId with courseSemesterId (hoc ky cua khoa hoc) */
+            Optional<CourseSemester> schedule =
+                    courseSemesterRepository
+                            .findFirstByCourseIdAndStatusNot(updateDTO.getCourseId(), Status.DELETED);
 
-            CourseSchedule courseSchedule = schedule.orElse(null);
+            CourseSemester courseSemester = schedule.orElse(null);
 
-            clazz.setCourseScheduleId(courseSchedule.getId());
+            clazz.setCourseSemesterId(courseSemester.getId());
 
             clazzRepository.saveAndFlush(clazz);
             return "success";
@@ -254,8 +255,8 @@ public class ClazzServiceImpl implements ClazzService {
         /* Add Dependency */
         if (options != null && !options.isEmpty()) {
             if (options.contains(DtoOption.COURSE_SCHEDULE)) {
-                dto.setCourseSchedule(
-                        courseScheduleService.getDTOById(clazz.getCourseScheduleId(), options));
+                dto.setCourseSemester(
+                        courseSemesterService.getDTOById(clazz.getCourseSemesterId(), options));
             }
 
             if (options.contains(DtoOption.CLAZZ_SCHEDULE)) {
@@ -267,13 +268,9 @@ public class ClazzServiceImpl implements ClazzService {
 //            TODO: dto.setSessionList();
             }
 
-            if (options.contains(DtoOption.MEMBER_LIST_ALL)) {
+            if (options.contains(DtoOption.MEMBER_LIST)) {
                 dto.setMemberList(
                         clazzMemberService.getAllByClazzId(clazz.getId()));
-            }
-            if (options.contains(DtoOption.MEMBER_LIST_STUDENT)) {
-                dto.setMemberList(
-                        clazzMemberService.getAllStudentMemberByClazzId(clazz.getId()));
             }
 
             if (options.contains(DtoOption.HOMEWORK_LIST)) {
@@ -293,7 +290,7 @@ public class ClazzServiceImpl implements ClazzService {
 
         ClazzReadDTO dto;
 
-        Map<Long, CourseScheduleReadDTO> scheduleIdCourseScheduleMap = new HashMap<>();
+        Map<Long, CourseSemesterReadDTO> scheduleIdCourseSemesterMap = new HashMap<>();
         Map<Long, ClazzScheduleReadDTO> clazzIdClazzScheduleMap = new HashMap<>();
 //      TODO: Map<Long, List<SessionReadDTO>> clazzIdSessionListMap = new HashMap<>();
         Map<Long, List<ClazzMember>> clazzIdClazzMemberListMap = new HashMap<>();
@@ -306,11 +303,11 @@ public class ClazzServiceImpl implements ClazzService {
 
             for (Clazz clazz : clazzCollection) {
                 clazzIdSet.add(clazz.getId());
-                scheduleIdSet.add(clazz.getCourseScheduleId());
+                scheduleIdSet.add(clazz.getCourseSemesterId());
             }
             if (options.contains(DtoOption.COURSE_SCHEDULE)) {
-                scheduleIdCourseScheduleMap =
-                        courseScheduleService.mapScheduleIdDTOByIdIn(scheduleIdSet, options);
+                scheduleIdCourseSemesterMap =
+                        courseSemesterService.mapIdDTOByIdIn(scheduleIdSet, options);
             }
 
             if (options.contains(DtoOption.CLAZZ_SCHEDULE)) {
@@ -322,13 +319,9 @@ public class ClazzServiceImpl implements ClazzService {
                 //TODO:
             }
 
-            if (options.contains(DtoOption.MEMBER_LIST_ALL)) {
+            if (options.contains(DtoOption.MEMBER_LIST)) {
                 clazzIdClazzMemberListMap =
-                        clazzMemberService.mapClazzIdClazzMemberListByClazzIdIn(clazzIdSet, DtoOption.MEMBER_LIST_ALL);
-            }
-            if (options.contains(DtoOption.MEMBER_LIST_STUDENT)) {
-                clazzIdClazzMemberListMap =
-                        clazzMemberService.mapClazzIdClazzMemberListByClazzIdIn(clazzIdSet, DtoOption.MEMBER_LIST_STUDENT);
+                        clazzMemberService.mapClazzIdClazzMemberListByClazzIdIn(clazzIdSet);
             }
 
             if (options.contains(DtoOption.HOMEWORK_LIST)) {
@@ -344,8 +337,8 @@ public class ClazzServiceImpl implements ClazzService {
             dto = mapper.map(clazz, ClazzReadDTO.class);
 
             /* Add Dependency */
-            dto.setCourseSchedule(
-                    scheduleIdCourseScheduleMap.get(clazz.getCourseScheduleId()));
+            dto.setCourseSemester(
+                    scheduleIdCourseSemesterMap.get(clazz.getCourseSemesterId()));
 
             dto.setClazzSchedule(
                     clazzIdClazzScheduleMap.get(clazz.getId()));

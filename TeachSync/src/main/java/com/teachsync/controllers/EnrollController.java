@@ -2,13 +2,11 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
-import com.teachsync.dtos.courseSchedule.CourseScheduleReadDTO;
-import com.teachsync.dtos.request.RequestCreateDTO;
-import com.teachsync.dtos.request.RequestReadDTO;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
-import com.teachsync.services.courseSchedule.CourseScheduleService;
+import com.teachsync.services.courseSemester.CourseSemesterService;
 import com.teachsync.services.teacherRequest.TeacherRequestService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
@@ -31,7 +29,7 @@ public class EnrollController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private CourseScheduleService courseScheduleService;
+    private CourseSemesterService courseSemesterService;
     @Autowired
     private ClazzService clazzService;
 
@@ -59,21 +57,21 @@ public class EnrollController {
         try {
             CourseReadDTO courseDTO =  courseService.getDTOById(courseId);
 
-            Map<Long, CourseScheduleReadDTO> scheduleIdLatestDTOMap =
-                    courseScheduleService.mapScheduleIdLatestDTOByCourseId(
+            Map<Long, CourseSemesterReadDTO> semesterIdLatestDTOMap =
+                    courseSemesterService.mapIdLatestDTOByCourseId(
                             courseId,
-                            List.of(DtoOption.CENTER_NAME));
+                            List.of(DtoOption.CENTER));
 
             Map<Long, List<ClazzReadDTO>> scheduleIdClazzDTOListMap =
-                    clazzService.mapScheduleIdClazzDTOListByCourseScheduleIdIn(
-                            scheduleIdLatestDTOMap.keySet(),
-                            Arrays.asList(DtoOption.CLAZZ_SCHEDULE, DtoOption.MEMBER_LIST_STUDENT, DtoOption.ROOM_NAME));
+                    clazzService.mapScheduleIdClazzDTOListByCourseSemesterIdIn(
+                            semesterIdLatestDTOMap.keySet(),
+                            Arrays.asList(DtoOption.CLAZZ_SCHEDULE, DtoOption.MEMBER_LIST, DtoOption.ROOM_NAME));
 
-            Map<CourseScheduleReadDTO, List<ClazzReadDTO>> scheduleClazzListMap = new HashMap<>();
+            Map<CourseSemesterReadDTO, List<ClazzReadDTO>> scheduleClazzListMap = new HashMap<>();
 
-            for (Long scheduleId : scheduleIdLatestDTOMap.keySet()) {
+            for (Long scheduleId : semesterIdLatestDTOMap.keySet()) {
                 scheduleClazzListMap.put(
-                        scheduleIdLatestDTOMap.get(scheduleId),
+                        semesterIdLatestDTOMap.get(scheduleId),
                         scheduleIdClazzDTOListMap.get(scheduleId));
             }
 

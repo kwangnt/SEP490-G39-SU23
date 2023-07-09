@@ -3,6 +3,8 @@
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="0e219158-178a-4601-883f-09b3e5fc6f40" />
     <option name="newEntityIdStrategy" value="Auto" />
   </component>
 </project>

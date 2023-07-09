@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface PriceLogService {
     /* =================================================== CREATE =================================================== */
@@ -28,8 +29,12 @@ public interface PriceLogService {
     PriceLog getLatestByCourseId(Long courseId) throws Exception;
     PriceLogReadDTO getLatestDTOByCourseId(Long courseId) throws Exception;
 
+    List<PriceLog> getAllLatestByCourseIdIn(Collection<Long> courseIdCollection) throws Exception;
+    List<PriceLogReadDTO> getAllLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception;
+    Map<Long, PriceLogReadDTO> mapCourseIdLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception;
+
     List<PriceLog> getAllByCourseId(Long courseId) throws Exception;
-    List<PriceLogReadDTO> getAllDTOById(Long courseId) throws Exception;
+    List<PriceLogReadDTO> getAllDTOByCourseId(Long courseId) throws Exception;
 
 
 

@@ -2,13 +2,15 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Course;
-import com.teachsync.entities.CourseSchedule;
+import com.teachsync.entities.CourseSemester;
 import com.teachsync.services.course.CourseService;
-import com.teachsync.services.courseSchedule.CourseScheduleService;
+import com.teachsync.services.courseSemester.CourseSemesterService;
 import com.teachsync.utils.MiscUtil;
+import com.teachsync.utils.enums.DtoOption;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private CourseScheduleService courseScheduleService;
+    private CourseSemesterService courseSemesterService;
 
     @Autowired
     private MiscUtil miscUtil;
@@ -84,13 +86,13 @@ public class CourseController {
                 return "redirect:/course";
             }
 
-            List<CourseSchedule> courseScheduleList =
-                    courseScheduleService.getAllLatestByCourseId(courseId);
+            List<CourseSemesterReadDTO> courseSemesterList =
+                    courseSemesterService.getAllLatestDTOByCourseId(courseId, null);
 
             model.addAttribute("course", course);
             model.addAttribute(
                     "hasLatestSchedule",
-                    (courseScheduleList != null && !courseScheduleList.isEmpty()));
+                    (courseSemesterList != null && !courseSemesterList.isEmpty()));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,22 +1,42 @@
 package com.teachsync.utils.enums;
 
 public enum DtoOption {
-    /* Clazz */
+    /** Clazz */
     COURSE_SCHEDULE,
+    /** Clazz */
     CLAZZ_SCHEDULE,
+    /** Clazz */
     SESSION_LIST,
-    MEMBER_LIST_ALL,
-    MEMBER_LIST_STUDENT,
+    /** Clazz */
+    MEMBER_LIST,
+    /** Clazz */
     HOMEWORK_LIST,
+    /** Clazz, Course */
     TEST_LIST,
 
-    /* CourseSchedule */
-    COURSE_NAME,
-    CENTER_NAME,
+    /** Course */
+    CLAZZ_LIST,
+    /** Course */
+    MATERIAL_LIST,
+    /** Course */
+    CURRENT_PRICE,
 
-    /* ClazzSchedule */
+    /** CourseSemester */
+    COURSE_NAME,
+    /** CourseSemester */
+    CENTER,
+    /** CourseSemester */
+    SEMESTER,
+
+    /** ClazzSchedule */
     CLAZZ_NAME,
-    ROOM_NAME;
+    /** ClazzSchedule */
+    ROOM_NAME,
+
+    /** Center */
+    ROOM_LIST,
+    /** Center */
+    STAFF_LIST;
 
 
 }

@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface CenterRepository extends JpaRepository<Center, Long> {
 
+    List<Center> findAllByStatusNot(Status status);
+
     /* id */
     Optional<Center> findByIdAndStatusNot(Long id, Status status);
     List<Center> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
