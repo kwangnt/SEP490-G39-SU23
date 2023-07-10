@@ -7,6 +7,8 @@ import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Material;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.utils.MiscUtil;
+import com.teachsync.utils.converters.MaterialTypeConverter;
+import com.teachsync.utils.enums.MaterialType;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialDTO.getMaterialLink());
         material.setMaterialContent(materialDTO.getMaterialContent());
         material.setMaterialImg(materialDTO.getMaterialImg());
-        material.setMaterialType(materialDTO.getMaterialType());
+//        material.setMaterialType(materialDTO.getMaterialType());
         material.setIsFree(materialDTO.isFree());
         material.setStatus(materialDTO.getStatus());
         material.setCreatedBy(userId);
@@ -51,6 +53,7 @@ public class MaterialServiceImpl implements MaterialService {
         if (ObjectUtils.isEmpty(materialDb)) {
             throw new Exception("Tạo tài liệu thất bại");
         }
+
 
         return mapper.map(materialDb, MaterialReadDTO.class);
     }
@@ -177,7 +180,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialReadDTO.getMaterialLink());
         material.setMaterialContent(materialReadDTO.getMaterialContent());
         material.setMaterialImg(materialReadDTO.getMaterialImg());
-        material.setMaterialType(materialReadDTO.getMaterialType());
+        material.setMaterialType(MaterialType.valueOf(materialReadDTO.getMaterialType()));
         material.setIsFree(materialReadDTO.getIsFree());
         material.setStatus(Status.UPDATED);
         material.setUpdatedBy(userId);

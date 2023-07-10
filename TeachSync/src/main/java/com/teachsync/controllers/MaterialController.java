@@ -79,6 +79,7 @@ public class MaterialController {
         materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialDTO.setMaterialType(request.getParameter("type"));
         materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
@@ -132,6 +133,7 @@ public class MaterialController {
         materialReadDTO.setMaterialLink(request.getParameter("link"));
         materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialReadDTO.setMaterialType(request.getParameter("type"));
         materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
