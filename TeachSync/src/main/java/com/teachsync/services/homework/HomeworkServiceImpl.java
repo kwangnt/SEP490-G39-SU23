@@ -92,6 +92,8 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setHomeworkName(homeworkReadDTO.getHomeworkName());
         homework.setClazzId(homeworkReadDTO.getClazzId());
         homework.setHomeworkDesc(homeworkReadDTO.getHomeworkDesc());
+        homework.setHomeworkDoc(homeworkReadDTO.getHomeworkDoc());
+        homework.setHomeworkContent(null);//TODO : upload file
         homework.setHomeworkDoc(null);//TODO : upload file
         //homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());
@@ -115,6 +117,8 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setHomeworkName(homeworkReadDTO.getHomeworkName());
         homework.setClazzId(homeworkReadDTO.getClazzId());
         homework.setHomeworkDesc(homeworkReadDTO.getHomeworkDesc());
+        homework.setHomeworkDoc(homeworkReadDTO.getHomeworkDoc());
+        homework.setHomeworkContent(null);//TODO : upload file
         homework.setHomeworkDoc(null);//TODO : upload file
         //homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());

@@ -23,7 +23,7 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-    <form action="add-homework" method="post">
+    <form action="/homework/add-homework" method="post">
         <input type="hidden" name="homeworkId" value="${homework.id}">
         <div class="form-group">
             <label>Tên Bài tập</label>
@@ -73,21 +73,21 @@
         <div class="form-group">
             <label>File đính kèm</label>
             <c:if test="${option == 'detail'}">
-                <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
+                <c:if test="${homework.homeworkContent != null || homework.homeworkContent == ''}">
                     <br/>
-                    <a href="${homework.homeworkDoc}" target="_blank">
+                    <a href="${homework.homeworkContent}" target="_blank">
                         <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
             </c:if>
             <c:if test="${option == 'edit' || option == 'add'}">
-                <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
+                <c:if test="${homework.homeworkContent != null || homework.homeworkContent == ''}">
                     <br/>
-                    <a href="${homework.homeworkDoc}" target="_blank">
+                    <a href="${homework.homeworkContent}" target="_blank">
                         <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
-                <input type="file" value="${homework.homeworkDoc}" name="homeworkDoc" class="form-control"
+                <input type="file" value="${homework.homeworkContent}" name="homeworkContent" class="form-control"
                        placeholder="File đính kèm file">
             </c:if>
         </div>
@@ -95,21 +95,21 @@
         <div class="form-group">
             <label>Link đính kèm</label>
             <c:if test="${option == 'detail'}">
-                <c:if test="${homework.homeworkDocLink != null || homework.homeworkDocLink == ''}">
+                <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
                     <br/>
-                    <a href="${homework.homeworkDocLink}" target="_blank">
+                    <a href="${homework.homeworkDoc}" target="_blank">
                         <button  type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
             </c:if>
             <c:if test="${option == 'edit' || option == 'add'}">
-                <c:if test="${homework.homeworkDocLink != null || homework.homeworkDocLink == ''}">
+                <c:if test="${homework.homeworkDoc != null || homework.homeworkDoc == ''}">
                     <br/>
-                    <a href="${homework.homeworkDocLink}" target="_blank" >
+                    <a href="${homework.homeworkDoc}" target="_blank" >
                         <button type="button" class="btn btn-primary">Xem</button>
                     </a>
                 </c:if>
-                <input type="text" value="${homework.homeworkDocLink}" name="homeworkDocLink" class="form-control"
+                <input type="text" value="${homework.homeworkDoc}" name="homeworkDoc" class="form-control"
                        placeholder="đính kèm link">
             </c:if>
         </div>

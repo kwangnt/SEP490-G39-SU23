@@ -19,7 +19,7 @@ public class HomeworkReadDTO extends BaseReadDTO {
 
     private String homeworkDoc;
 
-    private String homeworkDocLink;
+    private byte[] homeworkContent;
 
     private LocalDateTime deadline;
 

@@ -1,6 +1,7 @@
 package com.teachsync.dtos.material;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.utils.enums.MaterialType;
 import lombok.*;
 
 
@@ -18,7 +19,7 @@ public class MaterialReadDTO extends BaseReadDTO {
 
     private String materialImg;
 
-    private String materialType;
+    private MaterialType materialType;
 
     private Boolean isFree;
 }

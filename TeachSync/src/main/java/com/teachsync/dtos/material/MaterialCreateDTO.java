@@ -1,6 +1,7 @@
 package com.teachsync.dtos.material;
 
 import com.teachsync.dtos.BaseCreateDTO;
+import com.teachsync.utils.enums.MaterialType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class MaterialCreateDTO extends BaseCreateDTO {
 
     private String materialImg;
 
-    private String materialType;
+    private MaterialType materialType;
 
     private boolean isFree = false;
 }
