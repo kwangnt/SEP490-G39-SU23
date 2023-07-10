@@ -5,21 +5,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
-
+/** Học kỳ của khóa học */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "center_staff", schema = "teachsync")
-public class CenterStaff extends BaseEntity {
+@Table(name = "course_semester")
+public class CourseSemester extends BaseEntity {
+    @Column(name = "courseId", nullable = false)
+    private Long courseId;
+
+    @Column(name = "semesterId", nullable = false)
+    private Long semesterId;
+
     @Column(name = "centerId", nullable = false)
     private Long centerId;
-    
-    @Column(name = "userId", nullable = false)
-    private Long userId;
-    
-    @Column(name = "staffType", nullable = false, length = 45)
-    private String staffType;
 }

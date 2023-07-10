@@ -2,13 +2,16 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Course;
-import com.teachsync.entities.CourseSchedule;
+import com.teachsync.entities.CourseSemester;
 import com.teachsync.services.course.CourseService;
-import com.teachsync.services.courseSchedule.CourseScheduleService;
+import com.teachsync.services.courseSemester.CourseSemesterService;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
+import com.teachsync.utils.enums.DtoOption;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.teachsync.utils.Constants.ROLE_ADMIN;
 import static com.teachsync.utils.enums.PromotionType.AMOUNT;
@@ -33,22 +34,27 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private CourseScheduleService courseScheduleService;
+    private CourseSemesterService courseSemesterService;
 
     @Autowired
     private MiscUtil miscUtil;
 
     @GetMapping("/course")
-    public String course(Model model, @ModelAttribute("mess") String mess) {
-        /* TODO: get course list, hot course list */
-
+    public String course(
+            Model model,
+            @ModelAttribute("mess") String mess,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
         try {
-            /* Hot course */
-            Page<CourseReadDTO> dtoPage = courseService.getPageDTOAllHotCourse(null);
-            if (dtoPage != null) {
-                model.addAttribute("hotCourseList", dtoPage.getContent());
-                model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
-                model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
+            Page<CourseReadDTO> dtoPage;
+            if (Objects.isNull(userDTO) || userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
+                /* Là khách hoặc học sinh */
+                /* Hot course */
+                dtoPage = courseService.getPageDTOAllHotCourse(null);
+                if (dtoPage != null) {
+                    model.addAttribute("hotCourseList", dtoPage.getContent());
+                    model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
+                    model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
+                }
             }
 
             /* All course */
@@ -75,7 +81,8 @@ public class CourseController {
     @GetMapping("/course-detail")
     public String getDetailById(
             @RequestParam(name = "id") Long courseId,
-            Model model) {
+            Model model,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
         try {
             CourseReadDTO course = courseService.getDTOById(courseId);
 
@@ -84,14 +91,17 @@ public class CourseController {
                 return "redirect:/course";
             }
 
-            List<CourseSchedule> courseScheduleList =
-                    courseScheduleService.getAllLatestByCourseId(courseId);
+            List<CourseSemesterReadDTO> courseSemesterList =
+                    courseSemesterService.getAllLatestDTOByCourseId(courseId, null);
 
             model.addAttribute("course", course);
             model.addAttribute(
                     "hasLatestSchedule",
-                    (courseScheduleList != null && !courseScheduleList.isEmpty()));
+                    (courseSemesterList != null && !courseSemesterList.isEmpty()));
 
+            if (userDTO != null && userDTO.getRoleId().equals(ROLE_ADMIN)) {
+                /* TODO: lấy bài thi, tài liệu, kỳ học, lớp học */
+            }
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");

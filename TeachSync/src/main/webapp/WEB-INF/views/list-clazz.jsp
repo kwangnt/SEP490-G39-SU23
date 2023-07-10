@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
   <script src="../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
@@ -23,9 +23,11 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <a href="add-clazz?option=add">
-    <button type="button" class="btn btn-primary">Thêm mới class</button>
-  </a>
+  <c:if test="${isAdmin}">
+    <a href="add-clazz?option=add">
+      <button type="button" class="btn btn-primary">Thêm mới class</button>
+    </a>
+  </c:if>
   <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -41,15 +43,17 @@
         <th scope="row">${clazz.id}</th>
         <td><a style="font-weight: bold;"
              href="add-clazz?Id=${clazz.id}&option=detail">${clazz.clazzName}</a></td>
-        <td>${clazz.courseSchedule.courseName}</td>
+        <td>${clazz.courseSemester.courseName}</td>
         <td>${clazz.clazzDesc}</td>
         <td>
-          <a href="add-clazz?Id=${clazz.id}&option=edit">
-            <button type="button" class="btn btn-success">Sửa</button>
-          </a>
-          <a href="delete-clazz?Id=${clazz.id}">
-            <button type="button" class="btn btn-danger">Xóa</button>
-          </a>
+          <c:if test="${isAdmin}">
+            <a href="add-clazz?Id=${clazz.id}&option=edit">
+              <button type="button" class="btn btn-success">Sửa</button>
+            </a>
+            <a href="delete-clazz?Id=${clazz.id}">
+              <button type="button" class="btn btn-danger">Xóa</button>
+            </a>
+          </c:if>
         </td>
       </tr>
     </c:forEach>
@@ -64,9 +68,9 @@
 <!-- ================================================== Footer ===================================================== -->
 </body>
 <script>
-  var mess = '${mess}'
-  if (mess != '') {
-    alert(mess);
-  }
+    var mess = '${mess}'
+    if (mess != '') {
+        alert(mess);
+    }
 </script>
 </html>

@@ -3,6 +3,7 @@ package com.teachsync.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @NoArgsConstructor
@@ -11,13 +12,14 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
+@Table(name = "news")
 public class News extends BaseEntity {
     @Column(name = "authorId", nullable = false)
     private Long authorId;
-    
+
     @Column(name = "newsTitle", nullable = false, length = 45)
     private String newsTitle;
-    
+
     @Column(name = "newsContent", nullable = true)
     private byte[] newsContent;
 

@@ -68,13 +68,13 @@ public class TestController {
         test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
         if (testType.equals("15min")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(1);
         } else if (testType.equals("midterm")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(3);
         } else {
-            test.setMinScore(4);
+            test.setMinScore(4.0);
             test.setTestWeight(5);
         }
         test.setStatus(Status.CREATED);
@@ -167,13 +167,13 @@ public class TestController {
         Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
         test.setTestName(testType);
         if (testType.equals("15min")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(1);
         } else if (testType.equals("midterm")) {
-            test.setMinScore(1);
+            test.setMinScore(1.0);
             test.setTestWeight(3);
         } else {
-            test.setMinScore(4);
+            test.setMinScore(4.0);
             test.setTestWeight(5);
         }
         test.setStatus(Status.UPDATED);

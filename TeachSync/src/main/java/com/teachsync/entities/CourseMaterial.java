@@ -11,11 +11,13 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "course_material", schema = "teachsync")
-public class CourseMaterial extends BaseEntity{
+@Table(name = "course_material")
+public class CourseMaterial extends BaseEntity {
+
     @Column(name = "courseId", nullable = false)
     private Long courseId;
 
     @Column(name = "materialId", nullable = false)
     private Long materialId;
+
 }

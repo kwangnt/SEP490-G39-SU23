@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
 
   <script src="../../resources/js/common.js"></script>
 </head>
@@ -30,7 +30,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ts-txt-sm ts-txt-bold my-2">
         <li class="breadcrumb-item">
-          <a href="/">
+          <a href="/index">
             <i class="bi-house-door"></i>&nbsp;Trang chủ
           </a>
         </li>
@@ -52,7 +52,6 @@
 <c:set var="targetUrl" scope="session" value="${currentUri}${not empty queryString ? '?'.concat(queryString) : ''}"/>
 <!-- ================================================== Breadcrumb ================================================= -->
 
-
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
   <!-- Course List paging -->
@@ -69,12 +68,14 @@
             <h4 class="card-title d-flex justify-content-between align-items-center mb-0">
               <span><c:out value="${course.courseName}"/></span>
               <c:if test="${isAdmin}">
-                <a href="edit-course?id=${course.id}" class="btn btn-warning">
-                  Chỉnh sửa
-                </a>
-                <a href="delete-course?id=${course.id}" class="btn btn-danger">
-                  Xóa
-                </a>
+                <span>
+                  <a href="/edit-course?id=${course.id}" class="btn btn-warning">
+                    Chỉnh sửa
+                  </a>
+                  <a href="/delete-course?id=${course.id}" class="btn btn-danger">
+                    Xóa
+                  </a>
+                </span>
               </c:if>
             </h4>
           </div>
@@ -115,7 +116,7 @@
           <c:if test="${hasLatestSchedule}">
             <c:if test="${isGuest}">
               <div class="card-footer text-center">
-                <a href="login" class="btn btn-primary w-25">Đăng ký học</a>
+                <a href="/sign-in" class="btn btn-primary w-25">Đăng ký học</a>
               </div>
             </c:if>
 

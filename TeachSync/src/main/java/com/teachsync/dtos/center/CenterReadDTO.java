@@ -1,8 +1,8 @@
 package com.teachsync.dtos.center;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.room.RoomReadDTO;
 import com.teachsync.entities.Center;
-import com.teachsync.entities.CenterStaff;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * DTO for {@link com.teachsync.entities.Center}
+ * DTO for {@link Center}
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -29,6 +29,6 @@ public class CenterReadDTO extends BaseReadDTO {
 
     private Integer centerSize;
 
-//    private List<RoomReadDTO> roomList;
+    private List<RoomReadDTO> roomList;
 //    private List<CenterStaffReadDTO> staffList;
 }

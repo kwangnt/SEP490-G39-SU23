@@ -1,51 +1,49 @@
 package com.teachsync.entities;
 
-import com.teachsync.utils.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.Date;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "test")
 public class Test extends BaseEntity {
-    @Column(name = "courseId")
+    @Column(name = "courseId", nullable = true)
     private Long courseId;
 
-    @Column(name = "testName")
+    @Column(name = "testName", nullable = false, length = 45)
     private String testName;
 
-    @Column(name = "testType")
+    @Column(name = "testType", nullable = false, length = 45)
     private String testType;
 
-    @Column(name = "testImg")
+    @Lob
+    @Column(name = "testImg", nullable = true, length = -1)
     private String testImg;
 
-    @Column(name = "testDesc")
+    @Lob
+    @Column(name = "testDesc", nullable = true, length = -1)
     private String testDesc;
 
-    @Column(name = "timeLimit")
-    private int timeLimit;
+    /** In Minutes */
+    @Column(name = "timeLimit", nullable = false)
+    private Integer timeLimit;
 
-    @Column(name = "numQuestion")
-    private int numQuestion;
+    @Column(name = "numQuestion", nullable = false)
+    private Integer numQuestion;
 
-    @Column(name = "minScore")
-    private float minScore;
+    @Column(name = "minScore", nullable = false, precision = 0)
+    private Double minScore;
 
-    @Column(name = "testWeight")
-    private int testWeight;
+    @Column(name = "testWeight", nullable = false)
+    private Integer testWeight;
 
-    @Column(name = "totalScore")
-    private float totalScore;
+    @Column(name = "totalScore", nullable = true, precision = 0)
+    private Double totalScore;
 }

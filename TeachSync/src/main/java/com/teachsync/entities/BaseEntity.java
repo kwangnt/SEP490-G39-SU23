@@ -35,10 +35,10 @@ public abstract class BaseEntity {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @Column(name = "updatedAt")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
     @Positive
     @Column(name = "updatedBy")
     private Long updatedBy;
-    @Column(name = "updatedAt")
-    @LastModifiedDate
-    private LocalDateTime updatedAt ;
 }
