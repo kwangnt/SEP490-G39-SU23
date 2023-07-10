@@ -147,7 +147,7 @@
               <ul class="dropdown-menu">
                 <c:url var="myClazz" value="/clazz"><c:param name="userId" value="${user.id}"/></c:url>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="${myClazz}">Lớp của tôi</a></li>
-                <li><a class="dropdown-item ts-txt-hover-blue" href="/homework">QL Bài tập</a></li>
+                <li><a class="dropdown-item ts-txt-hover-blue" href="/homework/list">QL Bài tập</a></li>
               </ul>
             </li>
 
