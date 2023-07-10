@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
 
   <script src="../../resources/js/common.js"></script>
 </head>
@@ -44,12 +44,35 @@
     </nav>
   </div>
 </div>
-<!-- ================================================== Breadcrumb ================================================= -->
 
+<c:set var="currentUri" value="${requestScope['jakarta.servlet.forward.request_uri']}"/>
+<c:set var="queryString" value="${requestScope['jakarta.servlet.forward.query_string']}"/>
+<c:set var="targetUrl" scope="session" value="${currentUri}${not empty queryString ? '?'.concat(queryString) : ''}"/>
+<!-- ================================================== Breadcrumb ================================================= -->
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
   <div class="col">
+    <c:if test="${isGuest}">
+      <%@ include file="/WEB-INF/fragments/guest/guest-home.jspf" %>
+    </c:if>
+
+    <c:if test="${isStudent}">
+      <%@ include file="/WEB-INF/fragments/student/student-home.jspf" %>
+    </c:if>
+
+    <c:if test="${isParent}">
+      <%@ include file="/WEB-INF/fragments/parent/parent-home.jspf" %>
+    </c:if>
+
+    <c:if test="${isTeacher}">
+      <%@ include file="/WEB-INF/fragments/teacher/teacher-home.jspf" %>
+    </c:if>
+
+    <c:if test="${isAdmin}">
+      <%@ include file="/WEB-INF/fragments/admin/admin-home.jspf" %>
+    </c:if>
+
     <br>
     <br>
     <br>

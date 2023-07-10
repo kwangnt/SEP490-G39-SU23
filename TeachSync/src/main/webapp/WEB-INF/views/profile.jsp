@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../../resources/css/profile_style.css">
   <link rel="stylesheet" type="text/css" href="../../resources/css/profile_style.css">
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
   <script src="../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">

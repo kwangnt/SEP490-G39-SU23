@@ -52,7 +52,7 @@
 
     </h1>
     <button>
-      <a href="/" class="home">
+      <a href="/index" class="home">
         <i class="bi-house-door"></i>
         &nbsp;Trang chủ
       </a>

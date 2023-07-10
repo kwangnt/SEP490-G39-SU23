@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
 
   <script src="../../resources/js/common.js"></script>
 </head>
@@ -30,7 +30,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ts-txt-sm ts-txt-bold my-2">
         <li class="breadcrumb-item">
-          <a href="/">
+          <a href="/index">
             <i class="bi-house-door"></i>&nbsp;Trang chủ
           </a>
         </li>
@@ -41,14 +41,25 @@
     </nav>
   </div>
 </div>
-<!-- ================================================== Breadcrumb ================================================= -->
 
+<c:set var="currentUri" value="${requestScope['jakarta.servlet.forward.request_uri']}"/>
+<c:set var="queryString" value="${requestScope['jakarta.servlet.forward.query_string']}"/>
+<c:set var="targetUrl" scope="session" value="${currentUri}${not empty queryString ? '?'.concat(queryString) : ''}"/>
+<!-- ================================================== Breadcrumb ================================================= -->
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
 
   <!-- News List paging -->
   <div class="col-12 mb-3">
+    <h5 class="d-flex justify-content-between align-items-center mb-3">
+      <span>Danh sách</span>
+      <c:if test="${isAdmin}">
+        <a href="create-news" class="btn btn-primary">
+          Thêm mới
+        </a>
+      </c:if>
+    </h5>
 
     <div class="row gy-3 mb-3">
       <c:forEach var="news" items="${newsList}">

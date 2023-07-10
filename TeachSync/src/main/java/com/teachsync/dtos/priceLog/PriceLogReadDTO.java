@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceLogReadDTO extends BaseReadDTO {
-    private Long id;
-
     private Long courseId;
 
     private Double price;
@@ -37,8 +35,6 @@ public class PriceLogReadDTO extends BaseReadDTO {
     private LocalDateTime validFrom;
 
     private LocalDateTime validTo;
-
-    private Status status;
 
     private Double finalPrice;
 }
