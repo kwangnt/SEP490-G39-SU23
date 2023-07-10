@@ -13,9 +13,11 @@ import lombok.*;
 @Entity
 @Table(name = "course_material")
 public class CourseMaterial extends BaseEntity {
+
     @Column(name = "courseId", nullable = false)
     private Long courseId;
 
     @Column(name = "materialId", nullable = false)
     private Long materialId;
+
 }
