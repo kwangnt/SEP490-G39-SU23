@@ -2,10 +2,7 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.homework.HomeworkReadDTO;
-import com.teachsync.dtos.request.RequestCreateDTO;
-import com.teachsync.dtos.request.RequestReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.entities.Homework;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.homework.HomeworkService;
 import com.teachsync.utils.Constants;

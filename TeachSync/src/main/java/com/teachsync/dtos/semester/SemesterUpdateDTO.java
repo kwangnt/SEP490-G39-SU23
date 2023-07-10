@@ -1,13 +1,8 @@
 package com.teachsync.dtos.semester;
 
 import com.teachsync.dtos.BaseUpdateDTO;
-import com.teachsync.entities.CourseSemester;
-import com.teachsync.utils.enums.ScheduleType;
 import com.teachsync.utils.enums.SemesterType;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

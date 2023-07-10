@@ -4,8 +4,6 @@ import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

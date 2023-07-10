@@ -2,7 +2,10 @@ package com.teachsync.entities;
 
 import com.teachsync.utils.enums.LocationUnitType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor

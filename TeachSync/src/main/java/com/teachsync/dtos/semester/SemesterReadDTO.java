@@ -1,10 +1,7 @@
 package com.teachsync.dtos.semester;
 
 import com.teachsync.dtos.BaseReadDTO;
-import com.teachsync.entities.CourseSemester;
 import com.teachsync.utils.enums.SemesterType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,6 @@
 package com.teachsync.dtos.request;
 
 import com.teachsync.dtos.BaseCreateDTO;
-import com.teachsync.utils.enums.Status;
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
