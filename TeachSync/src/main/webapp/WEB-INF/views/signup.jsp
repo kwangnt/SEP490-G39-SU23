@@ -34,7 +34,7 @@
 <div class="login-page">
   <%--  TODO: signup--%>
   <div class="form">
-    <form class="login-form" action="signup" method="post">
+    <form class="login-form" action="/sign-up" method="post">
       <lottie-player
           src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
           background="transparent"
