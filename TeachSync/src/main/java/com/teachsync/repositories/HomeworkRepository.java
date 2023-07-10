@@ -2,7 +2,6 @@ package com.teachsync.repositories;
 
 
 import com.teachsync.entities.Homework;
-import com.teachsync.entities.Request;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

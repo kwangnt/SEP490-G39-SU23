@@ -2,7 +2,6 @@ package com.teachsync.dtos.priceLog;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.PromotionType;
-import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

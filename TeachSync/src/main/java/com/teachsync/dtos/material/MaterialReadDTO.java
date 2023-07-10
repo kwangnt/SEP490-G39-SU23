@@ -2,7 +2,10 @@ package com.teachsync.dtos.material;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.utils.enums.MaterialType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @EqualsAndHashCode(callSuper = true)
