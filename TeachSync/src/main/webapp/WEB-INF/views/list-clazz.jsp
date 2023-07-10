@@ -23,9 +23,11 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <a href="add-clazz?option=add">
-    <button type="button" class="btn btn-primary">Thêm mới class</button>
-  </a>
+  <c:if test="${isAdmin}">
+    <a href="add-clazz?option=add">
+      <button type="button" class="btn btn-primary">Thêm mới class</button>
+    </a>
+  </c:if>
   <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -44,12 +46,14 @@
         <td>${clazz.courseSemester.courseName}</td>
         <td>${clazz.clazzDesc}</td>
         <td>
-          <a href="add-clazz?Id=${clazz.id}&option=edit">
-            <button type="button" class="btn btn-success">Sửa</button>
-          </a>
-          <a href="delete-clazz?Id=${clazz.id}">
-            <button type="button" class="btn btn-danger">Xóa</button>
-          </a>
+          <c:if test="${isAdmin}">
+            <a href="add-clazz?Id=${clazz.id}&option=edit">
+              <button type="button" class="btn btn-success">Sửa</button>
+            </a>
+            <a href="delete-clazz?Id=${clazz.id}">
+              <button type="button" class="btn btn-danger">Xóa</button>
+            </a>
+          </c:if>
         </td>
       </tr>
     </c:forEach>
@@ -64,9 +68,9 @@
 <!-- ================================================== Footer ===================================================== -->
 </body>
 <script>
-  var mess = '${mess}'
-  if (mess != '') {
-    alert(mess);
-  }
+    var mess = '${mess}'
+    if (mess != '') {
+        alert(mess);
+    }
 </script>
 </html>

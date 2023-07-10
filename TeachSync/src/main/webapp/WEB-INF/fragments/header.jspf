@@ -13,18 +13,18 @@
 <header class="row bg-white sticky-top border-bottom ts-border-teal mb-3">
   <nav class="navbar navbar-expand-lg py-0">
     <div class="container-fluid ps-0">
-      
+
       <!-- Logo -->
       <a href="/index" class="navbar-brand py-0 me-1">
         <img src="../../resources/img/logo-wide.png" alt="logo" width="100" height="45" class="">
       </a>
-      
+
       <!-- Collapse btn -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
               aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
       <!-- Navbar -->
       <div class="collapse navbar-collapse" id="navbarHeader">
         <ul class="navbar-nav w-100 d-flex justify-content-between align-items-center mb-2 mb-lg-0">
@@ -34,7 +34,7 @@
               <i class="bi-house-door"></i>&nbsp;Trang chủ
             </a>
           </li>
-          
+
           <c:if test="${isGuest}">
             <!-- Course -->
             <li class="nav-item">
@@ -43,7 +43,7 @@
                 &nbsp;Khóa học
               </a>
             </li>
-            
+
             <!-- Promotion -->
             <li class="nav-item">
               <a href="/promotion" class="nav-link ts-txt-hover-blue">
@@ -51,7 +51,7 @@
                 &nbsp;Khuyến mãi
               </a>
             </li>
-            
+
             <!-- Material -->
             <li class="nav-item">
               <a href="/material" class="nav-link ts-txt-hover-blue">
@@ -59,7 +59,7 @@
                 &nbsp;Tài liệu
               </a>
             </li>
-            
+
             <!-- News -->
             <li class="nav-item">
               <a href="/news" class="nav-link ts-txt-hover-blue">
@@ -68,7 +68,7 @@
               </a>
             </li>
           </c:if>
-          
+
           <c:if test="${isStudent}">
             <!-- Course -->
             <li class="nav-item dropdown">
@@ -82,7 +82,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="${myCourse}">Khoá của tôi</a></li>
               </ul>
             </li>
-            
+
             <!-- Class -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -92,16 +92,17 @@
                 <c:url var="myClazz" value="/clazz"><c:param name="userId" value="${user.id}"/></c:url>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="${myClazz}">Lớp của tôi</a></li>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/schedule-clazz">Lịch học</a></li>
+                <li><a class="dropdown-item ts-txt-hover-blue" href="/homework/list">Bài tập về nhà</a></li>
               </ul>
             </li>
-            
+
             <!-- Request -->
             <li class="nav-item">
               <a href="/request" class="nav-link ts-txt-hover-blue">
                 <i class="bi-envelope-paper"></i>&nbsp;Đơn xin
               </a>
             </li>
-            
+
             <!-- Material -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -112,7 +113,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/test?type=free">Bài thi thử</a></li>
               </ul>
             </li>
-            
+
             <!-- News -->
             <li class="nav-item">
               <a href="/news" class="nav-link ts-txt-hover-blue">
@@ -120,7 +121,7 @@
               </a>
             </li>
           </c:if>
-          
+
           <c:if test="${isParent}">
             <!-- Children -->
             <li class="nav-item">
@@ -128,7 +129,7 @@
                 <i class="bi-person-vcard"></i>&nbsp;QL Con cháu
               </a>
             </li>
-            
+
             <!-- News -->
             <li class="nav-item">
               <a href="/news" class="nav-link ts-txt-hover-blue">
@@ -136,7 +137,7 @@
               </a>
             </li>
           </c:if>
-          
+
           <c:if test="${isTeacher}">
             <!-- Class -->
             <li class="nav-item dropdown">
@@ -149,7 +150,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/homework">QL Bài tập</a></li>
               </ul>
             </li>
-            
+
             <!-- Schedule -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -160,7 +161,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/session/register-free-time">Đăng ký thời gian</a></li>
               </ul>
             </li>
-            
+
             <!-- News -->
             <li class="nav-item">
               <a href="/news" class="nav-link ts-txt-hover-blue">
@@ -168,7 +169,7 @@
               </a>
             </li>
           </c:if>
-          
+
           <c:if test="${isAdmin}">
             <!-- Center -->
             <li class="nav-item dropdown">
@@ -180,7 +181,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/room">Phòng học</a></li>
               </ul>
             </li>
-            
+
             <!-- Course -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -194,7 +195,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/material">Tài liệu</a></li>
               </ul>
             </li>
-            
+
             <!-- Class -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -205,7 +206,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/schedule-clazz">Lịch học</a></li>
               </ul>
             </li>
-            
+
             <!-- User -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -218,7 +219,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/teacher-request/list">Tuyển dụng</a></li>
               </ul>
             </li>
-            
+
             <!-- News -->
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -230,7 +231,7 @@
               </ul>
             </li>
           </c:if>
-          
+
           <!-- Login -->
           <c:if test="${isGuest}">
             <li class="nav-item">
@@ -239,7 +240,7 @@
               </a>
             </li>
           </c:if>
-          
+
           <!-- Profile -->
           <c:if test="${!isGuest}">
             <li class="nav-item dropdown">
@@ -257,7 +258,7 @@
           </c:if>
         </ul>
       </div>
-    
+
     </div>
   </nav>
 </header>
