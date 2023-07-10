@@ -33,7 +33,7 @@ public class NewsController {
     @Autowired
     private MiscUtil miscUtil;
 
-    @GetMapping("/createnews")
+    @GetMapping("/create-news")
     public String createNews(Model model, HttpSession session) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 1) {

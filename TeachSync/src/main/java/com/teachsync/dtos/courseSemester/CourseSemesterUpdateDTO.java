@@ -1,6 +1,7 @@
-package com.teachsync.dtos.courseSchedule;
+package com.teachsync.dtos.courseSemester;
 
 import com.teachsync.dtos.BaseUpdateDTO;
+import com.teachsync.entities.CourseSemester;
 import com.teachsync.utils.enums.ScheduleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,28 +11,19 @@ import lombok.*;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link com.teachsync.entities.CourseSchedule}
+ * DTO for {@link com.teachsync.entities.CourseSemester}
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseScheduleUpdateDTO extends BaseUpdateDTO {
+public class CourseSemesterUpdateDTO extends BaseUpdateDTO {
     @Positive
     private Long courseId;
-
+    
     @Positive
     private Long centerId;
-
-    @NotBlank
-    private String scheduleAlias;
-
-    @NotNull
-    private ScheduleType scheduleType;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
+    
+    @Positive
+    private Long semesterId;
 }

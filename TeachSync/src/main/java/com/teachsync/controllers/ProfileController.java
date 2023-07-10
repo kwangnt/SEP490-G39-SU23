@@ -20,7 +20,7 @@ public class ProfileController {
     @Autowired
     private ModelMapper mapper;
 
-    @GetMapping("/account")
+    @GetMapping("/profile")
     public String profile(
             HttpSession session,
             Model model) {
@@ -45,7 +45,7 @@ public class ProfileController {
         return "profile";
     }
 
-    @PostMapping("/account")
+    @PostMapping("/profile")
     public String editProfile(
             HttpSession session,
             Model model,

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
 
   <script src="../../resources/js/common.js"></script>
   <style>

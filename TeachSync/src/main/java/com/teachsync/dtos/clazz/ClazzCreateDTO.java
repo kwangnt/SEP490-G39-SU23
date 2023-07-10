@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class ClazzCreateDTO extends BaseCreateDTO {
     private Long courseId;
 
-    private Long courseScheduleId;
+    private Long courseSemesterId;
 
     private String clazzName;
 

@@ -18,7 +18,7 @@ public class ClazzUpdateDTO extends BaseUpdateDTO {
     private Long id;
     private Long courseId;
 
-    private Long courseScheduleId;
+    private Long courseSemesterId;
 
     private String clazzName;
 

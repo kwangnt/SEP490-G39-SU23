@@ -33,17 +33,6 @@ public class ClazzMemberServiceImpl implements ClazzMemberService {
 
         return clazzMemberList;
     }
-    @Override
-    public List<ClazzMember> getAllStudentMemberByClazzId(Long clazzId) throws Exception {
-        List<ClazzMember> clazzMemberList =
-                clazzMemberRepository
-                        .findAllByClazzIdAndMemberRoleAndStatusNot(clazzId, MemberRole.STUDENT, Status.DELETED);
-
-        if (clazzMemberList.isEmpty()) {
-            return null; }
-
-        return clazzMemberList;
-    }
 
     @Override
     public List<ClazzMember> getAllByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception {
@@ -55,27 +44,10 @@ public class ClazzMemberServiceImpl implements ClazzMemberService {
 
         return clazzMemberList;
     }
-    @Override
-    public List<ClazzMember> getAllStudentMemberByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception {
-        List<ClazzMember> clazzMemberList =
-                clazzMemberRepository
-                        .findAllByClazzIdInAndMemberRoleAndStatusNot(clazzIdCollection, MemberRole.STUDENT, Status.DELETED);
-
-        if (clazzMemberList.isEmpty()) {
-            return null; }
-
-        return clazzMemberList;
-    }
     /* TODO: replace with dto */
     @Override
-    public Map<Long, List<ClazzMember>> mapClazzIdClazzMemberListByClazzIdIn(
-            Collection<Long> clazzIdCollection, DtoOption option) throws Exception {
-        List<ClazzMember> clazzMemberList = null;
-
-        switch (option) {
-            case MEMBER_LIST_ALL -> clazzMemberList = getAllByClazzIdIn(clazzIdCollection);
-            case MEMBER_LIST_STUDENT -> clazzMemberList = getAllStudentMemberByClazzIdIn(clazzIdCollection);
-        }
+    public Map<Long, List<ClazzMember>> mapClazzIdClazzMemberListByClazzIdIn(Collection<Long> clazzIdCollection) throws Exception {
+        List<ClazzMember> clazzMemberList = getAllByClazzIdIn(clazzIdCollection);
 
         if (clazzMemberList == null) {
             return new HashMap<>(); }
