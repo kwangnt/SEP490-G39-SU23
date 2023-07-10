@@ -3,6 +3,7 @@ package com.teachsync.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
+@Table(name = "homework")
 public class Homework extends BaseEntity {
     @Column(name = "clazzId", nullable = false)
     private Long clazzId;
@@ -24,16 +26,16 @@ public class Homework extends BaseEntity {
     @Column(name = "homeworkDesc", nullable = true, length = -1)
     private String homeworkDesc;
 
-    @Column(name = "homeworkDoc", nullable = true)
+    @Lob
+    @Column(name = "homeworkDoc", nullable = true, length = -1)
     private String homeworkDoc;
 
-    @Lob
-    @Column(name = "homeworkDocLink", nullable = true, length = -1)
-    private String homeworkDocLink;
+    @Column(name = "homeworkContent", nullable = true)
+    private byte[] homeworkContent;
 
-    @Column(name = "deadline")
-    private LocalDateTime deadline;
-
-    @Column(name = "openAt")
+    @Column(name = "openAt", nullable = true)
     private LocalDateTime openAt;
+
+    @Column(name = "deadline", nullable = true)
+    private LocalDateTime deadline;
 }

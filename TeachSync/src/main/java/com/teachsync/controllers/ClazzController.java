@@ -9,7 +9,6 @@ import com.teachsync.services.course.CourseService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +18,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Set;
@@ -66,15 +66,15 @@ public class ClazzController {
     @PostMapping("/add-clazz")
     public String addClazz(
             HttpServletRequest request,
-            HttpSession session,
+            @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
             Model model,
             RedirectAttributes redirect) throws Exception {
         //check login
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
         if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
             redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
@@ -112,13 +112,17 @@ public class ClazzController {
     }
 
     @GetMapping("/delete-clazz")
-    public String deleteClazz(HttpSession session, HttpServletRequest request, Model model, RedirectAttributes redirect) {
+    public String deleteClazz(
+            @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
+            HttpServletRequest request,
+            Model model,
+            RedirectAttributes redirect) {
         //check login
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
         if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
             redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
