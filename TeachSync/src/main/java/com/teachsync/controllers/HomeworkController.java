@@ -152,8 +152,8 @@ public class HomeworkController {
         homeworkReadDTO.setHomeworkName(request.getParameter("name"));
         homeworkReadDTO.setClazzId(Long.parseLong(request.getParameter("clazzId")));
         homeworkReadDTO.setHomeworkDesc(request.getParameter("desc"));
+        homeworkReadDTO.setHomeworkDoc(request.getParameter("homeworkDoc"));
         homeworkReadDTO.setHomeworkDoc(null);//TODO : upload file
-        homeworkReadDTO.setHomeworkDocLink(request.getParameter("homeworkDocLink"));
         String deadlineString = request.getParameter("deadline");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime deadline = LocalDateTime.parse(deadlineString, formatter);
