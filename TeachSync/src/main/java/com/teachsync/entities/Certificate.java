@@ -3,6 +3,7 @@ package com.teachsync.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @NoArgsConstructor
@@ -11,17 +12,26 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
+@Table(name = "certificate")
 public class Certificate extends BaseEntity {
-//    @OneToOne(fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
-//    @JoinColumn(name = "courseId", nullable = false)
-//    private Course course;
     @Column(name = "courseId", nullable = false)
     private Long courseId;
-    
+
     @Column(name = "certificateName", nullable = false, length = 45)
     private String certificateName;
 
     @Lob
     @Column(name = "certificateDesc", nullable = true, length = -1)
     private String certificateDesc;
+
+    @Lob
+    @Column(name = "certificateImg", nullable = true, length = -1)
+    private String certificateImg;
+
+    @Lob
+    @Column(name = "certificateLink", nullable = true, length = -1)
+    private String certificateLink;
+
+    @Column(name = "certificateContent", nullable = true)
+    private byte[] certificateContent;
 }

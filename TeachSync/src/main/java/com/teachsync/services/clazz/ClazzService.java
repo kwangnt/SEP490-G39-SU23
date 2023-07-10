@@ -29,12 +29,12 @@ public interface ClazzService {
     List<Clazz> getAllByIdIn(Collection<Long> idCollection) throws Exception;
     Map<Long, String> mapClazzIdClazzNameByIdIn(Collection<Long> idCollection) throws Exception;
 
-    /* courseScheduleId */
-    List<Clazz> getAllByCourseScheduleIdIn(Collection<Long> scheduleIdCollection) throws Exception;
-    List<ClazzReadDTO> getAllDTOByCourseScheduleIdIn(
+    /* courseSemesterId */
+    List<Clazz> getAllByCourseSemesterIdIn(Collection<Long> scheduleIdCollection) throws Exception;
+    List<ClazzReadDTO> getAllDTOByCourseSemesterIdIn(
             Collection<Long> scheduleIdCollection, Collection<DtoOption> options) throws Exception;
-    Map<Long, List<ClazzReadDTO>> mapScheduleIdClazzDTOListByCourseScheduleIdIn(
-            Collection<Long> scheduleIdCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, List<ClazzReadDTO>> mapCourseSemesterIdListDTOByCourseSemesterIdIn(
+            Collection<Long> courseSemesterIdCollection, Collection<DtoOption> options) throws Exception;
 
 
     /* =================================================== UPDATE =================================================== */

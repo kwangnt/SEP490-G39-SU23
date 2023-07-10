@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import javax.naming.AuthenticationException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;

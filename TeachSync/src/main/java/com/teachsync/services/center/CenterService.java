@@ -14,11 +14,19 @@ public interface CenterService {
 
 
     /* =================================================== READ ===================================================== */
+    List<Center> getAll() throws Exception;
+    List<CenterReadDTO> getAllDTO(Collection<DtoOption> options) throws Exception;
+    Map<Long, CenterReadDTO> mapIdDTO(Collection<DtoOption> options) throws Exception;
+
     /* id */
     Center getById(Long id) throws Exception;
+    CenterReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception;
 
     List<Center> getAllByIdIn(Collection<Long> idCollection) throws Exception;
-    Map<Long, String> mapCenterIdCenterNameByIdIn(Collection<Long> idCollection) throws Exception;
+    List<CenterReadDTO> getAllDTOByIdIn(
+            Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, CenterReadDTO> mapIdDTOByIdIn(
+            Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
 
     
     /* =================================================== UPDATE =================================================== */

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
   <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
   <script src="../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
@@ -41,7 +41,7 @@
         <th scope="row">${clazz.id}</th>
         <td><a style="font-weight: bold;"
              href="add-clazz?Id=${clazz.id}&option=detail">${clazz.clazzName}</a></td>
-        <td>${clazz.courseSchedule.courseName}</td>
+        <td>${clazz.courseSemester.courseName}</td>
         <td>${clazz.clazzDesc}</td>
         <td>
           <a href="add-clazz?Id=${clazz.id}&option=edit">

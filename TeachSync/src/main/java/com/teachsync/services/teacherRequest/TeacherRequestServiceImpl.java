@@ -1,16 +1,15 @@
 package com.teachsync.services.teacherRequest;
 
-import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.request.RequestCreateDTO;
 import com.teachsync.dtos.request.RequestReadDTO;
 import com.teachsync.dtos.request.RequestUpdateDTO;
 import com.teachsync.entities.Request;
-import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.RequestRepository;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
+import com.teachsync.utils.enums.RequestType;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,7 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
         Request teacherRequest = new Request();
         teacherRequest.setRequesterId(createDTO.getRequesterId());
         teacherRequest.setRequestName("Request apply Teacher " + MiscUtil.generateRandomName());
-        teacherRequest.setRequestType("APPLICATION");
+        teacherRequest.setRequestType(RequestType.APPLICATION);
         teacherRequest.setRequestDesc(createDTO.getRequestDesc());
         teacherRequest.setRequestContent(createDTO.getRequestContent());
         teacherRequest.setContentLink(createDTO.getContentLink());

@@ -4,6 +4,8 @@ import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * DTO for {@link com.teachsync.entities.User}
+ * DTO for {@link User}
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -22,6 +24,8 @@ public class UserReadDTO extends BaseReadDTO {
     private Long id;
 
     private Long roleId;
+
+    private String userAvatar;
 
     private Long parentId;
 
