@@ -206,4 +206,24 @@ public class TestController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/doTheTest")
+    public String doTheTest(Model model, HttpSession session,
+                            @RequestParam("idTest") String idTest) {
+        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
+
+
+        HashMap<Question, List<Answer>> lstQs = new HashMap<>();
+        List<Question> lstQ = questionRepository.findAllByTestId(Long.parseLong(idTest));
+
+        for (Question qs : lstQ) {
+            List<Answer> lstA = answerRepository.findAllByQuestionId(qs.getId());
+            lstQs.put(qs, lstA);
+        }
+        model.addAttribute("test",test);
+        model.addAttribute("hmQA", lstQs);
+
+        return "dothetest";
+    }
+
 }
