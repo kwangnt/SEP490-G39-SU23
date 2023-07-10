@@ -33,5 +33,7 @@ public class MaterialUpdateDTO extends BaseUpdateDTO {
     @Lob
     private String materialImg;
 
+    private String materialType;
+
     private Status status = Status.UPDATED;
 }

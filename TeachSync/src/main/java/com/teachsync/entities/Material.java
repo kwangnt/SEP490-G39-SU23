@@ -32,6 +32,9 @@ public class Material extends BaseEntity {
     @Column(name = "materialType", nullable = false, length = 45)
     private MaterialType materialType;
 
+    @Column(name = "materialType", nullable = true, length = -1)
+    private String materialType;
+
     @Column(name = "isFree", nullable = false)
     private Boolean isFree;
 }

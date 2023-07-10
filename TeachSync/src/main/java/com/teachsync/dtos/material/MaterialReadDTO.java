@@ -18,5 +18,7 @@ public class MaterialReadDTO extends BaseReadDTO {
 
     private String materialImg;
 
+    private String materialType;
+
     private Boolean isFree;
 }
