@@ -37,6 +37,4 @@ public enum DtoOption {
     ROOM_LIST,
     /** Center */
     STAFF_LIST;
-
-
 }

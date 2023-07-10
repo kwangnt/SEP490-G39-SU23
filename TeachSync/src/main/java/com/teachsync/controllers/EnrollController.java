@@ -60,19 +60,19 @@ public class EnrollController {
             Map<Long, CourseSemesterReadDTO> semesterIdLatestDTOMap =
                     courseSemesterService.mapIdLatestDTOByCourseId(
                             courseId,
-                            List.of(DtoOption.CENTER));
+                            List.of(DtoOption.CENTER, DtoOption.SEMESTER));
 
-            Map<Long, List<ClazzReadDTO>> scheduleIdClazzDTOListMap =
-                    clazzService.mapScheduleIdClazzDTOListByCourseSemesterIdIn(
+            Map<Long, List<ClazzReadDTO>> courseSemesterIdClazzDTOListMap =
+                    clazzService.mapCourseSemesterIdListDTOByCourseSemesterIdIn(
                             semesterIdLatestDTOMap.keySet(),
                             Arrays.asList(DtoOption.CLAZZ_SCHEDULE, DtoOption.MEMBER_LIST, DtoOption.ROOM_NAME));
 
             Map<CourseSemesterReadDTO, List<ClazzReadDTO>> scheduleClazzListMap = new HashMap<>();
 
-            for (Long scheduleId : semesterIdLatestDTOMap.keySet()) {
+            for (Long semesterId : semesterIdLatestDTOMap.keySet()) {
                 scheduleClazzListMap.put(
-                        semesterIdLatestDTOMap.get(scheduleId),
-                        scheduleIdClazzDTOListMap.get(scheduleId));
+                        semesterIdLatestDTOMap.get(semesterId),
+                        courseSemesterIdClazzDTOListMap.get(semesterId));
             }
 
             model.addAttribute("course", courseDTO);

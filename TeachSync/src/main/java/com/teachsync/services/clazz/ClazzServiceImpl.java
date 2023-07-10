@@ -175,9 +175,9 @@ public class ClazzServiceImpl implements ClazzService {
         return wrapListDTO(clazzList, options);
     }
     @Override
-    public Map<Long, List<ClazzReadDTO>> mapScheduleIdClazzDTOListByCourseSemesterIdIn(
-            Collection<Long> scheduleIdCollection, Collection<DtoOption> options) throws Exception {
-        List<ClazzReadDTO> clazzDTOList = getAllDTOByCourseSemesterIdIn(scheduleIdCollection, options);
+    public Map<Long, List<ClazzReadDTO>> mapCourseSemesterIdListDTOByCourseSemesterIdIn(
+            Collection<Long> courseSemesterIdCollection, Collection<DtoOption> options) throws Exception {
+        List<ClazzReadDTO> clazzDTOList = getAllDTOByCourseSemesterIdIn(courseSemesterIdCollection, options);
 
         if (clazzDTOList == null) {
             return new HashMap<>(); }

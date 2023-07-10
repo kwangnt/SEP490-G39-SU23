@@ -30,9 +30,11 @@ public class Semester extends BaseEntity {
     @Column(name = "semesterType", nullable = false, length = 45)
     private SemesterType semesterType;
 
+    /** Must be before endDate */
     @Column(name = "startDate", nullable = false)
     private LocalDate startDate;
 
+    /** Must be after startDate */
     @Column(name = "endDate", nullable = false)
     private LocalDate endDate;
 }

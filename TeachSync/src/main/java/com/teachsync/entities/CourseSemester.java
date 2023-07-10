@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
+/** Học kỳ của khóa học */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

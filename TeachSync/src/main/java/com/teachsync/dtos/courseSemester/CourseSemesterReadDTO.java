@@ -13,7 +13,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link CourseSemester}
+ * DTO for {@link com.teachsync.entities.CourseSemester}
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
