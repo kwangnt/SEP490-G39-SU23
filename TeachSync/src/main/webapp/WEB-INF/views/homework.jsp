@@ -54,7 +54,7 @@
                 <td>${homework.homeworkName}</td>
                 <td>${homework.homeworkDesc}</td>
                 <td>${homework.homeworkDoc}</td>
-                <td>${homework.homeworkDocLink}</td>
+                <td>${homework.homeworkContent}</td>
                 <td>${homework.deadline}</td>
                 <td>${homework.openAt}</td>
                 <td>

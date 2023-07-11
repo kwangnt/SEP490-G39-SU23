@@ -113,9 +113,21 @@
                        placeholder="đính kèm link">
             </c:if>
         </div>
-
+    
         <div class="form-group">
-            <label>Thời hạn</label>
+            <label>Ngày mở</label>
+            <c:if test="${option == 'detail'}">
+                <input type="datetime-local" value="${homework.openAt}" name="openAt" class="form-control" disabled
+                       placeholder="Ngày mở nộp bài tập">
+            </c:if>
+            <c:if test="${option == 'edit' || option == 'add'}">
+                <input type="datetime-local" value="${homework.openAt}" name="openAt" class="form-control"
+                       placeholder="Ngày mở nộp bài tập">
+            </c:if>
+        </div>
+    
+        <div class="form-group">
+            <label>Hạn nộp</label>
             <c:if test="${option == 'detail'}">
                 <input type="datetime-local" value="${homework.deadline}" name="deadline" class="form-control" disabled
                        placeholder="Ngày hết hạn">
@@ -126,19 +138,6 @@
                        placeholder="Ngày hết hạn">
             </c:if>
         </div>
-
-        <div class="form-group">
-            <label>Ngày mở</label>
-            <c:if test="${option == 'detail'}">
-                <input type="datetime-local" value="${homework.openAt}" name="openAt" class="form-control" disabled
-                       placeholder="Ngày mở bài tập">
-            </c:if>
-            <c:if test="${option == 'edit' || option == 'add'}">
-                <input type="datetime-local" value="${homework.openAt}" name="openAt" class="form-control"
-                       placeholder="Ngày mở bài tập">
-            </c:if>
-        </div>
-
         <br>
         <c:if test="${option == 'edit' || option == 'add'}">
             <button type="submit" class="btn btn-primary">Submit</button>
