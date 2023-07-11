@@ -18,7 +18,6 @@
   <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
   
   <script src="../../resources/js/common.js"></script>
-  <script src="../../resources/js/list-semester.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
 <!-- ================================================== Header ===================================================== -->
@@ -141,54 +140,57 @@
 <%--                  <p>Địa chỉ: <c:out value="${centerIdCenterDTO.value.addressId}"/></p>--%>
 <%--                </div>--%>
                 
-                <div class="tab-pane row fade" id="${semesterId}-se-${centerId}-ce-tab-pane" role="tabpanel" 
+                <div class="tab-pane fade" id="${semesterId}-se-${centerId}-ce-tab-pane" role="tabpanel"
                      aria-labelledby="${semesterId}-se-${centerId}-ce-tab" tabindex="0">
-                  
-                  <c:forEach var="courseIdCourseDTO" items="${courseIdCourseDTOMap}" varStatus="counter4">
-                    <c:set var="courseId" value="${courseIdCourseDTO.key.toString()}"/>
-                    <div class="col-2 py-2">
-                      <input type="checkbox" name="courseId" 
-                             id="${semesterId}-se-${centerId}-ce-${courseId}-co"
-                             value="${courseIdCourseDTO.value.id}" disabled="disabled">
-  
-                      <c:if test="${distributionMap.get(Long.parseLong(semesterId)) ne null}">
-                        <c:if test="${distributionMap.get(Long.parseLong(semesterId))
-                                                      .get(Long.parseLong(centerId)) ne null}">
+                  <div class="row px-2">
+                    <c:forEach var="courseIdCourseDTO" items="${courseIdCourseDTOMap}" varStatus="counter4">
+                      <c:set var="courseId" value="${courseIdCourseDTO.key.toString()}"/>
+                      <div class="col-2 py-2">
+                        <input type="checkbox" name="courseId"
+                               id="${semesterId}-se-${centerId}-ce-${courseId}-co"
+                               value="${courseIdCourseDTO.value.id}" disabled="disabled">
+      
+                        <c:if test="${distributionMap.get(Long.parseLong(semesterId)) ne null}">
                           <c:if test="${distributionMap.get(Long.parseLong(semesterId))
-                                                        .get(Long.parseLong(centerId))
-                                                        .contains(Long.parseLong(courseId))}">
-                            <script id="script3">
-                                $("#${semesterId}-se-${centerId}-ce-${courseId}-co").prop("checked", true);
-                                $("#script3").remove(); /* Xóa thẻ <script> sau khi xong */
-                            </script>
+                                                        .get(Long.parseLong(centerId)) ne null}">
+                            <c:if test="${distributionMap.get(Long.parseLong(semesterId))
+                                                          .get(Long.parseLong(centerId))
+                                                          .contains(Long.parseLong(courseId))}">
+                              <script id="script3">
+                                  $("#${semesterId}-se-${centerId}-ce-${courseId}-co").prop("checked", true);
+                                  $("#script3").remove(); /* Xóa thẻ <script> sau khi xong */
+                              </script>
+                            </c:if>
                           </c:if>
                         </c:if>
-                      </c:if>
-                      
-                      <c:out value="${courseIdCourseDTO.value.courseAlias}"/>
+      
+                        <c:out value="${courseIdCourseDTO.value.courseAlias}"/>
+                      </div>
+                    </c:forEach>
+                    
+                    <div class="col-12 my-2"></div>
+                    
+                    <div id="${semesterId}-se-${centerId}-ce-tab-pane-btn-edit" class="btn btn-warning col-2"
+                            onclick="openEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
+                      Chỉnh sửa
                     </div>
-                  </c:forEach>
   
-                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-edit" class="btn btn-warning ms-2"
-                          onclick="openEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
-                    Chỉnh sửa
-                  </button>
-                  
-                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel" class="btn btn-danger visually-hidden ms-2"
-                          onclick="cancelEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
-                              '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
-                    Hủy
-                  </button>
-                  
-                  <button id="${semesterId}-se-${centerId}-ce-tab-pane-btn-save" class="btn btn-primary visually-hidden ms-2"
-                          onclick="sendRequestEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane')">
-                    Lưu
-                  </button>
+                    <div id="${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel" class="btn btn-danger col-2 visually-hidden"
+                            onclick="cancelEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-edit',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-cancel',
+                                '${semesterId}-se-${centerId}-ce-tab-pane-btn-save')">
+                      Hủy
+                    </div>
+  
+                    <div id="${semesterId}-se-${centerId}-ce-tab-pane-btn-save" class="btn btn-primary col-2 visually-hidden ms-2"
+                            onclick="sendRequestEditCourseSemester('${semesterId}-se-${centerId}-ce-tab-pane')">
+                      Lưu
+                    </div>
+                  </div>
                 </div>
   
                 <c:if test="${counter3.first}">
@@ -233,6 +235,50 @@
   var mess = '${mess}'
   if (mess != '') {
     alert(mess);
+  }
+
+  function openEditCourseSemester(divId, editBtnId, cancelBtnId, saveBtnId) {
+      enableAllInputIn(divId, 'checkbox');
+      hideById(editBtnId);
+      showById(cancelBtnId);
+      showById(saveBtnId);
+  }
+
+  function cancelEditCourseSemester(divId, editBtnId, cancelBtnId, saveBtnId) {
+      disableAllInputIn(divId, 'checkbox');
+      showById(editBtnId);
+      hideById(cancelBtnId);
+      hideById(saveBtnId);
+  }
+
+  function sendRequestEditCourseSemester(divId) {
+      let semesterId = Number(${semesterId});
+      let centerId = Number(${centerId});
+
+      let courseIdList = $("#"+divId+" input[type=checkbox]:checked").val();
+      courseIdList = courseIdList.map(Number);
+
+      let courseSemester = [];
+      for (const courseId of courseIdList) {
+          courseSemester.push({
+              "semesterId": semesterId,
+              "centerId": centerId,
+              "courseId": courseId});
+      }
+
+      $.ajax({
+          type: "POST",
+          url: "/semester",
+          data: JSON.stringify(courseSemester),
+          contentType: "application/json",
+          success: function(response) {
+              if (response['view'] != null) {
+                  location.href = response['view'];
+              }
+
+
+          }
+      });
   }
 </script>
 </html>
