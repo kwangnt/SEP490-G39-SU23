@@ -1,5 +1,6 @@
 package com.teachsync.controllers;
 
+import com.teachsync.utils.Constants;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

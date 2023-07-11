@@ -15,14 +15,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("/homework")
@@ -63,15 +61,20 @@ public class HomeworkController {
     }
 
     @GetMapping("/add-homework")
-    public String addHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
-            , @ModelAttribute("mess") String mess) {
+    public String addHomework(
+            @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
+            RedirectAttributes redirect,
+            Model model,
+            HttpServletRequest request,
+            @ModelAttribute("mess") String mess) {
         //check login
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+
+        if (!List.of(Constants.ROLE_ADMIN, Constants.ROLE_TEACHER).contains(userDTO.getRoleId())) {
+            /* Nếu roleId ko có trong list role được cấp phép */
             redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
         }
@@ -130,16 +133,16 @@ public class HomeworkController {
     @PostMapping("/add-homework")
     public String addHomework(
             HttpServletRequest request,
-            HttpSession session,
+            @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
             RedirectAttributes redirect) {
         //check login
-        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+        if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
 
-        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN) && !userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+        if (!List.of(Constants.ROLE_ADMIN, Constants.ROLE_TEACHER).contains(userDTO.getRoleId())) {
+            /* Nếu roleId ko có trong list role được cấp phép */
             redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
         }
@@ -150,7 +153,7 @@ public class HomeworkController {
         homeworkReadDTO.setClazzId(Long.parseLong(request.getParameter("clazzId")));
         homeworkReadDTO.setHomeworkDesc(request.getParameter("desc"));
         homeworkReadDTO.setHomeworkDoc(request.getParameter("homeworkDoc"));
-        homeworkReadDTO.setHomeworkDoc(null);//TODO : upload file
+        homeworkReadDTO.setHomeworkContent(null);//TODO : upload file
         String deadlineString = request.getParameter("deadline");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime deadline = LocalDateTime.parse(deadlineString, formatter);
