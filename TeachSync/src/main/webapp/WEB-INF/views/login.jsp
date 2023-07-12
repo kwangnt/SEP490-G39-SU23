@@ -67,7 +67,7 @@
     </form>
 
     <form class="login-form" action="/sign-up" method="get">
-      <button type="button">SIGN UP</button>
+      <button type="submit">SIGN UP</button>
     </form>
     <a href="forgot_password"> Forgot your password?</a>
   </div>
