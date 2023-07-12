@@ -1,42 +1,71 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
+import com.teachsync.dtos.course.CourseReadDTO;
+import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
+import com.teachsync.dtos.semester.SemesterReadDTO;
+import com.teachsync.dtos.staff.StaffReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.CourseSemester;
+import com.teachsync.services.center.CenterService;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
+import com.teachsync.services.courseSemester.CourseSemesterService;
+import com.teachsync.services.semester.SemesterService;
+import com.teachsync.services.staff.StaffService;
 import com.teachsync.utils.Constants;
+import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ClazzController {
     @Autowired
-    ClazzService clazzService;
+    private ClazzService clazzService;
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
+    @Autowired
+    private SemesterService semesterService;
+    @Autowired
+    private CourseSemesterService courseSemesterService;
+    @Autowired
+    private CenterService centerService;
+    @Autowired
+    private StaffService staffService;
 
     @Autowired
     private ModelMapper mapper;
 
-
     @GetMapping("/clazz")
-    public String home(Model model, @ModelAttribute("mess") String mess) throws Exception {
+    public String clazzListPage(
+            Model model,
+            @ModelAttribute("mess") String mess){
         try {
-            Page<ClazzReadDTO> dtoPage = clazzService.getPageDTOAll(null);
+            Page<ClazzReadDTO> dtoPage =
+                    clazzService.getPageDTOAll(
+                            null,
+                            List.of(DtoOption.COURSE_SEMESTER,
+                                    DtoOption.SEMESTER,
+                                    DtoOption.COURSE_NAME,
+                                    DtoOption.COURSE_ALIAS,
+                                    DtoOption.CENTER));
 
             if (dtoPage != null) {
                 model.addAttribute("clazzList", dtoPage.getContent());
@@ -46,67 +75,177 @@ public class ClazzController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         model.addAttribute("mess", mess);
         return "list-clazz";
     }
 
-    @GetMapping("/add-clazz")
-    public String addClazz(Model model, HttpServletRequest request) throws Exception {
-        model.addAttribute("listCourse", courseService.getAllDTO());
-        if (!ObjectUtils.isEmpty(request.getParameter("Id"))) {
-            model.addAttribute("clazz", clazzService.getDTOById(Long.parseLong(request.getParameter("Id"))));
+    @GetMapping("/clazz-detail")
+    public String clazzDetailPage(
+            Model model,
+            @RequestParam(value = "id", required = false) Long clazzId) {
+        try {
+            ClazzReadDTO clazzDTO =
+                    clazzService.getDTOById(
+                            clazzId,
+                            List.of(DtoOption.STAFF,
+                                    DtoOption.USER,
+                                    DtoOption.COURSE_SEMESTER,
+                                    DtoOption.SEMESTER,
+                                    DtoOption.COURSE_NAME,
+                                    DtoOption.COURSE_ALIAS,
+                                    DtoOption.CENTER));
+
+            model.addAttribute("clazz", clazzDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        model.addAttribute("option", request.getParameter("option"));
+
+        return "clazz-detail";
+    }
+
+    @GetMapping("/add-clazz")
+    public String addClazzPage(
+            Model model,
+            @RequestParam(value = "id", required = false) Long clazzId,
+            @RequestParam("option") String option) {
+
+        try {
+            /* Nếu Id => Edit, Lấy dữ liệu cũ */
+            ClazzReadDTO clazzReadDTO = null;
+            if (Objects.nonNull(clazzId)) {
+                clazzReadDTO =
+                        clazzService.getDTOById(clazzId, 
+                                List.of(DtoOption.COURSE_SEMESTER,
+                                        DtoOption.STAFF, 
+                                        DtoOption.USER));
+                
+                model.addAttribute("clazz", clazzReadDTO);
+            }
+
+            /* List Course (môn nào) */
+            List<CourseReadDTO> courseDTOList = courseService.getAllDTO(null);
+            model.addAttribute("courseList", courseDTOList);
+
+            /* List Semester (kỳ nào) */
+            List<SemesterReadDTO> semesterDTOList;
+            if (option.equals("add")) {
+                /* Các kỳ học nào ngày bắt đàu cách 10 ngày từ hiện tại (Để học sinh còn có thời gian đăng ký) */
+                semesterDTOList =
+                        semesterService.getAllDTOByStartDateAfter(LocalDate.now().plusDays(10), null);
+            } else {
+                semesterDTOList =
+                        semesterService.getAllDTO(null);
+            }
+            model.addAttribute("semesterList", semesterDTOList);
+
+            /* List Center (Cơ sở nào) */
+            List<CenterReadDTO> centerDTOList = centerService.getAllDTO(null);
+            model.addAttribute("centerList", centerDTOList);
+
+            /* List Staff (Ai dạy) */
+            List<StaffReadDTO> staffDTOList;
+            if (option.equals("add")) {
+                /* Suy ra từ Center đầu tiên trong list */
+                staffDTOList =
+                        staffService.getAllDTOByCenterId(centerDTOList.get(0).getId(), List.of(DtoOption.USER));
+            } else {
+                staffDTOList =
+                        staffService.getAllDTOByCenterId(clazzReadDTO.getCourseSemester().getCenterId(), List.of(DtoOption.USER));
+            }
+            model.addAttribute("staffList", staffDTOList);
+
+            model.addAttribute("option", option);
+        } catch (Exception e) {
+            e.printStackTrace();
+            /* Log Error or return error msg */
+        }
 
         return "add-clazz";
     }
 
-    @PostMapping("/add-clazz")
-    public String addClazz(
-            HttpServletRequest request,
+    /* TODO: move to Staff restController */
+    @GetMapping("/api/staff")
+    @ResponseBody
+    public Map<String, Object> getStaffList(
+            @RequestParam Long centerId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<StaffReadDTO> staffDTOList =
+                    staffService.getAllDTOByCenterId(centerId, List.of(DtoOption.USER));
+            response.put("staffList", staffDTOList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    @PostMapping(value = "/add-clazz", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> addClazz(
+            @RequestBody ClazzCreateDTO createDTO,
             @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
-            Model model,
             RedirectAttributes redirect) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+
         //check login
         if (ObjectUtils.isEmpty(userDTO)) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
-            return "redirect:/";
+            response.put("view", "/index");
+            return response;
         }
 
         if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
             redirect.addAttribute("mess", "bạn không đủ quyền");
-            return "redirect:/";
+            response.put("view", "/index");
+            return response;
+        }
+        ClazzReadDTO readDTO;
+        try {
+            readDTO = clazzService.createClazzByDTO(createDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("error", e.getMessage());
+            return response;
         }
 
-        ClazzCreateDTO createDTO = new ClazzCreateDTO();
-        createDTO.setClazzName(request.getParameter("name"));
-        createDTO.setClazzDesc(request.getParameter("desc"));
-        createDTO.setCourseId(Long.parseLong(request.getParameter("courseId")));
+        response.put("view", "/clazz-detail?id=" + readDTO.getId());
+        return response;
+    }
 
-        String result = "";
-        String optional = "";
+    @PutMapping(value = "/edit-clazz", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> editClazz(
+            @RequestBody ClazzUpdateDTO updateDTO,
+            @SessionAttribute(value = "user", required = false) UserReadDTO userDTO,
+            RedirectAttributes redirect) throws Exception {
+        Map<String, Object> response = new HashMap<>();
 
-        //TODO : sửa lại chỗ thêm khóa học vào lớp , cần làm rõ
-        if (ObjectUtils.isEmpty(request.getParameter("clazzId"))) {
-            result = clazzService.addClazz(createDTO);
-            optional = "Thêm mới";
-        } else {
-            ClazzUpdateDTO updateDTO = mapper.map(createDTO, ClazzUpdateDTO.class);
-
-            updateDTO.setStatus(Status.UPDATED);
-            updateDTO.setId(Long.parseLong(request.getParameter("clazzId")));
-
-            result = clazzService.editClazz(updateDTO);
-            optional = "Sửa";
+        //check login
+        if (ObjectUtils.isEmpty(userDTO)) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            response.put("view", "/index");
+            return response;
         }
 
-        if (result.equals("success")) {
-            redirect.addAttribute("mess", optional + " class room thành công");
-            return "redirect:/clazz";
-        } else {
-            model.addAttribute("mess", optional + " class room thất bại");
-            return "add-clazz";
+        if (!userDTO.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            response.put("view", "/index");
+            return response;
         }
+
+        ClazzReadDTO readDTO;
+        try {
+            readDTO = clazzService.updateClazzByDTO(updateDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("error", e.getMessage());
+            return response;
+        }
+
+        response.put("view", "/clazz-detail?id=" + readDTO.getId());
+        return response;
     }
 
     @GetMapping("/delete-clazz")

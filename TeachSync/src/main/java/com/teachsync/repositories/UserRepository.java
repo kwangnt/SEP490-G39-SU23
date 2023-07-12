@@ -5,24 +5,22 @@ import com.teachsync.utils.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    /** For login */
-    Optional<User> findByUsernameAndStatusNot(String username, Status status);
-
+    /* id */
     /** For finding unactivated teacher */
     Optional<User> findByIdAndStatus(Long id, Status status);
-
     Optional<User> findByIdAndStatusNot(Long id, Status status);
+    List<User> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
-    /* Check duplicate */
-    boolean existsByUsernameAndStatusNot(String username, Status status);
 
-    boolean existsByEmailAndStatusNot(String email, Status status);
+    /** For login */
+    Optional<User> findByUsernameAndStatusNot(String username, Status status);
 
     List<User> findAllByRoleId(Long roleId);
 
@@ -32,5 +30,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     public User findByEmail(String email);
 
     public User findByResetPasswordToken(String token);
+
+
+    /* Check duplicate */
+    boolean existsByUsernameAndStatusNot(String username, Status status);
+
+    boolean existsByEmailAndStatusNot(String email, Status status);
 }
 

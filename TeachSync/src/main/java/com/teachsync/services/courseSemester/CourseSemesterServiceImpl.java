@@ -52,6 +52,22 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
 
 
     /* =================================================== CREATE =================================================== */
+    @Override
+    public CourseSemester createCourseSemester(CourseSemester courseSemester) throws Exception {
+        /* Validate input */
+        /* TODO: */
+
+        /* Check FK */
+        /* TODO: */
+
+        /* Check duplicate */
+        /* TODO: */
+
+        /* Create */
+        courseSemester = courseSemesterRepository.saveAndFlush(courseSemester);
+
+        return courseSemester;
+    }
 
 
     /* =================================================== READ ===================================================== */
@@ -277,6 +293,15 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
 
         return wrapListDTO(courseSemesterList, options);
     }
+    /* courseId, semesterId, centerId */
+    @Override
+    public CourseSemester getByCourseIdAndSemesterIdAndCenterId(
+            Long courseId, Long semesterId, Long centerId) throws Exception {
+        return courseSemesterRepository
+                .findByCourseIdAndSemesterIdAndCenterIdAndStatusNot(courseId, semesterId, centerId, Status.DELETED)
+                .orElse(null);
+    }
+
 
     /* =================================================== UPDATE =================================================== */
 
@@ -295,6 +320,10 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
             if (options.contains(DtoOption.COURSE_NAME)) {
                 Course course = courseService.getById(dto.getCourseId());
                 dto.setCourseName(course.getCourseName());
+            }
+            if (options.contains(DtoOption.COURSE_ALIAS)) {
+                Course course = courseService.getById(dto.getCourseId());
+                dto.setCourseAlias(course.getCourseAlias());
             }
 
             if (options.contains(DtoOption.CENTER)) {
@@ -318,6 +347,7 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
         CourseSemesterReadDTO dto;
 
         Map<Long, String> courseIdCourseNameMap = new HashMap<>();
+        Map<Long, String> courseIdCourseAliasMap = new HashMap<>();
         Map<Long, CenterReadDTO> centerIdCenterDTOMap = new HashMap<>();
         Map<Long, SemesterReadDTO> semesterIdSemesterDTOMap = new HashMap<>();
 
@@ -336,6 +366,10 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
                 courseIdCourseNameMap = courseService.mapCourseIdCourseNameByIdIn(courseIdSet);
             }
 
+            if (options.contains(DtoOption.COURSE_ALIAS)) {
+                courseIdCourseAliasMap = courseService.mapCourseIdCourseAliasByIdIn(courseIdSet);
+            }
+
             if (options.contains(DtoOption.CENTER)) {
                 centerIdCenterDTOMap = centerService.mapIdDTOByIdIn(centerIdSet, options);
             }
@@ -350,6 +384,7 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
 
             /* Add Dependency */
             dto.setCourseName(courseIdCourseNameMap.get(courseSemester.getCourseId()));
+            dto.setCourseAlias(courseIdCourseAliasMap.get(courseSemester.getCourseId()));
 
             dto.setCenter(centerIdCenterDTOMap.get(courseSemester.getCenterId()));
     
