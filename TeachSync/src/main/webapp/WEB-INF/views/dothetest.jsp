@@ -34,14 +34,16 @@
 <body>
 <h1>Bài kiểm tra trắc nghiệm</h1>
 
-<form action="your-submit-action" method="post">
-    <input type="hidden" name="idTest" value="idTest" >
+<form action="submitTest" method="post">
+    <input type="hidden" name="idTest" value="${idTest}" >
+    <input type="hidden" name="typeTest" value="${test.testType}" >
+
     <c:forEach var="entry" items="${hmQA}">
         <div class="question">
             <h3>${entry.key.questionDesc}</h3>
             <c:forEach var="answer" items="${entry.value}">
                 <label>
-                    <input type="radio" name="${entry.key.id}" value="${answer.id}">
+                    <input type="radio" name="question${entry.key.id}" value="${answer.id}">
                         ${answer.answerDesc}
                 </label>
             </c:forEach>
