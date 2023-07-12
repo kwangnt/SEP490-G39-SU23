@@ -20,6 +20,7 @@ public interface MaterialService {
 
     List<Material> getAll() throws Exception;
 
+    @Deprecated
     List<MaterialReadDTO> getAllDTO() throws Exception;
 
     /* id */
@@ -43,9 +44,12 @@ public interface MaterialService {
 
 
     /* =================================================== WRAPPER ================================================== */
+    @Deprecated
     MaterialReadDTO wrapDTO(Material material) throws Exception;
 
+    @Deprecated
     List<MaterialReadDTO> wrapListDTO(Collection<Material> materialsCollection) throws Exception;
 
+    @Deprecated
     Page<MaterialReadDTO> wrapPageDTO(Page<Material> newsPage) throws Exception;
 }

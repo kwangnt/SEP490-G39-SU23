@@ -6,6 +6,7 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.Material.MaterialService;
+import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.MaterialType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,11 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Objects;
 
 import static com.teachsync.utils.Constants.ROLE_ADMIN;
 
@@ -145,10 +145,23 @@ public class MaterialController {
 
 
     @GetMapping("/material")
-    public String material(Model model, @ModelAttribute("mess") String mess) {
+    public String material(
+            Model model,
+            @ModelAttribute("mess") String mess,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
 
         try {
-            Page<MaterialReadDTO> dtoPage = materialService.getPageDTOAll(null);
+            Page<MaterialReadDTO> dtoPage;
+            if (Objects.isNull(userDTO) || userDTO.getRoleId().equals(Constants.ROLE_STUDENT) || userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
+
+//                dtoPage = materialService.getPageDTOAllHotCourse(null);
+                if (dtoPage != null) {
+                    model.addAttribute("hotCourseList", dtoPage.getContent());
+                    model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
+                    model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
+                }
+            }
+            dtoPage= materialService.getPageDTOAll(null);
 
             if (dtoPage != null) {
                 model.addAttribute("materialList", dtoPage.getContent());
