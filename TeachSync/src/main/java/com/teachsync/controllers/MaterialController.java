@@ -6,6 +6,7 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.Material.MaterialService;
+import com.teachsync.utils.enums.MaterialType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,7 @@ public class MaterialController {
         materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
@@ -126,6 +128,7 @@ public class MaterialController {
         materialReadDTO.setMaterialLink(request.getParameter("link"));
         materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
