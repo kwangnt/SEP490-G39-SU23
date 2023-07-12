@@ -45,7 +45,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialDTO.getMaterialLink());
         material.setMaterialContent(materialDTO.getMaterialContent());
         material.setMaterialImg(materialDTO.getMaterialImg());
-//        material.setMaterialType(materialDTO.getMaterialType());
+        material.setMaterialType(materialDTO.getMaterialType());
         material.setIsFree(materialDTO.isFree());
         material.setStatus(materialDTO.getStatus());
         material.setCreatedBy(userId);
@@ -180,7 +180,7 @@ public class MaterialServiceImpl implements MaterialService {
         material.setMaterialLink(materialReadDTO.getMaterialLink());
         material.setMaterialContent(materialReadDTO.getMaterialContent());
         material.setMaterialImg(materialReadDTO.getMaterialImg());
-        material.setMaterialType(MaterialType.valueOf(materialReadDTO.getMaterialType()));
+        material.setMaterialType(MaterialType.valueOf(String.valueOf(materialReadDTO.getMaterialType())));
         material.setIsFree(materialReadDTO.getIsFree());
         material.setStatus(Status.UPDATED);
         material.setUpdatedBy(userId);

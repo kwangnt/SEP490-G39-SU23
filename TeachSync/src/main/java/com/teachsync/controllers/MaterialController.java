@@ -9,6 +9,7 @@ import com.teachsync.entities.User;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.Material.MaterialService;
+import com.teachsync.utils.enums.MaterialType;
 import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -79,7 +80,7 @@ public class MaterialController {
         materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialDTO.setMaterialType(request.getParameter("type"));
+        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
@@ -133,14 +134,14 @@ public class MaterialController {
         materialReadDTO.setMaterialLink(request.getParameter("link"));
         materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialReadDTO.setMaterialType(request.getParameter("type"));
+        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
             materialService.editMaterial(materialReadDTO, userDTO.getId());
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "edit-course";
+            return "edit-material";
         }
 
         redirect.addAttribute("mess", "Sửa khóa học thành công");
