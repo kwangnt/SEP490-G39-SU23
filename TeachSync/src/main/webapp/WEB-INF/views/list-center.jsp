@@ -71,8 +71,8 @@
 <c:forEach var="item" items="${listCenter}">
     <a href="center-detail">
         <div class="center-item">
-            <h2 value="${item.addressId}">${item.centerName}</h2>
-            <p>Địa chỉ: Số 123, Đường ABC, Thành phố XYZ</p>
+            <h2 value="${item.id}">${item.centerName}</h2>
+            <p>Địa chỉ: 190ABC Doi Can, P.Doi Can, Q.Ba Dinh, TP.HN, VN</p>
             <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" width="300px"  height="400px" >
         </div>
     </a>

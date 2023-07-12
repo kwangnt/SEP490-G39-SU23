@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,9 +26,14 @@ public class CenterController {
 
 
     @GetMapping("/center")
-    public String center(Model model, HttpSession session) throws Exception {
-        List<CenterReadDTO> list = centerService.getAllDTO(null);
-        model.addAttribute("listCenter",list);
+    public String center(Model model, HttpSession session) {
+        try{
+            List<CenterReadDTO> list = centerService.getAllDTO(null);
+            model.addAttribute("listCenter",list);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return "list-center";
     }
 
@@ -38,6 +44,12 @@ public class CenterController {
 
     @GetMapping("/center-detail")
     public String centerDetail(){
+//        try{
+//            CenterReadDTO center = centerService.getDTOById(centerId,null);
+//            model.addAttribute("center", center);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
         return "center-detail";
     }

@@ -13,33 +13,38 @@
     <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
     <script src="../../resources/js/common.js"></script>
     <style>
-        .center-list {
+        .detail-container {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        #centerImage {
+            width: 550px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .info-container {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: flex-start;
+            margin-left: 40px;
         }
-
-        .center-item {
-            width: 500px;
-            height: 550px;
-            padding: 20px;
-            margin: 20px;
-            background-color: #e8e8e8;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 24px;
-        }
-
 
         h2 {
-            font-size: 20px;
+            font-size: 24px;
+            margin-top: 0;
         }
 
         p {
-            font-size: 16px;
+            font-size: 18px;
             margin-top: 10px;
+            margin-bottom: 0;
         }
-
     </style>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
@@ -65,7 +70,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Trung tâm ABC
+                    TeachSync Doi Can
                 </li>
             </ol>
         </nav>
@@ -76,23 +81,13 @@
 <!-- ================================================== Breadcrumb ================================================= -->
 
 
-<div class="center-list">
-
-    <a href="center-detail">
-        <div class="center-item">
-            <h2>Trung tâm ABC</h2>
-            <p>Địa chỉ: Số 123, Đường ABC, Thành phố XYZ</p>
-            <img src="http://quangcaotrangtrisg.com/upload/product/600/486/2/820239700235.jpg" width="300px"  height="400px" >
-        </div>
-    </a>
-
-    <a href="center-detail">
-        <div class="center-item">
-            <h2>Trung tâm XYZ</h2>
-            <p>Địa chỉ: Số 456, Đường XYZ, Thành phố ABC</p>
-            <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" width="300px"  height="400px">
-        </div>
-    </a>
+<div class="detail-container">
+    <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" id="centerImage">
+    <div class="info-container">
+        <h2 id="centerName">TeachSync Doi Can</h2>
+        <p id="functionInfo">Chuyên môn: ENGLISH</p>
+        <p id="centerAddress">Địa chỉ: 190ABC Doi Can, P.Doi Can, Q.Ba Dinh, TP.HN, VN</p>
+    </div>
 </div>
 
 <!-- ================================================== Main Body ================================================== -->
