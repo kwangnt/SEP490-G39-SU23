@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.CenterType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -21,7 +22,7 @@ public class Center extends BaseEntity {
     private String centerName;
 
     @Column(name = "centerType", nullable = false, length = 45)
-    private String centerType;
+    private CenterType centerType;
 
     @Lob
     @Column(name = "centerDesc", nullable = true, length = -1)

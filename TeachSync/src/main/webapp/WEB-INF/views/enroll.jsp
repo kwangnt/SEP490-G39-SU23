@@ -74,10 +74,10 @@
         <div class="col card">
           <div class="card-header">
             <h6 class="card-title mb-0">
-              Kỳ: <c:out value="${scheduleClazzList.key.scheduleAlias}"/><br/>
-              Cơ sở: <c:out value="${scheduleClazzList.key.centerName}"/><br/>
-              Từ: <c:out value="${scheduleClazzList.key.startDate}"/><br/>
-              Đến: <c:out value="${scheduleClazzList.key.endDate}"/><br/>
+              Kỳ: <c:out value="${scheduleClazzList.key.semester.semesterAlias}"/><br/>
+              Cơ sở: <c:out value="${scheduleClazzList.key.center.centerName}"/><br/>
+              Từ: <c:out value="${scheduleClazzList.key.semester.startDate}"/><br/>
+              Đến: <c:out value="${scheduleClazzList.key.semester.endDate}"/><br/>
             </h6>
           </div>
 

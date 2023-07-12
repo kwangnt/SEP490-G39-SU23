@@ -1,7 +1,6 @@
 package com.teachsync.dtos.role;
 
 import com.teachsync.dtos.BaseReadDTO;
-import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

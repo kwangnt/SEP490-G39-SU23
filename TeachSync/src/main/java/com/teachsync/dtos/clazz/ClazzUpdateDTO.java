@@ -2,7 +2,6 @@ package com.teachsync.dtos.clazz;
 
 import com.teachsync.dtos.BaseUpdateDTO;
 import com.teachsync.utils.enums.ScheduleType;
-import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

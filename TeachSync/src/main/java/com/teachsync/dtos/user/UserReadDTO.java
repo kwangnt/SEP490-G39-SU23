@@ -5,7 +5,6 @@ import com.teachsync.dtos.address.AddressReadDTO;
 import com.teachsync.dtos.role.RoleReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
-import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
