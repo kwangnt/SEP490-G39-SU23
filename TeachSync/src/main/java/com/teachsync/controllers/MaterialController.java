@@ -3,14 +3,9 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
-
-import com.teachsync.entities.Material;
-import com.teachsync.entities.User;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.Material.MaterialService;
-import com.teachsync.utils.enums.MaterialType;
-import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import static com.teachsync.utils.Constants.ROLE_ADMIN;
-import static com.teachsync.utils.enums.PromotionType.AMOUNT;
-import static com.teachsync.utils.enums.PromotionType.PERCENT;
 
 @Controller
 public class MaterialController {
@@ -80,7 +73,6 @@ public class MaterialController {
         materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
@@ -134,7 +126,6 @@ public class MaterialController {
         materialReadDTO.setMaterialLink(request.getParameter("link"));
         materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {

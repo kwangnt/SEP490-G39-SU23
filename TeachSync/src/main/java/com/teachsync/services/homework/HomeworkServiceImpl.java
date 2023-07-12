@@ -1,12 +1,9 @@
 package com.teachsync.services.homework;
 
 import com.teachsync.dtos.homework.HomeworkReadDTO;
-import com.teachsync.dtos.request.RequestReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Clazz;
 import com.teachsync.entities.Homework;
-import com.teachsync.entities.Request;
-import com.teachsync.entities.User;
 import com.teachsync.repositories.ClazzRepository;
 import com.teachsync.repositories.HomeworkRepository;
 import com.teachsync.utils.Constants;
@@ -22,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +35,10 @@ public interface CourseSemesterRepository extends JpaRepository<CourseSemester, 
     /** Tmp function */
     Optional<CourseSemester> findFirstByCourseIdAndStatusNot(long courseId, Status status);
 
+
+    /* courseId, semesterId, centerId */
+    Optional<CourseSemester> findByCourseIdAndSemesterIdAndCenterIdAndStatusNot(
+            Long courseId, Long semesterId, Long centerId, Status status);
 
     /* Check duplicate */
 

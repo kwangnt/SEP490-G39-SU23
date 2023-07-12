@@ -1,11 +1,11 @@
 package com.teachsync.dtos.user;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.address.AddressReadDTO;
+import com.teachsync.dtos.role.RoleReadDTO;
 import com.teachsync.entities.Request;
 import com.teachsync.entities.User;
 import com.teachsync.utils.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,9 +21,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserReadDTO extends BaseReadDTO {
-    private Long id;
-
     private Long roleId;
+    private RoleReadDTO role;
 
     private String userAvatar;
 
@@ -39,9 +38,7 @@ public class UserReadDTO extends BaseReadDTO {
 
     private String phone;
 
-    private String address;
-
-    private Status status;
+    private AddressReadDTO address;
 
     private List<Request> requestMadeList;
 

@@ -2,15 +2,12 @@ package com.teachsync.dtos.courseSemester;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.semester.SemesterReadDTO;
-import com.teachsync.entities.CourseSemester;
-import com.teachsync.utils.enums.ScheduleType;
-import com.teachsync.utils.enums.SemesterType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
-import lombok.*;
-
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * DTO for {@link com.teachsync.entities.CourseSemester}
@@ -21,14 +18,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CourseSemesterReadDTO extends BaseReadDTO {
     private Long courseId;
-
     private String courseName;
-
     private String courseAlias;
+    private CourseReadDTO course;
     
     private Long centerId;
-
     private CenterReadDTO center;
-    
+
+    private Long semesterId;
     private SemesterReadDTO semester;
 }

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
 
     <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.js"></script>
+    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
     <script src="../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
@@ -54,7 +54,7 @@
                 <td>${homework.homeworkName}</td>
                 <td>${homework.homeworkDesc}</td>
                 <td>${homework.homeworkDoc}</td>
-                <td>${homework.homeworkDocLink}</td>
+                <td>${homework.homeworkContent}</td>
                 <td>${homework.deadline}</td>
                 <td>${homework.openAt}</td>
                 <td>

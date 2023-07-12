@@ -14,14 +14,15 @@ import java.util.Optional;
 
 @Repository
 public interface SemesterRepository extends JpaRepository<Semester, Long> {
-    
+
     Page<Semester> findAllByStatusNot(Status status, Pageable paging);
+
+    List<Semester> findAllByStatusNotOrderByStartDateDesc(Status status);
     
     /* id */
     Optional<Semester> findByIdAndStatusNot(Long id, Status status);
     List<Semester> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
     
     /* startDate */
-    /** Tmp function */
     List<Semester> findAllByStartDateAfterAndStatusNot(LocalDate dateTime, Status status);
 }

@@ -4,7 +4,9 @@ import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
+import com.teachsync.dtos.staff.StaffReadDTO;
 import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Clazz;
 import com.teachsync.entities.ClazzMember;
@@ -14,6 +16,7 @@ import com.teachsync.repositories.CourseSemesterRepository;
 import com.teachsync.services.clazzMember.ClazzMemberService;
 import com.teachsync.services.clazzSchedule.ClazzScheduleService;
 import com.teachsync.services.courseSemester.CourseSemesterService;
+import com.teachsync.services.staff.StaffService;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
@@ -42,6 +45,8 @@ public class ClazzServiceImpl implements ClazzService {
     private ClazzScheduleService clazzScheduleService;
     @Autowired
     private CourseSemesterService courseSemesterService;
+    @Autowired
+    private StaffService staffService;
     @Autowired
     private CourseSemesterRepository courseSemesterRepository;
 
@@ -80,6 +85,46 @@ public class ClazzServiceImpl implements ClazzService {
         }
     }
 
+    @Override
+    public Clazz createClazz(Clazz clazz) throws Exception {
+        /* Validate input */
+        /* TODO: */
+
+        /* Check FK */
+        /* TODO: */
+
+        /* Check duplicate */
+        /* TODO: */
+
+        /* Create */
+        clazz = clazzRepository.saveAndFlush(clazz);
+
+        return clazz;
+    }
+    @Override
+    public ClazzReadDTO createClazzByDTO(ClazzCreateDTO createDTO) throws Exception {
+        Clazz clazz = mapper.map(createDTO, Clazz.class);
+
+        CourseSemester courseSemester =
+                courseSemesterService.getByCourseIdAndSemesterIdAndCenterId(
+                        createDTO.getCourseId(), createDTO.getSemesterId(), createDTO.getCenterId());
+
+        if (courseSemester == null) {
+            courseSemester = new CourseSemester(
+                    createDTO.getCourseId(), createDTO.getSemesterId(), createDTO.getCenterId());
+            courseSemester.setStatus(Status.CREATED);
+
+            courseSemester = courseSemesterService.createCourseSemester(courseSemester);
+        }
+
+        clazz.setCourseSemesterId(courseSemester.getId());
+
+        clazz = createClazz(clazz);
+
+        /* TODO: create clazzSchedule */
+
+        return wrapDTO(clazz, null);
+    }
 
     /* =================================================== READ ===================================================== */
     @Override
@@ -107,14 +152,23 @@ public class ClazzServiceImpl implements ClazzService {
         
         return wrapPageDTO(clazzPage, null);
     }
+    @Override
+    public Page<ClazzReadDTO> getPageDTOAll(Pageable paging, Collection<DtoOption> options) throws Exception {
+        Page<Clazz> clazzPage = getPageAll(paging);
+
+        if (clazzPage == null) {
+            return null;
+        }
+
+        return wrapPageDTO(clazzPage, options);
+    }
 
     /* id */
     @Override
     public Clazz getById(Long id) throws Exception {
-        Optional<Clazz> clazz = 
-                clazzRepository.findByIdAndStatusNot(id, Status.DELETED);
-        
-        return clazz.orElse(null);
+        return clazzRepository
+                .findByIdAndStatusNot(id, Status.DELETED)
+                .orElse(null);
     }
     @Override
     public ClazzReadDTO getDTOById(Long id) throws Exception {
@@ -125,6 +179,16 @@ public class ClazzServiceImpl implements ClazzService {
         }
 
         return wrapDTO(clazz, null);
+    }
+    @Override
+    public ClazzReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception {
+        Clazz clazz = getById(id);
+
+        if (clazz == null) {
+            return null;
+        }
+
+        return wrapDTO(clazz, options);
     }
 
     @Override
@@ -231,6 +295,51 @@ public class ClazzServiceImpl implements ClazzService {
         }
     }
 
+    @Override
+    public Clazz updateClazz(Clazz clazz) throws Exception {
+        /* Validate input */
+        /* TODO: */
+
+        /* Check FK */
+        /* TODO: */
+
+        /* Check duplicate */
+        /* TODO: */
+
+        /* Create */
+        clazz = clazzRepository.saveAndFlush(clazz);
+
+        return clazz;
+    }
+    @Override
+    public ClazzReadDTO updateClazzByDTO(ClazzUpdateDTO updateDTO) throws Exception {
+        Clazz oldClazz = getById(updateDTO.getId());
+        if (oldClazz == null) {
+            throw new IllegalArgumentException("No Clazz Found with Id: " + updateDTO.getId());
+        }
+
+        Clazz clazz = mapper.map(updateDTO, Clazz.class);
+
+        CourseSemester courseSemester =
+                courseSemesterService.getByCourseIdAndSemesterIdAndCenterId(
+                        updateDTO.getCourseId(), updateDTO.getSemesterId(), updateDTO.getCenterId());
+
+        if (courseSemester == null) {
+            courseSemester = new CourseSemester(
+                    updateDTO.getCourseId(), updateDTO.getSemesterId(), updateDTO.getCenterId());
+            courseSemester.setStatus(Status.CREATED);
+
+            courseSemester = courseSemesterService.createCourseSemester(courseSemester);
+        }
+
+        clazz.setCourseSemesterId(courseSemester.getId());
+
+        clazz = updateClazz(clazz);
+
+        /* TODO: update clazzSchedule */
+
+        return wrapDTO(clazz, null);
+    }
 
     /* =================================================== DELETE =================================================== */
     @Override
@@ -254,7 +363,7 @@ public class ClazzServiceImpl implements ClazzService {
 
         /* Add Dependency */
         if (options != null && !options.isEmpty()) {
-            if (options.contains(DtoOption.COURSE_SCHEDULE)) {
+            if (options.contains(DtoOption.COURSE_SEMESTER)) {
                 dto.setCourseSemester(
                         courseSemesterService.getDTOById(clazz.getCourseSemesterId(), options));
             }
@@ -271,6 +380,11 @@ public class ClazzServiceImpl implements ClazzService {
             if (options.contains(DtoOption.MEMBER_LIST)) {
                 dto.setMemberList(
                         clazzMemberService.getAllByClazzId(clazz.getId()));
+            }
+
+            if (options.contains(DtoOption.STAFF)) {
+                dto.setStaff(
+                        staffService.getDTOById(clazz.getStaffId(), options));
             }
 
             if (options.contains(DtoOption.HOMEWORK_LIST)) {
@@ -294,20 +408,23 @@ public class ClazzServiceImpl implements ClazzService {
         Map<Long, ClazzScheduleReadDTO> clazzIdClazzScheduleMap = new HashMap<>();
 //      TODO: Map<Long, List<SessionReadDTO>> clazzIdSessionListMap = new HashMap<>();
         Map<Long, List<ClazzMember>> clazzIdClazzMemberListMap = new HashMap<>();
+        Map<Long, StaffReadDTO> staffIdStaffMap = new HashMap<>();
 //      TODO: Map<Long, List<HomeworkReadDTO>> clazzIdHomeworkListMap = new HashMap<>();
 //      TODO: Map<Long, List<ClazzTestReadDTO>> clazzIdClazzTestListMap = new HashMap<>();
 
         if (options != null && !options.isEmpty()) {
             Set<Long> clazzIdSet = new HashSet<>();
-            Set<Long> scheduleIdSet = new HashSet<>();
+            Set<Long> staffIdSet = new HashSet<>();
+            Set<Long> courseSemesterIdSet = new HashSet<>();
 
             for (Clazz clazz : clazzCollection) {
                 clazzIdSet.add(clazz.getId());
-                scheduleIdSet.add(clazz.getCourseSemesterId());
+                staffIdSet.add(clazz.getStaffId());
+                courseSemesterIdSet.add(clazz.getCourseSemesterId());
             }
-            if (options.contains(DtoOption.COURSE_SCHEDULE)) {
+            if (options.contains(DtoOption.COURSE_SEMESTER)) {
                 scheduleIdCourseSemesterMap =
-                        courseSemesterService.mapIdDTOByIdIn(scheduleIdSet, options);
+                        courseSemesterService.mapIdDTOByIdIn(courseSemesterIdSet, options);
             }
 
             if (options.contains(DtoOption.CLAZZ_SCHEDULE)) {
@@ -322,6 +439,11 @@ public class ClazzServiceImpl implements ClazzService {
             if (options.contains(DtoOption.MEMBER_LIST)) {
                 clazzIdClazzMemberListMap =
                         clazzMemberService.mapClazzIdClazzMemberListByClazzIdIn(clazzIdSet);
+            }
+
+            if (options.contains(DtoOption.STAFF)) {
+                staffIdStaffMap =
+                        staffService.mapIdDTOByIdIn(staffIdSet, options);
             }
 
             if (options.contains(DtoOption.HOMEWORK_LIST)) {
@@ -347,6 +469,9 @@ public class ClazzServiceImpl implements ClazzService {
 
             dto.setMemberList(
                     clazzIdClazzMemberListMap.get(clazz.getId()));
+
+            dto.setStaff(
+                    staffIdStaffMap.get(clazz.getStaffId()));
 
 //            TODO: dto.setHomeworkList();
 

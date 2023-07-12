@@ -1,7 +1,6 @@
 package com.teachsync.repositories;
 
 import com.teachsync.entities.ClazzMember;
-import com.teachsync.utils.enums.MemberRole;
 import com.teachsync.utils.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

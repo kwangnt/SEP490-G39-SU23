@@ -3,8 +3,6 @@ package com.teachsync.services.clazzMember;
 import com.teachsync.dtos.clazzMember.ClazzMemberReadDTO;
 import com.teachsync.entities.ClazzMember;
 import com.teachsync.repositories.ClazzMemberRepository;
-import com.teachsync.utils.enums.DtoOption;
-import com.teachsync.utils.enums.MemberRole;
 import com.teachsync.utils.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

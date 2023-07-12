@@ -245,6 +245,16 @@ public class CourseServiceImpl implements CourseService {
         return courseList.stream()
                 .collect(Collectors.toMap(BaseEntity::getId, Course::getCourseName));
     }
+    @Override
+    public Map<Long, String> mapCourseIdCourseAliasByIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<Course> courseList = getAllByIdIn(courseIdCollection);
+
+        if (courseList.isEmpty()) {
+            return new HashMap<>(); }
+
+        return courseList.stream()
+                .collect(Collectors.toMap(BaseEntity::getId, Course::getCourseAlias));
+    }
 
 
     /* =================================================== UPDATE =================================================== */

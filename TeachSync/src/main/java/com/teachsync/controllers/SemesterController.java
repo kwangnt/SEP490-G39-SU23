@@ -3,17 +3,14 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
-import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.semester.SemesterReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.entities.CourseSemester;
 import com.teachsync.services.center.CenterService;
 import com.teachsync.services.course.CourseService;
 import com.teachsync.services.courseSemester.CourseSemesterService;
 import com.teachsync.services.semester.SemesterService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
-import com.teachsync.utils.enums.DtoOption;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -70,7 +68,7 @@ public class SemesterController {
             if (pageNo == null) { pageNo = 0; }
             Pageable paging = miscUtil.makePaging(pageNo, 10, "startDate", false);
 
-            Page<SemesterReadDTO> semesterDTOPage = semesterService.getPageDTOAll(paging, null);
+            Page<SemesterReadDTO> semesterDTOPage = semesterService.getPageAllDTO(paging, null);
 
             if (semesterDTOPage == null) {
                 return "list-semester";
