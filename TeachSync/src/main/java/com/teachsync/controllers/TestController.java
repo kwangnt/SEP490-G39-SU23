@@ -80,7 +80,7 @@ public class TestController {
         Test rsTest = testRepository.save(test);
 
         if (questionType.equals("essay")) {
-            for (int i = 1; i <= numQuestions; i++) {
+            for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
                 question.setTestId(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
