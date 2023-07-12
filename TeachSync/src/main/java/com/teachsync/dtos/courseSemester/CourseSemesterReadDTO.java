@@ -2,6 +2,7 @@ package com.teachsync.dtos.courseSemester;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.semester.SemesterReadDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,14 +18,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseSemesterReadDTO extends BaseReadDTO {
     private Long courseId;
-
     private String courseName;
-
     private String courseAlias;
+    private CourseReadDTO course;
     
     private Long centerId;
-
     private CenterReadDTO center;
-    
+
+    private Long semesterId;
     private SemesterReadDTO semester;
 }

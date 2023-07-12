@@ -15,11 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleReadDTO extends BaseReadDTO {
-    private Long id;
-
     private String roleName;
 
     private String roleDesc;
-
-    private Status status;
 }

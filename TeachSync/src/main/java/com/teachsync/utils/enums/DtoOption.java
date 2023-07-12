@@ -2,7 +2,7 @@ package com.teachsync.utils.enums;
 
 public enum DtoOption {
     /** Clazz */
-    COURSE_SCHEDULE,
+    COURSE_SEMESTER,
     /** Clazz */
     CLAZZ_SCHEDULE,
     /** Clazz */
@@ -10,9 +10,29 @@ public enum DtoOption {
     /** Clazz */
     MEMBER_LIST,
     /** Clazz */
+    STAFF,
+    /** Clazz */
     HOMEWORK_LIST,
     /** Clazz, Course */
     TEST_LIST,
+
+    /** ClazzSchedule */
+    CLAZZ_NAME,
+    /** ClazzSchedule */
+    ROOM_NAME,
+
+    /** ClazzMember, Staff */
+    USER,
+
+    /** User */
+    ROLE,
+    /** User, Center */
+    ADDRESS,
+
+    /** Center */
+    ROOM_LIST,
+    /** Center */
+    STAFF_LIST,
 
     /** Course */
     CLAZZ_LIST,
@@ -24,17 +44,9 @@ public enum DtoOption {
     /** CourseSemester */
     COURSE_NAME,
     /** CourseSemester */
+    COURSE_ALIAS,
+    /** CourseSemester, Staff */
     CENTER,
     /** CourseSemester */
-    SEMESTER,
-
-    /** ClazzSchedule */
-    CLAZZ_NAME,
-    /** ClazzSchedule */
-    ROOM_NAME,
-
-    /** Center */
-    ROOM_LIST,
-    /** Center */
-    STAFF_LIST;
+    SEMESTER;
 }

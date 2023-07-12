@@ -37,6 +37,7 @@ public interface CourseService {
 
     List<Course> getAllByIdIn(Collection<Long> courseIdCollection) throws Exception;
     Map<Long, String> mapCourseIdCourseNameByIdIn(Collection<Long> courseIdCollection) throws Exception;
+    Map<Long, String> mapCourseIdCourseAliasByIdIn(Collection<Long> courseIdCollection) throws Exception;
 
 
     /* =================================================== UPDATE =================================================== */

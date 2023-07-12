@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.StaffType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,5 +22,5 @@ public class Staff extends BaseEntity {
 
     /** Employee position (Ex: Leader, Teacher, Dean,...) */
     @Column(name = "staffType", nullable = false, length = 45)
-    private String staffType;
+    private StaffType staffType;
 }

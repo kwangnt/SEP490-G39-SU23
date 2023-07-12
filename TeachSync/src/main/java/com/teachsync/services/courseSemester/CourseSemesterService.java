@@ -12,6 +12,7 @@ import java.util.Set;
 
 public interface CourseSemesterService {
     /* =================================================== CREATE =================================================== */
+    CourseSemester createCourseSemester(CourseSemester courseSemester) throws Exception;
 
 
     /* =================================================== READ ===================================================== */
@@ -47,6 +48,8 @@ public interface CourseSemesterService {
     List<CourseSemesterReadDTO> getAllDTOBySemesterIdIn(
             Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception;
 
+    /* courseId, semesterId, centerId */
+    CourseSemester getByCourseIdAndSemesterIdAndCenterId(Long courseId, Long semesterId, Long centerId) throws Exception;
 
     /* =================================================== UPDATE =================================================== */
 
