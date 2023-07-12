@@ -68,7 +68,7 @@
     </div>
 </div>
 <div class="center-list">
-<c:forEach var="item" items="${lstCourse}">
+<c:forEach var="item" items="${listCenter}">
     <a href="center-detail">
         <div class="center-item">
             <h2 value="${item.addressId}">${item.centerName}</h2>

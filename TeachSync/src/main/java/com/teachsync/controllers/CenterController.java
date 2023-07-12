@@ -21,11 +21,13 @@ import java.util.List;
 @Controller
 public class CenterController {
     @Autowired
-    private CenterRepository centerRepository;
+    private CenterService centerService;
 
 
     @GetMapping("/center")
-    public String center(Model model, HttpSession session){
+    public String center(Model model, HttpSession session) throws Exception {
+        List<CenterReadDTO> list = centerService.getAllDTO(null);
+        model.addAttribute("listCenter",list);
         return "list-center";
     }
 
@@ -36,6 +38,7 @@ public class CenterController {
 
     @GetMapping("/center-detail")
     public String centerDetail(){
+
         return "center-detail";
     }
 
