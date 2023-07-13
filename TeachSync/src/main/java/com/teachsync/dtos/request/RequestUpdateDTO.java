@@ -1,6 +1,7 @@
 package com.teachsync.dtos.request;
 
 import com.teachsync.dtos.BaseUpdateDTO;
+import com.teachsync.utils.enums.RequestType;
 import com.teachsync.utils.enums.Status;
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class RequestUpdateDTO extends BaseUpdateDTO {
     @Lob
     private String requestDesc;
 
-    private String requestType;
+    private RequestType requestType;
 
     private Long clazzId;
 

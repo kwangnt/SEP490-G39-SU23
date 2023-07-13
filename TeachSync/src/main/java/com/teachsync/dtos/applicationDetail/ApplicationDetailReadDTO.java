@@ -1,5 +1,6 @@
 package com.teachsync.dtos.applicationDetail;
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.utils.enums.ApplicationDetailType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ApplicationDetailReadDTO extends BaseReadDTO {
     private Long applicationId;
-    private String detailType;
+    private ApplicationDetailType detailType;
     private String detailLink;
     private String detailNote;
     private LocalDateTime submitAt;

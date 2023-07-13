@@ -1,5 +1,6 @@
 package com.teachsync.dtos.test;
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.utils.enums.TestType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class TestReadDTO extends BaseReadDTO {
     private Long courseId;
     private String testName;
-    private String testType;
+    private TestType testType;
     private String testImg;
     private String testDesc;
     private Integer timeLimit;

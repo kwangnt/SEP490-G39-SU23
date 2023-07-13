@@ -1,10 +1,9 @@
 package com.teachsync.utils.enums;
 
 public enum TestType {
-    /* Trắc nghiệm */
-    QUIZ("QUIZ"),
-    /* Viết */
-    ESSAY("ESSAY");
+    FIFTEEN_MINUTE("FIFTEEN_MINUTE"),
+    MIDTERM("MIDTERM"),
+    FINAL("FINAL");
 
     private final String stringValue;
 
