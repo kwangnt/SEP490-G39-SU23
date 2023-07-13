@@ -2,7 +2,6 @@ package com.teachsync.services.role;
 
 import com.teachsync.dtos.role.RoleReadDTO;
 import com.teachsync.entities.Role;
-import com.teachsync.entities.Role;
 import com.teachsync.utils.enums.DtoOption;
 import org.springframework.data.domain.Page;
 

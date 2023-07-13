@@ -1,6 +1,7 @@
 package com.teachsync.dtos.request;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.utils.enums.RequestType;
 import com.teachsync.utils.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class RequestReadDTO extends BaseReadDTO {
 
     private String requestDesc;
 
-    private String requestType;
+    private RequestType requestType;
 
     private Long clazzId;
 

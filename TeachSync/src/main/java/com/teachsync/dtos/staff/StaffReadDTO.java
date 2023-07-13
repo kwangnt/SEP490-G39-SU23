@@ -4,15 +4,10 @@ import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.utils.enums.StaffType;
-import com.teachsync.utils.enums.Status;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * DTO for {@link com.teachsync.entities.Staff}

@@ -4,7 +4,6 @@ import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.dtos.clazzSchedule.ClazzScheduleReadDTO;
-import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.staff.StaffReadDTO;
 import com.teachsync.entities.BaseEntity;

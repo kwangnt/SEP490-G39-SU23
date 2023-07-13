@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.RoomType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -18,7 +19,7 @@ public class Room extends BaseEntity {
     private Long centerId;
 
     @Column(name = "roomType", nullable = true, length = 45)
-    private String roomType;
+    private RoomType roomType;
 
     @Lob
     @Column(name = "roomDesc", nullable = true, length = -1)

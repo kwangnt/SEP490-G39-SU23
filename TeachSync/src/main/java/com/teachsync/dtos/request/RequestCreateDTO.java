@@ -1,6 +1,7 @@
 package com.teachsync.dtos.request;
 
 import com.teachsync.dtos.BaseCreateDTO;
+import com.teachsync.utils.enums.RequestType;
 import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class RequestCreateDTO extends BaseCreateDTO {
     @Lob
     private String requestDesc;
 
-    private String requestType;
+    private RequestType requestType;
 
     private Long clazzId;
 

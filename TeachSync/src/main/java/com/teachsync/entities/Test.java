@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.TestType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -21,7 +22,7 @@ public class Test extends BaseEntity {
     private String testName;
 
     @Column(name = "testType", nullable = false, length = 45)
-    private String testType;
+    private TestType testType;
 
     @Lob
     @Column(name = "testImg", nullable = true, length = -1)
