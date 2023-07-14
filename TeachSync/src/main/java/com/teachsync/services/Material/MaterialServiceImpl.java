@@ -7,7 +7,6 @@ import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Material;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.utils.MiscUtil;
-import com.teachsync.utils.converters.MaterialTypeConverter;
 import com.teachsync.utils.enums.MaterialType;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -36,26 +35,30 @@ public class MaterialServiceImpl implements MaterialService {
     /* =================================================== CREATE =================================================== */
     @Override
     @Transactional
-    public MaterialReadDTO addMaterial(MaterialCreateDTO materialDTO, Long userId) throws Exception {
-        Material material = new Material();
+    public Material addMaterial(Material material) throws Exception {
+        /* Validate input (link hợp lệ, name ko quá 45 ký tự) */
 
-        material.setMaterialName(materialDTO.getMaterialName());
-        //TODO : process upload file
-        material.setMaterialLink(materialDTO.getMaterialLink());
-        material.setMaterialContent(materialDTO.getMaterialContent());
-        material.setMaterialImg(materialDTO.getMaterialImg());
-        material.setMaterialType(materialDTO.getMaterialType());
-        material.setIsFree(materialDTO.isFree());
-        material.setStatus(materialDTO.getStatus());
-        material.setCreatedBy(userId);
-        Material materialDb = materialRepository.save(material);
-        if (ObjectUtils.isEmpty(materialDb)) {
-            throw new Exception("Tạo tài liệu thất bại");
-        }
+        /* Check FK */
 
+        /* Check duplicate (name, link, kiểu,... ) */
 
-        return mapper.map(materialDb, MaterialReadDTO.class);
+        /* Add to DB */
+        material = materialRepository.saveAndFlush(material);
+
+        return material;
     }
+    @Override
+    @Transactional
+    public MaterialReadDTO addMaterialByDTO(MaterialCreateDTO materialDTO) throws Exception {
+        Material material = mapper.map(materialDTO, Material.class);
+
+        //TODO : process upload file
+
+        material = addMaterial(material);
+
+        return wrapDTO(material);
+    }
+
     /* =================================================== READ ===================================================== */
     @Override
     public Page<Material> getPageAll(Pageable paging) throws Exception {
@@ -70,7 +73,6 @@ public class MaterialServiceImpl implements MaterialService {
 
         return materialPage;
     }
-
     @Override
     public Page<MaterialReadDTO> getPageDTOAll(Pageable paging) throws Exception {
         Page<Material> materialPage = getPageAll(paging);
@@ -94,10 +96,25 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public List<Material> getAllByIsFree() throws Exception {
+    public List<Material> getAllByIsFree(Boolean isFree) throws Exception {
         List<Material> materialPage =
-                materialRepository.findAllByIsFreeTrue(true);
+                materialRepository.findAllByIsFreeAndStatusNot(isFree, Status.DELETED);
+
+        if (materialPage.isEmpty()) {
+            return null;
+        }
+
         return materialPage;
+    }
+    @Override
+    public List<MaterialReadDTO> getAllDTOByIsFree(Boolean isFree) throws Exception {
+        List<Material> materialList = getAllByIsFree(isFree);
+
+        if (materialList == null) {
+            return null;
+        }
+
+        return wrapListDTO(materialList);
     }
 
     @Override
@@ -175,6 +192,16 @@ public class MaterialServiceImpl implements MaterialService {
                 .collect(Collectors.toMap(BaseEntity::getId, Material::getMaterialName));
     }
 
+    @Override
+    public Material editMaterial(Material material) throws Exception {
+        return null;
+    }
+
+    @Override
+    public MaterialReadDTO editMaterialByDTO(MaterialReadDTO materialReadDTO) throws Exception {
+        return null;
+    }
+
     /* =================================================== UPDATE =================================================== */
     @Override
     @Transactional
@@ -211,6 +238,8 @@ public class MaterialServiceImpl implements MaterialService {
     public MaterialReadDTO wrapDTO(Material material) throws Exception {
         MaterialReadDTO dto = mapper.map(material, MaterialReadDTO.class);
 
+        /* Add dependency */
+
         return dto;
     }
 
@@ -223,6 +252,7 @@ public class MaterialServiceImpl implements MaterialService {
         for (Material news : materialsCollection) {
             dto = mapper.map(news, MaterialReadDTO.class);
 
+            /* Add dependency */
 
             dtoList.add(dto);
         }

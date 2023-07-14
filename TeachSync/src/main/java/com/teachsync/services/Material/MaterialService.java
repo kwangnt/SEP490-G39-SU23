@@ -12,18 +12,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface MaterialService {
-    MaterialReadDTO addMaterial(MaterialCreateDTO materialDTO, Long userId) throws Exception;
+    /* =================================================== CREATE =================================================== */
+    Material addMaterial(Material material) throws Exception;
+    MaterialReadDTO addMaterialByDTO(MaterialCreateDTO materialDTO) throws Exception;
+
 
     /* =================================================== READ ===================================================== */
     Page<Material> getPageAll(Pageable paging) throws Exception;
     Page<MaterialReadDTO> getPageDTOAll(Pageable paging) throws Exception;
 
     List<Material> getAll() throws Exception;
-
-    List<Material> getAllByIsFree() throws Exception;
-
     @Deprecated
     List<MaterialReadDTO> getAllDTO() throws Exception;
+
+    List<Material> getAllByIsFree(Boolean isFree) throws Exception;
+    List<MaterialReadDTO> getAllDTOByIsFree(Boolean isFree) throws Exception;
+
 
     /* id */
     Material getById(Long id) throws Exception;
@@ -38,8 +42,9 @@ public interface MaterialService {
 
 
     /* =================================================== UPDATE =================================================== */
+    Material editMaterial(Material material) throws Exception;
+    MaterialReadDTO editMaterialByDTO(MaterialReadDTO materialReadDTO) throws Exception;
 
-    MaterialReadDTO editMaterial(MaterialReadDTO materialReadDTO, Long userId) throws Exception;
 
     /* =================================================== DELETE =================================================== */
 

@@ -26,5 +26,5 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     List<Material> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
 
-    List<Material> findAllByIsFreeTrue(Boolean isFree);
+    List<Material> findAllByIsFreeAndStatusNot(Boolean isFree, Status status);
 }
