@@ -25,4 +25,6 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     Page<Material> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status, Pageable pageable);
 
     List<Material> findAllByIdInAndStatusNot(Collection<Long> idCollection, Status status);
+
+    List<Material> findAllByIsFreeTrue(Boolean isFree);
 }

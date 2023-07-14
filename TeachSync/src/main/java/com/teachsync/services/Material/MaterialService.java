@@ -20,6 +20,8 @@ public interface MaterialService {
 
     List<Material> getAll() throws Exception;
 
+    List<Material> getAllByIsFree() throws Exception;
+
     @Deprecated
     List<MaterialReadDTO> getAllDTO() throws Exception;
 
@@ -32,6 +34,8 @@ public interface MaterialService {
 
     List<Material> getAllByIdIn(Collection<Long> materialIdCollection) throws Exception;
     Map<Long, String> mapMaterialIdMaterialNameByIdIn(Collection<Long> materialIdCollection) throws Exception;
+
+
 
     /* =================================================== UPDATE =================================================== */
 

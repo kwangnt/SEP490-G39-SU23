@@ -94,6 +94,13 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    public List<Material> getAllByIsFree() throws Exception {
+        List<Material> materialPage =
+                materialRepository.findAllByIsFreeTrue(true);
+        return materialPage;
+    }
+
+    @Override
     public List<MaterialReadDTO> getAllDTO() throws Exception {
         List<Material> materialList = getAll();
 

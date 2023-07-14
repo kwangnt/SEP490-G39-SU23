@@ -154,9 +154,9 @@ public class MaterialController {
             Page<MaterialReadDTO> dtoPage;
             if (Objects.isNull(userDTO) || userDTO.getRoleId().equals(Constants.ROLE_STUDENT) || userDTO.getRoleId().equals(Constants.ROLE_TEACHER)) {
 
-//                dtoPage = materialService.getPageDTOAllHotCourse(null);
+                //dtoPage = materialService.getAllByIsFree();
                 if (dtoPage != null) {
-                    model.addAttribute("hotCourseList", dtoPage.getContent());
+                    model.addAttribute("FreeMaterialList", dtoPage.getContent());
                     model.addAttribute("hotPageNo", dtoPage.getPageable().getPageNumber());
                     model.addAttribute("hotPageTotal", dtoPage.getTotalPages());
                 }
@@ -182,7 +182,8 @@ public class MaterialController {
     @GetMapping("/material-detail")
     public String getDetailById(
             @RequestParam(name = "id") Long courseId,
-            Model model) {
+            Model model,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
         try {
             MaterialReadDTO material = materialService.getDTOById(courseId);
 
