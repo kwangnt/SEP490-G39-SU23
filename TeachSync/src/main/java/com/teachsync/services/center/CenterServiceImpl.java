@@ -121,12 +121,16 @@ public class CenterServiceImpl implements CenterService {
         CenterReadDTO dto = mapper.map(center, CenterReadDTO.class);
     
         if (options != null && !options.isEmpty()) {
+            if (options.contains(DtoOption.ADDRESS)) {
+                /* TODO: */
+            }
+
             if (options.contains(DtoOption.ROOM_LIST)) {
                 /* TODO:
                 List<RoomReadDTO> roomList = roomService.getAllDTOByCenterId(center.getId(), options);
                 dto.setRoomList(roomList);*/
             }
-            
+
             if (options.contains(DtoOption.STAFF_LIST)) {
                 /* TODO: */
             }
@@ -149,13 +153,17 @@ public class CenterServiceImpl implements CenterService {
             for (Center center : centerCollection) {
                 centerIdSet.add(center.getId());
             }
+
+            if (options.contains(DtoOption.ADDRESS)) {
+                /* TODO: */
+            }
         
             if (options.contains(DtoOption.ROOM_LIST)) {
                 /* TODO:
                 centerIdRoomListMap =
                         roomService.mapCenterIdListRoomDTOByCenterIdIn(centerIdSet, options);*/
             }
-    
+
             if (options.contains(DtoOption.STAFF_LIST)) {
                 /* TODO: */
             }
