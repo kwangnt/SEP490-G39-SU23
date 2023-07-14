@@ -12,6 +12,7 @@ import com.teachsync.repositories.TestRepository;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.QuestionType;
 import com.teachsync.utils.enums.Status;
+import com.teachsync.utils.enums.TestType;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class TestController {
     @PostMapping("/process-question")
     public String processQuestion(Model model, HttpSession session,
                                   @RequestParam("courseName") String courseName,
-                                  @RequestParam("testType") String testType,
+                                  @RequestParam("testType") TestType testType,
                                   @RequestParam("timeLimit") int timeLimit,
                                   @RequestParam("numQuestions") int numQuestions,
                                   @RequestParam("questionType") String questionType,
@@ -66,20 +67,28 @@ public class TestController {
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
-        test.setTestName(testType);
-        test.setTestType(questionType);
+        test.setTestName("");
+        test.setTestType(testType);
         test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
-        if (testType.equals("15min")) {
-            test.setMinScore(1.0);
-            test.setTestWeight(1);
-        } else if (testType.equals("midterm")) {
-            test.setMinScore(1.0);
-            test.setTestWeight(3);
-        } else {
-            test.setMinScore(4.0);
-            test.setTestWeight(5);
+
+        switch (testType) {
+            case FIFTEEN_MINUTE -> {
+                test.setMinScore(1.0);
+                test.setTestWeight(1);
+            }
+
+            case MIDTERM -> {
+                test.setMinScore(1.0);
+                test.setTestWeight(3);
+            }
+
+            case FINAL -> {
+                test.setMinScore(4.0);
+                test.setTestWeight(5);
+            }
         }
+
         test.setStatus(Status.CREATED);
         Test rsTest = testRepository.save(test);
 

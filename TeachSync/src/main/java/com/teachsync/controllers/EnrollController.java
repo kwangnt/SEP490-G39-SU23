@@ -3,6 +3,7 @@ package com.teachsync.controllers;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
+import com.teachsync.dtos.request.RequestCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
@@ -13,12 +14,10 @@ import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,13 +89,15 @@ public class EnrollController {
     }
 
 
-    @PostMapping("/enroll")
-    public String enroll(
+    @PostMapping(value = "/enroll", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> enroll(
             Model model,
+            @RequestBody RequestCreateDTO createDTO,
             @RequestParam Long clazzId,
             @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
 
-        return "redirect:/index";
+        return null/*"redirect:/index"*/;
 //        TODO:
 //        try {
 //            RequestCreateDTO createDTO = new RequestCreateDTO();

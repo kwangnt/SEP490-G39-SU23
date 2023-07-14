@@ -5,11 +5,9 @@ import com.teachsync.dtos.clazz.ClazzCreateDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazz.ClazzUpdateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
-import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.semester.SemesterReadDTO;
 import com.teachsync.dtos.staff.StaffReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.entities.CourseSemester;
 import com.teachsync.services.center.CenterService;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
@@ -18,7 +16,6 @@ import com.teachsync.services.semester.SemesterService;
 import com.teachsync.services.staff.StaffService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.DtoOption;
-import com.teachsync.utils.enums.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +28,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class ClazzController {

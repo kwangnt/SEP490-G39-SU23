@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.ApplicationDetailType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -20,7 +21,7 @@ public class ApplicationDetail extends BaseEntity {
     private Long applicationId;
 
     @Column(name = "detailType", nullable = false, length = 45)
-    private String detailType;
+    private ApplicationDetailType detailType;
 
     @Lob
     @Column(name = "detailLink", nullable = false, length = -1)

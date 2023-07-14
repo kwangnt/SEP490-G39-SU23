@@ -1,5 +1,6 @@
 package com.teachsync.entities;
 
+import com.teachsync.utils.enums.PaymentType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -23,7 +24,7 @@ public class Payment extends BaseEntity {
     private Long requestId;
 
     @Column(name = "paymentType", nullable = false, length = 45)
-    private String paymentType;
+    private PaymentType paymentType;
 
     @Column(name = "paymentAmount", nullable = false, precision = 0)
     private Double paymentAmount;
