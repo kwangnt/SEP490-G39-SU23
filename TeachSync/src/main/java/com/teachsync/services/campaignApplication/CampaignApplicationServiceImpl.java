@@ -1,23 +1,38 @@
 package com.teachsync.services.campaignApplication;
 
+import com.teachsync.dtos.applicationDetail.ApplicationDetailReadDTO;
 import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
+import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.CampaignApplication;
 import com.teachsync.repositories.CampaignApplicationRepository;
+import com.teachsync.services.applicationDetail.ApplicationDetailService;
+import com.teachsync.services.recruitmentCampaign.RecruitmentCampaignService;
+import com.teachsync.services.user.UserService;
 import com.teachsync.utils.enums.DtoOption;
+import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CampaignApplicationServiceImpl implements CampaignApplicationService {
     @Autowired
     private CampaignApplicationRepository campaignApplicationRepository;
+
+    @Lazy
+    @Autowired
+    private RecruitmentCampaignService recruitmentCampaignService;
+    @Lazy
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ApplicationDetailService applicationDetailService;
 
     @Autowired
     private ModelMapper mapper;
@@ -27,6 +42,173 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
 
     /* =================================================== READ ===================================================== */
+    /* id */
+    @Override
+    public CampaignApplication getById(Long id) throws Exception {
+        return campaignApplicationRepository
+                .findByIdAndStatusNot(id, Status.DELETED)
+                .orElse(null);
+    }
+    @Override
+    public CampaignApplicationReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception {
+        CampaignApplication application = getById(id);
+
+        if (application == null) {
+            return null;
+        }
+
+        return wrapDTO(application, options);
+    }
+
+    /* campaignId */
+    @Override
+    public List<CampaignApplication> getAllByCampaignId(Long campaignId) throws Exception {
+        List<CampaignApplication> applicationList =
+                campaignApplicationRepository.findAllByCampaignIdAndStatusNot(campaignId, Status.DELETED);
+
+        if (applicationList.isEmpty()) {
+            return null;
+        }
+
+        return applicationList;
+    }
+    @Override
+    public List<CampaignApplicationReadDTO> getAllDTOByCampaignId(
+            Long campaignId, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplication> applicationList = getAllByCampaignId(campaignId);
+
+        if (applicationList == null) {
+            return null;
+        }
+
+        return wrapListDTO(applicationList, options);
+    }
+
+    @Override
+    public List<CampaignApplication> getAllByCampaignIdIn(Collection<Long> campaignIdCollection) throws Exception {
+        List<CampaignApplication> applicationList =
+                campaignApplicationRepository.findAllByCampaignIdInAndStatusNot(campaignIdCollection, Status.DELETED);
+
+        if (applicationList.isEmpty()) {
+            return null;
+        }
+
+        return applicationList;
+    }
+    @Override
+    public List<CampaignApplicationReadDTO> getAllDTOByCampaignIdIn(
+            Collection<Long> campaignIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplication> applicationList = getAllByCampaignIdIn(campaignIdCollection);
+
+        if (applicationList == null) {
+            return null;
+        }
+
+        return wrapListDTO(applicationList, options);
+    }
+    @Override
+    public Map<Long, List<CampaignApplicationReadDTO>> mapCampaignIdListDTOByCampaignIdIn(
+            Collection<Long> campaignIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplicationReadDTO> applicationDTOList = getAllDTOByCampaignIdIn(campaignIdCollection, options);
+
+        if (applicationDTOList == null) {
+            return new HashMap<>();
+        }
+
+        Map<Long, List<CampaignApplicationReadDTO>> campaignIdDTOListMap = new HashMap<>();
+        Long campaignId;
+        List<CampaignApplicationReadDTO> tmpApplicationDTOList;
+
+        for (CampaignApplicationReadDTO applicationDTO : applicationDTOList) {
+            campaignId = applicationDTO.getCampaignId();
+
+            tmpApplicationDTOList = campaignIdDTOListMap.get(campaignId);
+
+            if (tmpApplicationDTOList == null) {
+                campaignIdDTOListMap.put(campaignId, new ArrayList<>(List.of(applicationDTO)));
+            } else {
+                tmpApplicationDTOList.add(applicationDTO);
+                campaignIdDTOListMap.put(campaignId, tmpApplicationDTOList);
+            }
+        }
+
+        return campaignIdDTOListMap;
+    }
+
+    /* userId */
+    @Override
+    public List<CampaignApplication> getAllByUserId(Long userId) throws Exception {
+        List<CampaignApplication> applicationList =
+                campaignApplicationRepository.findAllByApplicantIdAndStatusNot(userId, Status.DELETED);
+
+        if (applicationList.isEmpty()) {
+            return null;
+        }
+
+        return applicationList;
+    }
+    @Override
+    public List<CampaignApplicationReadDTO> getAllDTOByUserId(
+            Long userId, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplication> applicationList = getAllByUserId(userId);
+
+        if (applicationList == null) {
+            return null;
+        }
+
+        return wrapListDTO(applicationList, options);
+    }
+
+    @Override
+    public List<CampaignApplication> getAllByUserIdIn(Collection<Long> userIdCollection) throws Exception {
+        List<CampaignApplication> applicationList =
+                campaignApplicationRepository.findAllByApplicantIdInAndStatusNot(userIdCollection, Status.DELETED);
+
+        if (applicationList.isEmpty()) {
+            return null;
+        }
+
+        return applicationList;
+    }
+    @Override
+    public List<CampaignApplicationReadDTO> getAllDTOByUserIdIn(
+            Collection<Long> userIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplication> applicationList = getAllByUserIdIn(userIdCollection);
+
+        if (applicationList == null) {
+            return null;
+        }
+
+        return wrapListDTO(applicationList, options);
+    }
+    @Override
+    public Map<Long, List<CampaignApplicationReadDTO>> mapUserIdListDTOByUserIdIn(
+            Collection<Long> userIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CampaignApplicationReadDTO> applicationDTOList = getAllDTOByUserIdIn(userIdCollection, options);
+
+        if (applicationDTOList == null) {
+            return new HashMap<>();
+        }
+
+        Map<Long, List<CampaignApplicationReadDTO>> userIdDTOListMap = new HashMap<>();
+        Long userId;
+        List<CampaignApplicationReadDTO> tmpApplicationDTOList;
+
+        for (CampaignApplicationReadDTO applicationDTO : applicationDTOList) {
+            userId = applicationDTO.getApplicantId();
+
+            tmpApplicationDTOList = userIdDTOListMap.get(userId);
+
+            if (tmpApplicationDTOList == null) {
+                userIdDTOListMap.put(userId, new ArrayList<>(List.of(applicationDTO)));
+            } else {
+                tmpApplicationDTOList.add(applicationDTO);
+                userIdDTOListMap.put(userId, tmpApplicationDTOList);
+            }
+        }
+
+        return userIdDTOListMap;
+    }
 
 
     /* =================================================== UPDATE =================================================== */
@@ -37,62 +219,77 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
     /* =================================================== WRAPPER ================================================== */
     @Override
-    public CampaignApplicationReadDTO wrapDTO(CampaignApplication campaignApplication, Collection<DtoOption> options) throws Exception {
-        CampaignApplicationReadDTO dto = mapper.map(campaignApplication, CampaignApplicationReadDTO.class);
+    public CampaignApplicationReadDTO wrapDTO(
+            CampaignApplication application, Collection<DtoOption> options) throws Exception {
+        CampaignApplicationReadDTO dto = mapper.map(application, CampaignApplicationReadDTO.class);
 
         /* Add dependency */
-        /* TODO:
         if (options != null && !options.isEmpty()) {
-            if (options.contains(DtoOption.FK)) {
-                FkReadDTO fkDTO = fkService.getDTOById(campaignApplication.getFkId());
-                dto.setFk(fkDTO);
+            if (options.contains(DtoOption.CAMPAIGN)) {
+                RecruitmentCampaignReadDTO campaignDTO =
+                        recruitmentCampaignService.getDTOById(application.getCampaignId(), options);
+                dto.setCampaign(campaignDTO);
             }
 
-            if (options.contains(DtoOption.FK_LIST)) {
-                List<FkReadDTO> fkDTOList = fkService.getAllDTOById(campaignApplication.getFkId());
-                dto.setFkList(fkDTOList);
+            if (options.contains(DtoOption.USER)) {
+                UserReadDTO userDTO = userService.getDTOById(application.getApplicantId(), options);
+                dto.setApplicant(userDTO);
+            }
+
+            if (options.contains(DtoOption.APPLICATION_DETAIL_LIST)) {
+                List<ApplicationDetailReadDTO> detailDTOList =
+                        applicationDetailService.getAllDTOByApplicationId(application.getId(), options);
+                dto.setDetailList(detailDTOList);
             }
         }
-        */
 
         return dto;
     }
 
     @Override
-    public List<CampaignApplicationReadDTO> wrapListDTO(Collection<CampaignApplication> campaignApplicationCollection, Collection<DtoOption> options) throws Exception {
+    public List<CampaignApplicationReadDTO> wrapListDTO(
+            Collection<CampaignApplication> applicationCollection, Collection<DtoOption> options) throws Exception {
         List<CampaignApplicationReadDTO> dtoList = new ArrayList<>();
         CampaignApplicationReadDTO dto;
 
-        /* TODO:
-        Map<Long, FkReadDTO> fkIdFkDTOMap = new HashMap<>();
-        Map<Long, List<FkReadDTO>> fkIdFkDTOListMap = new HashMap<>();
+        Map<Long, RecruitmentCampaignReadDTO> campaignIdCampaignDTOMap = new HashMap<>();
+        Map<Long, UserReadDTO> userIdUserDTOMap = new HashMap<>();
+        Map<Long, List<ApplicationDetailReadDTO>> applicationIdDetailDTOListMap = new HashMap<>();
 
         if (options != null && !options.isEmpty()) {
-            Set<Long> fkIdSet = new HashSet<>();
+            Set<Long> campaignIdSet = new HashSet<>();
+            Set<Long> userIdSet = new HashSet<>();
+            Set<Long> applicationIdSet = new HashSet<>();
 
-            for (CampaignApplication campaignApplication : campaignApplicationCollection) {
-                fkIdSet.add(campaignApplication.getFkId());
+            for (CampaignApplication application : applicationCollection) {
+                campaignIdSet.add(application.getCampaignId());
+                userIdSet.add(application.getApplicantId());
+                applicationIdSet.add(application.getId());
             }
 
-            if (options.contains(DtoOption.FK)) {
-                fkIdFkDTOMap = fkService.mapIdDTOByIdIn(fkIdSet);
+            if (options.contains(DtoOption.CAMPAIGN)) {
+                campaignIdCampaignDTOMap = recruitmentCampaignService.mapIdDTOByIdIn(campaignIdSet, options);
             }
 
-            if (options.contains(DtoOption.FK_LIST)) {
-                fkIdFkDTOListMap = fkService.mapIdListDTOByIdIn(fkIdSet);
+            if (options.contains(DtoOption.USER)) {
+                userIdUserDTOMap = userService.mapIdDTOByIdIn(userIdSet, options);
+            }
+
+            if (options.contains(DtoOption.APPLICATION_DETAIL_LIST)) {
+                applicationIdDetailDTOListMap =
+                        applicationDetailService.mapApplicationIdListDTOByApplicationIdIn(applicationIdSet, options);
             }
         }
-        */
 
-        for (CampaignApplication campaignApplication : campaignApplicationCollection) {
-            dto = mapper.map(campaignApplication, CampaignApplicationReadDTO.class);
+        for (CampaignApplication application : applicationCollection) {
+            dto = mapper.map(application, CampaignApplicationReadDTO.class);
 
             /* Add dependency */
-            /*
-            dto.setFk(fkIdFkDTOMap.get(campaignApplication.getFkId()));
+            dto.setCampaign(campaignIdCampaignDTOMap.get(application.getCampaignId()));
 
-            dto.setFkList(fkIdFkDTOListMap.get(campaignApplication.getFkId()));
-            */
+            dto.setApplicant(userIdUserDTOMap.get(application.getApplicantId()));
+
+            dto.setDetailList(applicationIdDetailDTOListMap.get(application.getId()));
 
             dtoList.add(dto);
         }
@@ -101,10 +298,11 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
     }
 
     @Override
-    public Page<CampaignApplicationReadDTO> wrapPageDTO(Page<CampaignApplication> campaignApplicationPage, Collection<DtoOption> options) throws Exception {
+    public Page<CampaignApplicationReadDTO> wrapPageDTO(
+            Page<CampaignApplication> applicationPage, Collection<DtoOption> options) throws Exception {
         return new PageImpl<>(
-                wrapListDTO(campaignApplicationPage.getContent(), options),
-                campaignApplicationPage.getPageable(),
-                campaignApplicationPage.getTotalPages());
+                wrapListDTO(applicationPage.getContent(), options),
+                applicationPage.getPageable(),
+                applicationPage.getTotalPages());
     }
 }

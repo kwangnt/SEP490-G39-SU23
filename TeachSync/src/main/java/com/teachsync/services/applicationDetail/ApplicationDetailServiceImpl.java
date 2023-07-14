@@ -4,15 +4,14 @@ import com.teachsync.dtos.applicationDetail.ApplicationDetailReadDTO;
 import com.teachsync.entities.ApplicationDetail;
 import com.teachsync.repositories.ApplicationDetailRepository;
 import com.teachsync.utils.enums.DtoOption;
+import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ApplicationDetailServiceImpl implements ApplicationDetailService {
@@ -27,6 +26,80 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
 
     /* =================================================== READ ===================================================== */
+    /* applicationId */
+    @Override
+    public List<ApplicationDetail> getAllByApplicationId(Long applicationId) throws Exception {
+        List<ApplicationDetail> detailList =
+                applicationDetailRepository.findAllByApplicationIdAndStatusNot(applicationId, Status.DELETED);
+
+        if (detailList.isEmpty()) {
+            return null;
+        }
+
+        return detailList;
+    }
+    @Override
+    public List<ApplicationDetailReadDTO> getAllDTOByApplicationId(
+            Long applicationId, Collection<DtoOption> options) throws Exception {
+        List<ApplicationDetail> detailList = getAllByApplicationId(applicationId);
+
+        if (detailList == null) {
+            return null;
+        }
+
+        return wrapListDTO(detailList, options);
+    }
+
+    @Override
+    public List<ApplicationDetail> getAllByApplicationIdIn(Collection<Long> applicationIdCollection) throws Exception {
+        List<ApplicationDetail> detailList =
+                applicationDetailRepository.findAllByApplicationIdInAndStatusNot(applicationIdCollection, Status.DELETED);
+
+        if (detailList.isEmpty()) {
+            return null;
+        }
+
+        return detailList;
+    }
+    @Override
+    public List<ApplicationDetailReadDTO> getAllDTOByApplicationIdIn(
+            Collection<Long> applicationIdCollection, Collection<DtoOption> options) throws Exception {
+        List<ApplicationDetail> detailList = getAllByApplicationIdIn(applicationIdCollection);
+
+        if (detailList == null) {
+            return null;
+        }
+
+        return wrapListDTO(detailList, options);
+    }
+    @Override
+    public Map<Long, List<ApplicationDetailReadDTO>> mapApplicationIdListDTOByApplicationIdIn(
+            Collection<Long> applicationIdCollection, Collection<DtoOption> options) throws Exception {
+        List<ApplicationDetailReadDTO> detailDTOList = getAllDTOByApplicationIdIn(applicationIdCollection, options);
+
+        if (detailDTOList == null) {
+            return new HashMap<>();
+        }
+
+        Map<Long, List<ApplicationDetailReadDTO>> applicationIdDTOListMap = new HashMap<>();
+        Long applicationId;
+        List<ApplicationDetailReadDTO> tmpDetailDTOList;
+
+        for (ApplicationDetailReadDTO detailDTO : detailDTOList) {
+            applicationId = detailDTO.getApplicationId();
+
+            tmpDetailDTOList = applicationIdDTOListMap.get(applicationId);
+
+            if (tmpDetailDTOList == null) {
+                applicationIdDTOListMap.put(applicationId, new ArrayList<>(List.of(detailDTO)));
+            } else {
+                tmpDetailDTOList.add(detailDTO);
+                applicationIdDTOListMap.put(applicationId, detailDTOList);
+            }
+        }
+
+        return applicationIdDTOListMap;
+    }
 
 
     /* =================================================== UPDATE =================================================== */
@@ -37,7 +110,8 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
     /* =================================================== WRAPPER ================================================== */
     @Override
-    public ApplicationDetailReadDTO wrapDTO(ApplicationDetail applicationDetail, Collection<DtoOption> options) throws Exception {
+    public ApplicationDetailReadDTO wrapDTO(
+            ApplicationDetail applicationDetail, Collection<DtoOption> options) throws Exception {
         ApplicationDetailReadDTO dto = mapper.map(applicationDetail, ApplicationDetailReadDTO.class);
 
         /* Add dependency */
@@ -57,9 +131,9 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return dto;
     }
-
     @Override
-    public List<ApplicationDetailReadDTO> wrapListDTO(Collection<ApplicationDetail> applicationDetailCollection, Collection<DtoOption> options) throws Exception {
+    public List<ApplicationDetailReadDTO> wrapListDTO(
+            Collection<ApplicationDetail> applicationDetailCollection, Collection<DtoOption> options) throws Exception {
         List<ApplicationDetailReadDTO> dtoList = new ArrayList<>();
         ApplicationDetailReadDTO dto;
 
@@ -99,9 +173,9 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return dtoList;
     }
-
     @Override
-    public Page<ApplicationDetailReadDTO> wrapPageDTO(Page<ApplicationDetail> applicationDetailPage, Collection<DtoOption> options) throws Exception {
+    public Page<ApplicationDetailReadDTO> wrapPageDTO(
+            Page<ApplicationDetail> applicationDetailPage, Collection<DtoOption> options) throws Exception {
         return new PageImpl<>(
                 wrapListDTO(applicationDetailPage.getContent(), options),
                 applicationDetailPage.getPageable(),

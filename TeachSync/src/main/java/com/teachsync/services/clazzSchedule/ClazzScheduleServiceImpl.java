@@ -41,7 +41,6 @@ public class ClazzScheduleServiceImpl implements ClazzScheduleService {
 
     /* =================================================== READ ===================================================== */
     /* clazzId */
-
     @Override
     public ClazzSchedule getByClazzId(Long clazzId) throws Exception {
         return clazzScheduleRepository
