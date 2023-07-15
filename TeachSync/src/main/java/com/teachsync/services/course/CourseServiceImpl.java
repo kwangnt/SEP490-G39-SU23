@@ -190,7 +190,6 @@ public class CourseServiceImpl implements CourseService {
                 .findByIdAndStatusNot(id, Status.DELETED)
                 .orElse(null);
     }
-
     @Override
     public CourseReadDTO getDTOById(Long id) throws Exception {
         Course course = getById(id);
@@ -281,7 +280,6 @@ public class CourseServiceImpl implements CourseService {
 
 
     /* =================================================== UPDATE =================================================== */
-
     @Override
     @Transactional
     public CourseReadDTO editCourse(CourseReadDTO courseReadDTO, Long userId) throws Exception {
@@ -323,8 +321,8 @@ public class CourseServiceImpl implements CourseService {
         return mapper.map(courseDb, CourseReadDTO.class);
     }
 
-    /* =================================================== DELETE =================================================== */
 
+    /* =================================================== DELETE =================================================== */
     @Override
     @Transactional
     public void deleteCourse(Long Id, Long userId) throws Exception {
@@ -340,6 +338,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(course);
 
     }
+
 
     /* =================================================== WRAPPER ================================================== */
     @Override
