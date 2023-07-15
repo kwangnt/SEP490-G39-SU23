@@ -239,7 +239,7 @@ public class CourseServiceImpl implements CourseService {
     public Map<Long, String> mapCourseIdCourseNameByIdIn(Collection<Long> courseIdCollection) throws Exception {
         List<Course> courseList = getAllByIdIn(courseIdCollection);
 
-        if (courseList.isEmpty()) {
+        if (courseList == null) {
             return new HashMap<>(); }
 
         return courseList.stream()
@@ -249,11 +249,34 @@ public class CourseServiceImpl implements CourseService {
     public Map<Long, String> mapCourseIdCourseAliasByIdIn(Collection<Long> courseIdCollection) throws Exception {
         List<Course> courseList = getAllByIdIn(courseIdCollection);
 
-        if (courseList.isEmpty()) {
-            return new HashMap<>(); }
+        if (courseList == null) {
+            return new HashMap<>();
+        }
 
         return courseList.stream()
                 .collect(Collectors.toMap(BaseEntity::getId, Course::getCourseAlias));
+    }
+    @Override
+    public List<CourseReadDTO> getAllDTOByIdIn(
+            Collection<Long> courseIdCollection, Collection<DtoOption> options) throws Exception {
+        List<Course> courseList = getAllByIdIn(courseIdCollection);
+
+        if (courseList == null) {
+            return null; }
+
+        return wrapListDTO(courseList);
+    }
+    @Override
+    public Map<Long, CourseReadDTO> mapIdDTOByIdIn(
+            Collection<Long> courseIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CourseReadDTO> courseDTOList = getAllDTOByIdIn(courseIdCollection, options);
+
+        if (courseDTOList == null) {
+            return new HashMap<>();
+        }
+
+        return courseDTOList.stream()
+                .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
     }
 
 
