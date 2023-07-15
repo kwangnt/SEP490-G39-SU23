@@ -7,13 +7,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * DTO for {@link com.teachsync.entities.Material}
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class MaterialReadDTO extends BaseReadDTO {
-
     private String materialName;
 
     private String materialLink;

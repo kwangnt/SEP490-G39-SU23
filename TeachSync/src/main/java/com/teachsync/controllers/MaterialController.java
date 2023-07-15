@@ -5,7 +5,7 @@ import com.teachsync.dtos.material.MaterialReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
-import com.teachsync.services.Material.MaterialService;
+import com.teachsync.services.material.MaterialService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
