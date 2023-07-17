@@ -106,7 +106,6 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Transactional
     public void editHomework(HomeworkReadDTO homeworkReadDTO, UserReadDTO userDTO) throws Exception {
         Homework homework = homeworkRepository.findById(homeworkReadDTO.getId()).orElseThrow(() -> new Exception("không tìm bài tập về nhà"));
-        ;
 
         homework.setHomeworkName(homeworkReadDTO.getHomeworkName());
         homework.setClazzId(homeworkReadDTO.getClazzId());
