@@ -97,8 +97,8 @@
 <input type="number" id="timeLimit" name="timeLimit" min="1" value="${test.timeLimit}" required>
 <label for="question-type">Loại câu hỏi:</label>
 <select id="question-type" name="questionType" disabled>
-    <option value="essay" ${test.testType == 'essay' ? 'selected' : ''}>Tự luận</option>
-    <option value="multipleChoice" ${test.testType == 'multipleChoice' ? 'selected' : ''}>Trắc nghiệm</option>
+    <option value="essay" ${test.testType eq 'essay' ? 'selected' : ''}>Tự luận</option>
+    <option value="multipleChoice" ${test.testType eq 'multipleChoice' ? 'selected' : ''}>Trắc nghiệm</option>
 </select>
 <div class="container">
     <div class="left">
@@ -110,7 +110,7 @@
             </thead>
             <tbody>
             <c:forEach var="qs" items="${questionAnswer}">
-                <tr onclick="displayQuestion('${qs.key.questionDesc}', '${qs.key.id}', '${qs.key.questionType}')">
+                <tr onclick="displayQuestion('${qs.key.questionDesc}', '${qs.key.id}', '${test.testType}')">
                     <td>${qs.key.questionDesc}</td>
                 </tr>
             </c:forEach>
