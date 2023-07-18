@@ -171,11 +171,11 @@ public class MaterialController {
                 dtoPage = materialService.getPageAllDTO(pageable, List.of(DtoOption.COURSE_LIST));
             }
 
-                if (dtoPage != null) {
-                    model.addAttribute("materialList", dtoPage.getContent());
-                    model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
-                    model.addAttribute("pageTotal", dtoPage.getTotalPages());
-                }
+            if (dtoPage != null) {
+                model.addAttribute("materialList", dtoPage.getContent());
+                model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
+                model.addAttribute("pageTotal", dtoPage.getTotalPages());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
