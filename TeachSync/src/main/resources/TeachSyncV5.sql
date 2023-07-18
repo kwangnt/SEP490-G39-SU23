@@ -1342,6 +1342,25 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`application_detail`
 )
     ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `teachsync`.`testrecord`
+-- -----------------------------------------------------
+
+
+DROP TABLE IF EXISTS `teachsync`.`testrecord`;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`testrecord` (
+                              `id` bigint NOT NULL AUTO_INCREMENT,
+                              `testId` bigint NOT NULL,
+                              `userId` bigint NOT NULL,
+                              `questionId` bigint NOT NULL,
+                              `essayAnswer` varchar(4000) DEFAULT NULL,
+                              `answerMCId` bigint DEFAULT NULL,
+                              `correct` bit(1) DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
