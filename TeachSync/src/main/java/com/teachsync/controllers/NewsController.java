@@ -37,7 +37,7 @@ public class NewsController {
     @GetMapping("/create-news")
     public String createNews(Model model, HttpSession session) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        if (user == null || user.getRoleId() != 1) {
+        if (user == null || user.getRoleId() != 4) {
             return "redirect:/";
         } else return "create-news";
     }
@@ -49,7 +49,7 @@ public class NewsController {
                                    @RequestParam String content) {
 
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        if (user == null || user.getRoleId() != 1) {
+        if (user == null || user.getRoleId() != 4) {
             return "redirect:/";
         }
         System.out.println("user id = " + user.getId());
@@ -69,7 +69,7 @@ public class NewsController {
                            @RequestParam String id) {
 
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        if (user == null || user.getRoleId() != 1) {
+        if (user == null || user.getRoleId() != 4) {
             return "redirect:/";
         }
         System.out.println("user id = " + user.getId());
@@ -88,7 +88,7 @@ public class NewsController {
                                  @RequestParam String content) {
 
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        if (user == null || user.getRoleId() != 1) {
+        if (user == null || user.getRoleId() != 4) {
             return "redirect:/";
         }
         System.out.println("user id = " + user.getId());

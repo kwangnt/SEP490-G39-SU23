@@ -21,7 +21,8 @@ public class ChildController {
     @GetMapping("/listchild")
     public String lstChild(Model model, HttpSession session) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        if (user == null || user.getRoleId() != 1) {
+        if (user == null || user.getRoleId() != 4
+        ) {
             return "redirect:/";
         }
         List<User> lst = userService.getListUserByType(2L);
