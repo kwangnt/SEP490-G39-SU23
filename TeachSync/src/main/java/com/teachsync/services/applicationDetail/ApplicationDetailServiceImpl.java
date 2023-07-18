@@ -1,8 +1,14 @@
 package com.teachsync.services.applicationDetail;
 
 import com.teachsync.dtos.applicationDetail.ApplicationDetailReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.ApplicationDetail;
+import com.teachsync.entities.CampaignApplication;
+import com.teachsync.entities.RecruitmentCampaign;
 import com.teachsync.repositories.ApplicationDetailRepository;
+import com.teachsync.repositories.CampaignApplicationRepository;
+import com.teachsync.services.campaignApplication.CampaignApplicationService;
+import com.teachsync.utils.enums.ApplicationDetailType;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -10,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -21,9 +30,55 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private CampaignApplicationRepository campaignApplicationRepository;
+
 
     /* =================================================== CREATE =================================================== */
 
+    @Override
+    @Transactional
+    public void add(ApplicationDetailReadDTO applicationDetailReadDTO, UserReadDTO userDTO, Long campaignId) throws Exception {
+
+        ApplicationDetail applicationDetail = new ApplicationDetail();
+        applicationDetail.setDetailType(applicationDetailReadDTO.getDetailType());
+        applicationDetail.setDetailLink(applicationDetailReadDTO.getDetailLink());
+        applicationDetail.setDetailNote(applicationDetailReadDTO.getDetailNote());//TODO:upload file
+        applicationDetail.setSubmitAt(LocalDateTime.now());
+
+        applicationDetail.setCreatedBy(userDTO.getId());
+        applicationDetail.setUpdatedBy(userDTO.getId());
+        applicationDetail.setStatus(Status.CREATED);
+
+        ApplicationDetail applicationDetailDb = applicationDetailRepository.save(applicationDetail);
+        if (ObjectUtils.isEmpty(applicationDetailDb)) {
+            throw new Exception("Lỗi khi tạo đơn ứng tuyển");
+        }
+
+        //add campaign Application
+        CampaignApplication campaignApplication = new CampaignApplication();
+        campaignApplication.setCampaignId(campaignId);
+        campaignApplication.setApplicantId(applicationDetailDb.getId());
+        campaignApplication.setAppliedAt(LocalDateTime.now());
+        campaignApplication.setResult("Tạo đơn ứng tuyển");
+        campaignApplication.setResultDate(LocalDateTime.now());
+
+        campaignApplication.setCreatedBy(userDTO.getId());
+        campaignApplication.setUpdatedBy(userDTO.getId());
+        campaignApplication.setStatus(Status.CREATED);
+
+        CampaignApplication campaignApplicationDb = campaignApplicationRepository.save(campaignApplication);
+
+        if (ObjectUtils.isEmpty(campaignApplicationDb)) {
+            throw new Exception("Lỗi khi tạo campaign Application ");
+        }
+        //update Id of ApplicationDetail
+        applicationDetailDb.setApplicationId(campaignApplicationDb.getId());
+        applicationDetailDb = applicationDetailRepository.save(applicationDetail);
+        if (ObjectUtils.isEmpty(applicationDetailDb)) {
+            throw new Exception("Lỗi khi update đơn ứng tuyển");
+        }
+    }
 
     /* =================================================== READ ===================================================== */
     /* applicationId */
@@ -38,6 +93,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return detailList;
     }
+
     @Override
     public List<ApplicationDetailReadDTO> getAllDTOByApplicationId(
             Long applicationId, Collection<DtoOption> options) throws Exception {
@@ -61,6 +117,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return detailList;
     }
+
     @Override
     public List<ApplicationDetailReadDTO> getAllDTOByApplicationIdIn(
             Collection<Long> applicationIdCollection, Collection<DtoOption> options) throws Exception {
@@ -72,6 +129,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return wrapListDTO(detailList, options);
     }
+
     @Override
     public Map<Long, List<ApplicationDetailReadDTO>> mapApplicationIdListDTOByApplicationIdIn(
             Collection<Long> applicationIdCollection, Collection<DtoOption> options) throws Exception {
@@ -131,6 +189,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return dto;
     }
+
     @Override
     public List<ApplicationDetailReadDTO> wrapListDTO(
             Collection<ApplicationDetail> applicationDetailCollection, Collection<DtoOption> options) throws Exception {
@@ -173,6 +232,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
 
         return dtoList;
     }
+
     @Override
     public Page<ApplicationDetailReadDTO> wrapPageDTO(
             Page<ApplicationDetail> applicationDetailPage, Collection<DtoOption> options) throws Exception {

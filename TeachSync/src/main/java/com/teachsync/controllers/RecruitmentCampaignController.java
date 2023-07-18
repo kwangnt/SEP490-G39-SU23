@@ -38,9 +38,7 @@ public class RecruitmentCampaignController {
     private Logger logger = LoggerFactory.getLogger(RecruitmentCampaignController.class);
 
     @GetMapping("/list")
-    public String listRecruitmentCampaign(
-            Model model,
-            @ModelAttribute("mess") String mess) {
+    public String listRecruitmentCampaign(Model model,  @ModelAttribute("mess") String mess) {
         try {
             Page<RecruitmentCampaignReadDTO> dtoPage = recruitmentCampaignService.getPageAllDTO(null, List.of(DtoOption.CENTER));
 
