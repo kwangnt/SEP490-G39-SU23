@@ -6,17 +6,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <title>Course Detail</title>
-
-  <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
-
-  <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
-
-  <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
-
-  <script src="../../resources/js/common.js"></script>
+  
+  <link rel="stylesheet" href="../../../resources/css/bootstrap-5.3.0/bootstrap.css">
+  
+  <link rel="stylesheet" href="../../../resources/css/teachsync_style.css">
+  
+  <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
+  <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
+  
+  <script src="../../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
 <!-- ================================================== Header ===================================================== -->
@@ -54,16 +54,15 @@
 
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
-  <!-- Course List paging -->
   <div class="col-12 mb-3">
     <div class="row gy-3">
       <div class="col-sm-12 col-md-3 px-sm-3 pe-md-0">
         <img src="${course.courseImg}" class="rounded-2 border ts-border-blue w-100 h-auto">
       </div>
-
+      
       <div class="col-sm-12 col-md-9 px-3">
         <div class="card ts-border-yellow h-100">
-
+          
           <div class="card-header">
             <h4 class="card-title d-flex justify-content-between align-items-center mb-0">
               <span><c:out value="${course.courseName}"/></span>
@@ -79,7 +78,7 @@
               </c:if>
             </h4>
           </div>
-
+          
           <div class="card-body d-flex">
             <c:set var="currentPrice" value="${course.currentPrice}"/>
             <c:set var="isPromotion" value="${currentPrice.isPromotion}"/>
@@ -87,39 +86,39 @@
               <c:if test="${!isPromotion}">
                 <c:out value="${currentPrice.price}"/> ₫
               </c:if>
-
+              
               <c:if test="${isPromotion}">
                 <span class="ts-txt-orange ts-txt-bold"><c:out value="${currentPrice.finalPrice}"/>&nbsp;₫</span>
                 <br/>
                 <span class="ts-txt-grey ts-txt-light ts-txt-sm ts-txt-italic ts-txt-line-through">
-          &nbsp;<c:out value="${currentPrice.price}"/>&nbsp;₫
-          </span>
+                  &nbsp;<c:out value="${currentPrice.price}"/>&nbsp;₫
+                </span>
                 <span class="ts-txt-orange ts-txt-sm">
-          &nbsp;-<c:out value="${currentPrice.promotionAmount}"/>
-          <c:choose>
-            <c:when test="${currentPrice.promotionType eq 'PERCENT'}">%</c:when>
-            <c:when test="${currentPrice.promotionType eq 'AMOUNT'}">₫</c:when>
-          </c:choose>
-          </span>
+                  &nbsp;-<c:out value="${currentPrice.promotionAmount}"/>
+                  <c:choose>
+                    <c:when test="${currentPrice.promotionType eq 'PERCENT'}">%</c:when>
+                    <c:when test="${currentPrice.promotionType eq 'AMOUNT'}">₫</c:when>
+                  </c:choose>
+                </span>
               </c:if>
             </h5>
-
+            
             <p class="card-text">
               <c:out value="${course.courseDesc}"/>
             </p>
-
+            
             <!-- Course schedule -->
-
+          
           </div>
-
-
+          
+          
           <c:if test="${hasLatestSchedule}">
             <c:if test="${isGuest}">
               <div class="card-footer text-center">
                 <a href="/sign-in" class="btn btn-primary w-25">Đăng ký học</a>
               </div>
             </c:if>
-
+            
             <c:if test="${isStudent}">
               <div class="card-footer text-center">
                 <c:url var="enrollLink" value="enroll">
@@ -129,17 +128,44 @@
               </div>
             </c:if>
           </c:if>
-
+          
           <c:if test="${!hasLatestSchedule}">
-            <div class="card-footer text-center">
-              <p class="card-text text-danger">
-                Khóa học này hiện chưa có kỳ học nào sắp tới để đăng ký
-              </p>
-            </div>
+            <c:if test="${!isAdmin}">
+              <div class="card-footer text-center">
+                <p class="card-text text-danger">
+                  Khóa học này hiện chưa có kỳ học nào sắp tới để đăng ký
+                </p>
+              </div>
+            </c:if>
+            
+            <c:if test="${isAdmin}">
+              <div class="card-footer text-center">
+                <p class="card-text text-danger">
+                  Khóa học này hiện chưa có kỳ học nào sắp tới để đăng ký
+                </p>
+                <a href="/add-clazz" class="btn btn-primary w-25">Thêm lớp</a>
+              </div>
+            </c:if>
           </c:if>
-
+        
         </div>
       </div>
+      
+      <%--      <c:if test="${isAdmin}">--%>
+      <%--        <div class="col-12 border-top ts-border-teal">--%>
+      <%--          <h5 class="d-flex justify-content-between align-items-center">--%>
+      <%--            <span>Lịch sử giá cả: </span>--%>
+      <%--            --%>
+      <%--          </h5>--%>
+      <%--          --%>
+      <%--          <c:forEach var="price" items="${}">--%>
+      <%--            <div class=" ">--%>
+      <%--              --%>
+      <%--            </div>--%>
+      <%--          </c:forEach>--%>
+      <%--          --%>
+      <%--        </div>--%>
+      <%--      </c:if>--%>
     </div>
   </div>
 </div>

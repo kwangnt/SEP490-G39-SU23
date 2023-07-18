@@ -9,14 +9,14 @@
 
   <title>Course List</title>
 
-  <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+  <link rel="stylesheet" href="../../../resources/css/bootstrap-5.3.0/bootstrap.css">
 
-  <link rel="stylesheet" href="../../resources/css/teachsync_style.css">
+  <link rel="stylesheet" href="../../../resources/css/teachsync_style.css">
 
-  <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
-  <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
+  <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
+  <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
 
-  <script src="../../resources/js/common.js"></script>
+  <script src="../../../resources/js/common.js"></script>
 </head>
 <body class="container-fluid ts-bg-white-subtle">
 <!-- ================================================== Header ===================================================== -->
@@ -108,7 +108,7 @@
           <div class="row px-3">
             <div class="col-1 rounded-start-2 border ts-border-orange overflow-hidden px-0">
               <img src="${course.courseImg}" alt="Course Img"
-                 class="rounded-1 border ts-border-yellow w-100 h-auto mb-2">
+                 class="rounded-1 border ts-border-yellow w-100 h-auto">
             </div>
 
             <div class="col-11 px-0">

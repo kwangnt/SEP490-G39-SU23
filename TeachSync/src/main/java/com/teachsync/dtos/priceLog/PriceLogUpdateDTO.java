@@ -1,6 +1,7 @@
 package com.teachsync.dtos.priceLog;
 
-import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.BaseCreateDTO;
+import com.teachsync.dtos.BaseUpdateDTO;
 import com.teachsync.utils.enums.PromotionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceLogReadDTO extends BaseReadDTO {
+public class PriceLogUpdateDTO extends BaseUpdateDTO {
     private Long courseId;
 
     private Double price;
@@ -32,6 +33,4 @@ public class PriceLogReadDTO extends BaseReadDTO {
     private LocalDateTime validFrom;
 
     private LocalDateTime validTo;
-
-    private Double finalPrice;
 }

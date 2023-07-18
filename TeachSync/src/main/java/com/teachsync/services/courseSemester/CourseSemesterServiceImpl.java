@@ -166,8 +166,8 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
     @Override
     public List<CourseSemesterReadDTO> getAllLatestDTOByCourseId(
             Long courseId, Collection<DtoOption> options) throws Exception {
-        List<Semester> semesterList =
-                semesterRepository.findAllByStartDateAfterAndStatusNot(LocalDate.now(), Status.DELETED);
+        List<Semester> semesterList = /* Sau 10 ngày để còn có hạn học sinh đăng ký */
+                semesterRepository.findAllByStartDateAfterAndStatusNot(LocalDate.now().plusDays(10), Status.DELETED);
         Set<Long> semesterIdSet =
                 semesterList.stream()
                         .map(BaseEntity::getId)
