@@ -15,6 +15,9 @@ import com.teachsync.utils.enums.Status;
 import com.teachsync.utils.enums.TestType;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +70,7 @@ public class TestController {
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
-        test.setTestName("");
+        test.setTestName(courseRepository.findById(Long.parseLong(courseName)).orElse(null).getCourseName());
         test.setTestType(testType);
         test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
@@ -93,7 +96,7 @@ public class TestController {
         Test rsTest = testRepository.save(test);
 
         if (questionType.equals("essay")) {
-            for (int i = 1; i <= numQuestions; i++) {
+            for (int i = 0; i < numQuestions; i++) {
                 Question question = new Question();
                 question.setTestId(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
@@ -215,4 +218,17 @@ public class TestController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/tests")
+    public String lstTest(@RequestParam(value = "page", required = false) Integer page, Model model){
+        if (page == null) { page = 0; }
+        if(page < 0) { page = 0; }
+        PageRequest pageable = PageRequest.of(page, 3);
+        Page<Test> tests = testRepository.findAll(pageable);
+        model.addAttribute("tests", tests);
+        model.addAttribute("pageNo", tests.getPageable().getPageNumber());
+        model.addAttribute("pageTotal", tests.getTotalPages());
+        return "list-test";
+    }
+
 }
