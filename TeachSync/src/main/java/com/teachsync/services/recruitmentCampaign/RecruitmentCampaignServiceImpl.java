@@ -3,6 +3,8 @@ package com.teachsync.services.recruitmentCampaign;
 import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.Homework;
 import com.teachsync.entities.RecruitmentCampaign;
 import com.teachsync.repositories.RecruitmentCampaignRepository;
 import com.teachsync.services.campaignApplication.CampaignApplicationService;
@@ -17,7 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -39,6 +44,29 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
     /* =================================================== CREATE =================================================== */
 
+    @Override
+    public void add(RecruitmentCampaignReadDTO recruitmentCampaignReadDTO, UserReadDTO userDTO) throws Exception {
+
+        RecruitmentCampaign recruitmentCampaign = new RecruitmentCampaign();
+
+        recruitmentCampaign.setCampaignName(recruitmentCampaignReadDTO.getCampaignName());
+        recruitmentCampaign.setCenterId(recruitmentCampaignReadDTO.getCenterId());
+        recruitmentCampaign.setCampaignImg(recruitmentCampaignReadDTO.getCampaignImg());
+        recruitmentCampaign.setCampaignDesc(recruitmentCampaignReadDTO.getCampaignDesc());
+        recruitmentCampaign.setPosition(recruitmentCampaignReadDTO.getPosition());
+        recruitmentCampaign.setOpeningSlot(recruitmentCampaignReadDTO.getOpeningSlot());
+        recruitmentCampaign.setRecruitFrom(recruitmentCampaignReadDTO.getRecruitFrom());
+        recruitmentCampaign.setRecruitTo(recruitmentCampaignReadDTO.getRecruitTo());
+
+        recruitmentCampaign.setCreatedBy(userDTO.getId());
+        recruitmentCampaign.setUpdatedBy(userDTO.getId());
+        recruitmentCampaign.setStatus(Status.CREATED);
+
+        RecruitmentCampaign recruitmentCampaignDb = recruitmentCampaignRepository.save(recruitmentCampaign);
+        if (ObjectUtils.isEmpty(recruitmentCampaignDb)) {
+            throw new Exception("Lỗi khi tạo chiến dịch");
+        }
+    }
 
     /* =================================================== READ ===================================================== */
     @Override
@@ -52,6 +80,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
         return campaignPage;
     }
+
     @Override
     public Page<RecruitmentCampaignReadDTO> getPageAllDTO(
             Pageable pageable, Collection<DtoOption> options) throws Exception {
@@ -75,6 +104,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
                 .findByIdAndStatusNot(id, Status.DELETED)
                 .orElse(null);
     }
+
     @Override
     public RecruitmentCampaignReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception {
         RecruitmentCampaign campaign = getById(id);
@@ -97,6 +127,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
         return campaignList;
     }
+
     @Override
     public List<RecruitmentCampaignReadDTO> getAllDTOByIdIn(
             Collection<Long> idCollection, Collection<DtoOption> options) throws Exception {
@@ -108,6 +139,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
         return wrapListDTO(campaignList, options);
     }
+
     @Override
     public Map<Long, RecruitmentCampaignReadDTO> mapIdDTOByIdIn(
             Collection<Long> idCollection, Collection<DtoOption> options) throws Exception {
@@ -126,6 +158,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
         return campaignPage;
     }
+
     @Override
     public Page<RecruitmentCampaignReadDTO> getPageAllDTOByCenterId(
             Long centerId, Pageable pageable, Collection<DtoOption> options) throws Exception {
@@ -153,6 +186,7 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
         return campaignList;
     }
+
     @Override
     public List<RecruitmentCampaignReadDTO> getAllDTOByCenterId(
             Long centerId, Collection<DtoOption> options) throws Exception {
@@ -168,9 +202,42 @@ public class RecruitmentCampaignServiceImpl implements RecruitmentCampaignServic
 
     /* =================================================== UPDATE =================================================== */
 
+    @Override
+    public void edit(RecruitmentCampaignReadDTO recruitmentCampaignReadDTO, UserReadDTO userDTO) throws Exception {
+        RecruitmentCampaign recruitmentCampaign = recruitmentCampaignRepository.findById(recruitmentCampaignReadDTO.getId()).orElseThrow(() -> new Exception("không tìm thấy chiến dịch"));
+
+        recruitmentCampaign.setCampaignName(recruitmentCampaignReadDTO.getCampaignName());
+        recruitmentCampaign.setCenterId(recruitmentCampaignReadDTO.getCenterId());
+        recruitmentCampaign.setCampaignImg(recruitmentCampaignReadDTO.getCampaignImg());
+        recruitmentCampaign.setCampaignDesc(recruitmentCampaignReadDTO.getCampaignDesc());
+        recruitmentCampaign.setPosition(recruitmentCampaignReadDTO.getPosition());
+        recruitmentCampaign.setOpeningSlot(recruitmentCampaignReadDTO.getOpeningSlot());
+        recruitmentCampaign.setRecruitFrom(recruitmentCampaignReadDTO.getRecruitFrom());
+        recruitmentCampaign.setRecruitTo(recruitmentCampaignReadDTO.getRecruitTo());
+
+        recruitmentCampaign.setCreatedBy(userDTO.getId());
+        recruitmentCampaign.setUpdatedBy(userDTO.getId());
+        recruitmentCampaign.setStatus(Status.UPDATED);
+
+        RecruitmentCampaign recruitmentCampaignDb = recruitmentCampaignRepository.save(recruitmentCampaign);
+        if (ObjectUtils.isEmpty(recruitmentCampaignDb)) {
+            throw new Exception("Lỗi khi sửa chiến dịch");
+        }
+    }
 
     /* =================================================== DELETE =================================================== */
 
+    @Override
+    public void delete(Long Id, UserReadDTO userDTO) throws Exception {
+        RecruitmentCampaign recruitmentCampaign = recruitmentCampaignRepository.findById(Id).orElseThrow(() -> new Exception("không tìm thấy chiến dịch"));
+
+        recruitmentCampaign.setUpdatedBy(userDTO.getId());
+        recruitmentCampaign.setStatus(Status.DELETED);
+        RecruitmentCampaign recruitmentCampaignDb = recruitmentCampaignRepository.save(recruitmentCampaign);
+        if (ObjectUtils.isEmpty(recruitmentCampaignDb)) {
+            throw new Exception("Lỗi khi sửa chiến dịch");
+        }
+    }
 
     /* =================================================== WRAPPER ================================================== */
     @Override

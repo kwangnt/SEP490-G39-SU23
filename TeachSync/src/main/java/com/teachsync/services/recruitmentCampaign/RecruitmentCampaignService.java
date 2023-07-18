@@ -1,6 +1,7 @@
 package com.teachsync.services.recruitmentCampaign;
 
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.RecruitmentCampaign;
 import com.teachsync.utils.enums.DtoOption;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import java.util.Map;
 public interface RecruitmentCampaignService {
     /* =================================================== CREATE =================================================== */
 
+    void add(RecruitmentCampaignReadDTO recruitmentCampaignReadDTO, UserReadDTO userDTO) throws Exception;
 
     /* =================================================== READ ===================================================== */
     Page<RecruitmentCampaign> getPageAll(Pageable pageable) throws Exception;
@@ -39,9 +41,11 @@ public interface RecruitmentCampaignService {
 
     /* =================================================== UPDATE =================================================== */
 
+    void edit(RecruitmentCampaignReadDTO recruitmentCampaignReadDTO, UserReadDTO userDTO) throws Exception;
 
     /* =================================================== DELETE =================================================== */
 
+    void delete(Long Id ,UserReadDTO userDTO) throws Exception;
 
     /* =================================================== WRAPPER ================================================== */
     RecruitmentCampaignReadDTO wrapDTO(
