@@ -25,14 +25,14 @@
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
     <form action="edit-material" method="post">
         <input name="id" hidden value="${material.id}">
-        <div class="form-group">
-            <label>Tên khóa học</label>
-            <select name="name" class="form-control">
-                <c:forEach items="${course.courseName}" var="c">
-                    <option value="${c.id}">${c.courseName}</option>
-                </c:forEach>
-            </select>
-        </div>
+<%--        <div class="form-group">--%>
+<%--            <label>Tên khóa học</label>--%>
+<%--            <select name="name" class="form-control">--%>
+<%--                <c:forEach items="${courseMaterial.courseName}" var="c">--%>
+<%--                    <option value="${c.id}">${c.courseName}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+<%--        </div>--%>
         <div class="form-group">
             <label>Tên tài liệu</label>
             <input type="text" name="name"
@@ -60,6 +60,20 @@
             <img src="${material.materialImg}" width="30%" height="30%">
             <input type="file" name="image"
                    class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Kiểu tài liệu</label>
+            <input type="text" name="type"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>
+                Tài liệu free
+                <input type="checkbox" name="free" value="yes"
+                       class="form-control">
+            </label>
         </div>
 
         <div class="form-group">

@@ -24,7 +24,14 @@
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
     <form action="create-material" method="post">
-
+<%--        <div class="form-group">--%>
+<%--            <label>Tên khóa học</label>--%>
+<%--            <select name="name" class="form-control">--%>
+<%--                <c:forEach items="${courseMaterial.courseName}" var="c">--%>
+<%--                    <option value="${c.id}">${c.courseName}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+<%--        </div>--%>
 
         <div class="form-group">
             <label>Tên tài liệu</label>
@@ -60,11 +67,12 @@
         </div>
 
         <div class="form-group">
-            <label>Tài liệu free</label>
-            <input type="checkbox" name="free"
-                   class="form-control">
+            <label>
+                Tài liệu free
+                <input type="checkbox" name="free" value="yes"
+                       class="form-control">
+            </label>
         </div>
-
 
 
         <div class="form-group">
