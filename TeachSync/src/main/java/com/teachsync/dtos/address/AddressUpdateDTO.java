@@ -1,6 +1,7 @@
 package com.teachsync.dtos.address;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.BaseUpdateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,11 +14,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressReadDTO extends BaseReadDTO {
+public class AddressUpdateDTO extends BaseUpdateDTO {
     private String addressNo;
     private String street;
     private Long unitId;
-    private String addressString;
 
 
 }
