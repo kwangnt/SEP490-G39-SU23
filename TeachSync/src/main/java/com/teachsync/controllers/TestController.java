@@ -74,6 +74,7 @@ public class TestController {
         test.setTestType(testType);
         test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
+        test.setTestDesc(questionType);
 
         switch (testType) {
             case FIFTEEN_MINUTE -> {
@@ -231,4 +232,17 @@ public class TestController {
         return "list-test";
     }
 
+
+    @GetMapping("/searchbycourse")
+    public String searchByCourse(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, Model model){
+        if (page == null) { page = 0; }
+        if(page < 0) { page = 0; }
+        PageRequest pageable = PageRequest.of(page, 3);
+        Page<Test> tests = testRepository.findByTestNameContaining(name, pageable);
+        model.addAttribute("tests", tests);
+        model.addAttribute("pageNo", tests.getPageable().getPageNumber());
+        model.addAttribute("pageTotal", tests.getTotalPages());
+        model.addAttribute("searchText", name);
+        return "list-test-search";
+    }
 }
