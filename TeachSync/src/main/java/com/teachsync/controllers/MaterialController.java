@@ -2,6 +2,7 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
+import com.teachsync.dtos.material.MaterialUpdateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
@@ -40,6 +41,63 @@ public class MaterialController {
 
     @Autowired
     private MiscUtil miscUtil;
+
+    @GetMapping("/material")
+    public String material(
+            Model model,
+            @RequestParam(required = false) Integer pageNo,
+            @ModelAttribute("mess") String mess,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
+
+        try {
+            Page<MaterialReadDTO> dtoPage;
+            Pageable pageable = null;
+            if (pageNo != null) {
+                pageable = miscUtil.makePaging(pageNo, 10, "id", true);
+            }
+
+            if (Objects.isNull(userDTO) || userDTO.getRoleId().equals(ROLE_STUDENT)) {
+                dtoPage = materialService.getPageAllDTOByIsFree(true, pageable, null);
+            } else {
+                dtoPage = materialService.getPageAllDTO(pageable, List.of(DtoOption.COURSE_LIST));
+            }
+
+            if (dtoPage != null) {
+                model.addAttribute("materialList", dtoPage.getContent());
+                model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
+                model.addAttribute("pageTotal", dtoPage.getTotalPages());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMsg", "Server error, please try again later");
+        }
+        model.addAttribute("mess", mess);
+
+        return "list-material";
+    }
+
+    @GetMapping("/material-detail")
+    public String getDetailById(
+            @RequestParam(name = "id") Long courseId,
+            Model model,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
+        try {
+            MaterialReadDTO material = materialService.getDTOById(courseId, null);
+
+            if (material == null) {
+                /* Not found by Id */
+                return "redirect:/material";
+            }
+
+            model.addAttribute("material", material);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMsg", "Server error, please try again later");
+        }
+
+        return "material-detail";
+    }
 
     @GetMapping("/create-material")
     public String createMaterial(HttpServletRequest request, RedirectAttributes redirect) {
@@ -110,7 +168,7 @@ public class MaterialController {
             return "redirect:/";
         }
         Long Id = Long.parseLong(request.getParameter("id"));
-        MaterialReadDTO material = materialService.getDTOById(Id);
+        MaterialReadDTO material = materialService.getDTOById(Id, null);
         model.addAttribute("material", material);
 
         return "edit-material";
@@ -128,18 +186,18 @@ public class MaterialController {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";
         }
-        MaterialReadDTO materialReadDTO = new MaterialReadDTO();
-        materialReadDTO.setId(Long.parseLong(request.getParameter("id")));
-        materialReadDTO.setMaterialName(request.getParameter("name"));
+        MaterialUpdateDTO materialUpdateDTO = new MaterialUpdateDTO();
+        materialUpdateDTO.setId(Long.parseLong(request.getParameter("id")));
+        materialUpdateDTO.setMaterialName(request.getParameter("name"));
         //TODO : process upload file
-        materialReadDTO.setMaterialLink(request.getParameter("link"));
-        materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
-        materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
-        materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
+        materialUpdateDTO.setMaterialLink(request.getParameter("link"));
+        materialUpdateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        materialUpdateDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialUpdateDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
+        materialUpdateDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
-            materialService.updateMaterialByDTO(materialReadDTO);
+            materialService.updateMaterialByDTO(materialUpdateDTO);
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
             return "edit-material";
@@ -150,61 +208,27 @@ public class MaterialController {
         return "redirect:/material";
     }
 
-
-    @GetMapping("/material")
-    public String material(
-            Model model,
-            @RequestParam(required = false) Integer pageNo,
-            @ModelAttribute("mess") String mess,
-            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
-
-        try {
-            Page<MaterialReadDTO> dtoPage;
-            Pageable pageable = null;
-            if (pageNo != null) {
-                pageable = miscUtil.makePaging(pageNo, 10, "id", true);
-            }
-
-            if (Objects.isNull(userDTO) || userDTO.getRoleId().equals(ROLE_STUDENT)) {
-                dtoPage = materialService.getPageAllDTOByIsFree(true, pageable, null);
-            } else {
-                dtoPage = materialService.getPageAllDTO(pageable, List.of(DtoOption.COURSE_LIST));
-            }
-
-            if (dtoPage != null) {
-                model.addAttribute("materialList", dtoPage.getContent());
-                model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
-                model.addAttribute("pageTotal", dtoPage.getTotalPages());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMsg", "Server error, please try again later");
+    @GetMapping("/delete-material")
+    public String deleteMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
         }
-        model.addAttribute("mess", mess);
-
-        return "list-material";
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+        Long Id = Long.parseLong(request.getParameter("id"));
+        try {
+            materialService.deleteMaterial(Id);
+        } catch (Exception e) {
+            redirect.addAttribute("mess", "Lỗi : " + e.getMessage());
+            return "redirect:/material";
+        }
+        redirect.addAttribute("mess", "Xóa khóa học thành công");
+        return "redirect:/material";
     }
 
-    @GetMapping("/material-detail")
-    public String getDetailById(
-            @RequestParam(name = "id") Long courseId,
-            Model model,
-            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
-        try {
-            MaterialReadDTO material = materialService.getDTOById(courseId);
-
-            if (material == null) {
-                /* Not found by Id */
-                return "redirect:/material";
-            }
-
-            model.addAttribute("material", material);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMsg", "Server error, please try again later");
-        }
-
-        return "material-detail";
-    }
 }

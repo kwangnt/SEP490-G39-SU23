@@ -84,7 +84,13 @@
 
                     <div class="card-body">
                         <p class="card-text">
-                            <c:out value="${material.materialContent}"/>
+                            Type:
+                            <c:out value="${material.materialType}"/>
+
+                            Link:
+                            <a href="${material.materialLink}">
+                                <c:out value="${material.materialLink}"/>
+                            </a>
                         </p>
                     </div>
 
