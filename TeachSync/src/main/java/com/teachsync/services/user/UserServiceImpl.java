@@ -1,26 +1,32 @@
 package com.teachsync.services.user;
 
+import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.address.AddressReadDTO;
+import com.teachsync.dtos.role.RoleReadDTO;
 import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.dtos.user.UserUpdateDTO;
+import com.teachsync.entities.BaseEntity;
 import com.teachsync.entities.Role;
 import com.teachsync.entities.User;
 import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.role.RoleService;
 import com.teachsync.utils.Constants;
+import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -124,22 +130,65 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByUsernameContaining(username);
     }
 
+    /* id */
     @Override
     public User getById(Long id) throws Exception {
-        Optional<User> user = userRepository.findByIdAndStatusNot(id, Status.DELETED);
-
-        return user.orElse(null);
+        return userRepository
+                .findByIdAndStatusNot(id, Status.DELETED)
+                .orElse(null);
     }
-
     @Override
-    public UserReadDTO getDTOById(Long id) throws Exception {
+    public UserReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception {
         User user = getById(id);
 
         if (user == null) {
             return null;
         }
 
-        return wrapDTO(user);
+        return wrapDTO(user, options);
+    }
+
+    @Override
+    public List<User> getAllByIdIn(Collection<Long> idCollection) throws Exception {
+        List<User> userList = userRepository.findAllByIdInAndStatusNot(idCollection, Status.DELETED);
+
+        if (userList.isEmpty()) {
+            return null;
+        }
+
+        return userList;
+    }
+    @Override
+    public Map<Long, String> mapIdFullNameByIdIn(Collection<Long> idCollection) throws Exception {
+        List<User> userList = getAllByIdIn(idCollection);
+
+        if (userList == null) {
+            return new HashMap<>();
+        }
+
+        return userList.stream()
+                .collect(Collectors.toMap(BaseEntity::getId, User::getFullName));
+    }
+    @Override
+    public List<UserReadDTO> getAllDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception {
+        List<User> userList = getAllByIdIn(idCollection);
+
+        if (userList == null) {
+            return null;
+        }
+
+        return wrapListDTO(userList, options);
+    }
+    @Override
+    public Map<Long, UserReadDTO> mapIdDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception {
+        List<UserReadDTO> userDTOList = getAllDTOByIdIn(idCollection, options);
+
+        if (userDTOList == null) {
+            return new HashMap<>();
+        }
+
+        return userDTOList.stream()
+                .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
     }
 
     @Override
@@ -211,17 +260,83 @@ public class UserServiceImpl implements UserService {
 
         return dto;
     }
-
     @Override
     public List<UserReadDTO> wrapListDTO(Collection<User> userCollection) throws Exception {
-        return null;
+        return userCollection.stream()
+                .map(user -> mapper.map(user, UserReadDTO.class))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception {
+        return new PageImpl<>(
+                wrapListDTO(userPage.getContent()),
+                userPage.getPageable(),
+                userPage.getTotalPages());
     }
 
     @Override
-    public Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception {
-        return null;
-    }
+    public UserReadDTO wrapDTO(User user, Collection<DtoOption> options) throws Exception {
+        UserReadDTO dto = mapper.map(user, UserReadDTO.class);
 
+        /* Add Dependency */
+        if (options != null && !options.isEmpty()) {
+            if (options.contains(DtoOption.ROLE)) {
+                RoleReadDTO roleDTO = roleService.getDTOById(user.getRoleId(), options);
+                dto.setRole(roleDTO);
+            }
+
+            if (options.contains(DtoOption.ADDRESS)) {
+                /* TODO: */
+            }
+        }
+
+        return dto;
+    }
+    @Override
+    public List<UserReadDTO> wrapListDTO(Collection<User> userCollection, Collection<DtoOption> options) throws Exception {
+        List<UserReadDTO> dtoList = new ArrayList<>();
+        UserReadDTO dto;
+
+        Map<Long, RoleReadDTO> roleIdRoleDTOMap = new HashMap<>();
+        Map<Long, AddressReadDTO> addressIdAddressDTOMap = new HashMap<>();
+
+        if (options != null && !options.isEmpty()) {
+            Set<Long> roleId = new HashSet<>();
+            Set<Long> addressId = new HashSet<>();
+
+            for (User user : userCollection) {
+                roleId.add(user.getRoleId());
+                addressId.add(user.getAddressId());
+            }
+
+            if (options.contains(DtoOption.ROLE)) {
+                /* TODO: */
+            }
+
+            if (options.contains(DtoOption.ADDRESS)) {
+                /* TODO: */
+            }
+        }
+
+        for (User user : userCollection) {
+            dto = mapper.map(user, UserReadDTO.class);
+
+            dto.setRole(roleIdRoleDTOMap.get(user.getRoleId()));
+            dto.setAddress(addressIdAddressDTOMap.get(user.getAddressId()));
+
+            dtoList.add(dto);
+        }
+
+
+        return dtoList;
+    }
+    @Override
+    public Page<UserReadDTO> wrapPageDTO(Page<User> userPage, Collection<DtoOption> options) throws Exception {
+        return new PageImpl<>(
+                wrapListDTO(userPage.getContent(), options),
+                userPage.getPageable(),
+                userPage.getTotalPages());
+    }
 
     /* =================================================== Forgot Password ========================================== */
     @Override

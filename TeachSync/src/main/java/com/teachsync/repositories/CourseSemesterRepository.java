@@ -36,6 +36,10 @@ public interface CourseSemesterRepository extends JpaRepository<CourseSemester, 
     Optional<CourseSemester> findFirstByCourseIdAndStatusNot(long courseId, Status status);
 
 
+    /* courseId, semesterId, centerId */
+    Optional<CourseSemester> findByCourseIdAndSemesterIdAndCenterIdAndStatusNot(
+            Long courseId, Long semesterId, Long centerId, Status status);
+
     /* Check duplicate */
 
 }

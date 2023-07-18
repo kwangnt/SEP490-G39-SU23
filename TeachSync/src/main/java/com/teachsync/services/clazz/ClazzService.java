@@ -17,17 +17,26 @@ public interface ClazzService {
     /* =================================================== CREATE =================================================== */
     String addClazz(ClazzCreateDTO createDTO);
 
+    Clazz createClazz(Clazz clazz) throws Exception;
+    ClazzReadDTO createClazzByDTO(ClazzCreateDTO createDTO) throws Exception;
+
 
     /* =================================================== READ ===================================================== */
     Page<Clazz> getPageAll(Pageable paging) throws Exception;
+    @Deprecated
     Page<ClazzReadDTO> getPageDTOAll(Pageable paging) throws Exception;
+    Page<ClazzReadDTO> getPageDTOAll(Pageable paging, Collection<DtoOption> options) throws Exception;
 
     /* id */
     Clazz getById(Long id) throws Exception;
+    @Deprecated
     ClazzReadDTO getDTOById(Long id) throws Exception;
+    ClazzReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception;
 
     List<Clazz> getAllByIdIn(Collection<Long> idCollection) throws Exception;
     Map<Long, String> mapClazzIdClazzNameByIdIn(Collection<Long> idCollection) throws Exception;
+    List<ClazzReadDTO> getAllDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, ClazzReadDTO> mapIdDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
 
     /* courseSemesterId */
     List<Clazz> getAllByCourseSemesterIdIn(Collection<Long> scheduleIdCollection) throws Exception;
@@ -40,6 +49,8 @@ public interface ClazzService {
     /* =================================================== UPDATE =================================================== */
     String editClazz(ClazzUpdateDTO updateDTO);
 
+    Clazz updateClazz(Clazz clazz) throws Exception;
+    ClazzReadDTO updateClazzByDTO(ClazzUpdateDTO updateDTO) throws Exception;
 
     /* =================================================== DELETE =================================================== */
     String deleteClazz(Long Id);

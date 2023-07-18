@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class SemesterServiceImpl implements SemesterService {
         return semesterPage;
     }
     @Override
-    public Page<SemesterReadDTO> getPageDTOAll(Pageable paging, Collection<DtoOption> options) throws Exception {
+    public Page<SemesterReadDTO> getPageAllDTO(Pageable paging, Collection<DtoOption> options) throws Exception {
         if (paging == null) {
             paging = miscUtil.defaultPaging(); }
 
@@ -55,7 +56,47 @@ public class SemesterServiceImpl implements SemesterService {
 
         return wrapPageDTO(semesterPage, options);
     }
-    
+
+    @Override
+    public List<Semester> getAll() throws Exception {
+        List<Semester> semesterList =
+                semesterRepository.findAllByStatusNotOrderByStartDateDesc(Status.DELETED);
+
+        if (semesterList.isEmpty()) {
+            return null; }
+
+        return semesterList;
+    }
+    @Override
+    public List<SemesterReadDTO> getAllDTO(Collection<DtoOption> options) throws Exception {
+        List<Semester> semesterList = getAll();
+
+        if (semesterList == null) {
+            return null; }
+
+        return wrapListDTO(semesterList, options);
+    }
+
+    @Override
+    public List<Semester> getAllByStartDateAfter(LocalDate date) throws Exception {
+        List<Semester> semesterList =
+                semesterRepository.findAllByStartDateAfterAndStatusNot(date, Status.DELETED);
+
+        if (semesterList.isEmpty()) {
+            return null; }
+
+        return semesterList;
+    }
+    @Override
+    public List<SemesterReadDTO> getAllDTOByStartDateAfter(LocalDate date, Collection<DtoOption> options) throws Exception {
+        List<Semester> semesterList = getAllByStartDateAfter(date);
+
+        if (semesterList == null) {
+            return null; }
+
+        return wrapListDTO(semesterList, options);
+    }
+
     /* id */
     @Override
     public Semester getById(Long id) throws Exception {

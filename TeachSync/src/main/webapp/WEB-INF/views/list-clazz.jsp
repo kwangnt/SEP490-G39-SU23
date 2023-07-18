@@ -33,28 +33,30 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Tên lớp</th>
-      <th scope="col">Miêu tả</th>
-      <th scope="col">Chức năng</th>
+      <th scope="col">Khóa học</th>
+      <th scope="col">Học kỳ</th>
+      <c:if test="${isAdmin}">
+        <th scope="col">Chức năng</th>
+      </c:if>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="clazz" items="${clazzList}">
       <tr>
         <th scope="row">${clazz.id}</th>
-        <td><a style="font-weight: bold;"
-             href="add-clazz?Id=${clazz.id}&option=detail">${clazz.clazzName}</a></td>
-        <td>${clazz.courseSemester.courseName}</td>
-        <td>${clazz.clazzDesc}</td>
-        <td>
-          <c:if test="${isAdmin}">
-            <a href="add-clazz?Id=${clazz.id}&option=edit">
+        <td><a style="font-weight: bold;" href="/clazz-detail?id=${clazz.id}">${clazz.clazzName}</a></td>
+        <td>${clazz.courseSemester.courseAlias} - ${clazz.courseSemester.courseName}</td>
+        <td>${clazz.courseSemester.semester.semesterAlias}</td>
+        <c:if test="${isAdmin}">
+          <td>
+            <a href="/add-clazz?id=${clazz.id}&option=edit">
               <button type="button" class="btn btn-success">Sửa</button>
             </a>
-            <a href="delete-clazz?Id=${clazz.id}">
+            <a href="/delete-clazz?id=${clazz.id}">
               <button type="button" class="btn btn-danger">Xóa</button>
             </a>
-          </c:if>
-        </td>
+          </td>
+        </c:if>
       </tr>
     </c:forEach>
     </tbody>

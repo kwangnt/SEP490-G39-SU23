@@ -6,6 +6,7 @@ import com.teachsync.utils.enums.DtoOption;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,13 @@ public interface SemesterService {
 
     /* =================================================== READ ===================================================== */
     Page<Semester> getPageAll(Pageable paging) throws Exception;
-    Page<SemesterReadDTO> getPageDTOAll(Pageable paging, Collection<DtoOption> options) throws Exception;
+    Page<SemesterReadDTO> getPageAllDTO(Pageable paging, Collection<DtoOption> options) throws Exception;
+
+    List<Semester> getAll() throws Exception;
+    List<SemesterReadDTO> getAllDTO(Collection<DtoOption> options) throws Exception;
+
+    List<Semester> getAllByStartDateAfter(LocalDate date) throws Exception;
+    List<SemesterReadDTO> getAllDTOByStartDateAfter(LocalDate date, Collection<DtoOption> options) throws Exception;
     
     
     /* id */

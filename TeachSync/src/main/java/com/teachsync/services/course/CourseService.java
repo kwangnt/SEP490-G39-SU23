@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface CourseService {
     /* =================================================== CREATE =================================================== */
@@ -37,6 +38,11 @@ public interface CourseService {
 
     List<Course> getAllByIdIn(Collection<Long> courseIdCollection) throws Exception;
     Map<Long, String> mapCourseIdCourseNameByIdIn(Collection<Long> courseIdCollection) throws Exception;
+    Map<Long, String> mapCourseIdCourseAliasByIdIn(Collection<Long> courseIdCollection) throws Exception;
+    List<CourseReadDTO> getAllDTOByIdIn(
+            Collection<Long> courseIdCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, CourseReadDTO> mapIdDTOByIdIn(
+            Collection<Long> courseIdCollection, Collection<DtoOption> options) throws Exception;
 
 
     /* =================================================== UPDATE =================================================== */
@@ -58,4 +64,5 @@ public interface CourseService {
     CourseReadDTO wrapDTO(Course course, Collection<DtoOption> options) throws Exception;
     List<CourseReadDTO> wrapListDTO(Collection<Course> courseCollection, Collection<DtoOption> options) throws Exception;
     Page<CourseReadDTO> wrapPageDTO(Page<Course> coursePage, Collection<DtoOption> options) throws Exception;
+
 }

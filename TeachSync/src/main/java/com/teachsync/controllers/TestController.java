@@ -1,11 +1,18 @@
 package com.teachsync.controllers;
 
 import com.teachsync.dtos.user.UserReadDTO;
-import com.teachsync.entities.*;
-import com.teachsync.repositories.*;
+import com.teachsync.entities.Answer;
+import com.teachsync.entities.Course;
+import com.teachsync.entities.Question;
+import com.teachsync.entities.Test;
+import com.teachsync.repositories.AnswerRepository;
+import com.teachsync.repositories.CourseRepository;
+import com.teachsync.repositories.QuestionRepository;
+import com.teachsync.repositories.TestRepository;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.QuestionType;
 import com.teachsync.utils.enums.Status;
+import com.teachsync.utils.enums.TestType;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +38,6 @@ public class TestController {
     CourseRepository courseRepository;
     @Autowired
     TestRepository testRepository;
-    @Autowired
-    TestRecord2Repository testRecord2Repository;
 
     @GetMapping("/create-test")
     public String createTestViews(Model model, HttpSession session) {
@@ -49,7 +54,7 @@ public class TestController {
     @PostMapping("/process-question")
     public String processQuestion(Model model, HttpSession session,
                                   @RequestParam("courseName") String courseName,
-                                  @RequestParam("testType") String testType,
+                                  @RequestParam("testType") TestType testType,
                                   @RequestParam("timeLimit") int timeLimit,
                                   @RequestParam("numQuestions") int numQuestions,
                                   @RequestParam("questionType") String questionType,
@@ -62,25 +67,33 @@ public class TestController {
 
         Test test = new Test();
         test.setCourseId(Long.parseLong(courseName));
-        test.setTestName(testType);
-        test.setTestType(questionType);
+        test.setTestName("");
+        test.setTestType(testType);
         test.setNumQuestion(numQuestions);
         test.setTimeLimit(timeLimit);
-        if (testType.equals("15min")) {
-            test.setMinScore(1.0);
-            test.setTestWeight(1);
-        } else if (testType.equals("midterm")) {
-            test.setMinScore(1.0);
-            test.setTestWeight(3);
-        } else {
-            test.setMinScore(4.0);
-            test.setTestWeight(5);
+
+        switch (testType) {
+            case FIFTEEN_MINUTE -> {
+                test.setMinScore(1.0);
+                test.setTestWeight(1);
+            }
+
+            case MIDTERM -> {
+                test.setMinScore(1.0);
+                test.setTestWeight(3);
+            }
+
+            case FINAL -> {
+                test.setMinScore(4.0);
+                test.setTestWeight(5);
+            }
         }
+
         test.setStatus(Status.CREATED);
         Test rsTest = testRepository.save(test);
 
         if (questionType.equals("essay")) {
-            for (int i = 0; i < numQuestions; i++) {
+            for (int i = 1; i <= numQuestions; i++) {
                 Question question = new Question();
                 question.setTestId(rsTest.getId());
                 question.setQuestionDesc(requestParams.get("essayQuestion" + i));
@@ -202,54 +215,4 @@ public class TestController {
 
         return "redirect:/";
     }
-
-    @GetMapping("/doTheTest")
-    public String doTheTest(Model model, HttpSession session,
-                            @RequestParam("idTest") String idTest) {
-        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
-
-
-        HashMap<Question, List<Answer>> lstQs = new HashMap<>();
-        List<Question> lstQ = questionRepository.findAllByTestId(Long.parseLong(idTest));
-
-        for (Question qs : lstQ) {
-            List<Answer> lstA = answerRepository.findAllByQuestionId(qs.getId());
-            lstQs.put(qs, lstA);
-        }
-        model.addAttribute("idTest", idTest);
-        model.addAttribute("test", test);
-        model.addAttribute("hmQA", lstQs);
-
-        return "dothetest";
-    }
-
-    @PostMapping("/submitTest")
-    public String submitTest(Model model, HttpSession session,
-                             @RequestParam("idTest") String idTest,
-                             @RequestParam("typeTest") String testType,
-                             @RequestParam Map<String, String> requestParams) {
-        System.out.println("Id test la: " + idTest);
-        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
-        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
-        List<Question> lstQ = questionRepository.findAllByTestId(Long.parseLong(idTest));
-        for (Question qs : lstQ) {
-            TestRecord2 testRecord = new TestRecord2();
-            testRecord.setTestId(Long.parseLong(idTest));
-            testRecord.setUserId(user.getId());
-            testRecord.setQuestionId(qs.getId());
-            if (testType.equals("multipleChoice")) {
-                Long answerId = Long.parseLong(requestParams.get("question" + qs.getId()));
-                Answer as = answerRepository.findById(answerId).orElse(null);
-                testRecord.setAnswerMCId(as.getId());
-                testRecord.setCorrect(as.getIsCorrect());
-            } else {
-                String essayAnswer = requestParams.get("question" + qs.getId());
-                testRecord.setEssayAnswer(essayAnswer);
-            }
-            testRecord2Repository.save(testRecord);
-
-        }
-        return "redirect:/";
-    }
-
 }

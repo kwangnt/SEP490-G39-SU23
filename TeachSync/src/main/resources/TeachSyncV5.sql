@@ -1319,7 +1319,7 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`application_detail`
     `applicationId` BIGINT      NOT NULL,
     `detailType`    VARCHAR(45) NOT NULL COMMENT 'cv, id, degree, ...',
     `detailLink`    LONGTEXT    NOT NULL COMMENT 'url to file',
-    `detailNote`    LONGTEXT    NOT NULL,
+    `detailNote`    LONGTEXT    NULL DEFAULT NULL,
     `submitAt`      DATETIME    NULL DEFAULT NULL,
     `status`        VARCHAR(45) NOT NULL,
     `createdAt`     DATETIME    NULL DEFAULT NULL,

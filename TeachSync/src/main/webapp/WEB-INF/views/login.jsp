@@ -52,7 +52,7 @@
 <div class="login-page">
   <div class="form">
 
-    <form action="#" method="post">
+    <form>
       <lottie-player
           src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
           background="transparent" speed="1" style="justify-content: center;" loop autoplay></lottie-player>

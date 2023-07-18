@@ -1,7 +1,7 @@
 package com.teachsync.dtos.clazz;
 
 import com.teachsync.dtos.BaseUpdateDTO;
-import com.teachsync.utils.enums.Status;
+import com.teachsync.utils.enums.ScheduleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,16 +15,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClazzUpdateDTO extends BaseUpdateDTO {
-    private Long id;
-    private Long courseId;
+    private Long staffId;
 
-    private Long courseSemesterId;
+    private Long courseId;
+    private Long semesterId;
+    private Long centerId;
 
     private String clazzName;
 
     private String clazzDesc;
 
-    private int clazzSize;
+    private Integer clazzSize;
 
-    private Status status = Status.UPDATED;
+    private ScheduleType scheduleType;
+
+    private Integer slot;
 }

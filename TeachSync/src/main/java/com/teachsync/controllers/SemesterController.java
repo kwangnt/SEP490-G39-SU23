@@ -68,7 +68,7 @@ public class SemesterController {
             if (pageNo == null) { pageNo = 0; }
             Pageable paging = miscUtil.makePaging(pageNo, 10, "startDate", false);
 
-            Page<SemesterReadDTO> semesterDTOPage = semesterService.getPageDTOAll(paging, null);
+            Page<SemesterReadDTO> semesterDTOPage = semesterService.getPageAllDTO(paging, null);
 
             if (semesterDTOPage == null) {
                 return "list-semester";

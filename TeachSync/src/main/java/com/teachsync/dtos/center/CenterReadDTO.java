@@ -3,6 +3,7 @@ package com.teachsync.dtos.center;
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.room.RoomReadDTO;
 import com.teachsync.entities.Center;
+import com.teachsync.utils.enums.CenterType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +23,7 @@ public class CenterReadDTO extends BaseReadDTO {
 
     private String centerName;
 
-    private String centerType;
+    private CenterType centerType;
 
     private String centerDesc;
 

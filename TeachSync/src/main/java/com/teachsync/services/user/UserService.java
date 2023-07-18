@@ -4,10 +4,12 @@ import com.teachsync.dtos.user.UserCreateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.dtos.user.UserUpdateDTO;
 import com.teachsync.entities.User;
+import com.teachsync.utils.enums.DtoOption;
 import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     /* =================================================== CREATE =================================================== */
@@ -20,8 +22,14 @@ public interface UserService {
     User login(String username) throws Exception;
     UserReadDTO loginDTO(String username,String password) throws Exception;
 
+    /* id */
     User getById(Long id) throws Exception;
-    UserReadDTO getDTOById(Long id) throws Exception;
+    UserReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception;
+
+    List<User> getAllByIdIn(Collection<Long> idCollection) throws Exception;
+    Map<Long, String> mapIdFullNameByIdIn(Collection<Long> idCollection) throws Exception;
+    List<UserReadDTO> getAllDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, UserReadDTO> mapIdDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
 
     /* =================================================== UPDATE =================================================== */
 
@@ -38,11 +46,16 @@ public interface UserService {
 
 
     /* =================================================== WRAPPER ================================================== */
+    @Deprecated
     UserReadDTO wrapDTO(User user) throws Exception;
-
+    @Deprecated
     List<UserReadDTO> wrapListDTO(Collection<User> userCollection) throws Exception;
-
+    @Deprecated
     Page<UserReadDTO> wrapPageDTO(Page<User> userPage) throws Exception;
+
+    UserReadDTO wrapDTO(User user, Collection<DtoOption> options) throws Exception;
+    List<UserReadDTO> wrapListDTO(Collection<User> userCollection, Collection<DtoOption> options) throws Exception;
+    Page<UserReadDTO> wrapPageDTO(Page<User> userPage, Collection<DtoOption> options) throws Exception;
 
 
 
