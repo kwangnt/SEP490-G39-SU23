@@ -97,8 +97,8 @@
 <input type="number" id="timeLimit" name="timeLimit" min="1" value="${test.timeLimit}" required>
 <label for="question-type">Loại câu hỏi:</label>
 <select id="question-type" name="questionType" disabled>
-    <option value="essay" ${test.testType eq 'essay' ? 'selected' : ''}>Tự luận</option>
-    <option value="multipleChoice" ${test.testType eq 'multipleChoice' ? 'selected' : ''}>Trắc nghiệm</option>
+    <option value="essay" ${test.testDesc eq 'essay' ? 'selected' : ''}>Tự luận</option>
+    <option value="multipleChoice" ${test.testDesc eq 'multipleChoice' ? 'selected' : ''}>Trắc nghiệm</option>
 </select>
 <div class="container">
     <div class="left">

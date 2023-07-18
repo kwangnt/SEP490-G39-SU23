@@ -25,16 +25,23 @@
 
 
 <!-- ================================================== Main Body ================================================== -->
-<h1>Student List</h1>
 
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Danh sách bài test</h3>
+        </div>
+        <div class="top-nav-search">
+            <form id="login-form" name="myform" action="searchbycourse" method="get"
+                  onsubmit="return validateform()">
+
+                <input type="text" class="form-control" placeholder="Search here" name="searchText">
+                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Age</th>
-    </tr>
-    </thead>
     <tbody>
 
     <div class="row">
@@ -108,7 +115,7 @@
                         </table>
                     </div>
 
-                    <a href="addnewblog.jsp" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i>
+                    <a href="create-test" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i>
                         Tạp mới</a>
 
 
