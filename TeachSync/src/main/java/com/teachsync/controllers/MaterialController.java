@@ -41,114 +41,114 @@ public class MaterialController {
     @Autowired
     private MiscUtil miscUtil;
 
-//    @GetMapping("/create-material")
-//    public String createMaterial(HttpServletRequest request, RedirectAttributes redirect) {
-//        HttpSession session = request.getSession();
-//
-//        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-//        if (ObjectUtils.isEmpty(userDTO)) {
-//            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-//            return "redirect:/";
-//        }
-//
-//        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
-//            redirect.addAttribute("mess", "Bạn không đủ quyền");
-//            return "redirect:/";
-//        }
-//
-//        return "create-material";
-//    }
-//
-//    @PostMapping("/create-material")
-//    public String submitCreateMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect) {
-//
-//        HttpSession session = request.getSession();
-//        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
-//            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-//            return "redirect:/";
-//        }
-//        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-//        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
-//            redirect.addAttribute("mess", "Bạn không đủ quyền");
-//            return "redirect:/";
-//        }
-//
-//        /* Thay = modelAttr or json (RequestBody) */
-//        MaterialCreateDTO materialDTO = new MaterialCreateDTO();
-//        materialDTO.setMaterialName(request.getParameter("name"));
-//
-//        materialDTO.setMaterialLink(request.getParameter("link"));
-//        materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
-//        //TODO : process upload file
-//        materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-//        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
-//        materialDTO.setFree(Boolean.parseBoolean(request.getParameter("free")));
-//
-//
-//        try {
-//            materialService.addMaterial(materialDTO, userDTO.getId());
-//        } catch (Exception e) {
-//            model.addAttribute("mess", "Lỗi : " + e.getMessage());
-//            return "create-material";
-//        }
-//
-//        redirect.addAttribute("mess", "Tạo mới tài liệu thành công");
-//        return "redirect:/material";
-//    }
-//
-//
-//    @GetMapping("/edit-material")
-//    public String editNews(Model model, HttpServletRequest request, RedirectAttributes redirect) throws Exception{
-//        HttpSession session = request.getSession();
-//        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
-//            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-//            return "redirect:/";
-//        }
-//        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-//        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
-//            redirect.addAttribute("mess", "Bạn không đủ quyền");
-//            return "redirect:/";
-//        }
-//        Long Id = Long.parseLong(request.getParameter("id"));
-//        MaterialReadDTO material = materialService.getDTOById(Id);
-//        model.addAttribute("material", material);
-//
-//        return "edit-material";
-//    }
-//
-//    @PostMapping("/edit-material")
-//    public String submitEditMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect ) {
-//        HttpSession session = request.getSession();
-//        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
-//            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-//            return "redirect:/";
-//        }
-//        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
-//        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
-//            redirect.addAttribute("mess", "Bạn không đủ quyền");
-//            return "redirect:/";
-//        }
-//        MaterialReadDTO materialReadDTO = new MaterialReadDTO();
-//        materialReadDTO.setId(Long.parseLong(request.getParameter("id")));
-//        materialReadDTO.setMaterialName(request.getParameter("name"));
-//        //TODO : process upload file
-//        materialReadDTO.setMaterialLink(request.getParameter("link"));
-//        materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
-//        materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-//        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
-//        materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
-//
-//        try {
-//            materialService.editMaterial(materialReadDTO, userDTO.getId());
-//        } catch (Exception e) {
-//            model.addAttribute("mess", "Lỗi : " + e.getMessage());
-//            return "edit-material";
-//        }
-//
-//        redirect.addAttribute("mess", "Sửa khóa học thành công");
-//
-//        return "redirect:/material";
-//    }
+    @GetMapping("/create-material")
+    public String createMaterial(HttpServletRequest request, RedirectAttributes redirect) {
+        HttpSession session = request.getSession();
+
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (ObjectUtils.isEmpty(userDTO)) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+
+        return "create-material";
+    }
+
+    @PostMapping("/create-material")
+    public String submitCreateMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+
+        /* Thay = modelAttr or json (RequestBody) */
+        MaterialCreateDTO materialDTO = new MaterialCreateDTO();
+        materialDTO.setMaterialName(request.getParameter("name"));
+
+        materialDTO.setMaterialLink(request.getParameter("link"));
+        materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        //TODO : process upload file
+        materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
+        materialDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
+
+
+        try {
+            materialService.createMaterialByDTO(materialDTO);
+        } catch (Exception e) {
+            model.addAttribute("mess", "Lỗi : " + e.getMessage());
+            return "create-material";
+        }
+
+        redirect.addAttribute("mess", "Tạo mới tài liệu thành công");
+        return "redirect:/material";
+    }
+
+
+    @GetMapping("/edit-material")
+    public String editNews(Model model, HttpServletRequest request, RedirectAttributes redirect) throws Exception{
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+        Long Id = Long.parseLong(request.getParameter("id"));
+        MaterialReadDTO material = materialService.getDTOById(Id);
+        model.addAttribute("material", material);
+
+        return "edit-material";
+    }
+
+    @PostMapping("/edit-material")
+    public String submitEditMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect ) {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "Bạn không đủ quyền");
+            return "redirect:/";
+        }
+        MaterialReadDTO materialReadDTO = new MaterialReadDTO();
+        materialReadDTO.setId(Long.parseLong(request.getParameter("id")));
+        materialReadDTO.setMaterialName(request.getParameter("name"));
+        //TODO : process upload file
+        materialReadDTO.setMaterialLink(request.getParameter("link"));
+        materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
+        materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
+
+        try {
+            materialService.updateMaterialByDTO(materialReadDTO);
+        } catch (Exception e) {
+            model.addAttribute("mess", "Lỗi : " + e.getMessage());
+            return "edit-material";
+        }
+
+        redirect.addAttribute("mess", "Sửa khóa học thành công");
+
+        return "redirect:/material";
+    }
 
 
     @GetMapping("/material")
@@ -185,26 +185,26 @@ public class MaterialController {
         return "list-material";
     }
 
-//    @GetMapping("/material-detail")
-//    public String getDetailById(
-//            @RequestParam(name = "id") Long courseId,
-//            Model model,
-//            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
-//        try {
-//            MaterialReadDTO material = materialService.getDTOById(courseId);
-//
-//            if (material == null) {
-//                /* Not found by Id */
-//                return "redirect:/material";
-//            }
-//
-//            model.addAttribute("material", material);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            model.addAttribute("errorMsg", "Server error, please try again later");
-//        }
-//
-//        return "material-detail";
-//    }
+    @GetMapping("/material-detail")
+    public String getDetailById(
+            @RequestParam(name = "id") Long courseId,
+            Model model,
+            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
+        try {
+            MaterialReadDTO material = materialService.getDTOById(courseId);
+
+            if (material == null) {
+                /* Not found by Id */
+                return "redirect:/material";
+            }
+
+            model.addAttribute("material", material);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMsg", "Server error, please try again later");
+        }
+
+        return "material-detail";
+    }
 }
