@@ -50,8 +50,7 @@ public class AddressServiceImpl implements AddressService {
         }
         StringBuilder addressString = new StringBuilder(address.getAddressNo() + " " + address.getStreet());
 
-        for (LocationUnit unit: unitList
-             ) {
+        for (LocationUnit unit: unitList) {
             addressString.append(", ").append(unit.getUnitAlias());
         }
 
