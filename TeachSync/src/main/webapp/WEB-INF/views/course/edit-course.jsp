@@ -170,7 +170,7 @@
                 <script id="script2">
                     let isPromotion = ${course.currentPrice.isPromotion};
                     if (isPromotion) {
-                        $("#selPromotionType").val(${course.currentPrice.promotionType});
+                        $("#selPromotionType").val("${course.currentPrice.promotionType.stringValue}").change();
                     }
                     $("#script2").remove();
                 </script>
