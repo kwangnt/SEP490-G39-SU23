@@ -103,9 +103,9 @@
   </select>
   <label for="question-type">Loại kiểm tra:</label>
   <select name="testType">
-    <option value="15min">15 phút</option>
-    <option value="midterm">Giữa kỳ</option>
-    <option value="final">Cuối kỳ</option>
+    <option value="FIFTEEN_MINUTE">15 phút</option>
+    <option value="MIDTERM">Giữa kỳ</option>
+    <option value="FINAL">Cuối kỳ</option>
   </select>
   <label for="num-questions">Thời gian:</label>
   <input type="number" id="timeLimit" name="timeLimit" min="1" required>
@@ -150,7 +150,7 @@
 
     for (var i = 0; i < numQuestions; i++) {
       var questionDiv = document.createElement("div");
-      questionDiv.clazzName = "question";
+      questionDiv.className = "question";
 
       var questionLabel = document.createElement("label");
       questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
@@ -171,7 +171,7 @@
 
     for (var i = 0; i < numQuestions; i++) {
       var questionDiv = document.createElement("div");
-      questionDiv.clazzName = "question";
+      questionDiv.className = "question";
 
       var questionLabel = document.createElement("label");
       questionLabel.textContent = "Câu hỏi " + (i + 1) + ":";
@@ -190,7 +190,7 @@
       numOptionsInput.required = true;
 
       var answerContainer = document.createElement("div");
-      answerContainer.clazzName = "answer-container";
+      answerContainer.className = "answer-container";
 
       questionDiv.appendChild(questionLabel);
       questionDiv.appendChild(questionInput);
@@ -231,7 +231,7 @@
       isCorrectCheckbox.name = "isCorrect" + numOptionsInput.name.slice(-1) + "-" + i;
 
       var answerWrapper = document.createElement("div");
-      answerWrapper.clazzName = "answer";
+      answerWrapper.className = "answer";
       answerWrapper.appendChild(answerLabel);
       answerWrapper.appendChild(answerInput);
       answerWrapper.appendChild(isCorrectCheckbox);

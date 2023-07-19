@@ -90,6 +90,8 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setHomeworkDesc(homeworkReadDTO.getHomeworkDesc());
         homework.setHomeworkDoc(homeworkReadDTO.getHomeworkDoc());
         homework.setHomeworkContent(null);//TODO : upload file
+        homework.setHomeworkDoc(null);//TODO : upload file
+        //homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());
         homework.setOpenAt(homeworkReadDTO.getOpenAt());
         homework.setCreatedBy(userDTO.getId());
@@ -106,13 +108,14 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Transactional
     public void editHomework(HomeworkReadDTO homeworkReadDTO, UserReadDTO userDTO) throws Exception {
         Homework homework = homeworkRepository.findById(homeworkReadDTO.getId()).orElseThrow(() -> new Exception("không tìm bài tập về nhà"));
-        ;
 
         homework.setHomeworkName(homeworkReadDTO.getHomeworkName());
         homework.setClazzId(homeworkReadDTO.getClazzId());
         homework.setHomeworkDesc(homeworkReadDTO.getHomeworkDesc());
         homework.setHomeworkDoc(homeworkReadDTO.getHomeworkDoc());
         homework.setHomeworkContent(null);//TODO : upload file
+        homework.setHomeworkDoc(null);//TODO : upload file
+        //homework.setHomeworkDocLink(homeworkReadDTO.getHomeworkDocLink());
         homework.setDeadline(homeworkReadDTO.getDeadline());
         homework.setOpenAt(homeworkReadDTO.getOpenAt());
         homework.setUpdatedBy(userDTO.getId());
