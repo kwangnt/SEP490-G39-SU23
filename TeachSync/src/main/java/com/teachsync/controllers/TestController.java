@@ -225,7 +225,7 @@ public class TestController {
         if (page == null) { page = 0; }
         if(page < 0) { page = 0; }
         PageRequest pageable = PageRequest.of(page, 3);
-        Page<Test> tests = testRepository.findAll(pageable);
+        Page<Test> tests = testRepository.findAllByOrderByCreatedAtDesc(pageable);
         model.addAttribute("tests", tests);
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
@@ -238,7 +238,7 @@ public class TestController {
         if (page == null) { page = 0; }
         if(page < 0) { page = 0; }
         PageRequest pageable = PageRequest.of(page, 3);
-        Page<Test> tests = testRepository.findByTestNameContaining(name, pageable);
+        Page<Test> tests = testRepository.findByTestNameContainingOrderByCreatedAtDesc(name, pageable);
         model.addAttribute("tests", tests);
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
