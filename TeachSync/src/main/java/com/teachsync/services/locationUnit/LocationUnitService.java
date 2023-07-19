@@ -13,6 +13,11 @@ public interface LocationUnitService {
 
 
     /* =================================================== READ ===================================================== */
+    /* id */
+    LocationUnit getById(Long id) throws Exception;
+
+    /* parentId (id) */
+    List<LocationUnit> getAllByParentId(Long parentId) throws Exception;
 
 
     /* =================================================== UPDATE =================================================== */
