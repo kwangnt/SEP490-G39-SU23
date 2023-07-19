@@ -216,7 +216,7 @@
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/user?type=teacher">Nhân viên</a></li>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/user">Tài khoản</a></li>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/request">Đơn xin</a></li>
-                <li><a class="dropdown-item ts-txt-hover-blue" href="/teacher-request/list">Tuyển dụng</a></li>
+                <li><a class="dropdown-item ts-txt-hover-blue" href="/application/list">Duyệt đơn tuyển dụng</a></li>
                 <li><a class="dropdown-item ts-txt-hover-blue" href="/recruitment-campaign/list">Chiến dịch tuyển dụng</a></li>
               </ul>
             </li>

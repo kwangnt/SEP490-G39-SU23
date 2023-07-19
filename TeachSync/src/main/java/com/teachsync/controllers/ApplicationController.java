@@ -1,12 +1,14 @@
 package com.teachsync.controllers;
 
 import com.teachsync.dtos.applicationDetail.ApplicationDetailReadDTO;
+import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
 import com.teachsync.dtos.request.RequestCreateDTO;
 import com.teachsync.dtos.request.RequestReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.applicationDetail.ApplicationDetailService;
+import com.teachsync.services.campaignApplication.CampaignApplicationService;
 import com.teachsync.services.recruitmentCampaign.RecruitmentCampaignService;
 import com.teachsync.services.teacherRequest.TeacherRequestService;
 import com.teachsync.utils.Constants;
@@ -37,7 +39,34 @@ public class ApplicationController {
     @Autowired
     ApplicationDetailService applicationDetailService;
 
+    @Autowired
+    CampaignApplicationService campaignApplicationService;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @GetMapping("/list")
+    public String listTeacherRequest(Model model, @ModelAttribute("mess") String mess, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDto = (UserReadDTO) session.getAttribute("user");
+        if (!userDto.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
+        Page<CampaignApplicationReadDTO> dtoPage = campaignApplicationService.getAllDTO(null, List.of(DtoOption.APPLICATION_LIST, DtoOption.USER));
+        if (dtoPage != null) {
+            model.addAttribute("teacherQuestList", dtoPage.getContent());
+            model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());
+            model.addAttribute("pageTotal", dtoPage.getTotalPages());
+
+        }
+        model.addAttribute("mess", mess);
+
+        return "list-teacher-request";
+    }
 
     @GetMapping("/view-job")
     public String viewJob(Model model, @ModelAttribute("mess") String mess) {
@@ -59,7 +88,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/application-request")
-    public String viewApplicationRequest(Model model, HttpServletRequest request, RedirectAttributes redirect,@ModelAttribute("mess") String mess) {
+    public String viewApplicationRequest(Model model, HttpServletRequest request, RedirectAttributes redirect, @ModelAttribute("mess") String mess) {
         //check login
         HttpSession session = request.getSession();
         if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
@@ -122,15 +151,50 @@ public class ApplicationController {
         Long campaignId = Long.parseLong(request.getParameter("campaignId"));
 
         try {
-            applicationDetailService.add(applicationDetailReadDTO, userDTO,campaignId);
+            applicationDetailService.add(applicationDetailReadDTO, userDTO, campaignId);
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            redirect.addAttribute("mess", "Tạo đơn ứng tuyển ,lỗi : " + e.getMessage());
-            return "redirect:/application/application-request?id="+campaignId;
+            e.printStackTrace();
+            redirect.addAttribute("mess", e.getMessage());
+            return "redirect:/application/application-request?id=" + campaignId;
 
         }
 
         redirect.addAttribute("mess", "Tạo đơn ứng tuyển thành công");
-        return "redirect:/application/application-request?id="+campaignId;
+        return "redirect:/application/application-request?id=" + campaignId;
+    }
+
+    @GetMapping("/change-status")
+    public String changeStatusRequest(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+        HttpSession session = request.getSession();
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDto = (UserReadDTO) session.getAttribute("user");
+        //TODO :Check role admin
+        if (!userDto.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
+
+        String operation = request.getParameter("operation");
+        Long Id = Long.parseLong(request.getParameter("id"));
+        String mess = "";
+        if (operation.equals("approve")) {
+            mess = "Chấp nhận";
+        } else {
+            mess = "Từ chối";
+        }
+        try {
+            campaignApplicationService.changeStatus(Id, operation);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            redirect.addAttribute("mess", e.getMessage());
+            return "redirect:/application/list";
+
+        }
+        redirect.addAttribute("mess", mess + " yêu cầu tuyển dụng giáo viên thành công");
+        return "redirect:/application/list";
     }
 }

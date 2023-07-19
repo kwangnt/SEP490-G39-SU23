@@ -29,10 +29,10 @@
       <th scope="col">ID</th>
       <th scope="col">Tên user</th>
       <th scope="col">Họ và tên</th>
-      <th scope="col">Tên yêu cầu</th>
-      <th scope="col">File CV upload</th>
-      <th scope="col">Link CV</th>
-      <th scope="col">Thư giới thiệu</th>
+      <th scope="col">Link đính kèm</th>
+      <th scope="col">File upload</th>
+      <th scope="col">Trạng thái đơn</th>
+      <th scope="col">Ngày nộp đơn</th>
       <th scope="col">Chức năng</th>
     </tr>
     </thead>
@@ -40,19 +40,22 @@
     <c:forEach var="teacherQuest" items="${teacherQuestList}">
       <tr>
         <th scope="row">${teacherQuest.id}</th>
-        <td>${teacherQuest.username}</td>
-        <td>${teacherQuest.fullName}</td>
-        <td>${teacherQuest.requestName}</td>
-        <td>${teacherQuest.requestContent}</td>
-        <td>${teacherQuest.contentLink}</td>
-        <td>${teacherQuest.requestDesc}</td>
+        <td>${teacherQuest.applicant.username}</td>
+        <td>${teacherQuest.applicant.fullName}</td>
+        <td>${teacherQuest.applicationDetail.detailLink}</td>
+        <td>${teacherQuest.applicationDetail.detailNote}</td>
+        <td>${teacherQuest.result}</td>
+        <td>${teacherQuest.appliedAtShow}</td>
         <td>
-          <a href="change-status?id=${teacherQuest.id}&operation=approve">
-            <button type="button" class="btn btn-success">Chấp nhận</button>
-          </a>
-          <a href="change-status?id=${teacherQuest.id}&operation=reject">
-            <button type="button" class="btn btn-danger">Từ chối</button>
-          </a>
+          <c:if test="${teacherQuest.result eq 'Đang chờ duyệt'}" >
+            <a href="change-status?id=${teacherQuest.id}&operation=approve">
+              <button type="button" class="btn btn-success">Chấp nhận</button>
+            </a>
+            <a href="change-status?id=${teacherQuest.id}&operation=reject">
+              <button type="button" class="btn btn-danger">Từ chối</button>
+            </a>
+          </c:if>
+
         </td>
       </tr>
     </c:forEach>

@@ -5,10 +5,16 @@ import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.CampaignApplication;
+import com.teachsync.entities.RecruitmentCampaign;
+import com.teachsync.entities.Request;
+import com.teachsync.entities.User;
 import com.teachsync.repositories.CampaignApplicationRepository;
+import com.teachsync.repositories.UserRepository;
 import com.teachsync.services.applicationDetail.ApplicationDetailService;
 import com.teachsync.services.recruitmentCampaign.RecruitmentCampaignService;
 import com.teachsync.services.user.UserService;
+import com.teachsync.utils.Constants;
+import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -16,7 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -31,17 +40,47 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
     @Lazy
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private ApplicationDetailService applicationDetailService;
 
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private MiscUtil miscUtil;
+
 
     /* =================================================== CREATE =================================================== */
 
 
     /* =================================================== READ ===================================================== */
+
+    @Override
+    public Page<CampaignApplicationReadDTO> getAllDTO(Pageable pageable, Collection<DtoOption> options) throws Exception {
+        if (pageable == null) {
+            pageable = miscUtil.defaultPaging();
+        }
+
+        Page<CampaignApplication> campaignApplicationPage = campaignApplicationRepository.findAllByStatusNot(Status.DELETED, pageable);
+
+        if (campaignApplicationPage == null) {
+            return null;
+        }
+
+        Page<CampaignApplicationReadDTO> campaignApplicationList = wrapPageDTO(campaignApplicationPage, options);
+        for (CampaignApplicationReadDTO campaignApplication : campaignApplicationList.getContent()) {
+            if (!ObjectUtils.isEmpty(campaignApplication.getDetailList())) {
+                campaignApplication.setApplicationDetail(campaignApplication.getDetailList().get(0));
+            }
+        }
+
+        return campaignApplicationList;
+    }
+
     /* id */
     @Override
     public CampaignApplication getById(Long id) throws Exception {
@@ -49,6 +88,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
                 .findByIdAndStatusNot(id, Status.DELETED)
                 .orElse(null);
     }
+
     @Override
     public CampaignApplicationReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception {
         CampaignApplication application = getById(id);
@@ -72,6 +112,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return applicationList;
     }
+
     @Override
     public List<CampaignApplicationReadDTO> getAllDTOByCampaignId(
             Long campaignId, Collection<DtoOption> options) throws Exception {
@@ -95,6 +136,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return applicationList;
     }
+
     @Override
     public List<CampaignApplicationReadDTO> getAllDTOByCampaignIdIn(
             Collection<Long> campaignIdCollection, Collection<DtoOption> options) throws Exception {
@@ -106,6 +148,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return wrapListDTO(applicationList, options);
     }
+
     @Override
     public Map<Long, List<CampaignApplicationReadDTO>> mapCampaignIdListDTOByCampaignIdIn(
             Collection<Long> campaignIdCollection, Collection<DtoOption> options) throws Exception {
@@ -147,6 +190,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return applicationList;
     }
+
     @Override
     public List<CampaignApplicationReadDTO> getAllDTOByUserId(
             Long userId, Collection<DtoOption> options) throws Exception {
@@ -170,6 +214,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return applicationList;
     }
+
     @Override
     public List<CampaignApplicationReadDTO> getAllDTOByUserIdIn(
             Collection<Long> userIdCollection, Collection<DtoOption> options) throws Exception {
@@ -181,6 +226,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
         return wrapListDTO(applicationList, options);
     }
+
     @Override
     public Map<Long, List<CampaignApplicationReadDTO>> mapUserIdListDTOByUserIdIn(
             Collection<Long> userIdCollection, Collection<DtoOption> options) throws Exception {
@@ -213,6 +259,23 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
 
     /* =================================================== UPDATE =================================================== */
 
+    @Transactional
+    @Override
+    public void changeStatus(Long Id, String operation) throws Exception {
+        CampaignApplication campaignApplication = campaignApplicationRepository.findByIdAndStatusNot(Id,Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy yêu cầu"));
+        if (operation.equals("approve")) {
+            User user = userRepository.findByIdAndStatusNot(campaignApplication.getCreatedBy(),Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy tài khoản"));
+            user.setRoleId(Constants.ROLE_TEACHER);
+            userRepository.save(user);
+            campaignApplication.setResult("Đã duyệt");
+        }else{
+            campaignApplication.setResult("Đã từ chối");
+        }
+        CampaignApplication requestDB = campaignApplicationRepository.save(campaignApplication);
+        if (ObjectUtils.isEmpty(requestDB)) {
+            throw new Exception("Lỗi khi update yêu cầu");
+        }
+    }
 
     /* =================================================== DELETE =================================================== */
 
@@ -305,4 +368,6 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
                 applicationPage.getPageable(),
                 applicationPage.getTotalPages());
     }
+
+
 }

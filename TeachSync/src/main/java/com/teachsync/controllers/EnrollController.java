@@ -26,8 +26,7 @@ import java.util.Map;
 
 @Controller
 public class EnrollController {
-    @Autowired
-    private TeacherRequestService teacherRequestService;
+
     @Autowired
     private CourseService courseService;
     @Autowired

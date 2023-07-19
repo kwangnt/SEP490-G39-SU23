@@ -63,10 +63,10 @@
                                         </div>
                                         <small class="text-truncate"><i
                                                 class="far fa-calendar-alt text-primary me-2"></i>Từ ngày
-                                            : ${campaign.recruitFrom}</small>
+                                            : ${campaign.recruitFromShow}</small>
                                         <small class="text-truncate"><i
                                                 class="far fa-calendar-alt text-primary me-2"></i>Đến ngày
-                                            :${campaign.recruitTo}</small>
+                                            :${campaign.recruitToShow}</small>
                                     </div>
                                 </div>
                             </div>

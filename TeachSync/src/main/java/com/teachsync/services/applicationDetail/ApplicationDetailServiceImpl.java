@@ -50,6 +50,17 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
         applicationDetail.setUpdatedBy(userDTO.getId());
         applicationDetail.setStatus(Status.CREATED);
 
+        List<CampaignApplication> campaignApplicationCheck = campaignApplicationRepository.findAllByCreatedByAndStatusNot(userDTO.getId(), Status.DELETED);
+        for (CampaignApplication campaign : campaignApplicationCheck) {
+            if (!ObjectUtils.isEmpty(campaign)) {
+                if (campaign.getResult().equals("Đang chờ duyệt")) {
+                    throw new Exception("Tài khoản đã tạo đơn ứng tuyển và dang chờ duyệt , vui lòng chờ đợi kết quả");
+                } else if (campaign.getResult().equals("Đã duyệt")) {
+                    throw new Exception("Tài khoản đã tạo đơn ứng tuyển và đã được duyêt , vui lòng không tạo đơn nữa");
+                }
+            }
+        }
+
         ApplicationDetail applicationDetailDb = applicationDetailRepository.save(applicationDetail);
         if (ObjectUtils.isEmpty(applicationDetailDb)) {
             throw new Exception("Lỗi khi tạo đơn ứng tuyển");
@@ -60,7 +71,7 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
         campaignApplication.setCampaignId(campaignId);
         campaignApplication.setApplicantId(applicationDetailDb.getId());
         campaignApplication.setAppliedAt(LocalDateTime.now());
-        campaignApplication.setResult("Tạo đơn ứng tuyển");
+        campaignApplication.setResult("Đang chờ duyệt");
         campaignApplication.setResultDate(LocalDateTime.now());
 
         campaignApplication.setCreatedBy(userDTO.getId());
