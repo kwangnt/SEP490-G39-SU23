@@ -1,11 +1,21 @@
 package com.teachsync.services.clazzMember;
 
+import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.clazzMember.ClazzMemberReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.Clazz;
 import com.teachsync.entities.ClazzMember;
+import com.teachsync.entities.User;
 import com.teachsync.repositories.ClazzMemberRepository;
+import com.teachsync.services.clazz.ClazzService;
+import com.teachsync.services.user.UserService;
+import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,6 +24,16 @@ import java.util.*;
 public class ClazzMemberServiceImpl implements ClazzMemberService {
     @Autowired
     private ClazzMemberRepository clazzMemberRepository;
+
+    @Lazy
+    @Autowired
+    private ClazzService clazzService;
+    @Lazy
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ModelMapper mapper;
 
 
     /* =================================================== CREATE =================================================== */
@@ -88,17 +108,90 @@ public class ClazzMemberServiceImpl implements ClazzMemberService {
 
     /* =================================================== WRAPPER ================================================== */
     @Override
-    public ClazzMemberReadDTO wrapDTO(ClazzMember course) throws Exception {
-        return null;
+    public ClazzMemberReadDTO wrapDTO(ClazzMember clazzMember, Collection<DtoOption> options) throws Exception {
+        ClazzMemberReadDTO dto = mapper.map(clazzMember, ClazzMemberReadDTO.class);
+
+        /* Add dependency */
+        if (options != null && !options.isEmpty()) {
+            if (options.contains(DtoOption.CLAZZ)) {
+                ClazzReadDTO clazzDTO = clazzService.getDTOById(clazzMember.getClazzId(), options);
+                dto.setClazz(clazzDTO);
+            }
+            if (options.contains(DtoOption.CLAZZ_NAME)) {
+                Clazz clazz = clazzService.getById(clazzMember.getClazzId());
+                dto.setClazzName(clazz.getClazzName());
+            }
+
+            if (options.contains(DtoOption.USER)) {
+                UserReadDTO userDTO = userService.getDTOById(clazzMember.getUserId(), options);
+                dto.setUser(userDTO);
+            }
+            if (options.contains(DtoOption.USER_FULL_NAME)) {
+                User user = userService.getById(clazzMember.getUserId());
+                dto.setUserFullName(user.getFullName());
+            }
+        }
+
+        return dto;
     }
 
     @Override
-    public List<ClazzMemberReadDTO> wrapListDTO(Collection<ClazzMember> courseCollection) throws Exception {
-        return null;
+    public List<ClazzMemberReadDTO> wrapListDTO(
+            Collection<ClazzMember> clazzMemberCollection, Collection<DtoOption> options) throws Exception {
+        List<ClazzMemberReadDTO> dtoList = new ArrayList<>();
+        ClazzMemberReadDTO dto;
+
+        Map<Long, ClazzReadDTO> clazzIdClazzDTOMap = new HashMap<>();
+        Map<Long, String> clazzIdClazzNameMap = new HashMap<>();
+        Map<Long, UserReadDTO> userIdUserDTOMap = new HashMap<>();
+        Map<Long, String> userIdUserFullNameMap = new HashMap<>();
+
+        if (options != null && !options.isEmpty()) {
+            Set<Long> clazzIdSet = new HashSet<>();
+            Set<Long> userIdSet = new HashSet<>();
+
+            for (ClazzMember clazzMember : clazzMemberCollection) {
+                clazzIdSet.add(clazzMember.getClazzId());
+                userIdSet.add(clazzMember.getUserId());
+            }
+
+            if (options.contains(DtoOption.CLAZZ)) {
+                clazzIdClazzDTOMap = clazzService.mapIdDTOByIdIn(clazzIdSet, options);
+            }
+            if (options.contains(DtoOption.CLAZZ_NAME)) {
+                clazzIdClazzNameMap = clazzService.mapClazzIdClazzNameByIdIn(clazzIdSet);
+            }
+
+            if (options.contains(DtoOption.USER)) {
+                userIdUserDTOMap = userService.mapIdDTOByIdIn(clazzIdSet, options);
+            }
+            if (options.contains(DtoOption.USER_FULL_NAME)) {
+                userIdUserFullNameMap = userService.mapIdFullNameByIdIn(clazzIdSet);
+            }
+        }
+
+        for (ClazzMember clazzMember : clazzMemberCollection) {
+            dto = mapper.map(clazzMember, ClazzMemberReadDTO.class);
+
+            /* Add dependency */
+            dto.setClazz(clazzIdClazzDTOMap.get(clazzMember.getClazzId()));
+            dto.setClazzName(clazzIdClazzNameMap.get(clazzMember.getClazzId()));
+
+            dto.setUser(userIdUserDTOMap.get(clazzMember.getClazzId()));
+            dto.setUserFullName(userIdUserFullNameMap.get(clazzMember.getClazzId()));
+
+            dtoList.add(dto);
+        }
+
+        return dtoList;
     }
 
     @Override
-    public Page<ClazzMemberReadDTO> wrapPageDTO(Page<ClazzMember> coursePage) throws Exception {
-        return null;
+    public Page<ClazzMemberReadDTO> wrapPageDTO(
+            Page<ClazzMember> clazzMemberPage, Collection<DtoOption> options) throws Exception {
+        return new PageImpl<>(
+                wrapListDTO(clazzMemberPage.getContent(), options),
+                clazzMemberPage.getPageable(),
+                clazzMemberPage.getTotalPages());
     }
 }

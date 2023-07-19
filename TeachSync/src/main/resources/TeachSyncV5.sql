@@ -1319,7 +1319,7 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`application_detail`
     `applicationId` BIGINT      NOT NULL,
     `detailType`    VARCHAR(45) NOT NULL COMMENT 'cv, id, degree, ...',
     `detailLink`    LONGTEXT    NOT NULL COMMENT 'url to file',
-    `detailNote`    LONGTEXT    NOT NULL,
+    `detailNote`    LONGTEXT    NULL DEFAULT NULL,
     `submitAt`      DATETIME    NULL DEFAULT NULL,
     `status`        VARCHAR(45) NOT NULL,
     `createdAt`     DATETIME    NULL DEFAULT NULL,
@@ -1341,6 +1341,25 @@ CREATE TABLE IF NOT EXISTS `teachsync`.`application_detail`
             REFERENCES `teachsync`.`user` (`id`)
 )
     ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `teachsync`.`testrecord`
+-- -----------------------------------------------------
+
+
+DROP TABLE IF EXISTS `teachsync`.`testrecord`;
+
+CREATE TABLE IF NOT EXISTS `teachsync`.`testrecord` (
+                              `id` bigint NOT NULL AUTO_INCREMENT,
+                              `testId` bigint NOT NULL,
+                              `userId` bigint NOT NULL,
+                              `questionId` bigint NOT NULL,
+                              `essayAnswer` varchar(4000) DEFAULT NULL,
+                              `answerMCId` bigint DEFAULT NULL,
+                              `correct` bit(1) DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 SET SQL_MODE = @OLD_SQL_MODE;

@@ -35,6 +35,8 @@ public interface ClazzService {
 
     List<Clazz> getAllByIdIn(Collection<Long> idCollection) throws Exception;
     Map<Long, String> mapClazzIdClazzNameByIdIn(Collection<Long> idCollection) throws Exception;
+    List<ClazzReadDTO> getAllDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
+    Map<Long, ClazzReadDTO> mapIdDTOByIdIn(Collection<Long> idCollection, Collection<DtoOption> options) throws Exception;
 
     /* courseSemesterId */
     List<Clazz> getAllByCourseSemesterIdIn(Collection<Long> scheduleIdCollection) throws Exception;
