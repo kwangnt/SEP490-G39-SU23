@@ -20,17 +20,17 @@ DROP TABLE IF EXISTS `teachsync`.`location_unit`;
 
 CREATE TABLE IF NOT EXISTS `teachsync`.`location_unit`
 (
-    `id`        BIGINT      NOT NULL AUTO_INCREMENT,
-    `parentId`  BIGINT      NULL DEFAULT NULL,
-    `level`     INT         NOT NULL COMMENT 'Start at 0 (COUNTRY)',
+    `id`        BIGINT       NOT NULL AUTO_INCREMENT,
+    `parentId`  BIGINT       NULL DEFAULT NULL,
+    `level`     INT          NOT NULL COMMENT 'Start at 0 (COUNTRY)',
     `unitName`  VARCHAR(255) NOT NULL COMMENT 'VD: Thanh Pho Ho Chi Minh',
-    `unitAlias` VARCHAR(45) NOT NULL COMMENT 'VD: Tp.HMC',
-    `unitType`  VARCHAR(45) NOT NULL COMMENT 'COUNTRY, PROVINCE, CITY, ...',
-    `status`    VARCHAR(45) NOT NULL,
-    `createdAt` DATETIME    NULL DEFAULT NULL,
-    `createdBy` BIGINT      NULL DEFAULT NULL,
-    `updatedAt` DATETIME    NULL DEFAULT NULL,
-    `updatedBy` BIGINT      NULL DEFAULT NULL,
+    `unitAlias` VARCHAR(45)  NOT NULL COMMENT 'VD: Tp.HMC',
+    `unitType`  VARCHAR(45)  NOT NULL COMMENT 'COUNTRY, PROVINCE, CITY, ...',
+    `status`    VARCHAR(45)  NOT NULL,
+    `createdAt` DATETIME     NULL DEFAULT NULL,
+    `createdBy` BIGINT       NULL DEFAULT NULL,
+    `updatedAt` DATETIME     NULL DEFAULT NULL,
+    `updatedBy` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     INDEX `fk_location_unit_location_unit_parentId_idx` (`parentId` ASC) VISIBLE,
     INDEX `fk_location_unit_user_createdBy_idx` (`createdBy` ASC) VISIBLE,
@@ -920,8 +920,8 @@ DROP TABLE IF EXISTS `teachsync`.`member_homework_record`;
 CREATE TABLE IF NOT EXISTS `teachsync`.`member_homework_record`
 (
     `id`             BIGINT      NOT NULL AUTO_INCREMENT,
-    `memberId`       BIGINT      NOT NULL 'Ai làm',
-    `homeworkId`     BIGINT      NOT NULL 'Bài gì',
+    `memberId`       BIGINT      NOT NULL COMMENT 'Ai làm',
+    `homeworkId`     BIGINT      NOT NULL COMMENT 'Bài gì',
     `submission`     MEDIUMBLOB  NULL DEFAULT NULL COMMENT 'File store in DB',
     `submissionLink` LONGTEXT    NULL DEFAULT NULL COMMENT 'Link to file',
     `score`          FLOAT       NULL DEFAULT NULL COMMENT 'Nhiêu điểm. (Max = 10.00) (Chỉ được update = teacher)',
@@ -1034,10 +1034,10 @@ DROP TABLE IF EXISTS `teachsync`.`test_record`;
 CREATE TABLE IF NOT EXISTS `teachsync`.`test_record`
 (
     `id`                 BIGINT      NOT NULL AUTO_INCREMENT,
-    `memberTestRecordId` BIGINT      NOT NULL 'Ai làm, bài test nào',
-    `answerId`           BIGINT      NOT NULL 'Câu trả lời chọn (Câu hỏi MULTIPLE)',
-    `answerTxt`          LONGTEXT    NULL DEFAULT NULL 'Câu trả lời ghi ra (Câu hỏi ESSAY. Giáo viên cần chấm)',
-    `score`              FLOAT       NULL DEFAULT NULL 'Điểm đặt được (Auto tính = code. ESSAY thì giáo viên update)',
+    `memberTestRecordId` BIGINT      NOT NULL COMMENT 'Ai làm, bài test nào',
+    `answerId`           BIGINT      NOT NULL COMMENT 'Câu trả lời chọn (Câu hỏi MULTIPLE)',
+    `answerTxt`          LONGTEXT    NULL DEFAULT NULL COMMENT 'Câu trả lời ghi ra (Câu hỏi ESSAY. Giáo viên cần chấm)',
+    `score`              FLOAT       NULL DEFAULT NULL COMMENT 'Điểm đặt được (Auto tính = code. ESSAY thì giáo viên update)',
     `status`             VARCHAR(45) NOT NULL,
     `createdAt`          DATETIME    NULL DEFAULT NULL,
     `createdBy`          BIGINT      NULL DEFAULT NULL,
