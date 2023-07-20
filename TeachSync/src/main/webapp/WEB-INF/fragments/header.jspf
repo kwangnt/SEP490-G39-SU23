@@ -98,7 +98,7 @@
 
             <!-- Request -->
             <li class="nav-item">
-              <a href="/request" class="nav-link ts-txt-hover-blue">
+              <a href="/application/list" class="nav-link ts-txt-hover-blue">
                 <i class="bi-envelope-paper"></i>&nbsp;Đơn xin
               </a>
             </li>

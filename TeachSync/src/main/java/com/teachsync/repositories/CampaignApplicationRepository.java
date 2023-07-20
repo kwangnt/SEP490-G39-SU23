@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface CampaignApplicationRepository extends JpaRepository<CampaignApplication, Long> {
 
-    Page<CampaignApplication> findAllByStatusNot(Status status, Pageable pageable);
+    Page<CampaignApplication> findAllByStatusNotOrderByCreatedAtDesc(Status status, Pageable pageable);
 
     List<CampaignApplication> findAllByCreatedByAndStatusNot(Long id, Status status);
 
@@ -24,10 +24,15 @@ public interface CampaignApplicationRepository extends JpaRepository<CampaignApp
 
     /* campaignId */
     List<CampaignApplication> findAllByCampaignIdAndStatusNot(Long campaignId, Status status);
+
     List<CampaignApplication> findAllByCampaignIdInAndStatusNot(Collection<Long> campaignIdCollection, Status status);
 
 
     /* userId */
+
+    Page<CampaignApplication> findAllByCreatedByAndStatusNotOrderByCreatedAtDesc(Long userId, Status status, Pageable pageable);
+
     List<CampaignApplication> findAllByApplicantIdAndStatusNot(Long userId, Status status);
+
     List<CampaignApplication> findAllByApplicantIdInAndStatusNot(Collection<Long> userIdCollection, Status status);
 }

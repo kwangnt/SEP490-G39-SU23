@@ -35,6 +35,9 @@ public interface CampaignApplicationService {
 
     /* userId */
     List<CampaignApplication> getAllByUserId(Long userId) throws Exception;
+
+    Page<CampaignApplicationReadDTO> getAllPageDTOByUserId(Pageable pageable,Long userId, Collection<DtoOption> options) throws Exception;
+
     List<CampaignApplicationReadDTO> getAllDTOByUserId(Long userId, Collection<DtoOption> options) throws Exception;
 
     List<CampaignApplication> getAllByUserIdIn(Collection<Long> userIdCollection) throws Exception;

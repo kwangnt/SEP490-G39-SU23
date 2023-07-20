@@ -65,7 +65,7 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
             pageable = miscUtil.defaultPaging();
         }
 
-        Page<CampaignApplication> campaignApplicationPage = campaignApplicationRepository.findAllByStatusNot(Status.DELETED, pageable);
+        Page<CampaignApplication> campaignApplicationPage = campaignApplicationRepository.findAllByStatusNotOrderByCreatedAtDesc(Status.DELETED, pageable);
 
         if (campaignApplicationPage == null) {
             return null;
@@ -192,6 +192,28 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
     }
 
     @Override
+    public Page<CampaignApplicationReadDTO> getAllPageDTOByUserId(Pageable pageable, Long userId, Collection<DtoOption> options) throws Exception {
+        if (pageable == null) {
+            pageable = miscUtil.defaultPaging();
+        }
+
+        Page<CampaignApplication> campaignApplicationPage = campaignApplicationRepository.findAllByCreatedByAndStatusNotOrderByCreatedAtDesc(userId, Status.DELETED, pageable);
+
+        if (campaignApplicationPage == null) {
+            return null;
+        }
+
+        Page<CampaignApplicationReadDTO> campaignApplicationList = wrapPageDTO(campaignApplicationPage, options);
+        for (CampaignApplicationReadDTO campaignApplication : campaignApplicationList.getContent()) {
+            if (!ObjectUtils.isEmpty(campaignApplication.getDetailList())) {
+                campaignApplication.setApplicationDetail(campaignApplication.getDetailList().get(0));
+            }
+        }
+
+        return campaignApplicationList;
+    }
+
+    @Override
     public List<CampaignApplicationReadDTO> getAllDTOByUserId(
             Long userId, Collection<DtoOption> options) throws Exception {
         List<CampaignApplication> applicationList = getAllByUserId(userId);
@@ -262,13 +284,13 @@ public class CampaignApplicationServiceImpl implements CampaignApplicationServic
     @Transactional
     @Override
     public void changeStatus(Long Id, String operation) throws Exception {
-        CampaignApplication campaignApplication = campaignApplicationRepository.findByIdAndStatusNot(Id,Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy yêu cầu"));
+        CampaignApplication campaignApplication = campaignApplicationRepository.findByIdAndStatusNot(Id, Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy yêu cầu"));
         if (operation.equals("approve")) {
-            User user = userRepository.findByIdAndStatusNot(campaignApplication.getCreatedBy(),Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy tài khoản"));
+            User user = userRepository.findByIdAndStatusNot(campaignApplication.getCreatedBy(), Status.DELETED).orElseThrow(() -> new Exception("không tìm thấy tài khoản"));
             user.setRoleId(Constants.ROLE_TEACHER);
             userRepository.save(user);
             campaignApplication.setResult("Đã duyệt");
-        }else{
+        } else {
             campaignApplication.setResult("Đã từ chối");
         }
         CampaignApplication requestDB = campaignApplicationRepository.save(campaignApplication);

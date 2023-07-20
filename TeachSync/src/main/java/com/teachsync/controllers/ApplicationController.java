@@ -20,12 +20,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -52,11 +54,13 @@ public class ApplicationController {
             return "redirect:/";
         }
         UserReadDTO userDto = (UserReadDTO) session.getAttribute("user");
-        if (!userDto.getRoleId().equals(Constants.ROLE_ADMIN)) {
-            redirect.addAttribute("mess", "bạn không đủ quyền");
-            return "redirect:/";
+        Page<CampaignApplicationReadDTO> dtoPage = new PageImpl<>(new ArrayList<>());
+        if (userDto.getRoleId().equals(Constants.ROLE_ADMIN)) {
+            dtoPage = campaignApplicationService.getAllDTO(null, List.of(DtoOption.APPLICATION_LIST, DtoOption.USER));
+        } else {
+            dtoPage = campaignApplicationService.getAllPageDTOByUserId(null, userDto.getId(), List.of(DtoOption.APPLICATION_LIST, DtoOption.USER));
         }
-        Page<CampaignApplicationReadDTO> dtoPage = campaignApplicationService.getAllDTO(null, List.of(DtoOption.APPLICATION_LIST, DtoOption.USER));
+
         if (dtoPage != null) {
             model.addAttribute("teacherQuestList", dtoPage.getContent());
             model.addAttribute("pageNo", dtoPage.getPageable().getPageNumber());

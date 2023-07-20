@@ -40,16 +40,6 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
     @Transactional
     public void add(ApplicationDetailReadDTO applicationDetailReadDTO, UserReadDTO userDTO, Long campaignId) throws Exception {
 
-        ApplicationDetail applicationDetail = new ApplicationDetail();
-        applicationDetail.setDetailType(applicationDetailReadDTO.getDetailType());
-        applicationDetail.setDetailLink(applicationDetailReadDTO.getDetailLink());
-        applicationDetail.setDetailNote(applicationDetailReadDTO.getDetailNote());//TODO:upload file
-        applicationDetail.setSubmitAt(LocalDateTime.now());
-
-        applicationDetail.setCreatedBy(userDTO.getId());
-        applicationDetail.setUpdatedBy(userDTO.getId());
-        applicationDetail.setStatus(Status.CREATED);
-
         List<CampaignApplication> campaignApplicationCheck = campaignApplicationRepository.findAllByCreatedByAndStatusNot(userDTO.getId(), Status.DELETED);
         for (CampaignApplication campaign : campaignApplicationCheck) {
             if (!ObjectUtils.isEmpty(campaign)) {
@@ -61,15 +51,10 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
             }
         }
 
-        ApplicationDetail applicationDetailDb = applicationDetailRepository.save(applicationDetail);
-        if (ObjectUtils.isEmpty(applicationDetailDb)) {
-            throw new Exception("Lỗi khi tạo đơn ứng tuyển");
-        }
-
         //add campaign Application
         CampaignApplication campaignApplication = new CampaignApplication();
         campaignApplication.setCampaignId(campaignId);
-        campaignApplication.setApplicantId(applicationDetailDb.getId());
+        campaignApplication.setApplicantId(userDTO.getId());
         campaignApplication.setAppliedAt(LocalDateTime.now());
         campaignApplication.setResult("Đang chờ duyệt");
         campaignApplication.setResultDate(LocalDateTime.now());
@@ -83,12 +68,24 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
         if (ObjectUtils.isEmpty(campaignApplicationDb)) {
             throw new Exception("Lỗi khi tạo campaign Application ");
         }
-        //update Id of ApplicationDetail
-        applicationDetailDb.setApplicationId(campaignApplicationDb.getId());
-        applicationDetailDb = applicationDetailRepository.save(applicationDetail);
+
+        // add ApplicationDetail
+        ApplicationDetail applicationDetail = new ApplicationDetail();
+        applicationDetail.setApplicationId(campaignApplicationDb.getId());
+        applicationDetail.setDetailType(applicationDetailReadDTO.getDetailType());
+        applicationDetail.setDetailLink(applicationDetailReadDTO.getDetailLink());
+        applicationDetail.setDetailNote(applicationDetailReadDTO.getDetailNote());//TODO:upload file
+        applicationDetail.setSubmitAt(LocalDateTime.now());
+
+        applicationDetail.setCreatedBy(userDTO.getId());
+        applicationDetail.setUpdatedBy(userDTO.getId());
+        applicationDetail.setStatus(Status.CREATED);
+
+        ApplicationDetail applicationDetailDb = applicationDetailRepository.save(applicationDetail);
         if (ObjectUtils.isEmpty(applicationDetailDb)) {
-            throw new Exception("Lỗi khi update đơn ứng tuyển");
+            throw new Exception("Lỗi khi tạo đơn ứng tuyển");
         }
+
     }
 
     /* =================================================== READ ===================================================== */
