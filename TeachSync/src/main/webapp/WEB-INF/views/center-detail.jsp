@@ -84,9 +84,12 @@
 <div class="detail-container">
     <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" id="centerImage">
     <div class="info-container">
-        <h2 id="centerName">TeachSync Doi Can</h2>
-        <p id="functionInfo">Chuyên môn: ENGLISH</p>
-        <p id="centerAddress">Địa chỉ: 190ABC Doi Can, P.Doi Can, Q.Ba Dinh, TP.HN, VN</p>
+        <h2 id="centerName">${center.centerName}</h2>
+        <p id="functionInfo">Chuyên môn: ${center.centerType}</p>
+        <p id="centerAddress">Địa chỉ: ${address.addressString}</p>
+        <p id="centerSize">Số phòng: ${center.centerSize}</p>
+
+
     </div>
 </div>
 

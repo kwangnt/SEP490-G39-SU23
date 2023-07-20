@@ -4,6 +4,7 @@ import com.teachsync.dtos.locationUnit.LocationUnitReadDTO;
 import com.teachsync.entities.LocationUnit;
 import com.teachsync.repositories.LocationUnitRepository;
 import com.teachsync.utils.enums.DtoOption;
+import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,21 @@ public class LocationUnitServiceImpl implements LocationUnitService {
 
 
     /* =================================================== READ ===================================================== */
+    /* id */
+    @Override
+    public LocationUnit getById(Long id) throws Exception {
+        return locationUnitRepository.findByIdAndStatusNot(id, Status.DELETED).orElse(null);
+    }
+
+    /* parentId (id) */
+    @Override
+    public List<LocationUnit> getAllByParentId(Long parentId) throws Exception {
+        List<LocationUnit> listLocationUnit = locationUnitRepository.findAllByParentIdAndStatusNot(parentId,Status.DELETED);
+        if(listLocationUnit.isEmpty()){
+            return null;
+        }
+        return listLocationUnit;
+    }
 
 
     /* =================================================== UPDATE =================================================== */
@@ -57,7 +73,6 @@ public class LocationUnitServiceImpl implements LocationUnitService {
 
         return dto;
     }
-
     @Override
     public List<LocationUnitReadDTO> wrapListDTO(Collection<LocationUnit> locationUnitCollection, Collection<DtoOption> options) throws Exception {
         List<LocationUnitReadDTO> dtoList = new ArrayList<>();
@@ -99,7 +114,6 @@ public class LocationUnitServiceImpl implements LocationUnitService {
 
         return dtoList;
     }
-
     @Override
     public Page<LocationUnitReadDTO> wrapPageDTO(Page<LocationUnit> locationUnitPage, Collection<DtoOption> options) throws Exception {
         return new PageImpl<>(
