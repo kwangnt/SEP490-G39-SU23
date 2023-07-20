@@ -1,8 +1,6 @@
 package com.teachsync.controllers;
 
 import com.teachsync.dtos.center.CenterReadDTO;
-import com.teachsync.dtos.clazz.ClazzReadDTO;
-import com.teachsync.dtos.homework.HomeworkReadDTO;
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.center.CenterService;
@@ -53,7 +51,7 @@ public class RecruitmentCampaignController {
         }
 
         model.addAttribute("mess", mess);
-        return "list-recruitment-campaign";
+        return "campaign/list-recruitment-campaign";
     }
 
     @GetMapping("/detail")
@@ -79,7 +77,7 @@ public class RecruitmentCampaignController {
 
         }
 
-        return "add-campaign";
+        return "campaign/add-campaign";
     }
 
     @GetMapping("/add")
@@ -120,7 +118,7 @@ public class RecruitmentCampaignController {
 
         }
 
-        return "add-campaign";
+        return "campaign/add-campaign";
     }
 
     @PostMapping("/add")

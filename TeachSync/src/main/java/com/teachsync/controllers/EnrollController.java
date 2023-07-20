@@ -8,7 +8,6 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
 import com.teachsync.services.courseSemester.CourseSemesterService;
-import com.teachsync.services.teacherRequest.TeacherRequestService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
@@ -84,7 +83,7 @@ public class EnrollController {
             model.addAttribute("errorMsg", e.getMessage());
         }
 
-        return "enroll";
+        return "request/enroll";
     }
 
 

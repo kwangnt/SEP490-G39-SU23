@@ -5,7 +5,6 @@ import com.teachsync.entities.Address;
 import com.teachsync.repositories.AddressRepository;
 import com.teachsync.services.address.AddressService;
 import com.teachsync.services.center.CenterService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,12 +41,12 @@ public class CenterController {
             e.printStackTrace();
         }
 
-        return "list-center";
+        return "center/list-center";
     }
 
     @GetMapping("/room")
     public String room(){
-        return "list-room";
+        return "center/list-room";
     }
 
     @GetMapping("/center-detail")
@@ -65,7 +64,7 @@ public class CenterController {
 
         }
 
-        return "center-detail";
+        return "center/center-detail";
     }
 
 }

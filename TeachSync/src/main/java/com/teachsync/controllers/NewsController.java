@@ -39,7 +39,7 @@ public class NewsController {
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null || user.getRoleId() != 4) {
             return "redirect:/";
-        } else return "create-news";
+        } else return "news/create-news";
     }
 
     @PostMapping("/submitcreatenews")
@@ -77,7 +77,7 @@ public class NewsController {
 
         News news = newsRepository.findAllById(Long.parseLong(id));
         model.addAttribute("news", news);
-        return "edit-news";
+        return "news/edit-news";
     }
 
     @PostMapping("/submiteditnews")
@@ -123,7 +123,7 @@ public class NewsController {
         }
         model.addAttribute("mess", mess);
 
-        return "list-news";
+        return "news/list-news";
     }
 
     @GetMapping("/news-detail")
@@ -145,7 +145,7 @@ public class NewsController {
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
 
-        return "news-detail";
+        return "news/news-detail";
     }
 
 }

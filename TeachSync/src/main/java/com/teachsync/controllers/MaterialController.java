@@ -6,7 +6,6 @@ import com.teachsync.dtos.material.MaterialUpdateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
-import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.MaterialType;
@@ -57,7 +56,7 @@ public class MaterialController {
             return "redirect:/";
         }
 
-        return "create-material";
+        return "material/create-material";
     }
 
     @PostMapping("/create-material")
@@ -90,7 +89,7 @@ public class MaterialController {
             materialService.createMaterialByDTO(createDTO);
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "create-material";
+            return "material/create-material";
         }
 
         redirect.addAttribute("mess", "Tạo mới tài liệu thành công");
@@ -114,7 +113,7 @@ public class MaterialController {
         MaterialReadDTO material = materialService.getDTOById(Id, null);
         model.addAttribute("material", material);
 
-        return "edit-material";
+        return "material/edit-material";
     }
 
     @PostMapping("/edit-material")
@@ -143,7 +142,7 @@ public class MaterialController {
             materialService.updateMaterialByDTO(updateDTO);
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "edit-material";
+            return "material/edit-material";
         }
 
         redirect.addAttribute("mess", "Sửa khóa học thành công");
@@ -183,7 +182,7 @@ public class MaterialController {
         }
         model.addAttribute("mess", mess);
 
-        return "list-material";
+        return "material/list-material";
     }
 
     @GetMapping("/material-detail")
@@ -206,6 +205,6 @@ public class MaterialController {
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
 
-        return "material-detail";
+        return "material/material-detail";
     }
 }

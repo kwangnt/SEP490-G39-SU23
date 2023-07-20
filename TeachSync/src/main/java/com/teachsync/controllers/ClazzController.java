@@ -76,7 +76,7 @@ public class ClazzController {
         }
 
         model.addAttribute("mess", mess);
-        return "list-clazz";
+        return "clazz/list-clazz";
     }
 
     @GetMapping("/clazz-detail")
@@ -100,7 +100,7 @@ public class ClazzController {
             e.printStackTrace();
         }
 
-        return "clazz-detail";
+        return "clazz/clazz-detail";
     }
 
     @GetMapping("/add-clazz")
@@ -160,7 +160,7 @@ public class ClazzController {
             /* Log Error or return error msg */
         }
 
-        return "add-clazz";
+        return "clazz/add-clazz";
     }
 
     /* TODO: move to Staff restController */
@@ -270,7 +270,7 @@ public class ClazzController {
             return "redirect:/clazz";
         } else {
             model.addAttribute("mess", "Xóa class room thất bại");
-            return "add-clazz";
+            return "clazz/add-clazz";
         }
     }
 }

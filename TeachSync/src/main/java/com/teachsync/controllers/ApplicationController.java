@@ -2,15 +2,11 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.applicationDetail.ApplicationDetailReadDTO;
 import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
-import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.recruitmentCampaign.RecruitmentCampaignReadDTO;
-import com.teachsync.dtos.request.RequestCreateDTO;
-import com.teachsync.dtos.request.RequestReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.applicationDetail.ApplicationDetailService;
 import com.teachsync.services.campaignApplication.CampaignApplicationService;
 import com.teachsync.services.recruitmentCampaign.RecruitmentCampaignService;
-import com.teachsync.services.teacherRequest.TeacherRequestService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.enums.ApplicationDetailType;
 import com.teachsync.utils.enums.DtoOption;
@@ -69,7 +65,7 @@ public class ApplicationController {
         }
         model.addAttribute("mess", mess);
 
-        return "list-teacher-request";
+        return "request/list-teacher-request";
     }
 
     @GetMapping("/view-job")
@@ -88,7 +84,7 @@ public class ApplicationController {
 
         model.addAttribute("mess", mess);
 
-        return "view-list-job";
+        return "campaign/view-list-job";
     }
 
     @GetMapping("/application-request")
@@ -115,7 +111,7 @@ public class ApplicationController {
         }
 
 
-        return "teacher-request";
+        return "request/teacher-request";
     }
 
     @PostMapping("/application-request")

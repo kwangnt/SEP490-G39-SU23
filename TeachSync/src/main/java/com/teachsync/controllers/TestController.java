@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +49,7 @@ public class TestController {
         }
         List<Course> lst = courseRepository.findAllByStatusNot(Status.DELETED);
         model.addAttribute("lstCourse", lst);
-        return "create-test";
+        return "test/create-test";
     }
 
 
@@ -160,7 +159,7 @@ public class TestController {
 
         model.addAttribute("questionAnswer", hm);
         System.out.println("size cua hashmap: " + hm.size());
-        return "edit-test";
+        return "test/edit-test";
 
     }
 
@@ -229,7 +228,7 @@ public class TestController {
         model.addAttribute("tests", tests);
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
-        return "list-test";
+        return "test/list-test";
     }
 
 
@@ -243,6 +242,6 @@ public class TestController {
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
         model.addAttribute("searchText", name);
-        return "list-test-search";
+        return "test/list-test-search";
     }
 }
