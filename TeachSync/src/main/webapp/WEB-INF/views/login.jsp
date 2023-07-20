@@ -42,6 +42,8 @@
                   $("#message").text(response['msg']);
               }
           });
+          
+          return false;
       }
   </script>
 </head>
@@ -52,7 +54,7 @@
 <div class="login-page">
   <div class="form">
 
-    <form>
+    <form onsubmit="return signIn()">
       <lottie-player
           src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
           background="transparent" speed="1" style="justify-content: center;" loop autoplay></lottie-player>
@@ -63,7 +65,7 @@
   
       <p id="message"></p>
       
-      <button type="button" onclick="signIn()">LOGIN</button>
+      <button type="submit">LOGIN</button>
     </form>
 
     <form class="login-form" action="/sign-up" method="get">

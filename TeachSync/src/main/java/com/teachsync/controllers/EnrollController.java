@@ -57,7 +57,7 @@ public class EnrollController {
         }
 
         try {
-            CourseReadDTO courseDTO =  courseService.getDTOById(courseId);
+            CourseReadDTO courseDTO =  courseService.getDTOById(courseId, null);
 
             Map<Long, CourseSemesterReadDTO> semesterIdLatestDTOMap =
                     courseSemesterService.mapIdLatestDTOByCourseId(

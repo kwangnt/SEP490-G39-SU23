@@ -25,6 +25,8 @@ public class CourseReadDTO extends BaseReadDTO {
 
     private String courseDesc;
 
+    private Integer numSession;
+
     private Double minScore;
 
     private Double minAttendant;
@@ -34,7 +36,7 @@ public class CourseReadDTO extends BaseReadDTO {
     private List<Material> materialList;
     private List<Test> testList;
 
-//    private List<PriceLog> priceLogList;
+    private List<PriceLogReadDTO> priceLog;
     private PriceLogReadDTO currentPrice;
 }
 
