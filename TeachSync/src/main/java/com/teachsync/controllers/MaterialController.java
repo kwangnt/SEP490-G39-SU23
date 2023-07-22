@@ -72,7 +72,7 @@ public class MaterialController {
         }
         model.addAttribute("mess", mess);
 
-        return "list-material";
+        return "material/list-material";
     }
 
 
@@ -91,7 +91,7 @@ public class MaterialController {
             return "redirect:/";
         }
 
-        return "create-material";
+        return "material/create-material";
     }
 
     @PostMapping("/create-material")
