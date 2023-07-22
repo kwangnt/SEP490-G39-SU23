@@ -1,6 +1,8 @@
 package com.teachsync.services.priceLog;
 
+import com.teachsync.dtos.priceLog.PriceLogCreateDTO;
 import com.teachsync.dtos.priceLog.PriceLogReadDTO;
+import com.teachsync.dtos.priceLog.PriceLogUpdateDTO;
 import com.teachsync.entities.PriceLog;
 import com.teachsync.repositories.PriceLogRepository;
 import com.teachsync.utils.MiscUtil;
@@ -30,7 +32,35 @@ public class PriceLogServiceImpl implements PriceLogService {
     
     
     /* =================================================== CREATE =================================================== */
+    @Override
+    public PriceLog createPriceLog(PriceLog price) throws Exception {
+        /* Validate input */
+        if (Objects.nonNull(price.getValidTo())) {
+            if (price.getValidFrom().isAfter(price.getValidTo())) {
+                throw new IllegalArgumentException(
+                        "Invalid datetime: validTo cannot be before validFrom");
+            }
+        }
 
+        /* Check FK */
+        /* TODO: */
+
+        /* Check duplicate */
+        /* TODO: */
+
+        /* Save to DB */
+        price = priceLogRepository.save(price);
+
+        return price;
+    }
+    @Override
+    public PriceLogReadDTO createPriceLogByDTO(PriceLogCreateDTO createDTO) throws Exception {
+        PriceLog price = mapper.map(createDTO, PriceLog.class);
+
+        price = createPriceLog(price);
+
+        return wrapDTO(price);
+    }
 
 
     /* =================================================== READ ===================================================== */
@@ -119,7 +149,7 @@ public class PriceLogServiceImpl implements PriceLogService {
     }
 
     @Override
-    public List<PriceLog> getAllLatestByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+    public List<PriceLog> getAllCurrentByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
         List<PriceLog> priceLogList =
                 priceLogRepository.findAllByCourseIdInAndValidBetweenAndStatusNot(
                         courseIdCollection, LocalDateTime.now(), Status.DELETED);
@@ -130,8 +160,8 @@ public class PriceLogServiceImpl implements PriceLogService {
         return priceLogList;
     }
     @Override
-    public List<PriceLogReadDTO> getAllLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
-        List<PriceLog> priceLogList = getAllLatestByCourseIdIn(courseIdCollection);
+    public List<PriceLogReadDTO> getAllCurrentDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<PriceLog> priceLogList = getAllCurrentByCourseIdIn(courseIdCollection);
 
         if (priceLogList == null) {
             return null; }
@@ -139,8 +169,8 @@ public class PriceLogServiceImpl implements PriceLogService {
         return wrapListDTO(priceLogList);
     }
     @Override
-    public Map<Long, PriceLogReadDTO> mapCourseIdLatestDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
-        List<PriceLogReadDTO> priceLodDTOList = getAllLatestDTOByCourseIdIn(courseIdCollection);
+    public Map<Long, PriceLogReadDTO> mapCourseIdCurrentPriceDTOByCourseIdIn(Collection<Long> courseIdCollection) throws Exception {
+        List<PriceLogReadDTO> priceLodDTOList = getAllCurrentDTOByCourseIdIn(courseIdCollection);
 
         if (priceLodDTOList == null) {
             return new HashMap<>(); }
@@ -170,13 +200,49 @@ public class PriceLogServiceImpl implements PriceLogService {
     }
 
 
-
     /* =================================================== UPDATE =================================================== */
+    @Override
+    public PriceLog updatePriceLog(PriceLog price) throws Exception {
+        /* Check exist */
+        PriceLog oldPrice = getById(price.getId());
+        if (Objects.isNull(oldPrice)) {
+            throw new IllegalArgumentException(
+                    "No Price found with id: " + price.getId());
+        }
+        price.setCreatedAt(oldPrice.getCreatedAt());
+        price.setCreatedBy(oldPrice.getCreatedBy());
 
+        /* Validate input */
+        if (Objects.nonNull(price.getValidTo())) {
+            if (price.getValidFrom().isAfter(price.getValidTo())) {
+                throw new IllegalArgumentException(
+                        "Invalid datetime: validTo cannot be before validFrom");
+            }
+        }
+
+        /* Check FK */
+        /* TODO: */
+
+        /* Check duplicate */
+        /* TODO: */
+
+        /* Save to DB */
+        price = priceLogRepository.save(price);
+
+        return price;
+    }
+
+    @Override
+    public PriceLogReadDTO updatePriceLogByDTO(PriceLogUpdateDTO updateDTO) throws Exception {
+        PriceLog price = mapper.map(updateDTO, PriceLog.class);
+
+        price = updatePriceLog(price);
+
+        return wrapDTO(price);
+    }
 
 
     /* =================================================== DELETE =================================================== */
-
 
 
     /* =================================================== WRAPPER ================================================== */

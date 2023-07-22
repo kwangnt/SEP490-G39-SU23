@@ -34,7 +34,7 @@ public class LoginController {
             return "redirect:/index";
         }
 
-        return "login";
+        return "login/login";
     }
 
 
@@ -77,7 +77,7 @@ public class LoginController {
 
     @GetMapping("/sign-up")
     public String signup(Model model) {
-        return "signup";
+        return "login/signup";
     }
 
     @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)

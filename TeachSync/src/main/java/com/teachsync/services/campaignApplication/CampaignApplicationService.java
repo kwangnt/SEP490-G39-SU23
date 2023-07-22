@@ -4,6 +4,7 @@ import com.teachsync.dtos.campaignApplication.CampaignApplicationReadDTO;
 import com.teachsync.entities.CampaignApplication;
 import com.teachsync.utils.enums.DtoOption;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,9 @@ public interface CampaignApplicationService {
 
 
     /* =================================================== READ ===================================================== */
+
+    Page<CampaignApplicationReadDTO> getAllDTO(Pageable pageable,Collection<DtoOption> options) throws Exception;
+
     /* id */
     CampaignApplication getById(Long id) throws Exception;
     CampaignApplicationReadDTO getDTOById(Long id, Collection<DtoOption> options) throws Exception;
@@ -31,6 +35,9 @@ public interface CampaignApplicationService {
 
     /* userId */
     List<CampaignApplication> getAllByUserId(Long userId) throws Exception;
+
+    Page<CampaignApplicationReadDTO> getAllPageDTOByUserId(Pageable pageable,Long userId, Collection<DtoOption> options) throws Exception;
+
     List<CampaignApplicationReadDTO> getAllDTOByUserId(Long userId, Collection<DtoOption> options) throws Exception;
 
     List<CampaignApplication> getAllByUserIdIn(Collection<Long> userIdCollection) throws Exception;
@@ -42,6 +49,7 @@ public interface CampaignApplicationService {
 
     /* =================================================== UPDATE =================================================== */
 
+    void changeStatus(Long Id, String operation) throws Exception;
 
     /* =================================================== DELETE =================================================== */
 

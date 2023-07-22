@@ -18,4 +18,6 @@ public class AddressReadDTO extends BaseReadDTO {
     private String street;
     private Long unitId;
     private String addressString;
+
+
 }
