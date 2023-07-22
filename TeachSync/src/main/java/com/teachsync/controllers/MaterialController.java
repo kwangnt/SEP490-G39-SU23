@@ -75,28 +75,6 @@ public class MaterialController {
         return "list-material";
     }
 
-    @GetMapping("/material-detail")
-    public String getDetailById(
-            @RequestParam(name = "id") Long courseId,
-            Model model,
-            @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
-        try {
-            MaterialReadDTO material = materialService.getDTOById(courseId, null);
-
-            if (material == null) {
-                /* Not found by Id */
-                return "redirect:/material";
-            }
-
-            model.addAttribute("material", material);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMsg", "Server error, please try again later");
-        }
-
-        return "material-detail";
-    }
 
     @GetMapping("/create-material")
     public String createMaterial(HttpServletRequest request, RedirectAttributes redirect) {
@@ -226,7 +204,7 @@ public class MaterialController {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
-        model.addAttribute("mess", mess);
+        model.addAttribute("mess", "Xóa khóa học thành công");
 
         return "material/list-material";
     }
@@ -250,12 +228,7 @@ public class MaterialController {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
-            redirect.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "redirect:/material";
-        }
-        redirect.addAttribute("mess", "Xóa khóa học thành công");
-        return "redirect:/material";
-    }
+
 
         return "material/material-detail";
     }
