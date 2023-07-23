@@ -25,14 +25,14 @@
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
     <form action="edit-material" method="post">
         <input name="id" hidden value="${material.id}">
-<%--        <div class="form-group">--%>
-<%--            <label>Tên khóa học</label>--%>
-<%--            <select name="name" class="form-control">--%>
-<%--                <c:forEach items="${courseMaterial.courseName}" var="c">--%>
-<%--                    <option value="${c.id}">${c.courseName}</option>--%>
-<%--                </c:forEach>--%>
-<%--            </select>--%>
-<%--        </div>--%>
+        <div class="form-group">
+            <label>Tên khóa học</label>
+            <select name="courseId">
+                <c:forEach items="${courseList}" var="course">
+                    <option value="${course.id}"> ${course.courseName}</option>
+                </c:forEach>
+            </select>
+        </div>
         <div class="form-group">
             <label>Tên tài liệu</label>
             <input type="text" name="name"
@@ -71,8 +71,7 @@
         <div class="form-group">
             <label>
                 Tài liệu free
-                <input type="checkbox" name="free" value="yes"
-                       class="form-control">
+                <input type="checkbox" name="free" value="yes">
             </label>
         </div>
 

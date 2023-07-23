@@ -1,11 +1,13 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
 import com.teachsync.dtos.material.MaterialUpdateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
+import com.teachsync.services.course.CourseService;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.MaterialType;
@@ -37,6 +39,9 @@ public class MaterialController {
 
     @Autowired
     private MaterialService materialService;
+
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     private MiscUtil miscUtil;
@@ -95,7 +100,7 @@ public class MaterialController {
     }
 
     @PostMapping("/create-material")
-    public String submitCreateMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+    public String submitCreateMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
 
         HttpSession session = request.getSession();
         if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
@@ -107,6 +112,10 @@ public class MaterialController {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";
         }
+
+//        /* List Course (môn nào) */
+//        List<CourseReadDTO> courseDTOList = courseService.getAllDTO(null);
+//        model.addAttribute("courseList", courseDTOList);
 
         /* Thay = modelAttr or json (RequestBody) */
         MaterialCreateDTO createDTO = new MaterialCreateDTO();
