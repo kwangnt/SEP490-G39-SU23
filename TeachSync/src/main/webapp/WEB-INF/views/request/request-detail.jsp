@@ -69,20 +69,20 @@
       <h4>Khóa học: <c:out value="${course.courseName}"/></h4>
       <h5>Học kỳ:</h5>
 
-      <c:forEach var="scheduleClazzList" items="${scheduleClazzListMap}">
+      <c:forEach var="courseSemesterClazzList" items="${scheduleClazzListMap}">
 
         <div class="col card">
           <div class="card-header">
             <h6 class="card-title mb-0">
-              Kỳ: <c:out value="${scheduleClazzList.key.scheduleAlias}"/><br/>
-              Cơ sở: <c:out value="${scheduleClazzList.key.centerName}"/><br/>
-              Từ: <c:out value="${scheduleClazzList.key.startDate}"/><br/>
-              Đến: <c:out value="${scheduleClazzList.key.endDate}"/><br/>
+              Kỳ: <c:out value="${courseSemesterClazzList.key.scheduleAlias}"/><br/>
+              Cơ sở: <c:out value="${courseSemesterClazzList.key.centerName}"/><br/>
+              Từ: <c:out value="${courseSemesterClazzList.key.startDate}"/><br/>
+              Đến: <c:out value="${courseSemesterClazzList.key.endDate}"/><br/>
             </h6>
           </div>
 
           <div class="card-body row flex-row flex-nowrap overflow-scroll">
-            <c:forEach var="clazz" items="${scheduleClazzList.value}">
+            <c:forEach var="clazz" items="${courseSemesterClazzList.value}">
               <div class="col-4">
                 <div class="card">
                   <c:url var="enrollLink" value="enroll">

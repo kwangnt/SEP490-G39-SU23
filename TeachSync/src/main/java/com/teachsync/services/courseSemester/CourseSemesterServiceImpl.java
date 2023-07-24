@@ -149,21 +149,6 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
     }
 
     @Override
-    public List<CourseSemester> getAllLatestByCourseId(
-            Long courseId, Collection<Long> semesterIdCollection) throws Exception {
-        List<CourseSemester> courseSemesterPage =
-                courseSemesterRepository.findAllByCourseIdAndSemesterIdInAndStatusNot(
-                        courseId,
-                        semesterIdCollection,
-                        Status.DELETED);
-
-        if (courseSemesterPage.isEmpty()) {
-            return null;
-        }
-
-        return courseSemesterPage;
-    }
-    @Override
     public List<CourseSemesterReadDTO> getAllLatestDTOByCourseId(
             Long courseId, Collection<DtoOption> options) throws Exception {
         List<Semester> semesterList = /* Sau 10 ngày để còn có hạn học sinh đăng ký */
@@ -173,7 +158,7 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
                         .map(BaseEntity::getId)
                         .collect(Collectors.toSet());
         
-        List<CourseSemester> courseSemesterList = getAllLatestByCourseId(courseId, semesterIdSet);
+        List<CourseSemester> courseSemesterList = getAllByCourseIdAndSemesterIdIn(courseId, semesterIdSet);
 
         if (courseSemesterList == null) {
             return null;
@@ -193,6 +178,45 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
         return latestDTOList.stream()
                 .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
     }
+    /* courseId, semesterId */
+    @Override
+    public List<CourseSemester> getAllByCourseIdAndSemesterIdIn(
+            Long courseId, Collection<Long> semesterIdCollection) throws Exception {
+        List<CourseSemester> courseSemesterPage =
+                courseSemesterRepository
+                        .findAllByCourseIdAndSemesterIdInAndStatusNot(courseId, semesterIdCollection, Status.DELETED);
+
+        if (courseSemesterPage.isEmpty()) {
+            return null;
+        }
+
+        return courseSemesterPage;
+    }
+    @Override
+    public List<CourseSemesterReadDTO> getAllDTOByCourseIdAndSemesterIdIn(
+            Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CourseSemester> courseSemesterList = getAllByCourseIdAndSemesterIdIn(courseId, semesterIdCollection);
+
+        if (courseSemesterList == null) {
+            return null;
+        }
+
+        return wrapListDTO(courseSemesterList, options);
+    }
+    @Override
+    public Map<Long, CourseSemesterReadDTO> mapIdDTOByCourseIdAndSemesterIdIn(
+            Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception {
+        List<CourseSemesterReadDTO> courseSemesterDTOList =
+                getAllDTOByCourseIdAndSemesterIdIn(courseId, semesterIdCollection, options);
+
+        if (courseSemesterDTOList == null) {
+            return new HashMap<>();
+        }
+
+        return courseSemesterDTOList.stream()
+                .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
+    }
+
 
     /* semesterId */
     @Override
@@ -375,7 +399,7 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
             }
     
             if (options.contains(DtoOption.SEMESTER)) {
-                semesterIdSemesterDTOMap = semesterService.mapSemesterIdSemesterDTOByIdIn(SemesterIdSet, options);
+                semesterIdSemesterDTOMap = semesterService.mapIdDTOByIdIn(SemesterIdSet, options);
             }
         }
 

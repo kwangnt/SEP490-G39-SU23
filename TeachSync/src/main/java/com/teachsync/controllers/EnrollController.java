@@ -1,82 +1,105 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.request.RequestCreateDTO;
+import com.teachsync.dtos.semester.SemesterReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.services.center.CenterService;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.course.CourseService;
 import com.teachsync.services.courseSemester.CourseSemesterService;
+import com.teachsync.services.request.RequestService;
+import com.teachsync.services.semester.SemesterService;
 import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 public class EnrollController {
-
     @Autowired
     private CourseService courseService;
     @Autowired
+    private SemesterService semesterService;
+    @Autowired
     private CourseSemesterService courseSemesterService;
     @Autowired
+    private CenterService centerService;
+    @Autowired
     private ClazzService clazzService;
+    @Autowired
+    private RequestService requestService;
 
     @Autowired
     private MiscUtil miscUtil;
 
 
-
-//    @PreAuthorize("hasAuthority(T(com.teachsync.utils.Constants).ROLE_STUDENT)")
+    /* =================================================== CREATE =================================================== */
     @GetMapping("/enroll")
-    public String enroll(
+    public String enrollPage (
+            Model model,
             HttpServletRequest request,
             @RequestParam(name = "id") Long courseId,
-            Model model,
+            @RequestHeader("Referer") String referer,
             @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
         if (userDTO == null) {
             return "redirect:/course";
         }
+
         if (!userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
             /* Quay về trang cũ */
-            String referer = request.getHeader("Referer");
             return "redirect:" + referer;
         }
 
         try {
             CourseReadDTO courseDTO =  courseService.getDTOById(courseId, null);
 
-            Map<Long, CourseSemesterReadDTO> semesterIdLatestDTOMap =
+            Map<Long, CenterReadDTO> centerIdCenterDTOMap =
+                    centerService.mapIdDTO(null);
+            model.addAttribute("centerIdCenterDTOMap", centerIdCenterDTOMap);
+
+            Map<Long, SemesterReadDTO> semesterDTOPage =
+                    semesterService.mapIdDTOByStartDateAfter(LocalDate.now(), null);
+            model.addAttribute("semesterIdSemesterDTOMap", centerIdCenterDTOMap);
+
+            Map<Long, CourseSemesterReadDTO> courseSemesterIdLatestCourseSemesterDTOMap =
                     courseSemesterService.mapIdLatestDTOByCourseId(
                             courseId,
                             List.of(DtoOption.CENTER, DtoOption.SEMESTER));
 
             Map<Long, List<ClazzReadDTO>> courseSemesterIdClazzDTOListMap =
                     clazzService.mapCourseSemesterIdListDTOByCourseSemesterIdIn(
-                            semesterIdLatestDTOMap.keySet(),
+                            courseSemesterIdLatestCourseSemesterDTOMap.keySet(),
                             Arrays.asList(DtoOption.CLAZZ_SCHEDULE, DtoOption.MEMBER_LIST, DtoOption.ROOM_NAME));
 
-            Map<CourseSemesterReadDTO, List<ClazzReadDTO>> scheduleClazzListMap = new HashMap<>();
+            Map<CourseSemesterReadDTO, List<ClazzReadDTO>> courseSemesterDTOClassDTOListMap = new HashMap<>();
 
-            for (Long semesterId : semesterIdLatestDTOMap.keySet()) {
-                scheduleClazzListMap.put(
-                        semesterIdLatestDTOMap.get(semesterId),
+            for (Long semesterId : courseSemesterIdLatestCourseSemesterDTOMap.keySet()) {
+                courseSemesterDTOClassDTOListMap.put(
+                        courseSemesterIdLatestCourseSemesterDTOMap.get(semesterId),
                         courseSemesterIdClazzDTOListMap.get(semesterId));
             }
 
             model.addAttribute("course", courseDTO);
-            model.addAttribute("scheduleClazzListMap", scheduleClazzListMap);
+            model.addAttribute("courseSemesterClazzListMap", courseSemesterDTOClassDTOListMap);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,4 +141,13 @@ public class EnrollController {
 //
 //        return "request-detail";
     }
+
+
+    /* =================================================== READ ===================================================== */
+
+
+    /* =================================================== UPDATE =================================================== */
+
+
+    /* =================================================== DELETE =================================================== */
 }

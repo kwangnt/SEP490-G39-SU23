@@ -45,15 +45,15 @@ public class CourseController {
     public String addCoursePage(
             RedirectAttributes redirect,
             @SessionAttribute(value = "user", required = false) UserReadDTO userDTO) {
-        if (Objects.isNull(userDTO)) {
-            redirect.addAttribute("mess", "Làm ơn đăng nhập");
-            return "redirect:/index";
-        }
-
-        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
-            redirect.addAttribute("mess", "Bạn không đủ quyền");
-            return "redirect:/index";
-        }
+//        if (Objects.isNull(userDTO)) {
+//            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+//            return "redirect:/index";
+//        }
+//
+//        if (!userDTO.getRoleId().equals(ROLE_ADMIN)) {
+//            redirect.addAttribute("mess", "Bạn không đủ quyền");
+//            return "redirect:/index";
+//        }
 
         return "course/add-course";
     }

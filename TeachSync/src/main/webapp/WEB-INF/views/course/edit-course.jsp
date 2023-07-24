@@ -73,7 +73,7 @@
                  class="rounded-2 border ts-border-blue w-100 h-auto mb-3">
             <br/>
             <input type="file" name="img" id="txtImg" class="w-100"
-                   accept="image/*" onchange="updateImgFromInput('txtImg', 'imgCourseImg')">
+                   accept="image/*" onchange="updateImgFromInput('txtImg', 'imgCourseImg', 0.75)">
           </label>
         </div>
         
