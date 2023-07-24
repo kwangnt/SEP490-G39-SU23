@@ -2,9 +2,11 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.homework.HomeworkReadDTO;
+import com.teachsync.dtos.memberHomeworkRecord.MemberHomeworkRecordReadDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.services.clazz.ClazzService;
 import com.teachsync.services.homework.HomeworkService;
+import com.teachsync.services.memberHomeworkRecord.MemberHomeworkRecordService;
 import com.teachsync.utils.Constants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +36,9 @@ public class HomeworkController {
     @Autowired
     ClazzService clazzService;
 
+    @Autowired
+    MemberHomeworkRecordService memberHomeworkRecordService;
+
     @GetMapping("/list")
     public String viewHomeWork(HttpServletRequest request, RedirectAttributes redirect, Model model
             , @ModelAttribute("mess") String mess) {
@@ -45,7 +50,7 @@ public class HomeworkController {
         }
         UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
         try {
-            Page<HomeworkReadDTO> dtoPage = homeworkService.getPageAll(null,userDTO);
+            Page<HomeworkReadDTO> dtoPage = homeworkService.getPageAll(null, userDTO);
             model.addAttribute("homeworkList", dtoPage.getContent());
             model.addAttribute("pageNo", dtoPage.isEmpty() ? 0 : dtoPage.getPageable().getPageNumber());
             model.addAttribute("pageTotal", dtoPage.getTotalPages());
@@ -214,5 +219,70 @@ public class HomeworkController {
 
         redirect.addAttribute("mess", "Xóa bài tập về nhà thành công");
         return "redirect:/homework/list";
+    }
+
+    @GetMapping("/record-homework")
+    public String addRecordHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
+            , @ModelAttribute("mess") String mess) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        if (!userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
+
+        try {
+            if (!ObjectUtils.isEmpty(request.getParameter("id"))) {
+                HomeworkReadDTO homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("id")));
+                model.addAttribute("homework", homeworkReadDTO);
+            }
+            model.addAttribute("mess", mess);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            redirect.addAttribute("mess", "lỗi : " + e.getMessage());
+            return "redirect:/";
+
+        }
+        return "homework/add-record-homework";
+    }
+
+    @PostMapping("/record-homework")
+    public String addRecordHomeworkPost(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        if (!userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
+            redirect.addAttribute("mess", "bạn không đủ quyền");
+            return "redirect:/";
+        }
+//ALTER TABLE teachsync.member_homework_record DROP FOREIGN KEY fk_member_homework_record_clazz_member;
+        MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO = new MemberHomeworkRecordReadDTO();
+        memberHomeworkRecordReadDTO.setMemberId(userDTO.getId());
+        Long homeworkId = Long.parseLong(request.getParameter("homeworkId"));
+        memberHomeworkRecordReadDTO.setHomeworkId(homeworkId);
+        memberHomeworkRecordReadDTO.setSubmission(null);//TODO upload file
+        memberHomeworkRecordReadDTO.setSubmissionLink(request.getParameter("submissionLink"));
+
+        try {
+            memberHomeworkRecordService.add(memberHomeworkRecordReadDTO, userDTO);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            redirect.addAttribute("mess", "lỗi : " + e.getMessage());
+            return "redirect:/";
+
+        }
+        redirect.addAttribute("mess", "Nộp bài tập thành công");
+        return "redirect:/homework/detail-homework?id=" + homeworkId;
     }
 }

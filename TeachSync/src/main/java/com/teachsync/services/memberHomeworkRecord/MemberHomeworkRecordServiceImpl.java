@@ -1,14 +1,19 @@
 package com.teachsync.services.memberHomeworkRecord;
 
 import com.teachsync.dtos.memberHomeworkRecord.MemberHomeworkRecordReadDTO;
+import com.teachsync.dtos.user.UserReadDTO;
+import com.teachsync.entities.Homework;
 import com.teachsync.entities.MemberHomeworkRecord;
 import com.teachsync.repositories.MemberHomeworkRecordRepository;
 import com.teachsync.utils.enums.DtoOption;
+import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +30,25 @@ public class MemberHomeworkRecordServiceImpl implements MemberHomeworkRecordServ
 
     /* =================================================== CREATE =================================================== */
 
+    @Override
+    @Transactional
+    public void add(MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO, UserReadDTO userDTO) throws Exception {
+
+        MemberHomeworkRecord memberHomeworkRecord = new MemberHomeworkRecord();
+        memberHomeworkRecord.setMemberId(memberHomeworkRecordReadDTO.getMemberId());
+        memberHomeworkRecord.setHomeworkId(memberHomeworkRecordReadDTO.getHomeworkId());
+        memberHomeworkRecord.setSubmission(memberHomeworkRecordReadDTO.getSubmission());//TODO upload file
+        memberHomeworkRecord.setSubmissionLink(memberHomeworkRecordReadDTO.getSubmissionLink());
+
+        memberHomeworkRecord.setCreatedBy(userDTO.getId());
+        memberHomeworkRecord.setUpdatedBy(userDTO.getId());
+        memberHomeworkRecord.setStatus(Status.CREATED);
+
+        MemberHomeworkRecord memberHomeworkRecordDB = memberHomeworkRecordRepository.save(memberHomeworkRecord);
+        if (ObjectUtils.isEmpty(memberHomeworkRecordDB)) {
+            throw new Exception("Lỗi khi nộp bài tập về nhà");
+        }
+    }
 
     /* =================================================== READ ===================================================== */
 
