@@ -30,7 +30,7 @@ function copyToClipboard(id) {
     $("body").prepend(
         '<div class="fixed-top d-flex justify-content-center" id="alert">' +
         '   <p class="ts-bg-grey-subtle rounded-pill py-2 px-5" style="width: fit-content;">' +
-        '       Copied to clipboard' +
+        '       Đã copy vào clipboard' +
         '   </p>' +
         '</div>');
 
@@ -39,7 +39,21 @@ function copyToClipboard(id) {
     setTimeout(function() { $("#alert").remove(); }, fadeTime);
 }
 
+/** For single file input type <b>image/*</b> */
+function updateImgFromInput(inputId, imgId) {
+    let file = $("#"+inputId).prop("files")[0];
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        $("#"+imgId).prop("src", e.target.result);
+    }
+
+    // you have to declare the file loading
+    reader.readAsDataURL(file);
+}
+
 /* TODO: chưa import js cho datatable */
 $(document).ready( function () {
     $('#myTable').DataTable();
 } );
+

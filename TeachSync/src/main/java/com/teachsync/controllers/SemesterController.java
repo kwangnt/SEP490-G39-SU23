@@ -71,7 +71,7 @@ public class SemesterController {
             Page<SemesterReadDTO> semesterDTOPage = semesterService.getPageAllDTO(paging, null);
 
             if (semesterDTOPage == null) {
-                return "list-semester";
+                return "semester/list-semester";
             }
 
             Map<Long, SemesterReadDTO> semesterIdSemesterDTOMap =
@@ -93,7 +93,7 @@ public class SemesterController {
             
         }
         
-        return "list-semester";
+        return "semester/list-semester";
     }
 
 }

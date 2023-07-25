@@ -32,13 +32,13 @@ public class ChildController {
         } else {
             System.out.println(lst);
         }
-        return "list-user";
+        return "user/list-user";
     }
 
     @GetMapping("/searchuserbyusername")
     public String searchByUserName(@RequestParam String searchText, Model model) {
         model.addAttribute("lstUser", userService.getListUserByUserName(searchText));
-        return "list-user";
+        return "user/list-user";
     }
 
 }

@@ -57,7 +57,7 @@ public class HomeworkController {
 
         }
 
-        return "homework";
+        return "homework/homework";
     }
 
     @GetMapping("/add-homework")
@@ -98,7 +98,7 @@ public class HomeworkController {
 
         }
 
-        return "add-homework";
+        return "homework/add-homework";
     }
 
     @GetMapping("/detail-homework")
@@ -127,7 +127,7 @@ public class HomeworkController {
 
         }
 
-        return "add-homework";
+        return "homework/add-homework";
     }
 
     @PostMapping("/add-homework")

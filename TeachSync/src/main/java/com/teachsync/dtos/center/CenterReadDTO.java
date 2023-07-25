@@ -2,6 +2,7 @@ package com.teachsync.dtos.center;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.room.RoomReadDTO;
+import com.teachsync.entities.Address;
 import com.teachsync.entities.Center;
 import com.teachsync.utils.enums.CenterType;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,8 @@ import java.util.List;
 public class CenterReadDTO extends BaseReadDTO {
     private Long addressId;
 
+    private Address address;
+
     private String centerName;
 
     private CenterType centerType;
@@ -31,4 +34,6 @@ public class CenterReadDTO extends BaseReadDTO {
 
     private List<RoomReadDTO> roomList;
 //    private List<CenterStaffReadDTO> staffList;
+
+
 }

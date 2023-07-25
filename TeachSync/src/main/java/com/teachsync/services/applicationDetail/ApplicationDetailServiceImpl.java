@@ -40,7 +40,38 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
     @Transactional
     public void add(ApplicationDetailReadDTO applicationDetailReadDTO, UserReadDTO userDTO, Long campaignId) throws Exception {
 
+        List<CampaignApplication> campaignApplicationCheck = campaignApplicationRepository.findAllByCreatedByAndStatusNot(userDTO.getId(), Status.DELETED);
+        for (CampaignApplication campaign : campaignApplicationCheck) {
+            if (!ObjectUtils.isEmpty(campaign)) {
+                if (campaign.getResult().equals("Đang chờ duyệt")) {
+                    throw new Exception("Tài khoản đã tạo đơn ứng tuyển và dang chờ duyệt , vui lòng chờ đợi kết quả");
+                } else if (campaign.getResult().equals("Đã duyệt")) {
+                    throw new Exception("Tài khoản đã tạo đơn ứng tuyển và đã được duyêt , vui lòng không tạo đơn nữa");
+                }
+            }
+        }
+
+        //add campaign Application
+        CampaignApplication campaignApplication = new CampaignApplication();
+        campaignApplication.setCampaignId(campaignId);
+        campaignApplication.setApplicantId(userDTO.getId());
+        campaignApplication.setAppliedAt(LocalDateTime.now());
+        campaignApplication.setResult("Đang chờ duyệt");
+        campaignApplication.setResultDate(LocalDateTime.now());
+
+        campaignApplication.setCreatedBy(userDTO.getId());
+        campaignApplication.setUpdatedBy(userDTO.getId());
+        campaignApplication.setStatus(Status.CREATED);
+
+        CampaignApplication campaignApplicationDb = campaignApplicationRepository.save(campaignApplication);
+
+        if (ObjectUtils.isEmpty(campaignApplicationDb)) {
+            throw new Exception("Lỗi khi tạo campaign Application ");
+        }
+
+        // add ApplicationDetail
         ApplicationDetail applicationDetail = new ApplicationDetail();
+        applicationDetail.setApplicationId(campaignApplicationDb.getId());
         applicationDetail.setDetailType(applicationDetailReadDTO.getDetailType());
         applicationDetail.setDetailLink(applicationDetailReadDTO.getDetailLink());
         applicationDetail.setDetailNote(applicationDetailReadDTO.getDetailNote());//TODO:upload file
@@ -55,29 +86,6 @@ public class ApplicationDetailServiceImpl implements ApplicationDetailService {
             throw new Exception("Lỗi khi tạo đơn ứng tuyển");
         }
 
-        //add campaign Application
-        CampaignApplication campaignApplication = new CampaignApplication();
-        campaignApplication.setCampaignId(campaignId);
-        campaignApplication.setApplicantId(applicationDetailDb.getId());
-        campaignApplication.setAppliedAt(LocalDateTime.now());
-        campaignApplication.setResult("Tạo đơn ứng tuyển");
-        campaignApplication.setResultDate(LocalDateTime.now());
-
-        campaignApplication.setCreatedBy(userDTO.getId());
-        campaignApplication.setUpdatedBy(userDTO.getId());
-        campaignApplication.setStatus(Status.CREATED);
-
-        CampaignApplication campaignApplicationDb = campaignApplicationRepository.save(campaignApplication);
-
-        if (ObjectUtils.isEmpty(campaignApplicationDb)) {
-            throw new Exception("Lỗi khi tạo campaign Application ");
-        }
-        //update Id of ApplicationDetail
-        applicationDetailDb.setApplicationId(campaignApplicationDb.getId());
-        applicationDetailDb = applicationDetailRepository.save(applicationDetail);
-        if (ObjectUtils.isEmpty(applicationDetailDb)) {
-            throw new Exception("Lỗi khi update đơn ứng tuyển");
-        }
     }
 
     /* =================================================== READ ===================================================== */

@@ -21,8 +21,6 @@ public class PriceLogReadDTO extends BaseReadDTO {
 
     private Double price;
 
-    private Boolean isCurrent;
-
     private Boolean isPromotion;
 
     private PromotionType promotionType;

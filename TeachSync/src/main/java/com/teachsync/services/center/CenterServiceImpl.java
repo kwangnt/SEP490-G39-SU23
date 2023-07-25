@@ -1,9 +1,15 @@
 package com.teachsync.services.center;
 
 import com.teachsync.dtos.BaseReadDTO;
+import com.teachsync.dtos.address.AddressCreateDTO;
+import com.teachsync.dtos.address.AddressReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
+import com.teachsync.dtos.room.RoomReadDTO;
 import com.teachsync.entities.Center;
 import com.teachsync.repositories.CenterRepository;
+import com.teachsync.services.address.AddressService;
+import com.teachsync.services.room.RoomService;
+import com.teachsync.services.staff.StaffService;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -23,6 +29,15 @@ public class CenterServiceImpl implements CenterService {
     
     @Autowired
     private ModelMapper mapper;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private StaffService staffService;
 
 
     /* =================================================== CREATE =================================================== */
@@ -126,13 +141,18 @@ public class CenterServiceImpl implements CenterService {
             }
 
             if (options.contains(DtoOption.ROOM_LIST)) {
-                /* TODO:
-                List<RoomReadDTO> roomList = roomService.getAllDTOByCenterId(center.getId(), options);
-                dto.setRoomList(roomList);*/
+
+//                List<RoomReadDTO> roomList = roomService.getAllDTOByCenterId(center.getId(), options);
+//                dto.setRoomList(roomList);
             }
 
             if (options.contains(DtoOption.STAFF_LIST)) {
                 /* TODO: */
+            }
+
+            if (options.contains(DtoOption.ADDRESS)) {
+//                AddressReadDTO addressReadDTO = addressService.getDTOById(center.getAddressId());
+//                dto.setAddress(addressReadDTO);
             }
         }
         

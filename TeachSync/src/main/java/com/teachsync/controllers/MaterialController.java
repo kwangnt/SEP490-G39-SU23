@@ -2,10 +2,10 @@ package com.teachsync.controllers;
 
 import com.teachsync.dtos.material.MaterialCreateDTO;
 import com.teachsync.dtos.material.MaterialReadDTO;
+import com.teachsync.dtos.material.MaterialUpdateDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.repositories.MaterialRepository;
 import com.teachsync.repositories.UserRepository;
-import com.teachsync.utils.Constants;
 import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.MaterialType;
@@ -56,7 +56,7 @@ public class MaterialController {
             return "redirect:/";
         }
 
-        return "create-material";
+        return "material/create-material";
     }
 
     @PostMapping("/create-material")
@@ -74,22 +74,22 @@ public class MaterialController {
         }
 
         /* Thay = modelAttr or json (RequestBody) */
-        MaterialCreateDTO materialDTO = new MaterialCreateDTO();
-        materialDTO.setMaterialName(request.getParameter("name"));
+        MaterialCreateDTO createDTO = new MaterialCreateDTO();
+        createDTO.setMaterialName(request.getParameter("name"));
 
-        materialDTO.setMaterialLink(request.getParameter("link"));
-        materialDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        createDTO.setMaterialLink(request.getParameter("link"));
+        createDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
-        materialDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
-        materialDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
+        createDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        createDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
+        createDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
 
         try {
-            materialService.createMaterialByDTO(materialDTO);
+            materialService.createMaterialByDTO(createDTO);
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "create-material";
+            return "material/create-material";
         }
 
         redirect.addAttribute("mess", "Tạo mới tài liệu thành công");
@@ -110,10 +110,10 @@ public class MaterialController {
             return "redirect:/";
         }
         Long Id = Long.parseLong(request.getParameter("id"));
-        MaterialReadDTO material = materialService.getDTOById(Id);
+        MaterialReadDTO material = materialService.getDTOById(Id, null);
         model.addAttribute("material", material);
 
-        return "edit-material";
+        return "material/edit-material";
     }
 
     @PostMapping("/edit-material")
@@ -128,21 +128,21 @@ public class MaterialController {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";
         }
-        MaterialReadDTO materialReadDTO = new MaterialReadDTO();
-        materialReadDTO.setId(Long.parseLong(request.getParameter("id")));
-        materialReadDTO.setMaterialName(request.getParameter("name"));
+        MaterialUpdateDTO updateDTO = new MaterialUpdateDTO();
+        updateDTO.setId(Long.parseLong(request.getParameter("id")));
+        updateDTO.setMaterialName(request.getParameter("name"));
         //TODO : process upload file
-        materialReadDTO.setMaterialLink(request.getParameter("link"));
-        materialReadDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
-        materialReadDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
-        materialReadDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
-        materialReadDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
+        updateDTO.setMaterialLink(request.getParameter("link"));
+        updateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        updateDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
+        updateDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
+        updateDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
 
         try {
-            materialService.updateMaterialByDTO(materialReadDTO);
+            materialService.updateMaterialByDTO(updateDTO);
         } catch (Exception e) {
             model.addAttribute("mess", "Lỗi : " + e.getMessage());
-            return "edit-material";
+            return "material/edit-material";
         }
 
         redirect.addAttribute("mess", "Sửa khóa học thành công");
@@ -182,7 +182,7 @@ public class MaterialController {
         }
         model.addAttribute("mess", mess);
 
-        return "list-material";
+        return "material/list-material";
     }
 
     @GetMapping("/material-detail")
@@ -191,7 +191,7 @@ public class MaterialController {
             Model model,
             @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
         try {
-            MaterialReadDTO material = materialService.getDTOById(courseId);
+            MaterialReadDTO material = materialService.getDTOById(courseId, null);
 
             if (material == null) {
                 /* Not found by Id */
@@ -205,6 +205,6 @@ public class MaterialController {
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
 
-        return "material-detail";
+        return "material/material-detail";
     }
 }
