@@ -116,7 +116,7 @@ CREATE TABLE `application_detail` (
   CONSTRAINT `fk_application_detail_application` FOREIGN KEY (`applicationId`) REFERENCES `campaign_application` (`id`),
   CONSTRAINT `fk_application_detail_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_application_detail_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `application_detail` (
 
 LOCK TABLES `application_detail` WRITE;
 /*!40000 ALTER TABLE `application_detail` DISABLE KEYS */;
-INSERT INTO `application_detail` VALUES (1,1,'CV',NULL,NULL,'2023-07-18 21:37:23','CREATED','2023-07-18 21:37:26',7,'2023-07-18 21:37:26',7),(2,2,'CV',NULL,NULL,'2023-07-18 21:39:01','CREATED','2023-07-18 21:39:01',7,'2023-07-18 21:39:01',7);
+INSERT INTO `application_detail` VALUES (5,5,'CV',NULL,NULL,'2023-07-20 18:44:23','CREATED','2023-07-20 18:44:23',7,'2023-07-20 18:44:23',7),(6,6,'CV',NULL,NULL,'2023-07-20 18:45:03','CREATED','2023-07-20 18:45:03',7,'2023-07-20 18:45:03',7);
 /*!40000 ALTER TABLE `application_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +195,7 @@ CREATE TABLE `campaign_application` (
   CONSTRAINT `fk_application_user_applicantId` FOREIGN KEY (`applicantId`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_campaign_application_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_campaign_application_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `campaign_application` (
 
 LOCK TABLES `campaign_application` WRITE;
 /*!40000 ALTER TABLE `campaign_application` DISABLE KEYS */;
-INSERT INTO `campaign_application` VALUES (1,1,1,'2023-07-18 21:37:26','Tạo đơn ứng tuyển','2023-07-18 21:37:26','CREATED','2023-07-18 21:37:26',7,'2023-07-18 21:37:26',7),(2,1,2,'2023-07-18 21:39:01','Tạo đơn ứng tuyển','2023-07-18 21:39:01','CREATED','2023-07-18 21:39:01',7,'2023-07-18 21:39:01',7);
+INSERT INTO `campaign_application` VALUES (5,1,7,'2023-07-20 18:44:23','Đã từ chối','2023-07-20 18:44:23','CREATED','2023-07-20 18:44:23',7,'2023-07-20 18:44:41',7),(6,1,7,'2023-07-20 18:45:03','Đã duyệt','2023-07-20 18:45:03','CREATED','2023-07-20 18:45:03',7,'2023-07-20 18:45:16',7);
 /*!40000 ALTER TABLE `campaign_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -644,7 +644,7 @@ CREATE TABLE `homework` (
   CONSTRAINT `fk_homework_clazz` FOREIGN KEY (`clazzId`) REFERENCES `clazz` (`id`),
   CONSTRAINT `fk_homework_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_homework_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -653,6 +653,7 @@ CREATE TABLE `homework` (
 
 LOCK TABLES `homework` WRITE;
 /*!40000 ALTER TABLE `homework` DISABLE KEYS */;
+INSERT INTO `homework` VALUES (1,1,'Mr D 123','Mr D 123','df',NULL,'2023-07-06 22:46:00','2023-07-30 19:50:00','UPDATED','2023-07-24 19:46:30',3,'2023-07-24 20:01:58',3),(2,1,'demo bt 1','demo bt 1',NULL,NULL,'2023-07-05 20:00:00','2023-07-30 20:00:00','CREATED','2023-07-24 20:00:27',3,'2023-07-24 20:00:27',3);
 /*!40000 ALTER TABLE `homework` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -741,6 +742,7 @@ DROP TABLE IF EXISTS `member_homework_record`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `member_homework_record` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `memberId` bigint NOT NULL,
   `homeworkId` bigint NOT NULL,
   `submission` mediumblob COMMENT 'file, 16.76 Mb',
@@ -756,11 +758,10 @@ CREATE TABLE `member_homework_record` (
   KEY `fk_member_homework_record_homework_idx` (`homeworkId`),
   KEY `fk_member_homework_record_user_createdBy_idx` (`createdBy`),
   KEY `fk_member_homework_record_user_updatedBy_idx` (`updatedBy`),
-  CONSTRAINT `fk_member_homework_record_clazz_member` FOREIGN KEY (`memberId`) REFERENCES `clazz_member` (`id`),
   CONSTRAINT `fk_member_homework_record_homework` FOREIGN KEY (`homeworkId`) REFERENCES `homework` (`id`),
   CONSTRAINT `fk_member_homework_record_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_member_homework_record_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -769,6 +770,7 @@ CREATE TABLE `member_homework_record` (
 
 LOCK TABLES `member_homework_record` WRITE;
 /*!40000 ALTER TABLE `member_homework_record` DISABLE KEYS */;
+INSERT INTO `member_homework_record` VALUES (5,'Bài tập - 25-07-2023 18:59:08 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:08',7,'2023-07-25 18:59:08',7),(6,'Bài tập - 25-07-2023 18:59:12 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:12',7,'2023-07-25 18:59:12',7),(7,'Bài tập - 25-07-2023 19:01:21 - Test Student',1,1,NULL,'',NULL,'CREATED','2023-07-25 19:01:21',1,'2023-07-25 19:01:21',1),(8,'Bài tập - 25-07-2023 19:01:24 - Test Student',1,1,NULL,'',NULL,'DELETED','2023-07-25 19:01:25',1,'2023-07-25 19:33:48',1),(9,'Bài tập - 25-07-2023 19:21:16 - duong',7,1,NULL,'https://www.youtube.com/watch?v=gIgI7ZO9yTw&list=TLPQMjUwNzIwMjMk1kX_xqEIhg&index=12',NULL,'CREATED','2023-07-25 19:21:16',7,'2023-07-25 19:21:16',7),(10,'Bài tập - 25-07-2023 19:21:35 - duong',7,1,NULL,NULL,NULL,'DELETED','2023-07-25 19:21:35',7,'2023-07-25 19:33:33',7);
 /*!40000 ALTER TABLE `member_homework_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1379,7 +1381,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'student','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',1,NULL,'Test Student','test.student@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(2,'parent','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',2,NULL,'Test Parent','test.parent@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(3,'teacher','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',3,NULL,'Test Teacher','test.teacher@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(4,'admin','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',4,NULL,'Test Admin','test.admin@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(5,'staff','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',5,NULL,'Test Staff','test.staff@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(6,'teacher2','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',3,NULL,'Test Teacher2','test.teacher2@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(7,'duong','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',1,NULL,'duong','gicungduoc1999@gmail.com',NULL,NULL,NULL,NULL,'CREATED','2023-07-17 19:15:50',NULL,'2023-07-17 19:15:50',NULL);
+INSERT INTO `user` VALUES (1,'student','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',1,NULL,'Test Student','test.student@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(2,'parent','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',2,NULL,'Test Parent','test.parent@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(3,'teacher','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',3,NULL,'Test Teacher','test.teacher@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(4,'admin','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',4,NULL,'Test Admin','test.admin@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(5,'staff','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',5,NULL,'Test Staff','test.staff@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(6,'teacher2','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',3,NULL,'Test Teacher2','test.teacher2@gmail.com',NULL,NULL,NULL,NULL,'CREATED',NULL,NULL,NULL,NULL),(7,'duong','$2a$10$aIE/S3S7dkqn5f7MayN5BekXU.20IS1T9082MlcswgMKyIJ69Tzwe',1,NULL,'duong','gicungduoc1999@gmail.com',NULL,NULL,NULL,NULL,'CREATED','2023-07-17 19:15:50',NULL,'2023-07-20 18:45:16',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1433,4 +1435,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-18 21:41:24
+-- Dump completed on 2023-07-25 20:07:22
