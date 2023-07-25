@@ -15,12 +15,14 @@ public interface MemberHomeworkRecordService {
 
     /* =================================================== READ ===================================================== */
 
+    MemberHomeworkRecordReadDTO findById(Long id) throws Exception;
 
     /* =================================================== UPDATE =================================================== */
 
 
     /* =================================================== DELETE =================================================== */
 
+    void delete(Long id) throws Exception;
 
     /* =================================================== WRAPPER ================================================== */
     MemberHomeworkRecordReadDTO wrapDTO(MemberHomeworkRecord memberHomeworkRecord, Collection<DtoOption> options) throws Exception;

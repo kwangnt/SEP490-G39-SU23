@@ -142,7 +142,14 @@
         <c:if test="${option == 'edit' || option == 'add'}">
             <button type="submit" class="btn btn-primary">Submit</button>
         </c:if>
-        <c:if test="${option == 'detail'}">
+        <p>Danh sách bài tập đã nộp</p>
+        <c:forEach items="${homework.memberHomeworkRecordList}" var="homeworkRecord">
+            <a href="detail-record-homework?id=${homeworkRecord.id}&homeworkId=${homework.id}" >${homeworkRecord.name}</a>
+            <a href="delete-record-homework?id=${homeworkRecord.id}&homeworkId=${homework.id}" ><button type="button" class="btn btn-danger">Xóa</button></a>
+            <br/>
+        </c:forEach>
+        <br/>
+        <c:if test="${option == 'detail' && sessionScope.user.roleId == 1}">
             <a href="record-homework?id=${homework.id}">
                 <button type="button" class="btn btn-primary">Nộp bài tập về nhà</button>
             </a>

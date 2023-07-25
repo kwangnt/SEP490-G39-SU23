@@ -5,6 +5,7 @@ import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.Homework;
 import com.teachsync.entities.MemberHomeworkRecord;
 import com.teachsync.repositories.MemberHomeworkRecordRepository;
+import com.teachsync.utils.MiscUtil;
 import com.teachsync.utils.enums.DtoOption;
 import com.teachsync.utils.enums.Status;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,7 @@ public class MemberHomeworkRecordServiceImpl implements MemberHomeworkRecordServ
     public void add(MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO, UserReadDTO userDTO) throws Exception {
 
         MemberHomeworkRecord memberHomeworkRecord = new MemberHomeworkRecord();
+        memberHomeworkRecord.setName("Bài tập - " + MiscUtil.generateRandomName() + " - " + userDTO.getFullName());
         memberHomeworkRecord.setMemberId(memberHomeworkRecordReadDTO.getMemberId());
         memberHomeworkRecord.setHomeworkId(memberHomeworkRecordReadDTO.getHomeworkId());
         memberHomeworkRecord.setSubmission(memberHomeworkRecordReadDTO.getSubmission());//TODO upload file
@@ -52,12 +54,26 @@ public class MemberHomeworkRecordServiceImpl implements MemberHomeworkRecordServ
 
     /* =================================================== READ ===================================================== */
 
+    @Override
+    public MemberHomeworkRecordReadDTO findById(Long id) throws Exception {
+        MemberHomeworkRecord memberHomeworkRecord = memberHomeworkRecordRepository.findById(id).orElseThrow(() -> new Exception("không tìm thấy bài tập về nhà"));
+        return mapper.map(memberHomeworkRecord, MemberHomeworkRecordReadDTO.class);
+    }
 
     /* =================================================== UPDATE =================================================== */
 
 
     /* =================================================== DELETE =================================================== */
 
+    @Override
+    public void delete(Long id) throws Exception {
+        MemberHomeworkRecord memberHomeworkRecord = memberHomeworkRecordRepository.findById(id).orElseThrow(() -> new Exception("không tìm thấy bài tập về nhà"));
+        memberHomeworkRecord.setStatus(Status.DELETED);
+        MemberHomeworkRecord memberHomeworkRecordDB = memberHomeworkRecordRepository.save(memberHomeworkRecord);
+        if (ObjectUtils.isEmpty(memberHomeworkRecordDB)) {
+            throw new Exception("Lỗi khi xóa record bài tập về nhà");
+        }
+    }
 
     /* =================================================== WRAPPER ================================================== */
     @Override

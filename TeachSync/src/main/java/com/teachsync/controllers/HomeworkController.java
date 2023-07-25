@@ -114,11 +114,16 @@ public class HomeworkController {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
             return "redirect:/";
         }
-
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
         try {
             Page<ClazzReadDTO> dtoPage = clazzService.getPageDTOAll(null);
             if (!ObjectUtils.isEmpty(request.getParameter("id"))) {
-                HomeworkReadDTO homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("id")));
+                HomeworkReadDTO homeworkReadDTO = new HomeworkReadDTO();
+                if (userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
+                    homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("id")), userDTO);
+                } else {
+                    homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("id")));
+                }
                 model.addAttribute("homework", homeworkReadDTO);
                 model.addAttribute("option", "detail");
             }
@@ -127,6 +132,7 @@ public class HomeworkController {
 
         } catch (Exception e) {
             logger.error(e.getMessage());
+            e.printStackTrace();
             redirect.addAttribute("mess", "xem chi tiêt bài tập thất bại ,lỗi : " + e.getMessage());
             return "redirect:/";
 
@@ -221,6 +227,7 @@ public class HomeworkController {
         return "redirect:/homework/list";
     }
 
+
     @GetMapping("/record-homework")
     public String addRecordHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
             , @ModelAttribute("mess") String mess) {
@@ -242,6 +249,7 @@ public class HomeworkController {
                 model.addAttribute("homework", homeworkReadDTO);
             }
             model.addAttribute("mess", mess);
+            model.addAttribute("option", "add");
         } catch (Exception e) {
             logger.error(e.getMessage());
             redirect.addAttribute("mess", "lỗi : " + e.getMessage());
@@ -265,7 +273,9 @@ public class HomeworkController {
             redirect.addAttribute("mess", "bạn không đủ quyền");
             return "redirect:/";
         }
-//ALTER TABLE teachsync.member_homework_record DROP FOREIGN KEY fk_member_homework_record_clazz_member;
+        //ALTER TABLE teachsync.member_homework_record DROP FOREIGN KEY fk_member_homework_record_clazz_member;
+        //FK menberId --> usser
+        //thêm trường name
         MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO = new MemberHomeworkRecordReadDTO();
         memberHomeworkRecordReadDTO.setMemberId(userDTO.getId());
         Long homeworkId = Long.parseLong(request.getParameter("homeworkId"));
@@ -283,6 +293,57 @@ public class HomeworkController {
 
         }
         redirect.addAttribute("mess", "Nộp bài tập thành công");
+        return "redirect:/homework/detail-homework?id=" + homeworkId;
+    }
+
+    @GetMapping("/detail-record-homework")
+    public String detailRecordHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
+            , @ModelAttribute("mess") String mess) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
+
+        try {
+            if (!ObjectUtils.isEmpty(request.getParameter("homeworkId")) && !ObjectUtils.isEmpty(request.getParameter("id"))) {
+                HomeworkReadDTO homeworkReadDTO = homeworkService.findById(Long.parseLong(request.getParameter("homeworkId")));
+                MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO = memberHomeworkRecordService.findById(Long.parseLong(request.getParameter("id")));
+                model.addAttribute("homework", homeworkReadDTO);
+                model.addAttribute("homeworkRecord", memberHomeworkRecordReadDTO);
+                model.addAttribute("option", "detail");
+            }
+            model.addAttribute("mess", mess);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            redirect.addAttribute("mess", "lỗi : " + e.getMessage());
+            return "redirect:/";
+
+        }
+        return "homework/add-record-homework";
+    }
+
+    @GetMapping("/delete-record-homework")
+    public String deleteRecordHomework(HttpSession session, RedirectAttributes redirect, Model model, HttpServletRequest request
+            , @ModelAttribute("mess") String mess) {
+        //check login
+        if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
+            redirect.addAttribute("mess", "Làm ơn đăng nhập");
+            return "redirect:/";
+        }
+        Long homeworkId = Long.parseLong(request.getParameter("homeworkId"));
+        try {
+
+            memberHomeworkRecordService.delete(Long.parseLong(request.getParameter("id")));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            redirect.addAttribute("mess", "lỗi : " + e.getMessage());
+            return "redirect:/homework/detail-homework?id=" + homeworkId;
+
+        }
+        redirect.addAttribute("mess", "Xóa thành công ");
         return "redirect:/homework/detail-homework?id=" + homeworkId;
     }
 }

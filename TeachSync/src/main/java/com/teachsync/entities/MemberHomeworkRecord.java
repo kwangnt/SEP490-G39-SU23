@@ -14,6 +14,10 @@ import lombok.*;
 @Entity
 @Table(name = "member_homework_record")
 public class MemberHomeworkRecord extends BaseEntity {
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "memberId", nullable = false)
     private Long memberId;
 

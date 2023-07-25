@@ -46,23 +46,53 @@
                    class="form-control" placeholder="Nhập tên bài tập">
         </div>
         <div class="form-group">
-            <label>File đính kèm</label>
-            <input type="file" name="submission"
-                   value=""
-                   class="form-control" placeholder="File đính kèm">
+            <label>Tên bài tập đã nộp</label>
+            <input type="text" name="name"
+                   value="${homeworkRecord.name}"
+                   disabled
+                   class="form-control" placeholder="Nhập tên bài tập">
         </div>
+        <div class="form-group">
+            <label>File đính kèm</label>
+            <c:if test="${option eq 'detail' }">
+                <input type="file" name="submission"
+                       disabled
+                       value="${homeworkRecord.submission}"
+                       class="form-control" placeholder="File đính kèm">
+            </c:if>
+            <c:if test="${option eq 'add' }">
+                <input type="file" name="submission"
+                       value=""
+                       class="form-control" placeholder="File đính kèm">
+            </c:if>
+
+        </div>
+
         <p>Bạn đã link của file bài tập <input type="checkbox" id="ckHoSo"></p>
         <div class="form-group" id="divHoSo" style="display: none;">
             <label>Link đính kèm</label>
-            <input type="text" name="submissionLink"
-                   value=""
-                   class="form-control" placeholder="Link đính kèm">
+            <c:if test="${option eq 'detail' }">
+                <input type="text" name="submissionLink"
+                       disabled
+                       value="${homeworkRecord.submissionLink}"
+                       class="form-control" placeholder="File đính kèm">
+            </c:if>
+            <c:if test="${option eq 'add' }">
+                <input type="text" name="submissionLink"
+                       value=""
+                       class="form-control" placeholder="File đính kèm">
+            </c:if>
         </div>
-
-
         <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <br>
+        <c:if test="${option eq 'detail' }">
+            <button disabled type="submit" class="btn btn-primary">Submit</button>
+        </c:if>
+        <c:if test="${option eq 'add' }">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </c:if>
+
+        <br/>
+        <br/>
     </form>
 
 
