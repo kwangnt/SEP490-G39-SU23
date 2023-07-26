@@ -15,11 +15,36 @@
     <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
     <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
     <script src="../../../resources/js/common.js"></script>
+    <script src="../../../resources/js/firebase.js"></script>
     <script>
         $(document).ready(function () {
             $('#ckHoSo').click(function () {
                 $('#divHoSo').toggle();
             });
+
+            // Gán sự kiện 'change' cho input type="file"
+            document.getElementById('submission').addEventListener('change', handleFileUpload);
+
+            // Hàm xử lý khi người dùng chọn file
+            async function handleFileUpload(event) {
+                const file = event.target.files[0]; // Lấy file từ sự kiện
+
+                if (!file) {
+                    return;
+                }
+
+                try {
+                    // Gọi function uploadFileToFirebaseAndGetURL để upload file và nhận URL
+                    const url = await uploadFileToFirebaseAndGetURL(file);
+
+                    // Gán URL vào input type="text"
+                    document.getElementById('submissionFile').value = url;
+                } catch (error) {
+                    console.error('Error uploading file:', error);
+                    // Xử lý lỗi nếu cần
+                }
+            }
+
         });
     </script>
     <script>
@@ -63,7 +88,10 @@
             <c:if test="${option eq 'add' }">
                 <input type="file" name="submission"
                        value=""
+                       id="submission"
                        class="form-control" placeholder="File đính kèm">
+                <input type="text" name="submissionFile" id="submissionFile">
+
             </c:if>
 
         </div>
