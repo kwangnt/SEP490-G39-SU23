@@ -244,7 +244,7 @@ public class TestController {
         model.addAttribute("test", test);
         model.addAttribute("hmQA", lstQs);
 
-        return "dothetest";
+        return "test/dothetest";
     }
 
     @PostMapping("/submitTest")

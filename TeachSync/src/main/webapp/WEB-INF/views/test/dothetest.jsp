@@ -49,11 +49,13 @@
         }
     </style>
 </head>
-<body>
+<body onload="startTimer(${test.timeLimit})">
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
 <h1>Bài kiểm tra</h1>
+
+<p>Thời gian còn lại: <span id="timer"></span></p>
 <c:choose>
-    <c:when test="${test.testType eq 'multipleChoice'}">
+    <c:when test="${test.testDesc eq 'multipleChoice'}">
         <form action="submitTest" method="post">
             <input type="hidden" name="idTest" value="${idTest}" >
             <input type="hidden" name="typeTest" value="${test.testType}" >
@@ -74,7 +76,7 @@
         </form>
     </c:when>
     <c:otherwise>
-        <form action="submitTest" method="post">
+        <form id="myForm" action="submitTest" method="post">
             <input type="hidden" name="idTest" value="${idTest}" >
             <input type="hidden" name="typeTest" value="${test.testType}" >
 
@@ -94,4 +96,25 @@
 <%-- Bạn cần thêm các thư viện JSTL và phần logic xử lý bài kiểm tra vào đây --%>
 
 </body>
+<script>
+    function startTimer(minutes) {
+        var countDownDate = new Date().getTime() + (minutes * 60000);
+
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var minutesLeft = Math.floor(distance / (1000 * 60));
+            var secondsLeft = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = minutesLeft + " phút " + secondsLeft + " giây";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "Hết giờ!";
+                document.getElementById("myForm").submit(); // Submit form khi hết giờ
+            }
+        }, 1000);
+    }
+</script>
 </html>
