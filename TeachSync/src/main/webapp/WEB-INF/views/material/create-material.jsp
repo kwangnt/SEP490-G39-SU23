@@ -24,14 +24,14 @@
 <!-- ================================================== Main Body ================================================== -->
 <div class="row ts-bg-white border ts-border-teal rounded-3 pt-3 mx-2 mb-3">
     <form action="create-material" method="post">
-        <div class="form-group">
-            <label>Tên khóa học</label>
-            <select name="courseId">
-                <c:forEach items="${courseList}" var="course">
-                    <option value="${course.id}"> ${course.courseName}</option>
-                </c:forEach>
-            </select>
-        </div>
+<%--        <div class="form-group">--%>
+<%--            <label>Tên khóa học</label>--%>
+<%--            <select name="courseId">--%>
+<%--                <c:forEach items="${courseList}" var="course">--%>
+<%--                    <option value="${course.id}"> ${course.courseName}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+<%--        </div>--%>
 
         <div class="form-group">
             <label>Tên tài liệu</label>
@@ -47,12 +47,12 @@
                    class="form-control" placeholder="Nhập link tài liệu">
         </div>
 
-        <div class="form-group">
-            <label>Content tài liệu</label>
-            <input type="text" name="content"
-                   required
-                   class="form-control" placeholder="Nhập content tài liệu">
-        </div>
+<%--        <div class="form-group">--%>
+<%--            <label>Content tài liệu</label>--%>
+<%--            <input type="text" name="content"--%>
+<%--                   required--%>
+<%--                   class="form-control" placeholder="Nhập content tài liệu">--%>
+<%--        </div>--%>
 
         <div class="form-group">
             <label>Ảnh tài liệu</label>
