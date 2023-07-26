@@ -276,11 +276,12 @@ public class HomeworkController {
         //ALTER TABLE teachsync.member_homework_record DROP FOREIGN KEY fk_member_homework_record_clazz_member;
         //FK menberId --> usser
         //thêm trường name
+        //submission --> data type : longtext;
         MemberHomeworkRecordReadDTO memberHomeworkRecordReadDTO = new MemberHomeworkRecordReadDTO();
         memberHomeworkRecordReadDTO.setMemberId(userDTO.getId());
         Long homeworkId = Long.parseLong(request.getParameter("homeworkId"));
         memberHomeworkRecordReadDTO.setHomeworkId(homeworkId);
-        memberHomeworkRecordReadDTO.setSubmission(null);//TODO upload file
+        memberHomeworkRecordReadDTO.setSubmission(request.getParameter("submissionFile"));//TODO upload file
         memberHomeworkRecordReadDTO.setSubmissionLink(request.getParameter("submissionLink"));
 
         try {

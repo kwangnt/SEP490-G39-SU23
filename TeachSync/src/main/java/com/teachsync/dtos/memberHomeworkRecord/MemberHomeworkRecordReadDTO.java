@@ -16,7 +16,7 @@ public class MemberHomeworkRecordReadDTO extends BaseReadDTO {
     private String name;
     private Long memberId;
     private Long homeworkId;
-    private byte[] submission;
+    private String submission;
     private String submissionLink;
     private Double score;
 }

@@ -15,7 +15,15 @@
     <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
     <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
     <script src="../../../resources/js/common.js"></script>
+
+    <!-- Import the SDKs you need -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
     <script src="../../../resources/js/firebase.js"></script>
+
+    <script src="../../../resources/js/common.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#ckHoSo').click(function () {
@@ -80,17 +88,15 @@
         <div class="form-group">
             <label>File đính kèm</label>
             <c:if test="${option eq 'detail' }">
-                <input type="file" name="submission"
-                       disabled
-                       value="${homeworkRecord.submission}"
-                       class="form-control" placeholder="File đính kèm">
+                <br>
+                <a href="${homeworkRecord.submission}" download>Xem file của bạn</a>
             </c:if>
             <c:if test="${option eq 'add' }">
                 <input type="file" name="submission"
                        value=""
                        id="submission"
                        class="form-control" placeholder="File đính kèm">
-                <input type="text" name="submissionFile" id="submissionFile">
+                <input type="text" name="submissionFile" hidden id="submissionFile">
 
             </c:if>
 
