@@ -525,7 +525,7 @@ CREATE TABLE `course` (
   KEY `fk_course_user_updatedBy_idx` (`updatedBy`),
   CONSTRAINT `fk_course_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_course_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,7 +534,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'ielts 101','ILT101','https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1',NULL,14,5,80,'CREATED',NULL,NULL,NULL,NULL),(2,'English Grade 1','ENG001','https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1',NULL,12,4.5,75,'CREATED',NULL,NULL,NULL,NULL),(3,'English Grade 2','ENG002','https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg',NULL,12,5,75,'CREATED',NULL,NULL,NULL,NULL),(4,'English Grade 3','ENG003','https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1',NULL,12,5,75,'CREATED',NULL,NULL,NULL,NULL);
+INSERT INTO `course` VALUES (1,'ielts 101','ILT101','https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1',NULL,14,5,80,'CREATED',NULL,NULL,NULL,NULL),(2,'English Grade 1','ENG001','https://th.bing.com/th/id/OIP.isjamm3juJANzM_sHKCx0wHaKe?pid=ImgDet&rs=1',NULL,12,4.5,75,'CREATED',NULL,NULL,NULL,NULL),(3,'English Grade 2','ENG002','https://www.geo.tv/assets/uploads/updates/2021-05-03/348462_790220_updates.jpg',NULL,12,5,75,'CREATED',NULL,NULL,NULL,NULL),(4,'English Grade 3','ENG003','https://th.bing.com/th/id/OIP.H1Q3_d4okF70VIVYp-YA5AAAAA?pid=ImgDet&w=360&h=470&rs=1',NULL,12,5,75,'CREATED',NULL,NULL,NULL,NULL),(5,'a','a','https://firebasestorage.googleapis.com/v0/b/teachsync.appspot.com/o/1690380574548-1f28b5e0b08263dc3a93.jpg?alt=media&token=492a305c-7143-4671-b62e-4aa1c307c4c1','a',10,5,80,'CREATED','2023-07-26 21:09:37',4,'2023-07-26 21:09:37',NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -745,7 +745,7 @@ CREATE TABLE `member_homework_record` (
   `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `memberId` bigint NOT NULL,
   `homeworkId` bigint NOT NULL,
-  `submission` mediumblob COMMENT 'file, 16.76 Mb',
+  `submission` longtext COMMENT 'file, 16.76 Mb',
   `submissionLink` longtext,
   `score` float DEFAULT NULL COMMENT 'max 10.00',
   `status` varchar(45) NOT NULL,
@@ -761,7 +761,7 @@ CREATE TABLE `member_homework_record` (
   CONSTRAINT `fk_member_homework_record_homework` FOREIGN KEY (`homeworkId`) REFERENCES `homework` (`id`),
   CONSTRAINT `fk_member_homework_record_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_member_homework_record_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -770,7 +770,7 @@ CREATE TABLE `member_homework_record` (
 
 LOCK TABLES `member_homework_record` WRITE;
 /*!40000 ALTER TABLE `member_homework_record` DISABLE KEYS */;
-INSERT INTO `member_homework_record` VALUES (5,'Bài tập - 25-07-2023 18:59:08 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:08',7,'2023-07-25 18:59:08',7),(6,'Bài tập - 25-07-2023 18:59:12 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:12',7,'2023-07-25 18:59:12',7),(7,'Bài tập - 25-07-2023 19:01:21 - Test Student',1,1,NULL,'',NULL,'CREATED','2023-07-25 19:01:21',1,'2023-07-25 19:01:21',1),(8,'Bài tập - 25-07-2023 19:01:24 - Test Student',1,1,NULL,'',NULL,'DELETED','2023-07-25 19:01:25',1,'2023-07-25 19:33:48',1),(9,'Bài tập - 25-07-2023 19:21:16 - duong',7,1,NULL,'https://www.youtube.com/watch?v=gIgI7ZO9yTw&list=TLPQMjUwNzIwMjMk1kX_xqEIhg&index=12',NULL,'CREATED','2023-07-25 19:21:16',7,'2023-07-25 19:21:16',7),(10,'Bài tập - 25-07-2023 19:21:35 - duong',7,1,NULL,NULL,NULL,'DELETED','2023-07-25 19:21:35',7,'2023-07-25 19:33:33',7);
+INSERT INTO `member_homework_record` VALUES (5,'Bài tập - 25-07-2023 18:59:08 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:08',7,'2023-07-25 18:59:08',7),(6,'Bài tập - 25-07-2023 18:59:12 - duong',7,1,NULL,'',NULL,'CREATED','2023-07-25 18:59:12',7,'2023-07-25 18:59:12',7),(7,'Bài tập - 25-07-2023 19:01:21 - Test Student',1,1,NULL,'',NULL,'CREATED','2023-07-25 19:01:21',1,'2023-07-25 19:01:21',1),(8,'Bài tập - 25-07-2023 19:01:24 - Test Student',1,1,NULL,'',NULL,'DELETED','2023-07-25 19:01:25',1,'2023-07-25 19:33:48',1),(9,'Bài tập - 25-07-2023 19:21:16 - duong',7,1,NULL,'https://www.youtube.com/watch?v=gIgI7ZO9yTw&list=TLPQMjUwNzIwMjMk1kX_xqEIhg&index=12',NULL,'CREATED','2023-07-25 19:21:16',7,'2023-07-25 19:21:16',7),(10,'Bài tập - 25-07-2023 19:21:35 - duong',7,1,NULL,NULL,NULL,'DELETED','2023-07-25 19:21:35',7,'2023-07-25 19:33:33',7),(11,'Bài tập - 26-07-2023 21:19:22 - duong',7,1,'https://firebasestorage.googleapis.com/v0/b/teachsync.appspot.com/o/1690381158810-1f28b5e0b08263dc3a93.jpg?alt=media&token=99ad552e-2a75-4a4c-a85f-8b9b4196f5a5','',NULL,'DELETED','2023-07-26 21:19:22',7,'2023-07-26 21:23:00',7),(12,'Bài tập - 26-07-2023 21:22:37 - duong',7,1,'https://firebasestorage.googleapis.com/v0/b/teachsync.appspot.com/o/1690381356900-sdf.txt?alt=media&token=497deef1-4679-43fa-b3de-88dff9d9d085','',NULL,'DELETED','2023-07-26 21:22:38',7,'2023-07-26 21:22:58',7),(13,'Bài tập - 26-07-2023 21:23:04 - duong',7,1,'https://firebasestorage.googleapis.com/v0/b/teachsync.appspot.com/o/1690381383791-sdf.txt?alt=media&token=bdb452b6-8fa7-4583-a37e-1f905e80a1f8','',NULL,'CREATED','2023-07-26 21:23:05',7,'2023-07-26 21:23:05',7),(14,'Bài tập - 26-07-2023 21:29:46 - duong',7,1,'https://firebasestorage.googleapis.com/v0/b/teachsync.appspot.com/o/1690381776444-lan.png?alt=media&token=980e2835-75fb-47de-8761-cd2b08ffec49','',NULL,'CREATED','2023-07-26 21:29:46',7,'2023-07-26 21:29:46',7);
 /*!40000 ALTER TABLE `member_homework_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -924,7 +924,7 @@ CREATE TABLE `price_log` (
   CONSTRAINT `fk_price_log_course` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`),
   CONSTRAINT `fk_price_log_user_createdBy` FOREIGN KEY (`createdBy`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_price_log_user_updatedBy` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -933,7 +933,7 @@ CREATE TABLE `price_log` (
 
 LOCK TABLES `price_log` WRITE;
 /*!40000 ALTER TABLE `price_log` DISABLE KEYS */;
-INSERT INTO `price_log` VALUES (1,1,200000,_binary '',15,'PERCENT','Grand opening super deal, now cheaper ','2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(2,2,100000,_binary '',20000,'AMOUNT','To help with the first step, now reduce','2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(3,3,125000,_binary '\0',NULL,NULL,NULL,'2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(4,4,150000,_binary '\0',NULL,NULL,NULL,'2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL);
+INSERT INTO `price_log` VALUES (1,1,200000,_binary '',15,'PERCENT','Grand opening super deal, now cheaper ','2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(2,2,100000,_binary '',20000,'AMOUNT','To help with the first step, now reduce','2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(3,3,125000,_binary '\0',NULL,NULL,NULL,'2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(4,4,150000,_binary '\0',NULL,NULL,NULL,'2023-06-10 00:00:01',NULL,'CREATED',NULL,NULL,NULL,NULL),(5,5,100000,_binary '\0',NULL,NULL,NULL,'2023-07-26 21:09:37',NULL,'CREATED','2023-07-26 21:09:37',NULL,'2023-07-26 21:09:37',NULL);
 /*!40000 ALTER TABLE `price_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1435,4 +1435,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-25 20:07:22
+-- Dump completed on 2023-07-26 21:59:46
