@@ -80,9 +80,11 @@ public class MaterialController {
         return "material/list-material";
     }
 
-
+    /* =================================================== CREATE =================================================== */
     @GetMapping("/create-material")
-    public String createMaterial(HttpServletRequest request, RedirectAttributes redirect) {
+    public String createMaterial(
+            HttpServletRequest request,
+            RedirectAttributes redirect) {
         HttpSession session = request.getSession();
 
         UserReadDTO userDTO = (UserReadDTO) session.getAttribute("user");
@@ -113,16 +115,16 @@ public class MaterialController {
             return "redirect:/";
         }
 
-//        /* List Course (môn nào) */
-//        List<CourseReadDTO> courseDTOList = courseService.getAllDTO(null);
-//        model.addAttribute("courseList", courseDTOList);
+        /* List Course (môn nào) */
+        List<CourseReadDTO> courseDTOList = courseService.getAllDTO(null);
+        model.addAttribute("courseList", courseDTOList);
 
         /* Thay = modelAttr or json (RequestBody) */
         MaterialCreateDTO createDTO = new MaterialCreateDTO();
         createDTO.setMaterialName(request.getParameter("name"));
 
         createDTO.setMaterialLink(request.getParameter("link"));
-        createDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+//        createDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         createDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
         createDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
@@ -177,7 +179,7 @@ public class MaterialController {
         updateDTO.setMaterialName(request.getParameter("name"));
         //TODO : process upload file
         updateDTO.setMaterialLink(request.getParameter("link"));
-        updateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        //updateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         updateDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
         updateDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         updateDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
