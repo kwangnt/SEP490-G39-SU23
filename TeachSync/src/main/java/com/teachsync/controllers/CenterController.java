@@ -1,5 +1,6 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.address.AddressReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
 import com.teachsync.entities.Address;
 import com.teachsync.repositories.AddressRepository;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.teachsync.utils.enums.DtoOption.*;
 
 @Controller
 public class CenterController {
@@ -32,9 +35,12 @@ public class CenterController {
         try{
             List<CenterReadDTO> centerList = centerService.getAllDTO(null);
             Set<Long> addressIdSet = centerList.stream().map(CenterReadDTO::getAddressId).collect(Collectors.toSet());
-            Map<Long, Address> addressIdAddressMap = addressService.mapIdAddressByIdIn(addressIdSet);
-            centerList = centerList.stream().peek(centerReadDTO ->
-            {centerReadDTO.setAddress(addressIdAddressMap.get(centerReadDTO.getAddressId()));}).collect(Collectors.toList());
+            Map<Long, AddressReadDTO> addressIdAddressMap = addressService.mapIdDTOByIdIn(addressIdSet, null);
+
+            centerList = centerList.stream()
+                    .peek(centerReadDTO ->
+                            centerReadDTO.setAddress(addressIdAddressMap.get(centerReadDTO.getAddressId())))
+                    .collect(Collectors.toList());
 
             model.addAttribute("listCenter",centerList);
         }catch (Exception e){
@@ -55,11 +61,14 @@ public class CenterController {
             @RequestParam Long id
     ){
         try{
-            CenterReadDTO centerReadDTO = centerService.getDTOById(id,null);
-            Address address = addressService.getById(centerReadDTO.getAddressId());
-            centerReadDTO.setAddress(address);
-            model.addAttribute("address",address);
-            model.addAttribute("center",centerReadDTO);
+            CenterReadDTO centerReadDTO = centerService.getDTOById(id, List.of(ADDRESS));
+
+//            AddressReadDTO address = addressService.getDTOById(centerReadDTO.getAddressId(), null);
+//            centerReadDTO.setAddress(address);
+
+            model.addAttribute("address", centerReadDTO.getAddress());
+
+            model.addAttribute("center", centerReadDTO);
         }catch (Exception e){
 
         }

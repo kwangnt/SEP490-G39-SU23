@@ -39,9 +39,9 @@ public interface CourseSemesterService {
     /* courseId, semesterId */
     List<CourseSemester> getAllByCourseIdAndSemesterIdIn(
             Long courseId, Collection<Long> semesterIdCollection) throws Exception;
+    Map<Long, String> mapIdSemesterIdCenterIdStringByCourseIdAndSemesterIdIn(
+            Long courseId, Collection<Long> semesterIdCollection) throws Exception;
     List<CourseSemesterReadDTO> getAllDTOByCourseIdAndSemesterIdIn(
-            Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception;
-    Map<Long, CourseSemesterReadDTO> mapIdDTOByCourseIdAndSemesterIdIn(
             Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception;
 
     /* semesterId */

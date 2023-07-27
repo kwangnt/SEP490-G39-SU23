@@ -18,7 +18,6 @@
   <!-- Import the SDKs you need -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-  
   <script src="../../../resources/js/firebase.js"></script>
   
   <script src="../../../resources/js/common.js"></script>

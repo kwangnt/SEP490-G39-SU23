@@ -2,6 +2,7 @@ package com.teachsync.services.courseSemester;
 
 import com.teachsync.dtos.BaseReadDTO;
 import com.teachsync.dtos.center.CenterReadDTO;
+import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.courseSemester.CourseSemesterReadDTO;
 import com.teachsync.dtos.semester.SemesterReadDTO;
 import com.teachsync.entities.BaseEntity;
@@ -193,6 +194,20 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
         return courseSemesterPage;
     }
     @Override
+    public Map<Long, String> mapIdSemesterIdCenterIdStringByCourseIdAndSemesterIdIn(
+            Long courseId, Collection<Long> semesterIdCollection) throws Exception {
+        List<CourseSemester> courseSemesterList = getAllByCourseIdAndSemesterIdIn(courseId, semesterIdCollection);
+
+        if (courseSemesterList == null) {
+            return new HashMap<>();
+        }
+
+        return courseSemesterList.stream()
+                .collect(Collectors.toMap(
+                        BaseEntity::getId,
+                        cS -> cS.getSemesterId().toString().concat(cS.getCenterId().toString())));
+    }
+    @Override
     public List<CourseSemesterReadDTO> getAllDTOByCourseIdAndSemesterIdIn(
             Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception {
         List<CourseSemester> courseSemesterList = getAllByCourseIdAndSemesterIdIn(courseId, semesterIdCollection);
@@ -202,19 +217,6 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
         }
 
         return wrapListDTO(courseSemesterList, options);
-    }
-    @Override
-    public Map<Long, CourseSemesterReadDTO> mapIdDTOByCourseIdAndSemesterIdIn(
-            Long courseId, Collection<Long> semesterIdCollection, Collection<DtoOption> options) throws Exception {
-        List<CourseSemesterReadDTO> courseSemesterDTOList =
-                getAllDTOByCourseIdAndSemesterIdIn(courseId, semesterIdCollection, options);
-
-        if (courseSemesterDTOList == null) {
-            return new HashMap<>();
-        }
-
-        return courseSemesterDTOList.stream()
-                .collect(Collectors.toMap(BaseReadDTO::getId, Function.identity()));
     }
 
 
@@ -341,6 +343,10 @@ public class CourseSemesterServiceImpl implements CourseSemesterService {
 
         /* Add Dependency */
         if (options != null && !options.isEmpty()) {
+            if (options.contains(DtoOption.COURSE)) {
+                CourseReadDTO courseDTO = courseService.getDTOById(dto.getCourseId(), options);
+                dto.setCourse(courseDTO);
+            }
             if (options.contains(DtoOption.COURSE_NAME)) {
                 Course course = courseService.getById(dto.getCourseId());
                 dto.setCourseName(course.getCourseName());
