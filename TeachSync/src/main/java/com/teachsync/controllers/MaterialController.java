@@ -124,7 +124,7 @@ public class MaterialController {
         createDTO.setMaterialName(request.getParameter("name"));
 
         createDTO.setMaterialLink(request.getParameter("link"));
-//        createDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        createDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         //TODO : process upload file
         createDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
         createDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
@@ -163,7 +163,7 @@ public class MaterialController {
     }
 
     @PostMapping("/edit-material")
-    public String submitEditMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect ) {
+    public String submitEditMaterial(Model model, HttpServletRequest request, RedirectAttributes redirect ) throws Exception {
         HttpSession session = request.getSession();
         if (ObjectUtils.isEmpty(session.getAttribute("user"))) {
             redirect.addAttribute("mess", "Làm ơn đăng nhập");
@@ -174,12 +174,16 @@ public class MaterialController {
             redirect.addAttribute("mess", "Bạn không đủ quyền");
             return "redirect:/";
         }
+        /* List Course (môn nào) */
+        List<CourseReadDTO> courseDTOList = courseService.getAllDTO(null);
+        model.addAttribute("courseList", courseDTOList);
+
         MaterialUpdateDTO updateDTO = new MaterialUpdateDTO();
         updateDTO.setId(Long.parseLong(request.getParameter("id")));
         updateDTO.setMaterialName(request.getParameter("name"));
         //TODO : process upload file
         updateDTO.setMaterialLink(request.getParameter("link"));
-        //updateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
+        updateDTO.setMaterialContent(new byte[]{Byte.parseByte(request.getParameter("content"))});
         updateDTO.setMaterialImg("https://th.bing.com/th/id/OIP.R7Wj-CVruj2Gcx-MmaxmZAHaKe?pid=ImgDet&rs=1");
         updateDTO.setMaterialType(MaterialType.valueOf(request.getParameter("type")));
         updateDTO.setIsFree(Boolean.parseBoolean(request.getParameter("free")));
@@ -191,7 +195,7 @@ public class MaterialController {
             return "material/edit-material";
         }
 
-        redirect.addAttribute("mess", "Sửa khóa học thành công");
+        redirect.addAttribute("mess", "Sửa tài liệu thành công");
 
         return "redirect:/material";
     }
@@ -215,7 +219,7 @@ public class MaterialController {
             e.printStackTrace();
             model.addAttribute("errorMsg", "Server error, please try again later");
         }
-        model.addAttribute("mess", "Xóa khóa học thành công");
+        model.addAttribute("mess", "Xóa tài liệu thành công");
 
         return "material/list-material";
     }
