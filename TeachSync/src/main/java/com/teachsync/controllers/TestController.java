@@ -241,6 +241,10 @@ public class TestController {
 
         Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
         Date date = new Date();
+        TestSession t = testSessionRepository.findAllByUsernameAndStatusNotAndTestId(user.getUsername(), 0, Long.parseLong(idTest));
+        if (t != null) {
+            return "redirect:/";
+        }
 
         HashMap<Question, List<Answer>> lstQs = new HashMap<>();
         List<Question> lstQ = questionRepository.findAllByTestId(Long.parseLong(idTest));
@@ -257,7 +261,10 @@ public class TestController {
         testSession.setStartDate(date);
 
         testSession.setUserId(user.getId());
-        testSession.setStatus(1);
+        testSession.setUsername(user.getUsername());
+        testSession.setStatus(1L);
+        testSession.setTestId(test.getId());
+        testSession.setSubject(test.getTestName());
 
         testSessionRepository.save(testSession);
 
@@ -324,7 +331,26 @@ public class TestController {
         model.addAttribute("tests", tests);
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
-        return "test/list-test";
+        return "test/list-test-session";
+    }
+
+    @GetMapping("/update-test-sessison")
+    public String updateTestSession(Model model, HttpSession session, @RequestParam("idSession") String idSession, @RequestParam("newStatus") String newStatus) {
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
+        Date date = new Date();
+        TestSession testSession = testSessionRepository.findById(Long.parseLong(idSession)).orElse(null);
+        testSession.setStatus(Long.parseLong(newStatus));
+        testSession.setUpdateDate(date);
+        testSession.setUserUpdate(user.getUsername());
+
+        testSessionRepository.save(testSession);
+
+        PageRequest pageable = PageRequest.of(1, 3);
+        Page<TestSession> tests = testSessionRepository.findAllByOrderByStartDateDesc(pageable);
+        model.addAttribute("tests", tests);
+        model.addAttribute("pageNo", tests.getPageable().getPageNumber());
+        model.addAttribute("pageTotal", tests.getTotalPages());
+        return "test/list-test-session";
     }
 
 }

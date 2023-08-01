@@ -21,16 +21,28 @@ public class TestSession {
     @Column(name = "userid", nullable = false)
     private Long userId;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "testid", nullable = false)
+    private Long testId;
+
+    @Column(name = "subject", nullable = false)
+    private String subject;
+
     @Column(name = "start_date", nullable = false)
     private Date startDate;
 
     @Column(name = "submit_date")
-    private Long submitDate;
+    private Date submitDate;
 
     @Column(name = "status")
-    private int status;
+    private Long status;
 
     @Column(name = "update_date")
-    private int updateDate;
+    private Date updateDate;
+
+    @Column(name = "user_update")
+    private String userUpdate;
 
 }
