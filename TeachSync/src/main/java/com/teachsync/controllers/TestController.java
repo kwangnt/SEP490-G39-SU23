@@ -1,5 +1,6 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.test.TestScoreDTO;
 import com.teachsync.dtos.user.UserReadDTO;
 import com.teachsync.entities.*;
 import com.teachsync.repositories.*;
@@ -232,7 +233,8 @@ public class TestController {
 
     @GetMapping("/doTheTest")
     public String doTheTest(Model model, HttpSession session,
-                            @RequestParam("idTest") String idTest) {
+                            @RequestParam("idTest") String idTest,
+                            @RequestParam("classTest") String classTest) {
 
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
         if (user == null) {
@@ -256,6 +258,7 @@ public class TestController {
         model.addAttribute("idTest", idTest);
         model.addAttribute("test", test);
         model.addAttribute("hmQA", lstQs);
+        model.addAttribute("classTest", classTest);
 
         TestSession testSession = new TestSession();
         testSession.setStartDate(date);
@@ -265,6 +268,7 @@ public class TestController {
         testSession.setStatus(1L);
         testSession.setTestId(test.getId());
         testSession.setSubject(test.getTestName());
+        testSession.setClazz(classTest);
 
         testSessionRepository.save(testSession);
 
@@ -275,6 +279,7 @@ public class TestController {
     public String submitTest(Model model, HttpSession session,
                              @RequestParam("idTest") String idTest,
                              @RequestParam("typeTest") String testType,
+                             @RequestParam("classTest") String classTest,
                              @RequestParam Map<String, String> requestParams) {
         System.out.println("Id test la: " + idTest);
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
@@ -285,12 +290,16 @@ public class TestController {
             testRecord.setTestId(Long.parseLong(idTest));
             testRecord.setUserId(user.getId());
             testRecord.setQuestionId(qs.getId());
+            testRecord.setClazz(classTest);
+            testRecord.setUsername(user.getUsername());
             if (testType.equals("multipleChoice")) {
+                testRecord.setQuestionType("multipleChoice");
                 Long answerId = Long.parseLong(requestParams.get("question" + qs.getId()));
                 Answer as = answerRepository.findById(answerId).orElse(null);
                 testRecord.setAnswerMCId(as.getId());
                 testRecord.setCorrect(as.getIsCorrect());
             } else {
+                testRecord.setQuestionType("essay");
                 String essayAnswer = requestParams.get("question" + qs.getId());
                 testRecord.setEssayAnswer(essayAnswer);
             }
@@ -378,5 +387,51 @@ public class TestController {
         model.addAttribute("pageTotal", tests.getTotalPages());
         return "test/list-test-session";
     }
+
+    @GetMapping("/test-score")
+    public String lstTestSession(Model model, HttpSession session,
+                                 @RequestParam("class") String classTest,
+                                 @RequestParam("idTest") String idTest) {
+
+        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
+
+        List<TestScoreDTO> lstReturn = new ArrayList<>();
+        List<TestRecord2> lst = testRecord2Repository.findAllByClazzAndTestId(classTest, Long.parseLong(idTest));
+        List<Long> lstUser = new ArrayList<>();
+        for (TestRecord2 t2 : lst) {
+            if (!lstUser.contains(t2.getUserId())) {
+                lstUser.add(t2.getUserId());
+            }
+        }
+        if (test.getTestDesc().equals("multipleChoice")) {
+            for (Long user : lstUser) {
+                TestScoreDTO testScoreDTO = new TestScoreDTO();
+                List<TestRecord2> result = testRecord2Repository.findAllByClazzAndTestIdAndUserId(classTest, Long.parseLong(idTest), user);
+                int trueAnswer = 0;
+                for (TestRecord2 rc : result) {
+                    if (rc.isCorrect()) {
+                        trueAnswer++;
+                    }
+                }
+                testScoreDTO.setUserTest(result.get(0).getUsername());
+                testScoreDTO.setType("Trắc nghiệm");
+                testScoreDTO.setScore(trueAnswer + "/" + result.size());
+                lstReturn.add(testScoreDTO);
+
+            }
+
+        } else {
+            for (Long user : lstUser) {
+                TestScoreDTO testScoreDTO = new TestScoreDTO();
+                List<TestRecord2> result = testRecord2Repository.findAllByClazzAndTestIdAndUserId(classTest, Long.parseLong(idTest), user);
+                testScoreDTO.setUserTest(result.get(0).getUsername());
+                testScoreDTO.setType("Tự luận");
+                lstReturn.add(testScoreDTO);
+            }
+        }
+        model.addAttribute("tests", lstReturn);
+        return "test/testscore-class";
+    }
+
 
 }
