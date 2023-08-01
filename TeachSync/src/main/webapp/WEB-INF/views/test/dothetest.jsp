@@ -58,7 +58,8 @@
     <c:when test="${test.testDesc eq 'multipleChoice'}">
         <form action="submitTest" method="post">
             <input type="hidden" name="idTest" value="${idTest}" >
-            <input type="hidden" name="typeTest" value="${test.testType}" >
+            <input type="hidden" name="typeTest" value="${test.testDesc}" >
+            <input type="hidden" name="classTest" value="${classTest}" >
 
             <c:forEach var="entry" items="${hmQA}">
                 <div class="question">
@@ -78,7 +79,8 @@
     <c:otherwise>
         <form id="myForm" action="submitTest" method="post">
             <input type="hidden" name="idTest" value="${idTest}" >
-            <input type="hidden" name="typeTest" value="${test.testType}" >
+            <input type="hidden" name="typeTest" value="${test.testDesc}" >
+            <input type="hidden" name="classTest" value="${classTest}" >
 
             <c:forEach var="entry" items="${hmQA}">
                 <div class="question">
