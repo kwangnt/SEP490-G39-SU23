@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class TestController {
@@ -36,6 +33,8 @@ public class TestController {
     TestRepository testRepository;
     @Autowired
     TestRecord2Repository testRecord2Repository;
+    @Autowired
+    TestSessionRepository testSessionRepository;
 
     @GetMapping("/create-test")
     public String createTestViews(Model model, HttpSession session) {
@@ -216,9 +215,13 @@ public class TestController {
     }
 
     @GetMapping("/tests")
-    public String lstTest(@RequestParam(value = "page", required = false) Integer page, Model model){
-        if (page == null) { page = 0; }
-        if(page < 0) { page = 0; }
+    public String lstTest(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        if (page == null) {
+            page = 0;
+        }
+        if (page < 0) {
+            page = 0;
+        }
         PageRequest pageable = PageRequest.of(page, 3);
         Page<Test> tests = testRepository.findAllByOrderByCreatedAtDesc(pageable);
         model.addAttribute("tests", tests);
@@ -230,8 +233,14 @@ public class TestController {
     @GetMapping("/doTheTest")
     public String doTheTest(Model model, HttpSession session,
                             @RequestParam("idTest") String idTest) {
-        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
 
+        UserReadDTO user = (UserReadDTO) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Test test = testRepository.findById(Long.parseLong(idTest)).orElse(null);
+        Date date = new Date();
 
         HashMap<Question, List<Answer>> lstQs = new HashMap<>();
         List<Question> lstQ = questionRepository.findAllByTestId(Long.parseLong(idTest));
@@ -243,6 +252,14 @@ public class TestController {
         model.addAttribute("idTest", idTest);
         model.addAttribute("test", test);
         model.addAttribute("hmQA", lstQs);
+
+        TestSession testSession = new TestSession();
+        testSession.setStartDate(date);
+
+        testSession.setUserId(user.getId());
+        testSession.setStatus(1);
+
+        testSessionRepository.save(testSession);
 
         return "test/dothetest";
     }
@@ -278,9 +295,13 @@ public class TestController {
 
 
     @GetMapping("/searchbycourse")
-    public String searchByCourse(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, Model model){
-        if (page == null) { page = 0; }
-        if(page < 0) { page = 0; }
+    public String searchByCourse(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, Model model) {
+        if (page == null) {
+            page = 0;
+        }
+        if (page < 0) {
+            page = 0;
+        }
         PageRequest pageable = PageRequest.of(page, 3);
         Page<Test> tests = testRepository.findByTestNameContainingOrderByCreatedAtDesc(name, pageable);
         model.addAttribute("tests", tests);
@@ -289,4 +310,21 @@ public class TestController {
         model.addAttribute("searchText", name);
         return "test/list-test-search";
     }
+
+    @GetMapping("/test-sessison")
+    public String lstTestSession(@RequestParam(value = "page", required = false) Integer page, Model model, HttpSession session) {
+        if (page == null) {
+            page = 0;
+        }
+        if (page < 0) {
+            page = 0;
+        }
+        PageRequest pageable = PageRequest.of(page, 3);
+        Page<TestSession> tests = testSessionRepository.findAllByOrderByStartDateDesc(pageable);
+        model.addAttribute("tests", tests);
+        model.addAttribute("pageNo", tests.getPageable().getPageNumber());
+        model.addAttribute("pageTotal", tests.getTotalPages());
+        return "test/list-test";
+    }
+
 }
