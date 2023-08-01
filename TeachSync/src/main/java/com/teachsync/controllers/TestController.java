@@ -335,7 +335,7 @@ public class TestController {
     }
 
     @GetMapping("/search-test-session")
-    public String searchTestSession(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, @RequestParam("seachType") String seachType, Model model) {
+    public String searchTestSession(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, @RequestParam("searchType") String searchType, Model model) {
         if (page == null) {
             page = 0;
         }
@@ -344,9 +344,9 @@ public class TestController {
         }
         PageRequest pageable = PageRequest.of(page, 3);
         Page<TestSession> tests;
-        if (seachType.equals("class")) {
+        if (searchType.equals("class")) {
             tests = testSessionRepository.findAllByClazzContainingOrderByStartDateDesc(pageable, name);
-        } else if (seachType.equals("subject")) {
+        } else if (searchType.equals("subject")) {
             tests = testSessionRepository.findAllBySubjectContainingOrderByStartDateDesc(pageable, name);
         } else {
             tests = testSessionRepository.findAllByUsernameContainingOrderByStartDate(pageable, name);
@@ -356,8 +356,8 @@ public class TestController {
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
         model.addAttribute("pageTotal", tests.getTotalPages());
         model.addAttribute("searchText", name);
-        model.addAttribute("seachType", seachType);
-        return "test/list-test-session";
+        model.addAttribute("searchType", searchType);
+        return "test/list-test-search";
     }
 
     @GetMapping("/update-test-sessison")

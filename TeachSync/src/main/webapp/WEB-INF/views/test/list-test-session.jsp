@@ -32,7 +32,7 @@
             <h3 class="page-title">Danh sách test</h3>
         </div>
         <div class="top-nav-search">
-            <form id="login-form" name="myform" action="searchbycourse" method="get"
+            <form id="login-form" name="myform" action="search-test-session" method="get"
                   onsubmit="return validateform()">
 
                 <input type="text" class="form-control" placeholder="Search here" name="searchText">
@@ -58,6 +58,7 @@
                                 <th>ID</th>
                                 <th>Người làm bài</th>
                                 <th>Môn học</th>
+                                <th>Lớp học</th>
                                 <th>Trạn thái</th>
                                 <th>Thời gian bắt đầu</th>
                                 <th>Thời gian kết thúc</th>
@@ -77,6 +78,9 @@
                                     </td>
                                     <td>
                                             ${tests.subject}
+                                    </td>
+                                    <td>
+                                            ${tests.clazz}
                                     </td>
                                     <td>
                                         <c:if test="${tests.status == 0}">
@@ -138,11 +142,11 @@
 </table>
 
 <div class="d-flex align-items-center mb-3">
-    <a href="/search-test-session?page=0" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
-    <a href="/search-test-session?page=${pageNo-1}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
+    <a href="/test-sessison?page=0" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
+    <a href="/test-sessison?page=${pageNo-1}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
     Page: <c:out value="${pageNo + 1}"/> &sol; <c:out value="${pageTotal}"/>
-    <a href="/search-test-session?page=${pageNo + 1}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
-    <a href="/search-test-session?page=${pageTotal-1}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
+    <a href="/test-sessison?page=${pageNo + 1}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
+    <a href="/test-sessison?page=${pageTotal-1}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
 </div>
 </body>
 
