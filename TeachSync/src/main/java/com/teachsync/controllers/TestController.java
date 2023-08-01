@@ -403,10 +403,12 @@ public class TestController {
                 lstUser.add(t2.getUserId());
             }
         }
+        System.out.println("Danh sách người dùng:" + lstUser);
         if (test.getTestDesc().equals("multipleChoice")) {
             for (Long user : lstUser) {
                 TestScoreDTO testScoreDTO = new TestScoreDTO();
                 List<TestRecord2> result = testRecord2Repository.findAllByClazzAndTestIdAndUserId(classTest, Long.parseLong(idTest), user);
+                System.out.println("Số lượng câu hỏi tìm thấy: "+result.size());
                 int trueAnswer = 0;
                 for (TestRecord2 rc : result) {
                     if (rc.isCorrect()) {
@@ -419,6 +421,7 @@ public class TestController {
                 lstReturn.add(testScoreDTO);
 
             }
+            model.addAttribute("testType", "multipleChoice");
 
         } else {
             for (Long user : lstUser) {
@@ -428,8 +431,10 @@ public class TestController {
                 testScoreDTO.setType("Tự luận");
                 lstReturn.add(testScoreDTO);
             }
+            model.addAttribute("testType", "essay");
         }
-        model.addAttribute("tests", lstReturn);
+        model.addAttribute("testScore", lstReturn);
+
         return "test/testscore-class";
     }
 

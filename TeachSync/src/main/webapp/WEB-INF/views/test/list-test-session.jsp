@@ -127,10 +127,6 @@
                         </table>
                     </div>
 
-                    <a href="create-test" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i>
-                        Tạp mới</a>
-
-
                 </div>
 
             </div>
