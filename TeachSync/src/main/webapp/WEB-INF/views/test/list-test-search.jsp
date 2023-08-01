@@ -29,13 +29,31 @@
 <div class="page-header">
     <div class="row">
         <div class="col">
-            <h3 class="page-title">Danh sách bài test</h3>
+            <h3 class="page-title">Danh sách test</h3>
         </div>
         <div class="top-nav-search">
             <form id="login-form" name="myform" action="searchbycourse" method="get"
                   onsubmit="return validateform()">
 
-                <input type="text" class="form-control" placeholder="Search here" name="searchText" value="${searchText}">
+                <input type="text" class="form-control" placeholder="Search here" name="searchText">
+                <c:if test="${searchType eq 'class'}">
+                    <input type="radio" name="searchType" value="class" checked>Lớp<br>
+                </c:if>
+                <c:if test="${searchType ne 'class'}">
+                    <input type="radio" name="searchType" value="class">Lớp<br>
+                </c:if>
+                <c:if test="${searchType eq 'subject'}">
+                    <input type="radio" name="searchType" value="subject" checked>Môn học<br>
+                </c:if>
+                <c:if test="${searchType ne 'subject'}">
+                    <input type="radio" name="searchType" value="subject">Môn học<br>
+                </c:if>
+                <c:if test="${searchType eq 'user'}">
+                    <input type="radio" name="searchType" value="user" checked>Username<br>
+                </c:if>
+                <c:if test="${searchType ne 'user'}">
+                    <input type="radio" name="searchType" value="user">Username<br>
+                </c:if>
                 <button class="btn" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
@@ -53,10 +71,14 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Người làm bài</th>
                                 <th>Môn học</th>
-                                <th>Loại kiểm tra</th>
-                                <th>Thời gian</th>
-                                <th>Trạng Thái</th>
+                                <th>Trạn thái</th>
+                                <th>Thời gian bắt đầu</th>
+                                <th>Thời gian kết thúc</th>
+                                <th>Thời gian cập nhật</th>
+                                <th>Người cập nhật</th>
+                                <th>Chuyển trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -66,47 +88,48 @@
                                             ${tests.id}
                                     </td>
                                     <td>
-                <span class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md ">
-                <a href="edit-test?id=${tests.id}"> ${tests.testName}</a>
-                </span>
+                                            ${tests.username}
                                     </td>
                                     <td>
-                                        <c:if test="${tests.testType == 'FIFTEEN_MINUTE'}">
+                                            ${tests.subject}
+                                    </td>
+                                    <td>
+                                        <c:if test="${tests.status == 0}">
                                             <span
                                                     class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Giữa giờ</a></span>
+                                            ><a> Cho phép làm lại</a></span>
                                         </c:if>
-                                        <c:if test="${tests.testType == 'MIDTERM'}">
+                                        <c:if test="${tests.status == 1}">
                                             <span
                                                     class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Giữa kỳ</a></span>
+                                            ><a> Đang làm</a></span>
                                         </c:if>
-                                        <c:if test="${tests.testType == 'FINAL'}">
+                                        <c:if test="${tests.status == 2}">
                                             <span
                                                     class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Cuối kỳ</a></span>
+                                            ><a> Đã hoàn thành</a></span>
+                                        </c:if>
+                                        <c:if test="${tests.status == 3}">
+                                            <span
+                                                    class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
+                                            ><a> Tạm thời đình chỉ</a></span>
                                         </c:if>
                                     </td>
                                     <td>
-                                            ${tests.timeLimit}
+                                            ${tests.startDate}
                                     </td>
                                     <td>
-                                        <c:if test="${tests.status == 'CREATED'}">
-                                            <span
-                                                    class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Đã tạo</a></span>
-                                        </c:if>
-                                        <c:if test="${tests.status == 'UPDATED'}">
-                                            <span
-                                                    class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Đã chỉnh sửa</a></span>
-                                        </c:if>
-                                        <c:if test="${tests.status == 'DELETED'}">
-                                            <span
-                                                    class="inline-flex px-5 py-2 font-semibold leading-5 text-green-800 bg-green-100 rounded-lg text-md "
-                                            ><a> Đã xóa</a></span>
-                                        </c:if>
-
+                                            ${tests.submitDate}
+                                    </td>
+                                    <td>
+                                            ${tests.updateDate}
+                                    </td>
+                                    <td>
+                                            ${tests.userUpdate}
+                                    </td>
+                                    <td>
+                                        <a href="update-test-sessison?idSession=${tests.id}&newStatus=0" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i>Làm lại</a>
+                                        <a href="update-test-sessison?idSession=${tests.id}&newStatus=3" class="btn btn-outline-primary mr-2"><i class="fas fa-plus"></i>Đình chỉ</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -130,11 +153,11 @@
 </table>
 
 <div class="d-flex align-items-center mb-3">
-    <a href="/searchbycourse?page=0&searchText=${searchText}" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
-    <a href="/searchbycourse?page=${pageNo-1}&searchText=${searchText}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
+    <a href="/test-sessison?page=0&searchText=${searchText}&searchType=${searchType}" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
+    <a href="/test-sessison?page=${pageNo-1}&searchText=${searchText}&searchType=${searchType}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
     Page: <c:out value="${pageNo + 1}"/> &sol; <c:out value="${pageTotal}"/>
-    <a href="/searchbycourse?page=${pageNo + 1}&searchText=${searchText}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
-    <a href="/searchbycourse?page=${pageTotal-1}&searchText=${searchText}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
+    <a href="/test-sessison?page=${pageNo + 1}&searchText=${searchText}&searchType=${searchType}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
+    <a href="/test-sessison?page=${pageTotal-1}&searchText=${searchText}&searchType=${searchType}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
 </div>
 </body>
 

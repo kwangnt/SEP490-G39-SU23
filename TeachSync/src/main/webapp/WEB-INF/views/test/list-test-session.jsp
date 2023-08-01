@@ -29,13 +29,16 @@
 <div class="page-header">
     <div class="row">
         <div class="col">
-            <h3 class="page-title">Danh sách bài test</h3>
+            <h3 class="page-title">Danh sách test</h3>
         </div>
         <div class="top-nav-search">
             <form id="login-form" name="myform" action="searchbycourse" method="get"
                   onsubmit="return validateform()">
 
                 <input type="text" class="form-control" placeholder="Search here" name="searchText">
+                <input type="radio" name="searchType" value="class" checked>Lớp<br>
+                <input type="radio" name="searchType" value="subject">Môn học<br>
+                <input type="radio" name="searchType" value="user">Username<br>
                 <button class="btn" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
@@ -135,11 +138,11 @@
 </table>
 
 <div class="d-flex align-items-center mb-3">
-    <a href="/tests?page=0" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
-    <a href="/tests?page=${pageNo-1}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
+    <a href="/search-test-session?page=0" class="btn btn-secondary"><i class="bi-chevron-bar-left"></i></a>
+    <a href="/search-test-session?page=${pageNo-1}" class="btn btn-secondary mx-2"><i class="bi-chevron-left"></i></a>
     Page: <c:out value="${pageNo + 1}"/> &sol; <c:out value="${pageTotal}"/>
-    <a href="/tests?page=${pageNo + 1}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
-    <a href="/tests?page=${pageTotal-1}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
+    <a href="/search-test-session?page=${pageNo + 1}" class="btn btn-secondary mx-2"><i class="bi-chevron-right"></i></a>
+    <a href="/search-test-session?page=${pageTotal-1}" class="btn btn-secondary"><i class="bi-chevron-bar-right"></i></a>
 </div>
 </body>
 

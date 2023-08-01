@@ -30,6 +30,9 @@ public class TestSession {
     @Column(name = "subject", nullable = false)
     private String subject;
 
+    @Column(name = "class", nullable = false)
+    private String clazz;
+
     @Column(name = "start_date", nullable = false)
     private Date startDate;
 

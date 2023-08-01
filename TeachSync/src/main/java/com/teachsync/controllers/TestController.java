@@ -334,6 +334,32 @@ public class TestController {
         return "test/list-test-session";
     }
 
+    @GetMapping("/search-test-session")
+    public String searchTestSession(@RequestParam(value = "page", required = false) Integer page, @RequestParam("searchText") String name, @RequestParam("seachType") String seachType, Model model) {
+        if (page == null) {
+            page = 0;
+        }
+        if (page < 0) {
+            page = 0;
+        }
+        PageRequest pageable = PageRequest.of(page, 3);
+        Page<TestSession> tests;
+        if (seachType.equals("class")) {
+            tests = testSessionRepository.findAllByClazzContainingOrderByStartDateDesc(pageable, name);
+        } else if (seachType.equals("subject")) {
+            tests = testSessionRepository.findAllBySubjectContainingOrderByStartDateDesc(pageable, name);
+        } else {
+            tests = testSessionRepository.findAllByUsernameContainingOrderByStartDate(pageable, name);
+        }
+
+        model.addAttribute("tests", tests);
+        model.addAttribute("pageNo", tests.getPageable().getPageNumber());
+        model.addAttribute("pageTotal", tests.getTotalPages());
+        model.addAttribute("searchText", name);
+        model.addAttribute("seachType", seachType);
+        return "test/list-test-session";
+    }
+
     @GetMapping("/update-test-sessison")
     public String updateTestSession(Model model, HttpSession session, @RequestParam("idSession") String idSession, @RequestParam("newStatus") String newStatus) {
         UserReadDTO user = (UserReadDTO) session.getAttribute("user");
@@ -345,7 +371,7 @@ public class TestController {
 
         testSessionRepository.save(testSession);
 
-        PageRequest pageable = PageRequest.of(1, 3);
+        PageRequest pageable = PageRequest.of(0, 3);
         Page<TestSession> tests = testSessionRepository.findAllByOrderByStartDateDesc(pageable);
         model.addAttribute("tests", tests);
         model.addAttribute("pageNo", tests.getPageable().getPageNumber());
