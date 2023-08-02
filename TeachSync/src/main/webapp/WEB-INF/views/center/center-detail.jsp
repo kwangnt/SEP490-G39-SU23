@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Certificate</title>
+    <title>Center Detail</title>
 
-    <link rel="stylesheet" href="../../../resources/css/bootstrap-5.3.0/bootstrap.css">
-    <link rel="stylesheet" href="../../../resources/css/certificate_style.css">
-    <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
-    <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
-    <script src="../../../resources/js/common.js"></script>
+    <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/certificate_style.css">
+    <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
+    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
+    <script src="../../resources/js/common.js"></script>
     <style>
         .detail-container {
             display: flex;
@@ -44,6 +44,14 @@
             font-size: 18px;
             margin-top: 10px;
             margin-bottom: 0;
+        }
+
+        #submit{
+            font-weight: bold;
+            padding: 10px;
+            margin-left: 700px;
+            border-radius: 5px;
+            background-color: #fd7e14;
         }
     </style>
 </head>
@@ -87,11 +95,23 @@
         <h2 id="centerName">${center.centerName}</h2>
         <p id="functionInfo">Chuyên môn: ${center.centerType}</p>
         <p id="centerAddress">Địa chỉ: ${address.addressString}</p>
-        <a href="/room">
-            <p id="centerSize">Số phòng: ${center.centerSize}</p>
+        <p id="centerSize">Số phòng: ${center.centerSize} phòng</p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <a href="edit-center?id=${center.id}">
+            <button type="submit" id="submit">Chỉnh sửa</button>
         </a>
-
-
 
     </div>
 </div>

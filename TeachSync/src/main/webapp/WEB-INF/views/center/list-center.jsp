@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Certificate</title>
+    <title>List center</title>
 
-    <link rel="stylesheet" href="../../../resources/css/bootstrap-5.3.0/bootstrap.css">
-    <link rel="stylesheet" href="../../../resources/css/certificate_style.css">
-    <script src="../../../resources/js/jquery/jquery-3.6.3.js"></script>
-    <script src="../../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
-    <script src="../../../resources/js/common.js"></script>
+    <link rel="stylesheet" href="../../resources/css/bootstrap-5.3.0/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/certificate_style.css">
+    <script src="../../resources/js/jquery/jquery-3.6.3.js"></script>
+    <script src="../../resources/js/bootstrap-5.3.0/bootstrap.bundle.js"></script>
+    <script src="../../resources/js/common.js"></script>
     <style>
         .center-list {
             display: flex;
@@ -68,16 +68,16 @@
     </div>
 </div>
 <div class="center-list">
-<c:forEach var="item" items="${listCenter}">
+    <c:forEach var="item" items="${centerList}">
 
-    <a href="/center-detail?id=${item.id}">
-        <div class="center-item">
-            <h2 value="${item.id}">${item.centerName}</h2>
-            <p>Địa chỉ: ${item.address.addressString}</p>
-            <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" width="300px"  height="400px" >
-        </div>
-    </a>
-</c:forEach>
+        <a href="/center-detail?id=${item.id}">
+            <div class="center-item">
+                <h2 value="${item.id}">${item.centerName}</h2>
+                <p>Địa chỉ: ${item.address.addressString}</p>
+                <img src="https://amore-architecture.vn/wp-content/uploads/2021/12/TTTA-GCE-tp-HCM-1.jpg" width="300px"  height="400px" >
+            </div>
+        </a>
+    </c:forEach>
 
 
 </div>
