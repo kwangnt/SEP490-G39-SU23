@@ -37,7 +37,7 @@ public class CenterController {
             centerList = centerList.stream().peek(centerReadDTO ->
             {centerReadDTO.setAddress(addressIdAddressMap.get(centerReadDTO.getAddressId()));}).collect(Collectors.toList());
 
-            model.addAttribute("listCenter",centerList);
+            model.addAttribute("centerList",centerList);
         }catch (Exception e){
             e.printStackTrace();
         }
