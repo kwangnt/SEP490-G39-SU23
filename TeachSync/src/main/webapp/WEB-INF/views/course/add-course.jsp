@@ -253,7 +253,9 @@
                 break;
 
             case 'PERCENT':
-                finalPrice = price - (price * (promotionAmount/100));
+                finalPrice = price - (price * (promotionAmount / 100));
+                let roundedFinalPrice = Math.round(finalPrice);
+                finalPrice = Math.ceil(roundedFinalPrice / 100) * 100;
                 break;
         }
 

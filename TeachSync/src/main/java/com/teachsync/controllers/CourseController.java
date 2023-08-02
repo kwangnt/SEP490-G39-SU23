@@ -1,5 +1,6 @@
 package com.teachsync.controllers;
 
+import com.teachsync.dtos.clazz.ClazzReadDTO;
 import com.teachsync.dtos.course.CourseCreateDTO;
 import com.teachsync.dtos.course.CourseReadDTO;
 import com.teachsync.dtos.course.CourseUpdateDTO;
@@ -181,6 +182,21 @@ public class CourseController {
         return "course/course-detail";
     }
 
+
+    @GetMapping("/api/course-detail")
+    @ResponseBody
+    public Map<String, Object> getCourseDetail(
+            @RequestParam Long courseId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            CourseReadDTO courseDTO = courseService.getDTOById(courseId, List.of(CURRENT_PRICE));
+            response.put("course", courseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 
     /* =================================================== UPDATE =================================================== */
     @GetMapping("/edit-course")

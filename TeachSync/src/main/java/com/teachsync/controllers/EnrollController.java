@@ -111,29 +111,41 @@ public class EnrollController {
     }
 
 
-    @PostMapping(value = "/enroll", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/enroll")
     public String enroll(
             Model model,
             @RequestParam Long clazzId,
             @RequestHeader("Referer") String referer,
             @SessionAttribute(name = "user", required = false) UserReadDTO userDTO) {
-        if (userDTO == null) {
-            return "redirect:/course";
-        }
-
-        if (!userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
-            /* Quay về trang cũ */
-            return "redirect:" + referer;
-        }
+//        if (userDTO == null) {
+//            return "redirect:/course";
+//        }
+//
+//        if (!userDTO.getRoleId().equals(Constants.ROLE_STUDENT)) {
+//            /* Quay về trang cũ */
+//            return "redirect:" + referer;
+//        }
 
         try {
+            /* Trả về list vì theo controller chính của request */
+            /* Clazz (Lớp được chọn) */
             ClazzReadDTO clazzDTO = clazzService.getDTOById(
                     clazzId,
-                    List.of(CLAZZ_SCHEDULE, ROOM_NAME, COURSE_SEMESTER, CENTER, SEMESTER, COURSE, CURRENT_PRICE));
+                    List.of(MEMBER_LIST, STAFF, USER, CLAZZ_SCHEDULE, ROOM_NAME,
+                            COURSE_SEMESTER, CENTER, ADDRESS, SEMESTER, COURSE, CURRENT_PRICE));
+            model.addAttribute("clazzList", List.of(clazzDTO));
+
+            /* Course (môn nào) */
+            model.addAttribute("courseList", List.of(clazzDTO.getCourseSemester().getCourse()));
+
+            /* Semester (kỳ nào) */
+            model.addAttribute("semesterList", List.of(clazzDTO.getCourseSemester().getSemester()));
+
+            /* Center (Cơ sở nào) */
+            model.addAttribute("centerList", List.of(clazzDTO.getCourseSemester().getCenter()));
 
             model.addAttribute("fromEnroll", true);
             model.addAttribute("type", RequestType.ENROLL);
-            model.addAttribute("clazz", clazzDTO);
 
         } catch (Exception e) {
             e.printStackTrace();
