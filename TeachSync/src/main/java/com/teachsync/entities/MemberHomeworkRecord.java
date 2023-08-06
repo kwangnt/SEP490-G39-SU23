@@ -14,10 +14,6 @@ import lombok.*;
 @Entity
 @Table(name = "member_homework_record")
 public class MemberHomeworkRecord extends BaseEntity {
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "memberId", nullable = false)
     private Long memberId;
 
@@ -25,7 +21,7 @@ public class MemberHomeworkRecord extends BaseEntity {
     private Long homeworkId;
 
     @Column(name = "submission", nullable = true)
-    private String submission;
+    private byte[] submission;
 
     @Lob
     @Column(name = "submissionLink", nullable = true, length = -1)
