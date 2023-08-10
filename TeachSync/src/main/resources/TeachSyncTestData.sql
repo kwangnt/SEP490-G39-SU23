@@ -198,3 +198,123 @@ values (1, 1, 'CREATED'),
 
        (3, 3, 'CREATED'),
        (3, 4, 'CREATED');
+
+
+-- 10-Aug-2023: Quang changed the structure of MATERIAL table 
+-- 
+--
+ALTER TABLE `teachsync`.`material` 
+CHANGE COLUMN `createdAt` `createdAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ;
+
+ALTER TABLE `teachsync`.`material` 
+CHANGE COLUMN `updatedAt` `updatedAt` TIMESTAMP NULL DEFAULT NULL ;
+
+ALTER TABLE `teachsync`.`material` 
+CHANGE COLUMN `materialImg` `materialImg` MEDIUMBLOB NULL DEFAULT NULL;
+
+-- Data to Use Material
+INSERT INTO  `teachsync`.`Material` (materialName, materialLink, materialType, status, createdAt, createdBy) 
+VALUES ('English Phrase Verbs in use', 
+		'https://drive.google.com/drive/folders/1J45ILg4bpQXe8noLP_gFWqTgMu80IFwM?usp=sharing',
+		'Book', 
+        'Available', 
+        current_timestamp(),
+        4);
+        
+INSERT INTO  `teachsync`.`Material` (materialName, materialImg, materialLink, materialType, status, createdAt, createdBy) 
+VALUES ('Difficulties_of_English_Articles', 
+		'https://drive.google.com/file/d/1Rt2RTUYVfpHvEAQ3edoQacnW6GoPK2r0/view?usp=sharing',
+		'Syllabus', 
+        'Available', 
+        current_timestamp(),
+        4);
+        
+INSERT INTO  `teachsync`.`Material` (materialName, materialImg, materialLink, materialContent, materialType, status, createdAt, createdBy) 
+VALUES ('A Boatload of Idioms', 
+		NULL,
+		'https://drive.google.com/file/d/1Js7McNbc5qI83V5Gd5XIidORAHcgJhf9/view?usp=sharing',
+        load_file ('D:\00-Personal\MinhThanh\Project\Material\A Boatload of Idioms.pdf'),
+		'Syllabus', 
+        'Available', 
+        current_timestamp(),
+        4);
+
+INSERT INTO  `teachsync`.`Material` (materialName, materialImg, materialLink, materialContent, materialType, status, createdAt, createdBy) 
+VALUES ('A Boatload of Idioms', 
+		load_file ('D:\00-Personal\MinhThanh\Project\Material\Img\English grammar workbook for Dummies.png'),
+		'https://drive.google.com/file/d/1lCOOTy3OKg3kTjITBJ58mFmnVu6lERNU/view?usp=sharing',
+        load_file ('D:\00-Personal\MinhThanh\Project\Material\English grammar workbook for Dummies.pdf'),
+		'Syllabus', 
+        'Available', 
+        current_timestamp(),
+        4); 
+
+INSERT INTO  `teachsync`.`Material` (materialName, materialImg, materialLink, materialContent, materialType, status, createdAt, createdBy) 
+VALUES ('60-bai-luan-tieng-anh-thong-dung', 
+		load_file ('D:\00-Personal\MinhThanh\Project\Material\Img\60-bai-luan-tieng-anh-thong-dung-tran-van-hai.png'),
+		'https://drive.google.com/file/d/1lCOOTy3OKg3kTjITBJ58mFmnVu6lERNU/view?usp=sharing',
+        load_file ('D:\00-Personal\MinhThanh\Project\Material\60 bai luan tieng anh thong dung.pdf'),
+		'Syllabus', 
+        'Available', 
+        current_timestamp(),
+        4);
+UPDATE `teachsync`.`Material` SET materialImg = LOAD_FILE ('D:\TEMP\Project\Material\Img\60-bai-luan-tieng-anh-thong-dung-tran-van-hai.png')
+ WHERE id = 5;
+UPDATE `teachsync`.`Material` SET materialContent = LOAD_FILE ('D:\00-Personal\MinhThanh\Project\Material\60 bai luan tieng anh thong dung.pdf')
+ WHERE id = 5; 
+ 
+INSERT INTO  `teachsync`.`Material` (materialName, materialImg, materialLink, materialContent, materialType, status, createdAt, createdBy) 
+VALUES ('Midlter test', 
+		NULL,
+		'https://docs.google.com/forms/d/e/1FAIpQLSdfh5ZfMZOP3NuK4BQSZpbO3vELSNUVrJRgJuOE0E7fHXzvYA/viewform?usp=sharing',
+        NULL,
+		'Quiz Test', 
+        'Available', 
+        current_timestamp(),
+        4);
+
+
+-- 10-Aug-2023: Test Data for ROLE table 
+-- 
+--
+INSERT INTO `teachsync`.`role` (roleName, roleDesc, status)
+VALUES ('Administrator', 'Role for System Administrator', 'Active');
+
+INSERT INTO `teachsync`.`role` (roleName, roleDesc, status)
+VALUES ('Operator', 'Role for System Manager', 'Active');
+
+INSERT INTO `teachsync`.`role` (roleName, roleDesc, status)
+VALUES ('Normal', 'Role of Normal User', 'Active');
+
+INSERT INTO `teachsync`.`role` (roleName, roleDesc, status)
+VALUES ('Admin', 'Role for Business Administrator', 'Active');
+
+INSERT INTO `teachsync`.`role` (roleName, roleDesc, status)
+VALUES ('Manager', 'Role for business Manager', 'Active');
+
+-- 10-Aug-2023: Test Data for USER table 
+-- 
+--
+USE teachsync;
+insert into  `teachsync`.`user` (username, password, roleID, fullName, email, phone, status) 
+Values ('thanh.NguyenMinh01', '12345678', 3, 'Nguyen Minh Thanh', 'ThanhNMSE130286@fpt.edu.vn', '0859528611', 'Active');
+
+-- Update role Administrator ---------------------------------------
+UPDATE `teachsync`.`user` 
+	SET fullname = 'Nguyễn Minh Thành', 
+		roleID = 1 
+	WHERE id = 1;
+
+insert into  `teachsync`.`user` (username, password, roleID, fullName, email, phone, status) 
+Values ('Anh.LeTuan01', '12345678', 3, 'Lê Tuấn Anh', 'anhlthe130946@fpt.edu.vn', '0968457623', 'Active');
+
+insert into  `teachsync`.`user` (username, password, roleID, fullName, email, phone, status) 
+Values ('Thanh.NguyenVan01', '12345678', 3, 'Nguyễn Văn Thanh', 'thanhnvhe140127@fpt.edu.vn', '0383460821', 'Active');
+
+insert into  `teachsync`.`user` (username, password, roleID, fullName, email, phone, status) 
+Values ('Hung.DoViet01', '12345678', 3, 'Đỗ Việt Hùng', 'hungdvhe140194@fpt.edu.vn', '0849682229', 'Active');
+
+insert into  `teachsync`.`user` (username, password, roleID, fullName, email, phone, status) 
+Values ('Tung.PhamThanh01', '12345678', 3, 'Phạm Thanh Tùng', 'tungpthe140195@fpt.edu.vn', '0988454009', 'Active');
+
+-----------------------------------------
